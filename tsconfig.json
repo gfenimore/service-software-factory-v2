@@ -1,0 +1,70 @@
+{
+  "compilerOptions": {
+    // Target ES2020 for better performance while maintaining broad compatibility
+    // ES2020 includes native support for optional chaining and nullish coalescing
+    "target": "es2020",
+    
+    // Include ES2020 features for better null handling support
+    "lib": ["dom", "dom.iterable", "es2020"],
+    
+    "allowJs": true,
+    "skipLibCheck": true,
+    
+    // Enhanced strict mode configuration for null-first convention
+    "strict": true,
+    
+    // Core strict flags for null-first convention (keep these)
+    "strictNullChecks": true,           // Essential for null-first convention
+    "strictFunctionTypes": true,        // Better function type checking
+    "strictBindCallApply": true,        // Strict checking of bind, call, apply
+    "strictPropertyInitialization": true, // Ensure class properties are initialized
+    "noImplicitAny": true,              // Prevent implicit any types
+    "noImplicitThis": true,             // Prevent implicit this types
+    "noImplicitReturns": true,          // Ensure all code paths return values
+    "noImplicitOverride": true,         // Require explicit override keyword
+    
+    // Fix MapIterator compilation errors (DEBT-005) - KEEP THIS
+    "downlevelIteration": true,
+    
+    // Temporarily disabled during migration - re-enable progressively
+    "noUnusedLocals": false,                    // TODO: Re-enable in Week 4
+    "noUnusedParameters": false,                // TODO: Re-enable in Week 4
+    "noPropertyAccessFromIndexSignature": false, // TODO: Re-enable in Week 2
+    "exactOptionalPropertyTypes": false,        // TODO: Re-enable in Week 3
+    "noUncheckedIndexedAccess": false,          // TODO: Re-enable in Week 3
+    
+    // Keep these for safety
+    "noFallthroughCasesInSwitch": true, // Prevent fallthrough in switch statements
+    
+    // Build and module options
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    
+    // Next.js plugin
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    
+    // Path mapping for clean imports
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@/components/*": ["components/*"],
+      "@/lib/*": ["lib/*"],
+      "@/platform/*": ["platform/*"],
+      "@/domains/*": ["domains/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+} 
