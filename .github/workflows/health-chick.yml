@@ -1,0 +1,28 @@
+# .github/workflows/health-check.yml
+name: Health Check
+
+on:
+  schedule:
+    # Run every hour
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  health-check:
+    name: API Health Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check API Health
+        run: |
+          response=$(curl -s -w "\n%{http_code}" ${{ secrets.PRODUCTION_URL }}/api/health)
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | head -n-1)
+          
+          if [ "$http_code" != "200" ]; then
+            echo "Health check failed with status $http_code"
+            echo "Response: $body"
+            exit 1
+          fi
+          
+          echo "Health check passed"
+          echo "Response: $body"
