@@ -44,7 +44,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
       // Extract error for proper type narrowing
       const { error } = this.state;
-      const errorMessage = error instanceof AppError && error.isOperational
+      const errorMessage = error instanceof AppError
         ? error.message
         : 'An unexpected error occurred. Please try again.';
 

@@ -1,91 +1,63 @@
-/**
- * Base error class for all application errors
- */
 export class AppError extends Error {
-    public readonly statusCode: number;
-    public readonly isOperational: boolean;
-    public readonly timestamp: Date;
-  
-    constructor(
-      message: string,
-      statusCode: number = 500,
-      isOperational: boolean = true
-    ) {
-      super(message);
-      this.statusCode = statusCode;
-      this.isOperational = isOperational;
-      this.timestamp = new Date();
-  
-      Object.setPrototypeOf(this, AppError.prototype);
-      Error.captureStackTrace(this, this.constructor);
-    }
+  constructor(
+    message: string,
+    public code: string,
+    public statusCode: number = 500
+  ) {
+    super(message)
+    this.name = 'AppError'
   }
-  
-  /**
-   * Validation errors (400)
-   */
-  export class ValidationError extends AppError {
-    public readonly field?: string;
-  
-    constructor(message: string, field?: string) {
-      super(message, 400);
-      this.field = field;
-    }
+}
+
+export class ValidationError extends AppError {
+  constructor(
+    message: string,
+    public field: string,
+    code: string = 'VALIDATION_ERROR'
+  ) {
+    super(message, code, 400)
+    this.name = 'ValidationError'
   }
-  
-  /**
-   * Authentication errors (401)
-   */
-  export class AuthenticationError extends AppError {
-    constructor(message: string = 'Authentication required') {
-      super(message, 401);
-    }
+}
+
+export class DatabaseError extends AppError {
+  constructor(message: string, public originalError?: unknown) {
+    super(message, 'DATABASE_ERROR', 500)
+    this.name = 'DatabaseError'
   }
-  
-  /**
-   * Authorization errors (403)
-   */
-  export class AuthorizationError extends AppError {
-    constructor(message: string = 'Insufficient permissions') {
-      super(message, 403);
-    }
+}
+
+export class AuthenticationError extends AppError {
+  constructor(message: string = 'Authentication required') {
+    super(message, 'AUTHENTICATION_ERROR', 401)
+    this.name = 'AuthenticationError'
   }
-  
-  /**
-   * Not found errors (404)
-   */
-  export class NotFoundError extends AppError {
-    public readonly resource?: string;
-  
-    constructor(resource?: string) {
-      const message = resource 
-        ? `${resource} not found` 
-        : 'Resource not found';
-      super(message, 404);
-      this.resource = resource;
-    }
+}
+
+export class AuthorizationError extends AppError {
+  constructor(message: string = 'Insufficient permissions') {
+    super(message, 'AUTHORIZATION_ERROR', 403)
+    this.name = 'AuthorizationError'
   }
-  
-  /**
-   * Database errors
-   */
-  export class DatabaseError extends AppError {
-    public readonly code?: string;
-  
-    constructor(message: string, code?: string) {
-      super(message, 500);
-      this.code = code;
-    }
+}
+
+export class NotFoundError extends AppError {
+  constructor(message: string = 'Resource not found') {
+    super(message, 'NOT_FOUND', 404)
+    this.name = 'NotFoundError'
   }
-  
-  /**
-   * External service errors
-   */
-  export class ExternalServiceError extends AppError {
-    public readonly service: string;
-  
-    constructor(service: string, message: string) {
-      super(`${service}: ${message}`, 503);
-      this.service = service;
-    }
+}
+
+export class ConflictError extends AppError {
+  constructor(message: string = 'Resource conflict') {
+    super(message, 'CONFLICT', 409)
+    this.name = 'ConflictError'
   }
+}
+
+export class RateLimitError extends AppError {
+  constructor(message: string = 'Too many requests') {
+    super(message, 'RATE_LIMIT_EXCEEDED', 429)
+    this.name = 'RateLimitError'
+  }
+}

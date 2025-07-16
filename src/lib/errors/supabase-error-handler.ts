@@ -26,7 +26,7 @@ export function handleSupabaseError(error: PostgrestError): never {
       );
     
     case '22P02': // invalid_text_representation
-      throw new ValidationError('Invalid data format');
+    throw new ValidationError('Invalid data format', 'data');
     
     case 'PGRST116': // not found
       throw new NotFoundError();

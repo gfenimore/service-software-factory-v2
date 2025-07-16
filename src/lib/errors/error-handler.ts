@@ -37,6 +37,7 @@ export async function handleApiError(
     return {
       error: new AppError(
         'An unexpected error occurred',
+        'INTERNAL_ERROR',
         500
       ),
       statusCode: 500,
@@ -52,6 +53,7 @@ export async function handleApiError(
   return {
     error: new AppError(
       'An unknown error occurred',
+      'UNKNOWN_ERROR',
       500
     ),
     statusCode: 500,
