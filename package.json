@@ -8,8 +8,28 @@
     "start": "next start",
     "lint": "next lint",
     "type-check": "node scripts/type-check.js",
-"type-check:watch": "node scripts/type-check.js --watch",
-"verify-setup": "node scripts/verify-typescript-setup.js"
+    "type-check:watch": "node scripts/type-check.js --watch",
+    "verify-setup": "node scripts/verify-typescript-setup.js",
+    "test": "jest --watch",
+    "test:api": "jest --config jest.config.api.mjs --watch",
+    "test:ci": "jest --ci --coverage && jest --config jest.config.api.mjs --ci --coverage",
+    "test:coverage": "jest --coverage",
+    "test:api:coverage": "jest --config jest.config.api.mjs --coverage",
+    "test:debug": "node --inspect-brk ./node_modules/.bin/jest --runInBand",
+    "prepare": "husky",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "validate": "npm run type-check && npm run lint && npm run test:ci"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "npm run type-check",
+      "eslint --fix",
+      "jest --bail --findRelatedTests --passWithNoTests"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@supabase/ssr": "^0.6.1",
@@ -22,12 +42,23 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^30.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.4.1",
+    "husky": "^9.1.7",
+    "jest": "^30.0.4",
+    "jest-environment-jsdom": "^30.0.4",
+    "lint-staged": "^16.1.2",
+    "msw": "^2.10.4",
+    "prettier": "^3.6.2",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "undici": "^7.11.0"
   }
 }
