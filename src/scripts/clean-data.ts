@@ -19,7 +19,7 @@ if (!supabaseUrl || !supabaseKey) {
 async function cleanDatabase() {
   console.log('🧹 Starting database cleanup...')
   
-  const supabase = createClient<Database>(supabaseUrl, supabaseKey)
+  const supabase = createClient<Database>(supabaseUrl!, supabaseKey!)
   
   try {
     // Delete in order to respect foreign key constraints
@@ -27,7 +27,7 @@ async function cleanDatabase() {
     const { error: contactError } = await supabase
       .from('contacts')
       .delete()
-      .neq('id', '00000000-0000-0000-0000-000000000000') // Delete all
+      .gt('created_at', '1970-01-01') // Delete all
     
     if (contactError) {
       console.error('Error deleting contacts:', contactError)
@@ -37,7 +37,7 @@ async function cleanDatabase() {
     const { error: accountError } = await supabase
       .from('accounts')
       .delete()
-      .neq('id', '00000000-0000-0000-0000-000000000000') // Delete all
+      .gt('created_at', '1970-01-01') // Delete all
     
     if (accountError) {
       console.error('Error deleting accounts:', accountError)
@@ -47,7 +47,7 @@ async function cleanDatabase() {
     const { error: employeeError } = await supabase
       .from('employees')
       .delete()
-      .neq('id', '00000000-0000-0000-0000-000000000000') // Delete all
+      .gt('created_at', '1970-01-01') // Delete all
     
     if (employeeError) {
       console.error('Error deleting employees:', employeeError)

@@ -57,7 +57,7 @@ function generateEmail(firstName: string, lastName: string, company?: string): s
 async function seedDatabase() {
   console.log('🌱 Starting database seed...')
   
-  const supabase = createClient<Database>(supabaseUrl, supabaseKey)
+  const supabase = createClient<Database>(supabaseUrl!, supabaseKey!)
   
   try {
     // 1. Update domain name from "Boat" to "Marine Svcs"

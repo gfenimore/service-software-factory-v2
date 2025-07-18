@@ -60,7 +60,7 @@ export const PATCH = createApiHandler<Account>(
     }
     
     // Validate account type if provided
-    if (body.account_type !== undefined) {
+    if (body.account_type !== undefined && body.account_type !== null) {
       const validTypes = ['Commercial', 'Residential']
       if (!validTypes.includes(body.account_type)) {
         throw new ValidationError(
@@ -72,7 +72,7 @@ export const PATCH = createApiHandler<Account>(
     }
     
     // Validate status if provided
-    if (body.status !== undefined) {
+    if (body.status !== undefined && body.status !== null) {
       const validStatuses = ['Active', 'Inactive']
       if (!validStatuses.includes(body.status)) {
         throw new ValidationError(
@@ -122,7 +122,7 @@ export const PATCH = createApiHandler<Account>(
 )
 
 // DELETE /api/accounts/[id] - Delete account (cascades to contacts)
-export const DELETE = createApiHandler(
+export const DELETE = createApiHandler<void>(
   async (request, { supabase }) => {
     const id = request.nextUrl.pathname.split('/').pop()
     
