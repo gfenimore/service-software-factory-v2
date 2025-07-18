@@ -19,7 +19,9 @@
     "prepare": "husky",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "validate": "npm run type-check && npm run lint && npm run test:ci"
+    "validate": "npm run type-check && npm run lint && npm run test:ci",
+    "db:seed": "tsx src/scripts/seed-data.ts",
+    "db:seed:clean": "tsx src/scripts/clean-data.ts && tsx src/scripts/seed-data.ts"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -52,6 +54,7 @@
     "@types/pino": "^7.0.4",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^17.2.0",
     "eslint": "^9",
     "eslint-config-next": "15.4.1",
     "husky": "^9.1.7",
@@ -61,6 +64,7 @@
     "msw": "^2.10.4",
     "prettier": "^3.6.2",
     "tailwindcss": "^4",
+    "tsx": "^4.20.3",
     "typescript": "^5",
     "undici": "^7.11.0"
   }
