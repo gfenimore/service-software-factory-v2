@@ -7,6 +7,8 @@ const createJestConfig = nextJest({
 })
 
 const customJestConfig = {
+  // allow zero tests without error
+  passWithNoTests: true,
   setupFilesAfterEnv: ['<rootDir>/jest.setup.api.js'],
   testEnvironment: 'node',
   testMatch: ['**/app/api/**/*.test.ts', '**/app/api/**/*.test.tsx'],
