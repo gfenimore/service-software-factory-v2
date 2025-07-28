@@ -1,11 +1,9 @@
 // src/app/api/accounts/route.ts
-import { NextRequest } from 'next/server'
 import { 
   createApiHandler, 
   getPaginationParams, 
   successResponse, 
-  validateRequired,
-  buildQuery 
+  validateRequired
 } from '@/lib/api/base-handler'
 import { DatabaseError, ValidationError } from '@/lib/errors/custom-errors'
 import { Database } from '@/types/database'

@@ -1,9 +1,8 @@
 // src/app/api/accounts/[id]/route.ts
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { 
   createApiHandler, 
-  successResponse,
-  validateRequired 
+  successResponse
 } from '@/lib/api/base-handler'
 import { DatabaseError, NotFoundError, ValidationError } from '@/lib/errors/custom-errors'
 import { Database } from '@/types/database'

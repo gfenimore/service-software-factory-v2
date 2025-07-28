@@ -8,7 +8,7 @@ import { AppError, ValidationError } from '@/lib/errors/custom-errors'
 import { Database } from '@/types/database'
 
 // Standard API response types
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   data?: T
   error?: {
     message: string
@@ -22,10 +22,10 @@ export interface ApiResponse<T = any> {
 }
 
 // Pagination parameters
-export interface PaginationParams {
+export interface PaginationParams<T extends keyof Database['public']['Tables']> {
   page?: number
   pageSize?: number
-  sortBy?: string
+  sortBy?: keyof Database['public']['Tables'][T]['Row'] & string
   sortOrder?: 'asc' | 'desc'
 }
 
@@ -37,13 +37,15 @@ export interface HandlerConfig {
 }
 
 // Extract pagination from request
-export function getPaginationParams(request: NextRequest): PaginationParams {
+export function getPaginationParams<
+  T extends keyof Database['public']['Tables']
+>(request: NextRequest): PaginationParams<T> {
   const searchParams = request.nextUrl.searchParams
   
   return {
     page: Math.max(1, parseInt(searchParams.get('page') || '1')),
     pageSize: Math.min(100, Math.max(1, parseInt(searchParams.get('pageSize') || '20'))),
-    sortBy: searchParams.get('sortBy') || 'created_at',
+    sortBy: (searchParams.get('sortBy') ?? 'created_at') as keyof Database['public']['Tables'][T]['Row'] & string,
     sortOrder: (searchParams.get('sortOrder') || 'desc') as 'asc' | 'desc'
   }
 }
@@ -74,7 +76,7 @@ export function errorResponse(
 }
 
 // Create a base handler with common functionality
-export function createApiHandler<T = any>(
+export function createApiHandler<T = unknown>(
   handler: (request: NextRequest, context: { supabase: ReturnType<typeof createClient> }) => Promise<NextResponse<ApiResponse<T>>>,
   config: HandlerConfig = {}
 ) {
@@ -141,19 +143,27 @@ export function validateRequired(value: unknown, fieldName: string): void {
 export function buildQuery<T extends keyof Database['public']['Tables']>(
   supabase: ReturnType<typeof createClient>,
   table: T,
-  pagination?: PaginationParams
+  pagination?: PaginationParams<T>
 ) {
   let query = supabase.from(table).select('*', { count: 'exact' })
   
-  if (pagination) {
-    const { page = 1, pageSize = 20, sortBy = 'created_at', sortOrder = 'desc' } = pagination
-    const from = (page - 1) * pageSize
-    const to = from + pageSize - 1
-    
-    query = query
-      .order(sortBy as any, { ascending: sortOrder === 'asc' })
-      .range(from, to)
+  // Replace the entire if (pagination) block:
+if (pagination) {
+  const page = pagination.page ?? 1
+  const pageSize = pagination.pageSize ?? 20
+  const sortOrder = pagination.sortOrder ?? 'desc'
+  const from = (page - 1) * pageSize
+  const to = from + pageSize - 1
+
+  let sortByKey: string
+  if (pagination.sortBy) {
+    sortByKey = pagination.sortBy
+  } else {
+    sortByKey = 'created_at'
   }
+
+  query = query.order(sortByKey, { ascending: sortOrder === 'asc' }).range(from, to)
+}
   
   return query
 }
