@@ -1,0 +1,117 @@
+## Cursor Rules for API Type Safety
+
+Here's a comprehensive `.cursorrules` file for your project:
+
+```markdown
+# Service Platform v2 - Cursor Rules
+
+## API Development Rules
+
+### 1. Pagination Type Safety
+When creating API routes that use pagination:
+- Always specify the table type when calling getPaginationParams
+- Example: `getPaginationParams<'accounts'>(request)` NOT `getPaginationParams(request)`
+- Valid table names: 'accounts', 'contacts', 'employees', 'domains'
+
+### 2. API Route Pattern
+All API routes MUST follow this structure:
+```typescript
+export const GET = createApiHandler(async (request, { supabase }) => {
+  const pagination = getPaginationParams<'TABLE_NAME'>(request)
+  
+  const { data, error, count } = await buildQuery(
+    supabase,
+    'TABLE_NAME',
+    pagination
+  )
+  
+  if (error) throw new DatabaseError(error.message)
+  
+  return successResponse(data, {
+    total: count || 0,
+    page: pagination.page,
+    pageSize: pagination.pageSize
+  })
+})
+```
+
+### 3. Sort Column Validation
+When implementing sortBy functionality:
+- Only allow columns that exist in the database schema
+- Default to 'created_at' if not specified
+- Never accept arbitrary string values without validation
+
+### 4. TypeScript Strict Mode
+- Never use `any` type except in documented edge cases
+- Always provide explicit return types for functions
+- Use proper error types from '@/lib/errors/custom-errors'
+
+### 5. Testing Requirements
+- Create at least one test file for each API route
+- Test file naming: `route.test.ts` in same directory as `route.ts`
+- Minimum test: verify endpoint returns 200 status
+
+### 6. Error Handling Pattern
+All errors must be handled using the custom error classes:
+- ValidationError for bad input
+- DatabaseError for Supabase errors
+- NotFoundError for missing resources
+- Never throw generic Error objects
+
+### 7. Git Commit Standards
+- feat: New features
+- fix: Bug fixes
+- chore: Maintenance tasks
+- docs: Documentation updates
+- test: Test additions/changes
+- refactor: Code restructuring
+
+### 8. Pre-commit Checklist
+Before committing, ensure:
+1. `npm run type-check` passes
+2. `npm run lint` has no errors
+3. `npm test` passes (or tests exist)
+4. No `console.log` statements in code
+
+### Type Checking
+- Run `npm run type-check` before committing
+- If type errors occur, check scripts/type-check.js output
+- Common issue: sortBy must match table column types
+
+## Code Generation Instructions
+
+When generating new API routes:
+1. Always import types from '@/types/database'
+2. Use createApiHandler wrapper
+3. Include proper TypeScript types
+4. Add business event logging
+5. Create corresponding test file
+
+When generating TypeScript interfaces:
+1. Extend from database types when possible
+2. Use strict null checks
+3. Document complex types with JSDoc
+4. Prefer interfaces over type aliases
+
+## Project-Specific Patterns
+
+### Supabase Queries
+- Always use type-safe table names
+- Handle null/undefined explicitly
+- Use .single() for single record queries
+- Check error.code === 'PGRST116' for not found
+
+### Pagination Defaults
+- Default page size: 20
+- Max page size: 100
+- Default sort: created_at DESC
+- Always return total count
+
+### Naming Conventions
+- API routes: kebab-case URLs
+- TypeScript types: PascalCase
+- Functions: camelCase
+- Database tables: snake_case
+- File names: kebab-case.ts
+```
+
