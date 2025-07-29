@@ -1,49 +1,41 @@
-export const loggerConfig = {
-  development: {
-    level: 'debug',
-    transport: {
-      target: 'pino-pretty',
-      options: {
-        colorize: true,
-        ignore: 'pid,hostname',
-        translateTime: 'HH:MM:ss.l',
-        singleLine: false,
-      },
-    },
-  },
-  production: {
-    level: 'info',
-    formatters: {
-      level: (label: string) => {
-        return { level: label.toUpperCase() }
-      },
-    },
-    timestamp: () => `,"timestamp":"${new Date().toISOString()}"`,
-  },
-  test: {
-    level: 'silent',
-  },
-}
+import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@/lib/supabase/client'
+import { logger } from '@/lib/logger'
 
-export function getLoggerConfig() {
-  const env = process.env.NODE_ENV || 'development'
-  
-  if (env === 'test') return loggerConfig.test
-  if (env === 'production') return loggerConfig.production
-  
-  // For development in Next.js, use basic config without transport
-  if (typeof window === 'undefined') {
-    // Server-side: use simple config
-    return {
-      level: 'debug',
-      // Disable pretty printing to avoid worker issues
-      formatters: {
-        level: (label: string) => {
-          return { level: label }
-        },
-      },
+export async function GET(_request: NextRequest) {
+  try {
+    const supabase = createClient()
+    
+    // Test database connection
+    const { error } = await supabase
+      .from('accounts')
+      .select('count')
+      .limit(1)
+    
+    if (error) throw error
+    
+    const response = {
+      status: 'healthy',
+      timestamp: new Date().toISOString(),
+      checks: {
+        database: 'connected',
+        api: 'operational'
+      }
     }
+    
+    logger.info('Health check passed', response)
+    
+    return NextResponse.json(response)
+  } catch (error) {
+    logger.error('Health check failed', { error })
+    
+    return NextResponse.json(
+      {
+        status: 'unhealthy',
+        timestamp: new Date().toISOString(),
+        error: error instanceof Error ? error.message : 'Unknown error'
+      },
+      { status: 503 }
+    )
   }
-  
-  return loggerConfig.development
 }

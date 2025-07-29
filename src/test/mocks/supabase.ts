@@ -1,4 +1,3 @@
-// src/test/mocks/supabase.ts
 import { createClient } from '@/lib/supabase/client'
 
 // Mock the Supabase client
@@ -10,6 +9,7 @@ jest.mock('@/lib/supabase/client', () => ({
           single: jest.fn(() => Promise.resolve({ data: null, error: null })),
           limit: jest.fn(() => Promise.resolve({ data: [], error: null })),
         })),
+        limit: jest.fn(() => Promise.resolve({ data: [], error: null })),
       })),
       insert: jest.fn(() => ({
         select: jest.fn(() => ({
