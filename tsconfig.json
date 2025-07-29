@@ -58,11 +58,11 @@
     // Path mapping for clean imports
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "@/components/*": ["components/*"],
-      "@/lib/*": ["lib/*"],
-      "@/platform/*": ["platform/*"],
-      "@/domains/*": ["domains/*"]
+      "@/*": ["src/*"],
+      "@/components/*": ["src/components/*"],
+      "@/lib/*": ["src/lib/*"],
+      "@/platform/*": ["src/platform/*"],
+      "@/domains/*": ["src/domains/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

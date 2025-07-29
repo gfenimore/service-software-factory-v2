@@ -47,3 +47,5 @@ next-env.d.ts
 # Cursor artifacts
 .cursor/artifacts/current/
 .cursor/session-status.md
+
+.vercel
