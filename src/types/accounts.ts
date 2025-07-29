@@ -34,7 +34,7 @@ export interface AccountsResponse {
 
 // Component prop interfaces
 export interface AccountsTableProps {
-  data: AccountDisplayData[]
+  data?: AccountDisplayData[]  // Made optional since component has defaults
   loading?: boolean
   error?: string | null
 }
