@@ -1,24 +1,45 @@
-// jest.setup.api.js
+import '@testing-library/jest-dom'
+
+// Polyfill TextEncoder/TextDecoder BEFORE importing undici
 import { TextEncoder, TextDecoder } from 'util'
-import { Request, Response, Headers } from 'undici'
+globalThis.TextEncoder = TextEncoder
+globalThis.TextDecoder = TextDecoder
+
+import { URL, URLSearchParams } from 'url'
+import { Request, Response, Headers, FormData } from 'undici'
+import './src/test/mocks/supabase.ts'
+
+// Mock Next.js router
+jest.mock('next/navigation', () => ({
+  useRouter() {
+    return {
+      push: jest.fn(),
+      replace: jest.fn(),
+      back: jest.fn(),
+      prefetch: jest.fn(),
+      route: '/',
+      pathname: '/',
+      query: {},
+      asPath: '/',
+    }
+  },
+  usePathname() {
+    return '/'
+  },
+  useSearchParams() {
+    return new URLSearchParams()
+  },
+}))
 
 // Polyfill Web APIs for Node environment
-global.TextEncoder = TextEncoder
-global.TextDecoder = TextDecoder
+globalThis.Request = Request
+globalThis.Response = Response
+globalThis.Headers = Headers
+globalThis.FormData = FormData
 
-// Use undici's Web API implementations
-global.Request = Request
-global.Response = Response
-global.Headers = Headers
-
-// Polyfill URL and URLSearchParams for older Node versions
-if (!global.URL) {
-  global.URL = require('url').URL
-}
-
-if (!global.URLSearchParams) {
-  global.URLSearchParams = require('url').URLSearchParams
-}
+// Add URL polyfills if needed
+if (!global.URL) global.URL = URL
+if (!global.URLSearchParams) global.URLSearchParams = URLSearchParams
 
 // Mock environment variables
 process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://test.supabase.co'
@@ -27,4 +48,4 @@ process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'test-anon-key'
 // Clean up after each test
 afterEach(() => {
   jest.clearAllMocks()
-}) 
+})
