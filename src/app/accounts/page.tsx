@@ -1,17 +1,37 @@
 import { Suspense } from 'react'
 import AccountsTable from '@/components/accounts/AccountsTable'
 
+interface SearchParams {
+  page?: string | string[]
+  search?: string | string[]
+  status?: string | string[]
+  accountType?: string | string[]
+  pageSize?: string | string[]
+}
+
+interface PageProps {
+  searchParams: Promise<SearchParams>
+}
+
 export default async function AccountsPage({
   searchParams
-}: {
-  searchParams: { 
-    page?: string
-    search?: string 
-    status?: string
-    accountType?: string
-    pageSize?: string
+}: PageProps) {
+  // Await the searchParams Promise (Next.js 15 requirement)
+  const resolvedSearchParams = await searchParams
+  // Helper function to get first value
+  const getParam = (param: string | string[] | undefined): string | undefined => {
+    return Array.isArray(param) ? param[0] : param
   }
-}) {
+
+  // Use it for all params
+  const params = {
+    page: getParam(resolvedSearchParams.page),
+    search: getParam(resolvedSearchParams.search),
+    status: getParam(resolvedSearchParams.status),
+    accountType: getParam(resolvedSearchParams.accountType),
+    pageSize: getParam(resolvedSearchParams.pageSize),
+  }
+  
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-6">
@@ -20,7 +40,7 @@ export default async function AccountsPage({
       </div>
       
       <Suspense fallback={<AccountsLoadingSkeleton />}>
-        <AccountsContent searchParams={searchParams} />
+        <AccountsContent searchParams={params} />
       </Suspense>
     </div>
   )
