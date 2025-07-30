@@ -1,11 +1,12 @@
 import { Suspense } from 'react'
 import AccountsTable from '@/components/accounts/AccountsTable'
-
-export default async function AccountsPage({
-  searchParams
-}: {
+import type { Metadata } from 'next'
+type PageProps = {
+  params: Promise<{ [key: string]: string | string[] }>
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}) {
+}
+
+export default async function AccountsPage({ searchParams }: PageProps) {
   // Await the searchParams Promise (Next.js 15 requirement)
   const params = await searchParams
   
@@ -14,7 +15,7 @@ export default async function AccountsPage({
     return Array.isArray(param) ? param[0] : param
   }
 
-  // Convert to single values
+  // Convert to single valuesss
   const cleanParams = {
     page: getParam(params.page),
     search: getParam(params.search),
