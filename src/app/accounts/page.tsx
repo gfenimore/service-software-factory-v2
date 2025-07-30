@@ -1,35 +1,26 @@
 import { Suspense } from 'react'
 import AccountsTable from '@/components/accounts/AccountsTable'
 
-interface SearchParams {
-  page?: string | string[]
-  search?: string | string[]
-  status?: string | string[]
-  accountType?: string | string[]
-  pageSize?: string | string[]
-}
-
-interface PageProps {
-  searchParams: Promise<SearchParams>
-}
-
 export default async function AccountsPage({
   searchParams
-}: PageProps) {
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
   // Await the searchParams Promise (Next.js 15 requirement)
-  const resolvedSearchParams = await searchParams
+  const params = await searchParams
+  
   // Helper function to get first value
   const getParam = (param: string | string[] | undefined): string | undefined => {
     return Array.isArray(param) ? param[0] : param
   }
 
-  // Use it for all params
-  const params = {
-    page: getParam(resolvedSearchParams.page),
-    search: getParam(resolvedSearchParams.search),
-    status: getParam(resolvedSearchParams.status),
-    accountType: getParam(resolvedSearchParams.accountType),
-    pageSize: getParam(resolvedSearchParams.pageSize),
+  // Convert to single values
+  const cleanParams = {
+    page: getParam(params.page),
+    search: getParam(params.search),
+    status: getParam(params.status),
+    accountType: getParam(params.accountType),
+    pageSize: getParam(params.pageSize),
   }
   
   return (
@@ -40,16 +31,16 @@ export default async function AccountsPage({
       </div>
       
       <Suspense fallback={<AccountsLoadingSkeleton />}>
-        <AccountsContent searchParams={params} />
+        <AccountsContent params={cleanParams} />
       </Suspense>
     </div>
   )
 }
 
 async function AccountsContent({
-  searchParams
+  params
 }: {
-  searchParams: { 
+  params: { 
     page?: string
     search?: string 
     status?: string
@@ -59,13 +50,13 @@ async function AccountsContent({
 }) {
   try {
     // For now, use the AccountsTable with default mock data
-    // Later we'll connect to the API using these searchParams
+    // Later we'll connect to the API using these params
     return (
       <AccountsErrorBoundary>
         <div className="space-y-6">
           <div className="text-sm text-gray-600 bg-blue-50 p-3 rounded">
             <strong>Development Note:</strong> Currently showing mock data. 
-            Search params: {JSON.stringify(searchParams, null, 2)}
+            Search params: {JSON.stringify(params, null, 2)}
           </div>
           
           <AccountsTable />
