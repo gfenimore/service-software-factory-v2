@@ -11,10 +11,10 @@ const EXPECTED_MODULES = [
   },
   {
     name: 'Operations',
-    focusAreas: ['Work Orders', 'Schedules', 'Routes']
+    focusAreas: ['Work Orders', 'Scheduling']
   },
   {
-    name: 'Admin',
+    name: 'Administration',
     focusAreas: ['User Management', 'System Settings']
   }
 ];
@@ -61,7 +61,7 @@ describe('LeftNavigation Component', () => {
       const moduleHeadings = screen.getAllByRole('heading', { level: 3 });
       const moduleNames = moduleHeadings.map(heading => heading.textContent);
       
-      expect(moduleNames).toEqual(['Accounts', 'Operations', 'Admin']);
+      expect(moduleNames).toEqual(['Accounts', 'Operations', 'Administration']);
     });
 
     it('displays exactly 3 modules (no more, no less)', () => {
@@ -78,23 +78,23 @@ describe('LeftNavigation Component', () => {
       
       EXPECTED_MODULES.forEach(module => {
         module.focusAreas.forEach(focusArea => {
-          expect(screen.getByRole('button', { name: focusArea })).toBeInTheDocument();
+          expect(screen.getByRole('menuitem', { name: focusArea })).toBeInTheDocument();
         });
       });
     });
 
-    it('displays exactly 7 focus area buttons total', () => {
+    it('displays exactly 6 focus area menu items total', () => {
       render(<LeftNavigation />);
       
-      const focusAreaButtons = screen.getAllByRole('button');
-      expect(focusAreaButtons).toHaveLength(7);
+      const focusAreaButtons = screen.getAllByRole('menuitem');
+      expect(focusAreaButtons).toHaveLength(6);
     });
 
     it('displays focus areas in flat list format with proper structure', () => {
       render(<LeftNavigation />);
       
       // Check that each module has a list
-      const lists = screen.getAllByRole('list');
+      const lists = screen.getAllByRole('menu');
       expect(lists).toHaveLength(3); // One list per module
       
       // Check list items per module
@@ -103,7 +103,7 @@ describe('LeftNavigation Component', () => {
       const adminList = lists[2];
       
       expect(accountsList.querySelectorAll('li')).toHaveLength(2);
-      expect(operationsList.querySelectorAll('li')).toHaveLength(3);
+      expect(operationsList.querySelectorAll('li')).toHaveLength(2);
       expect(adminList.querySelectorAll('li')).toHaveLength(2);
     });
 
@@ -113,12 +113,12 @@ describe('LeftNavigation Component', () => {
       // Verify all expected focus areas are present
       const expectedFocusAreas = [
         'Master View', 'Reports', // Accounts
-        'Work Orders', 'Schedules', 'Routes', // Operations  
-        'User Management', 'System Settings' // Admin
+        'Work Orders', 'Scheduling', // Operations  
+        'User Management', 'System Settings' // Administration
       ];
       
       expectedFocusAreas.forEach(focusArea => {
-        expect(screen.getByRole('button', { name: focusArea })).toBeInTheDocument();
+        expect(screen.getByRole('menuitem', { name: focusArea })).toBeInTheDocument();
       });
     });
   });
@@ -129,27 +129,27 @@ describe('LeftNavigation Component', () => {
       render(<LeftNavigation className={customClass} />);
       
       const navElement = screen.getByRole('navigation');
-      expect(navElement).toHaveClass('navigation-container', customClass);
+      expect(navElement).toHaveClass('fixed', 'left-0', 'top-0', 'w-[300px]', customClass);
     });
 
     it('applies default className when no custom className provided', () => {
       render(<LeftNavigation />);
       
       const navElement = screen.getByRole('navigation');
-      expect(navElement).toHaveClass('navigation-container');
+      expect(navElement).toHaveClass('fixed', 'left-0', 'top-0', 'w-[300px]');
     });
 
     it('handles undefined className gracefully', () => {
       render(<LeftNavigation className={undefined} />);
       
       const navElement = screen.getByRole('navigation');
-      expect(navElement).toHaveClass('navigation-container');
+      expect(navElement).toHaveClass('fixed', 'left-0', 'top-0', 'w-[300px]');
     });
 
     it('works without onNavigate callback', () => {
       render(<LeftNavigation />);
       
-      const firstButton = screen.getByRole('button', { name: 'Master View' });
+      const firstButton = screen.getByRole('menuitem', { name: 'Master View' });
       expect(() => fireEvent.click(firstButton)).not.toThrow();
     });
   });
@@ -158,7 +158,7 @@ describe('LeftNavigation Component', () => {
     it('calls onNavigate with correct format when focus area clicked', () => {
       render(<LeftNavigation onNavigate={mockOnNavigate} />);
       
-      const masterViewButton = screen.getByRole('button', { name: 'Master View' });
+      const masterViewButton = screen.getByRole('menuitem', { name: 'Master View' });
       fireEvent.click(masterViewButton);
       
       expect(mockOnNavigate).toHaveBeenCalledWith('Accounts > Master View');
@@ -172,26 +172,25 @@ describe('LeftNavigation Component', () => {
         { buttonName: 'Master View', expectedCall: 'Accounts > Master View' },
         { buttonName: 'Reports', expectedCall: 'Accounts > Reports' },
         { buttonName: 'Work Orders', expectedCall: 'Operations > Work Orders' },
-        { buttonName: 'Schedules', expectedCall: 'Operations > Schedules' },
-        { buttonName: 'Routes', expectedCall: 'Operations > Routes' },
-        { buttonName: 'User Management', expectedCall: 'Admin > User Management' },
-        { buttonName: 'System Settings', expectedCall: 'Admin > System Settings' }
+        { buttonName: 'Scheduling', expectedCall: 'Operations > Scheduling' },
+        { buttonName: 'User Management', expectedCall: 'Administration > User Management' },
+        { buttonName: 'System Settings', expectedCall: 'Administration > System Settings' }
       ];
       
       testCases.forEach(({ buttonName, expectedCall }, index) => {
-        const button = screen.getByRole('button', { name: buttonName });
+        const button = screen.getByRole('menuitem', { name: buttonName });
         fireEvent.click(button);
         
         expect(mockOnNavigate).toHaveBeenNthCalledWith(index + 1, expectedCall);
       });
       
-      expect(mockOnNavigate).toHaveBeenCalledTimes(7);
+      expect(mockOnNavigate).toHaveBeenCalledTimes(6);
     });
 
     it('handles multiple clicks on same focus area', () => {
       render(<LeftNavigation onNavigate={mockOnNavigate} />);
       
-      const masterViewButton = screen.getByRole('button', { name: 'Master View' });
+      const masterViewButton = screen.getByRole('menuitem', { name: 'Master View' });
       
       fireEvent.click(masterViewButton);
       fireEvent.click(masterViewButton);
@@ -206,8 +205,8 @@ describe('LeftNavigation Component', () => {
     it('handles clicks on different focus areas in sequence', () => {
       render(<LeftNavigation onNavigate={mockOnNavigate} />);
       
-      const accountsButton = screen.getByRole('button', { name: 'Master View' });
-      const operationsButton = screen.getByRole('button', { name: 'Work Orders' });
+      const accountsButton = screen.getByRole('menuitem', { name: 'Master View' });
+      const operationsButton = screen.getByRole('menuitem', { name: 'Work Orders' });
       
       fireEvent.click(accountsButton);
       fireEvent.click(operationsButton);
@@ -225,21 +224,21 @@ describe('LeftNavigation Component', () => {
       // Business rule: Must display all 3 required modules
       expect(screen.getByText('Accounts')).toBeVisible();
       expect(screen.getByText('Operations')).toBeVisible();
-      expect(screen.getByText('Admin')).toBeVisible();
+      expect(screen.getByText('Administration')).toBeVisible();
     });
 
-    it('enforces all 7 focus areas are visible', () => {
+    it('enforces all 6 focus areas are visible', () => {
       render(<LeftNavigation />);
       
       // Business rule: All focus areas must be visible
       const allFocusAreas = [
         'Master View', 'Reports',
-        'Work Orders', 'Schedules', 'Routes',
+        'Work Orders', 'Scheduling',
         'User Management', 'System Settings'
       ];
       
       allFocusAreas.forEach(focusArea => {
-        expect(screen.getByRole('button', { name: focusArea })).toBeVisible();
+        expect(screen.getByRole('menuitem', { name: focusArea })).toBeVisible();
       });
     });
 
@@ -248,7 +247,7 @@ describe('LeftNavigation Component', () => {
       
       // Business rule: Focus areas should be in flat list format
       // Check that buttons are direct children of list items, not nested
-      const buttons = screen.getAllByRole('button');
+      const buttons = screen.getAllByRole('menuitem');
       
       buttons.forEach(button => {
         const listItem = button.closest('li');
@@ -263,17 +262,17 @@ describe('LeftNavigation Component', () => {
     it('enforces correct number of focus areas per module', () => {
       render(<LeftNavigation />);
       
-      // Business rule: Accounts has 2, Operations has 3, Admin has 2
+      // Business rule: Accounts has 2, Operations has 2, Administration has 2
       const moduleTests = [
         { name: 'Accounts', expectedCount: 2 },
-        { name: 'Operations', expectedCount: 3 },
-        { name: 'Admin', expectedCount: 2 }
+        { name: 'Operations', expectedCount: 2 },
+        { name: 'Administration', expectedCount: 2 }
       ];
       
       moduleTests.forEach(({ name, expectedCount }) => {
         const moduleHeading = screen.getByRole('heading', { name });
-        const moduleContainer = moduleHeading.closest('.module-group');
-        const buttonsInModule = moduleContainer?.querySelectorAll('button');
+        const moduleContainer = moduleHeading.closest('div');
+        const buttonsInModule = moduleContainer?.querySelectorAll('[role="menuitem"]');
         expect(buttonsInModule).toHaveLength(expectedCount);
       });
     });
@@ -291,59 +290,60 @@ describe('LeftNavigation Component', () => {
       expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(3);
       
       // Should have lists for focus areas
-      expect(screen.getAllByRole('list')).toHaveLength(3);
+      expect(screen.getAllByRole('menu')).toHaveLength(3);
       
-      // Should have buttons for interactions
-      expect(screen.getAllByRole('button')).toHaveLength(7);
+      // Should have menu items for interactions
+      expect(screen.getAllByRole('menuitem')).toHaveLength(6);
     });
 
     it('provides accessible button labels', () => {
       render(<LeftNavigation />);
       
-      const buttons = screen.getAllByRole('button');
-      buttons.forEach(button => {
-        expect(button).toHaveAccessibleName();
-        expect(button.textContent).toBeTruthy();
+      const menuItems = screen.getAllByRole('menuitem');
+      menuItems.forEach(menuItem => {
+        expect(menuItem).toHaveAccessibleName();
+        expect(menuItem.textContent).toBeTruthy();
       });
     });
 
     it('maintains proper focus management', () => {
       render(<LeftNavigation />);
       
-      const firstButton = screen.getByRole('button', { name: 'Master View' });
-      firstButton.focus();
+      const firstMenuItem = screen.getByRole('menuitem', { name: 'Master View' });
+      firstMenuItem.focus();
       
-      expect(firstButton).toHaveFocus();
+      expect(firstMenuItem).toHaveFocus();
     });
   });
 
   describe('Styling Integration', () => {
-    it('applies expected CSS classes', () => {
+    it('applies expected Tailwind CSS classes', () => {
       render(<LeftNavigation />);
       
-      // Check main container class
+      // Check main container Tailwind classes
       const navElement = screen.getByRole('navigation');
-      expect(navElement).toHaveClass('navigation-container');
+      expect(navElement).toHaveClass('fixed', 'left-0', 'top-0', 'w-[300px]', 'h-screen');
       
-      // Check module group classes
-      const moduleGroups = navElement.querySelectorAll('.module-group');
-      expect(moduleGroups).toHaveLength(3);
+      // Check module groups exist (using div structure instead of class)
+      const moduleHeadings = screen.getAllByRole('heading', { level: 3 });
+      expect(moduleHeadings).toHaveLength(3);
       
-      // Check focus area button classes
-      const focusAreaButtons = navElement.querySelectorAll('.focus-area-item');
-      expect(focusAreaButtons).toHaveLength(7);
+      // Check focus area menu items
+      const focusAreaItems = screen.getAllByRole('menuitem');
+      expect(focusAreaItems).toHaveLength(6); // 2+2+2 focus areas
     });
 
-    it('applies inline styles via JSX styling', () => {
+    it('applies proper semantic structure with Tailwind', () => {
       render(<LeftNavigation />);
       
-      // The component uses JSX styles, which should be applied
-      // We can verify the style tag exists (though testing actual computed styles is complex)
+      // The component uses Tailwind classes and semantic HTML
       const navElement = screen.getByRole('navigation');
       expect(navElement).toBeInTheDocument();
+      expect(navElement).toHaveAttribute('aria-label', 'Main navigation');
       
-      // Verify classes that would receive the JSX styles
-      expect(navElement).toHaveClass('navigation-container');
+      // Verify semantic menu structure
+      const menus = screen.getAllByRole('menu');
+      expect(menus).toHaveLength(3);
     });
   });
 
@@ -355,15 +355,15 @@ describe('LeftNavigation Component', () => {
     it('handles missing onNavigate gracefully', () => {
       render(<LeftNavigation />);
       
-      const button = screen.getByRole('button', { name: 'Master View' });
-      expect(() => fireEvent.click(button)).not.toThrow();
+      const menuItem = screen.getByRole('menuitem', { name: 'Master View' });
+      expect(() => fireEvent.click(menuItem)).not.toThrow();
     });
 
     it('handles empty string className', () => {
       render(<LeftNavigation className="" />);
       
       const navElement = screen.getByRole('navigation');
-      expect(navElement).toHaveClass('navigation-container');
+      expect(navElement).toHaveClass('fixed', 'left-0', 'top-0', 'w-[300px]');
     });
   });
 
@@ -376,36 +376,35 @@ describe('LeftNavigation Component', () => {
       
       // Verify hierarchy: nav > modules > focus areas
       const navElement = screen.getByRole('navigation');
-      const moduleGroups = navElement.querySelectorAll('.module-group');
-      expect(moduleGroups).toHaveLength(3);
+      const moduleHeadings = screen.getAllByRole('heading', { level: 3 });
+      expect(moduleHeadings).toHaveLength(3);
       
-      moduleGroups.forEach(moduleGroup => {
-        const heading = moduleGroup.querySelector('h3');
-        const list = moduleGroup.querySelector('ul');
-        const buttons = moduleGroup.querySelectorAll('button');
-        
-        expect(heading).toBeInTheDocument();
-        expect(list).toBeInTheDocument();
-        expect(buttons.length).toBeGreaterThanOrEqual(2); // At least 2
+      // Verify each module has menu structure
+      const menus = screen.getAllByRole('menu');
+      expect(menus).toHaveLength(3);
+      
+      menus.forEach(menu => {
+        const menuItems = menu.querySelectorAll('[role="menuitem"]');
+        expect(menuItems.length).toBeGreaterThanOrEqual(2); // At least 2 focus areas per module
       });
     });
 
-    it('displays 3 modules (Accounts, Operations, Admin) with focus areas in flat list format', () => {
+    it('displays 3 modules (Accounts, Operations, Administration) with focus areas in flat list format', () => {
       render(<LeftNavigation />);
       
       // Verify 3 modules requirement
-      const moduleNames = ['Accounts', 'Operations', 'Admin'];
+      const moduleNames = ['Accounts', 'Operations', 'Administration'];
       moduleNames.forEach(moduleName => {
         expect(screen.getByRole('heading', { name: moduleName })).toBeInTheDocument();
       });
       
-      // Verify flat list format (7 total buttons)
-      const allButtons = screen.getAllByRole('button');
-      expect(allButtons).toHaveLength(7);
+      // Verify flat list format (6 total menu items)
+      const allMenuItems = screen.getAllByRole('menuitem');
+      expect(allMenuItems).toHaveLength(6);
       
-      // Verify each module has correct number of focus areas in list format
-      const lists = screen.getAllByRole('list');
-      expect(lists).toHaveLength(3);
+      // Verify each module has correct number of focus areas in menu format
+      const menus = screen.getAllByRole('menu');
+      expect(menus).toHaveLength(3);
     });
 
     it('satisfies T-001 depends on none requirement', () => {
@@ -419,11 +418,11 @@ describe('LeftNavigation Component', () => {
       expect(navElement).toBeInTheDocument();
       
       // All functionality should work without external state or props
-      const buttons = screen.getAllByRole('button');
-      expect(buttons).toHaveLength(7);
+      const menuItems = screen.getAllByRole('menuitem');
+      expect(menuItems).toHaveLength(6);
       
       // Clicking should not cause errors even without onNavigate
-      expect(() => fireEvent.click(buttons[0])).not.toThrow();
+      expect(() => fireEvent.click(menuItems[0])).not.toThrow();
     });
   });
 });

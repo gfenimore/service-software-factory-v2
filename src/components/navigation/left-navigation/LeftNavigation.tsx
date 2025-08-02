@@ -1,3 +1,5 @@
+"use client";
+
 interface LeftNavigationProps {
   className?: string;
   onNavigate?: (focusArea: string) => void;
@@ -12,77 +14,44 @@ export default function LeftNavigation({ className, onNavigate }: LeftNavigation
     },
     {
       name: 'Operations',
-      focusAreas: ['Work Orders', 'Schedules', 'Routes']  // ← Updated
+      focusAreas: ['Work Orders', 'Scheduling']  // Updated to match architecture spec
     },
     {
-      name: 'Admin',
+      name: 'Administration',
       focusAreas: ['User Management', 'System Settings']
     }
   ];
 
   return (
-    <nav className={`navigation-container ${className || ''}`}>
-      <h2>Navigation</h2>
-      {modules.map((module) => (
-        <div key={module.name} className="module-group">
-          <h3>{module.name}</h3>
-          <ul>
-            {module.focusAreas.map((focusArea) => (
-              <li key={focusArea}>
-                <button 
-                  onClick={() => onNavigate?.(`${module.name} > ${focusArea}`)}
-                  className="focus-area-item"
-                >
-                  {focusArea}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-      
-      <style jsx>{`
-        .navigation-container {
-          width: 300px;
-          padding: 16px;
-          border: 1px solid #ccc;
-          background: #f9f9f9;
-        }
-        
-        .module-group {
-          margin-bottom: 16px;
-        }
-        
-        .module-group h3 {
-          margin: 0 0 8px 0;
-          font-size: 14px;
-          font-weight: 600;
-          color: #333;
-        }
-        
-        .module-group ul {
-          list-style: none;
-          margin: 0;
-          padding: 0;
-        }
-        
-        .focus-area-item {
-          display: block;
-          width: 100%;
-          padding: 8px 12px;
-          margin-bottom: 4px;
-          border: none;
-          background: white;
-          text-align: left;
-          cursor: pointer;
-          border-radius: 4px;
-          font-size: 13px;
-        }
-        
-        .focus-area-item:hover {
-          background: #e9ecef;
-        }
-      `}</style>
+    <nav 
+      className={`fixed left-0 top-0 w-[300px] h-screen bg-white border-r border-gray-200 overflow-y-auto z-10 ${className || ''}`}
+      role="navigation"
+      aria-label="Main navigation"
+    >
+      <div className="p-6">
+        <h2 className="text-xl font-semibold text-gray-900 mb-6">Navigation</h2>
+        {modules.map((module) => (
+          <div key={module.name} className="mb-6">
+            <h3 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wider">
+              {module.name}
+            </h3>
+            <ul className="space-y-1" role="menu">
+              {module.focusAreas.map((focusArea) => (
+                <li key={focusArea} role="none">
+                  <button 
+                    onClick={() => onNavigate?.(`${module.name} > ${focusArea}`)}
+                    className="w-full text-left px-3 py-2 text-sm text-gray-700 rounded-md hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+                    role="menuitem"
+                    tabIndex={0}
+                  >
+                    {focusArea}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
     </nav>
   );
 }
