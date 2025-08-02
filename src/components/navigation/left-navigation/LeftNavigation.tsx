@@ -11,12 +11,8 @@ export default function LeftNavigation({ className, onNavigate }: LeftNavigation
       focusAreas: ['Master View', 'Reports']
     },
     {
-      name: 'Operations', 
-      focusAreas: ['Work Orders', 'Scheduling']
-    },
-    {
-      name: 'Inventory',
-      focusAreas: ['Parts Management', 'Asset Tracking']
+      name: 'Operations',
+      focusAreas: ['Work Orders', 'Schedules', 'Routes']  // ← Updated
     },
     {
       name: 'Admin',

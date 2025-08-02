@@ -11,11 +11,7 @@ const EXPECTED_MODULES = [
   },
   {
     name: 'Operations',
-    focusAreas: ['Work Orders', 'Scheduling']
-  },
-  {
-    name: 'Inventory',
-    focusAreas: ['Parts Management', 'Asset Tracking']
+    focusAreas: ['Work Orders', 'Schedules', 'Routes']
   },
   {
     name: 'Admin',
@@ -51,7 +47,7 @@ describe('LeftNavigation Component', () => {
   });
 
   describe('Module Display - Business Rule Verification', () => {
-    it('displays all 4 required modules', () => {
+    it('displays all 3 required modules', () => {
       render(<LeftNavigation />);
       
       EXPECTED_MODULES.forEach(module => {
@@ -65,19 +61,19 @@ describe('LeftNavigation Component', () => {
       const moduleHeadings = screen.getAllByRole('heading', { level: 3 });
       const moduleNames = moduleHeadings.map(heading => heading.textContent);
       
-      expect(moduleNames).toEqual(['Accounts', 'Operations', 'Inventory', 'Admin']);
+      expect(moduleNames).toEqual(['Accounts', 'Operations', 'Admin']);
     });
 
-    it('displays exactly 4 modules (no more, no less)', () => {
+    it('displays exactly 3 modules (no more, no less)', () => {
       render(<LeftNavigation />);
       
       const moduleHeadings = screen.getAllByRole('heading', { level: 3 });
-      expect(moduleHeadings).toHaveLength(4);
+      expect(moduleHeadings).toHaveLength(3);
     });
   });
 
   describe('Focus Areas Display - Flat List Format', () => {
-    it('displays 2 focus areas per module', () => {
+    it('displays correct number of focus areas per module', () => {
       render(<LeftNavigation />);
       
       EXPECTED_MODULES.forEach(module => {
@@ -87,11 +83,11 @@ describe('LeftNavigation Component', () => {
       });
     });
 
-    it('displays exactly 8 focus area buttons total', () => {
+    it('displays exactly 7 focus area buttons total', () => {
       render(<LeftNavigation />);
       
       const focusAreaButtons = screen.getAllByRole('button');
-      expect(focusAreaButtons).toHaveLength(8);
+      expect(focusAreaButtons).toHaveLength(7);
     });
 
     it('displays focus areas in flat list format with proper structure', () => {
@@ -99,13 +95,16 @@ describe('LeftNavigation Component', () => {
       
       // Check that each module has a list
       const lists = screen.getAllByRole('list');
-      expect(lists).toHaveLength(4); // One list per module
+      expect(lists).toHaveLength(3); // One list per module
       
-      // Check that each list contains 2 list items
-      lists.forEach(list => {
-        const listItems = list.querySelectorAll('li');
-        expect(listItems).toHaveLength(2);
-      });
+      // Check list items per module
+      const accountsList = lists[0];
+      const operationsList = lists[1];
+      const adminList = lists[2];
+      
+      expect(accountsList.querySelectorAll('li')).toHaveLength(2);
+      expect(operationsList.querySelectorAll('li')).toHaveLength(3);
+      expect(adminList.querySelectorAll('li')).toHaveLength(2);
     });
 
     it('displays focus areas with correct labels', () => {
@@ -114,8 +113,7 @@ describe('LeftNavigation Component', () => {
       // Verify all expected focus areas are present
       const expectedFocusAreas = [
         'Master View', 'Reports', // Accounts
-        'Work Orders', 'Scheduling', // Operations  
-        'Parts Management', 'Asset Tracking', // Inventory
+        'Work Orders', 'Schedules', 'Routes', // Operations  
         'User Management', 'System Settings' // Admin
       ];
       
@@ -174,9 +172,8 @@ describe('LeftNavigation Component', () => {
         { buttonName: 'Master View', expectedCall: 'Accounts > Master View' },
         { buttonName: 'Reports', expectedCall: 'Accounts > Reports' },
         { buttonName: 'Work Orders', expectedCall: 'Operations > Work Orders' },
-        { buttonName: 'Scheduling', expectedCall: 'Operations > Scheduling' },
-        { buttonName: 'Parts Management', expectedCall: 'Inventory > Parts Management' },
-        { buttonName: 'Asset Tracking', expectedCall: 'Inventory > Asset Tracking' },
+        { buttonName: 'Schedules', expectedCall: 'Operations > Schedules' },
+        { buttonName: 'Routes', expectedCall: 'Operations > Routes' },
         { buttonName: 'User Management', expectedCall: 'Admin > User Management' },
         { buttonName: 'System Settings', expectedCall: 'Admin > System Settings' }
       ];
@@ -188,7 +185,7 @@ describe('LeftNavigation Component', () => {
         expect(mockOnNavigate).toHaveBeenNthCalledWith(index + 1, expectedCall);
       });
       
-      expect(mockOnNavigate).toHaveBeenCalledTimes(8);
+      expect(mockOnNavigate).toHaveBeenCalledTimes(7);
     });
 
     it('handles multiple clicks on same focus area', () => {
@@ -222,24 +219,22 @@ describe('LeftNavigation Component', () => {
   });
 
   describe('Business Rules Compliance', () => {
-    it('enforces all 4 modules are visible', () => {
+    it('enforces all 3 modules are visible', () => {
       render(<LeftNavigation />);
       
-      // Business rule: Must display all 4 required modules
+      // Business rule: Must display all 3 required modules
       expect(screen.getByText('Accounts')).toBeVisible();
       expect(screen.getByText('Operations')).toBeVisible();
-      expect(screen.getByText('Inventory')).toBeVisible();
       expect(screen.getByText('Admin')).toBeVisible();
     });
 
-    it('enforces all 8 focus areas are visible', () => {
+    it('enforces all 7 focus areas are visible', () => {
       render(<LeftNavigation />);
       
       // Business rule: All focus areas must be visible
       const allFocusAreas = [
         'Master View', 'Reports',
-        'Work Orders', 'Scheduling',
-        'Parts Management', 'Asset Tracking',
+        'Work Orders', 'Schedules', 'Routes',
         'User Management', 'System Settings'
       ];
       
@@ -265,18 +260,21 @@ describe('LeftNavigation Component', () => {
       });
     });
 
-    it('enforces exactly 2 focus areas per module', () => {
+    it('enforces correct number of focus areas per module', () => {
       render(<LeftNavigation />);
       
-      // Business rule: Each module must have exactly 2 focus areas
-      EXPECTED_MODULES.forEach(module => {
-        // Find the module heading
-        const moduleHeading = screen.getByRole('heading', { name: module.name });
+      // Business rule: Accounts has 2, Operations has 3, Admin has 2
+      const moduleTests = [
+        { name: 'Accounts', expectedCount: 2 },
+        { name: 'Operations', expectedCount: 3 },
+        { name: 'Admin', expectedCount: 2 }
+      ];
+      
+      moduleTests.forEach(({ name, expectedCount }) => {
+        const moduleHeading = screen.getByRole('heading', { name });
         const moduleContainer = moduleHeading.closest('.module-group');
-        
-        // Count buttons within this module
         const buttonsInModule = moduleContainer?.querySelectorAll('button');
-        expect(buttonsInModule).toHaveLength(2);
+        expect(buttonsInModule).toHaveLength(expectedCount);
       });
     });
   });
@@ -290,13 +288,13 @@ describe('LeftNavigation Component', () => {
       
       // Should have proper heading hierarchy
       expect(screen.getByRole('heading', { level: 2 })).toBeInTheDocument();
-      expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(4);
+      expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(3);
       
       // Should have lists for focus areas
-      expect(screen.getAllByRole('list')).toHaveLength(4);
+      expect(screen.getAllByRole('list')).toHaveLength(3);
       
       // Should have buttons for interactions
-      expect(screen.getAllByRole('button')).toHaveLength(8);
+      expect(screen.getAllByRole('button')).toHaveLength(7);
     });
 
     it('provides accessible button labels', () => {
@@ -329,11 +327,11 @@ describe('LeftNavigation Component', () => {
       
       // Check module group classes
       const moduleGroups = navElement.querySelectorAll('.module-group');
-      expect(moduleGroups).toHaveLength(4);
+      expect(moduleGroups).toHaveLength(3);
       
       // Check focus area button classes
       const focusAreaButtons = navElement.querySelectorAll('.focus-area-item');
-      expect(focusAreaButtons).toHaveLength(8);
+      expect(focusAreaButtons).toHaveLength(7);
     });
 
     it('applies inline styles via JSX styling', () => {
@@ -379,7 +377,7 @@ describe('LeftNavigation Component', () => {
       // Verify hierarchy: nav > modules > focus areas
       const navElement = screen.getByRole('navigation');
       const moduleGroups = navElement.querySelectorAll('.module-group');
-      expect(moduleGroups).toHaveLength(4);
+      expect(moduleGroups).toHaveLength(3);
       
       moduleGroups.forEach(moduleGroup => {
         const heading = moduleGroup.querySelector('h3');
@@ -388,36 +386,26 @@ describe('LeftNavigation Component', () => {
         
         expect(heading).toBeInTheDocument();
         expect(list).toBeInTheDocument();
-        expect(buttons).toHaveLength(2);
+        expect(buttons.length).toBeGreaterThanOrEqual(2); // At least 2
       });
     });
 
-    it('displays 4 modules (Accounts, Operations, Inventory, Admin) with focus areas in flat list format', () => {
+    it('displays 3 modules (Accounts, Operations, Admin) with focus areas in flat list format', () => {
       render(<LeftNavigation />);
       
-      // Verify 4 modules requirement
-      const moduleNames = ['Accounts', 'Operations', 'Inventory', 'Admin'];
+      // Verify 3 modules requirement
+      const moduleNames = ['Accounts', 'Operations', 'Admin'];
       moduleNames.forEach(moduleName => {
         expect(screen.getByRole('heading', { name: moduleName })).toBeInTheDocument();
       });
       
-      // Verify flat list format (8 total buttons, 2 per module)
+      // Verify flat list format (7 total buttons)
       const allButtons = screen.getAllByRole('button');
-      expect(allButtons).toHaveLength(8);
+      expect(allButtons).toHaveLength(7);
       
-      // Verify each module has exactly 2 focus areas in list format
+      // Verify each module has correct number of focus areas in list format
       const lists = screen.getAllByRole('list');
-      expect(lists).toHaveLength(4);
-      
-      lists.forEach(list => {
-        const listItems = list.querySelectorAll('li');
-        expect(listItems).toHaveLength(2);
-        
-        listItems.forEach(li => {
-          const button = li.querySelector('button');
-          expect(button).toBeInTheDocument();
-        });
-      });
+      expect(lists).toHaveLength(3);
     });
 
     it('satisfies T-001 depends on none requirement', () => {
@@ -432,7 +420,7 @@ describe('LeftNavigation Component', () => {
       
       // All functionality should work without external state or props
       const buttons = screen.getAllByRole('button');
-      expect(buttons).toHaveLength(8);
+      expect(buttons).toHaveLength(7);
       
       // Clicking should not cause errors even without onNavigate
       expect(() => fireEvent.click(buttons[0])).not.toThrow();
