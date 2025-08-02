@@ -375,7 +375,7 @@ describe('LeftNavigation Component', () => {
       expect(screen.getByRole('navigation')).toBeInTheDocument();
       
       // Verify hierarchy: nav > modules > focus areas
-      const navElement = screen.getByRole('navigation');
+      screen.getByRole('navigation');
       const moduleHeadings = screen.getAllByRole('heading', { level: 3 });
       expect(moduleHeadings).toHaveLength(3);
       

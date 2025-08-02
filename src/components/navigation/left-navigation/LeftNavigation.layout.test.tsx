@@ -97,7 +97,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
     });
 
     it('does not interfere with document flow due to fixed positioning', () => {
-      const { container } = render(
+      render(
         <div>
           <LeftNavigation />
           <div data-testid="content-area">Main Content</div>

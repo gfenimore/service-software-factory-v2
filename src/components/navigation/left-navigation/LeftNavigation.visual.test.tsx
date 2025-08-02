@@ -9,7 +9,7 @@ import '@testing-library/jest-dom';
 import LeftNavigation from './LeftNavigation';
 
 // Mock matchMedia for responsive testing
-const createMatchMedia = (width: number) => {
+const createMatchMedia = () => {
   return jest.fn().mockImplementation(query => ({
     matches: false,
     media: query,
@@ -138,7 +138,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
 
       const expectedModules = ['Accounts', 'Operations', 'Administration'];
 
-      expectedModules.forEach((moduleName, index) => {
+      expectedModules.forEach((moduleName) => {
         const moduleHeading = screen.getByRole('heading', { name: moduleName, level: 3 });
         expect(moduleHeading).toBeInTheDocument();
         expect(moduleHeading).toBeVisible();
@@ -277,7 +277,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
           value: height,
         });
 
-        window.matchMedia = createMatchMedia(width);
+        window.matchMedia = createMatchMedia();
 
         render(<LeftNavigation />);
 

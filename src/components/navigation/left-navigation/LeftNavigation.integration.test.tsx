@@ -146,7 +146,7 @@ describe('LeftNavigation T-002: Integration Testing', () => {
       serverRender.unmount();
 
       // Client render should match
-      const clientRender = render(<LeftNavigation />);
+      render(<LeftNavigation />);
       const navigation2 = screen.getByRole('navigation');
 
       // Both should have same classes
