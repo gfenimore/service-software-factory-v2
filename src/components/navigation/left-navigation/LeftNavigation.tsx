@@ -1,11 +1,25 @@
 "use client";
 
+import { useRouter } from 'next/navigation';
+
 interface LeftNavigationProps {
   className?: string;
   onNavigate?: (focusArea: string) => void;
 }
 
 export default function LeftNavigation({ className, onNavigate }: LeftNavigationProps) {
+  const router = useRouter();
+
+  // Route mapping based on architecture specification
+  const routeMapping: Record<string, string> = {
+    'Accounts > Master View': '/accounts/master',
+    'Accounts > Reports': '/accounts/reports',
+    'Operations > Work Orders': '/operations/work-orders',
+    'Operations > Scheduling': '/operations/scheduling',
+    'Administration > User Management': '/admin/users',
+    'Administration > System Settings': '/admin/settings'
+  };
+
   // Hardcoded modules and focus areas for T-001 minimal implementation
   const modules = [
     {
@@ -21,6 +35,18 @@ export default function LeftNavigation({ className, onNavigate }: LeftNavigation
       focusAreas: ['User Management', 'System Settings']
     }
   ];
+
+  const handleNavigation = (module: string, focusArea: string) => {
+    const navigationPath = `${module} > ${focusArea}`;
+    const route = routeMapping[navigationPath];
+    
+    if (route) {
+      router.push(route);
+    }
+    
+    // Still call the onNavigate callback for backward compatibility
+    onNavigate?.(navigationPath);
+  };
 
   return (
     <nav 
@@ -39,7 +65,7 @@ export default function LeftNavigation({ className, onNavigate }: LeftNavigation
               {module.focusAreas.map((focusArea) => (
                 <li key={focusArea} role="none">
                   <button 
-                    onClick={() => onNavigate?.(`${module.name} > ${focusArea}`)}
+                    onClick={() => handleNavigation(module.name, focusArea)}
                     className="w-full text-left px-3 py-2 text-sm text-gray-700 rounded-md hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
                     role="menuitem"
                     tabIndex={0}
