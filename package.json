@@ -19,7 +19,8 @@
     "prepare": "husky",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "validate": "npm run type-check && npm run lint && npm run test:ci"
+    "validate": "npm run type-check && npm run lint && npm run test:ci",
+    "quality-check": "node scripts/quality-check.js"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
