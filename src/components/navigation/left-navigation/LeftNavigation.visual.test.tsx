@@ -7,6 +7,26 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import LeftNavigation from './LeftNavigation';
+import { NavigationProvider } from './NavigationContext';
+
+// Test wrapper for navigation context
+function TestWrapper({ children }: { children: React.ReactNode }) {
+  return <NavigationProvider>{children}</NavigationProvider>;
+}
+
+// Helper function to render with navigation provider
+function renderWithProvider(component: React.ReactElement) {
+  return render(component, { wrapper: TestWrapper });
+}
+
+// Mock Next.js router
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+    pathname: '/',
+  }),
+  usePathname: () => '/',
+}));
 
 // Mock matchMedia for responsive testing
 const createMatchMedia = () => {
@@ -39,7 +59,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
 
   describe('Visual Styling Verification', () => {
     it('applies correct background and border styling', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       const navigation = screen.getByRole('navigation');
 
@@ -50,7 +70,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
     });
 
     it('implements proper typography hierarchy', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       // Main navigation heading (H2)
       const mainHeading = screen.getByRole('heading', { name: 'Navigation', level: 2 });
@@ -73,7 +93,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
     });
 
     it('applies consistent spacing and layout classes', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       const navigation = screen.getByRole('navigation');
       
@@ -93,7 +113,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
     });
 
     it('implements proper button styling for focus areas', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       const focusAreaButtons = screen.getAllByRole('menuitem');
 
@@ -134,7 +154,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
 
   describe('Module and Focus Area Visual Structure', () => {
     it('renders all 3 modules with correct visual hierarchy', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       const expectedModules = ['Accounts', 'Operations', 'Administration'];
 
@@ -149,7 +169,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
     });
 
     it('displays focus areas with consistent visual formatting', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       const expectedFocusAreas = [
         'Master View', 'Reports', // Accounts
@@ -168,7 +188,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
     });
 
     it('maintains proper visual spacing between modules', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       const navigation = screen.getByRole('navigation');
       const moduleContainers = navigation.querySelectorAll('div.mb-6');
@@ -178,7 +198,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
     });
 
     it('provides visual distinction between modules and focus areas', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       // Module headings should have different styling than focus areas
       const moduleHeadings = screen.getAllByRole('heading', { level: 3 });
@@ -199,7 +219,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
 
   describe('Interactive State Visual Feedback', () => {
     it('provides visual hover feedback on focus area buttons', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       const focusAreaButtons = screen.getAllByRole('menuitem');
 
@@ -211,7 +231,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
     });
 
     it('implements accessible focus indicators', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       const focusAreaButtons = screen.getAllByRole('menuitem');
 
@@ -225,7 +245,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
     });
 
     it('includes smooth transition animations', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       const focusAreaButtons = screen.getAllByRole('menuitem');
 
@@ -236,7 +256,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
     });
 
     it('maintains visual consistency during interaction', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       const firstButton = screen.getByRole('menuitem', { name: 'Master View' });
 
@@ -279,7 +299,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
 
         window.matchMedia = createMatchMedia();
 
-        render(<LeftNavigation />);
+        renderWithProvider(<LeftNavigation />);
 
         const navigation = screen.getByRole('navigation');
 
@@ -300,7 +320,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
         value: 320,
       });
 
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       const navigation = screen.getByRole('navigation');
 
@@ -319,7 +339,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
           value: width,
         });
 
-        const { unmount } = render(<LeftNavigation />);
+        const { unmount } = renderWithProvider(<LeftNavigation />);
 
         // All modules should be visible
         expect(screen.getByText('Accounts')).toBeVisible();
@@ -351,7 +371,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
         value: 768,
       });
 
-      const { rerender } = render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       let navigation = screen.getByRole('navigation');
       expect(navigation).toHaveClass('w-[300px]', 'h-screen');
@@ -368,7 +388,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
         value: 1024,
       });
 
-      rerender(<LeftNavigation />);
+      rerenderWithProvider(<LeftNavigation />);
 
       navigation = screen.getByRole('navigation');
       expect(navigation).toHaveClass('w-[300px]', 'h-screen');
@@ -377,26 +397,26 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
 
   describe('Visual Consistency and Layout Stability', () => {
     it('prevents layout shifts during content loading', () => {
-      const { rerender } = render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       const navigation = screen.getByRole('navigation');
       const initialClasses = navigation.className;
 
       // Re-render (simulate content update)
-      rerender(<LeftNavigation />);
+      rerenderWithProvider(<LeftNavigation />);
 
       const updatedNavigation = screen.getByRole('navigation');
       expect(updatedNavigation.className).toBe(initialClasses);
     });
 
     it('maintains consistent styling with prop changes', () => {
-      const { rerender } = render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       let navigation = screen.getByRole('navigation');
       expect(navigation).toHaveClass('w-[300px]', 'fixed');
 
       // Re-render with custom className
-      rerender(<LeftNavigation className="custom-class" />);
+      rerenderWithProvider(<LeftNavigation className="custom-class" />);
 
       navigation = screen.getByRole('navigation');
       expect(navigation).toHaveClass('w-[300px]', 'fixed', 'custom-class');
@@ -404,7 +424,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
 
     it('preserves visual state during interaction', () => {
       const mockOnNavigate = jest.fn();
-      render(<LeftNavigation onNavigate={mockOnNavigate} />);
+      renderWithProvider(<LeftNavigation onNavigate={mockOnNavigate} />);
 
       const navigation = screen.getByRole('navigation');
       const initialClasses = navigation.className;
@@ -423,7 +443,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
     it('renders visual elements efficiently', () => {
       const startTime = performance.now();
       
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       // All visual elements should be present
       expect(screen.getByRole('navigation')).toBeInTheDocument();
@@ -439,7 +459,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
 
     it('handles rapid visual state changes efficiently', () => {
       const mockOnNavigate = jest.fn();
-      render(<LeftNavigation onNavigate={mockOnNavigate} />);
+      renderWithProvider(<LeftNavigation onNavigate={mockOnNavigate} />);
 
       const buttons = screen.getAllByRole('menuitem');
 
@@ -461,7 +481,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
 
   describe('Visual Accessibility and Contrast', () => {
     it('provides sufficient color contrast for text elements', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       // Main heading should have high contrast
       const mainHeading = screen.getByRole('heading', { name: 'Navigation' });
@@ -481,7 +501,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
     });
 
     it('provides clear visual focus indicators', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       const focusAreaButtons = screen.getAllByRole('menuitem');
 
@@ -494,7 +514,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
     });
 
     it('maintains visual clarity with background and borders', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       const navigation = screen.getByRole('navigation');
 

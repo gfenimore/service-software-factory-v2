@@ -7,8 +7,19 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import LeftNavigation from './LeftNavigation';
+import { NavigationProvider } from './NavigationContext';
 
-// Mock Next.js router if needed
+// Test wrapper for navigation context
+function TestWrapper({ children }: { children: React.ReactNode }) {
+  return <NavigationProvider>{children}</NavigationProvider>;
+}
+
+// Helper function to render with navigation provider
+function renderWithProvider(component: React.ReactElement) {
+  return render(component, { wrapper: TestWrapper });
+}
+
+// Mock Next.js router
 jest.mock('next/navigation', () => ({
   useRouter: () => ({
     push: jest.fn(),
@@ -21,7 +32,7 @@ jest.mock('next/navigation', () => ({
 describe('LeftNavigation T-002: Layout and Styling', () => {
   describe('Fixed Positioning Requirements', () => {
     it('maintains fixed position with correct positioning properties', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
       
       const navElement = screen.getByRole('navigation');
       
@@ -36,7 +47,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
     });
 
     it('maintains 300px width exactly at all times', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
       
       const navElement = screen.getByRole('navigation');
       
@@ -55,7 +66,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
     });
 
     it('takes full viewport height', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
       
       const navElement = screen.getByRole('navigation');
       
@@ -64,7 +75,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
     });
 
     it('provides scroll capability when content overflows', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
       
       const navElement = screen.getByRole('navigation');
       
@@ -73,7 +84,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
     });
 
     it('maintains proper z-index for layering above content', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
       
       const navElement = screen.getByRole('navigation');
       
@@ -85,7 +96,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
   describe('Content Area Integration', () => {
     it('provides structure that allows content area offset', () => {
       // This test ensures the navigation structure supports ml-[300px] offset
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
       
       const navElement = screen.getByRole('navigation');
       
@@ -115,7 +126,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
 
   describe('Visual Styling Requirements', () => {
     it('applies consistent background and border styling', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
       
       const navElement = screen.getByRole('navigation');
       
@@ -126,7 +137,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
     });
 
     it('provides proper padding and spacing', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
       
       const navElement = screen.getByRole('navigation');
       const contentContainer = navElement.querySelector('.p-6');
@@ -136,7 +147,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
     });
 
     it('applies consistent typography hierarchy', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
       
       // Main navigation heading
       const mainHeading = screen.getByRole('heading', { name: 'Navigation', level: 2 });
@@ -151,7 +162,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
     });
 
     it('provides proper spacing between modules', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
       
       const moduleContainers = screen.getByRole('navigation').querySelectorAll('.mb-6');
       
@@ -162,7 +173,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
 
   describe('Interactive State Styling', () => {
     it('applies hover state styling to focus area buttons', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
       
       const focusAreaButtons = screen.getAllByRole('menuitem');
       
@@ -174,7 +185,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
     });
 
     it('provides focus state styling for accessibility', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
       
       const focusAreaButtons = screen.getAllByRole('menuitem');
       
@@ -188,7 +199,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
     });
 
     it('includes smooth transition animations', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
       
       const focusAreaButtons = screen.getAllByRole('menuitem');
       
@@ -200,7 +211,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
     });
 
     it('maintains interactive states during user interaction', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
       
       const firstButton = screen.getByRole('menuitem', { name: 'Master View' });
       
@@ -236,7 +247,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
           value: height,
         });
         
-        render(<LeftNavigation />);
+        renderWithProvider(<LeftNavigation />);
         
         const navElement = screen.getByRole('navigation');
         
@@ -254,7 +265,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
         value: 320,
       });
       
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
       
       const navElement = screen.getByRole('navigation');
       
@@ -266,7 +277,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
 
   describe('Layout Integration with Root Layout', () => {
     it('provides correct class structure for layout integration', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
       
       const navElement = screen.getByRole('navigation');
       
@@ -282,7 +293,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
     });
 
     it('maintains proper semantic structure for layout', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
       
       // Should be a semantic nav element
       const navElement = screen.getByRole('navigation');
@@ -295,13 +306,13 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
 
   describe('Performance and Optimization', () => {
     it('renders efficiently without unnecessary re-renders', () => {
-      const { rerender } = render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
       
       // Initial render should work
       expect(screen.getByRole('navigation')).toBeInTheDocument();
       
       // Re-render with same props should not cause issues
-      rerender(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
       expect(screen.getByRole('navigation')).toBeInTheDocument();
       
       // Focus areas should still be clickable
@@ -311,7 +322,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
 
     it('handles rapid state changes without layout shifts', () => {
       const mockOnNavigate = jest.fn();
-      render(<LeftNavigation onNavigate={mockOnNavigate} />);
+      renderWithProvider(<LeftNavigation onNavigate={mockOnNavigate} />);
       
       const buttons = screen.getAllByRole('menuitem');
       
@@ -331,7 +342,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
   describe('CSS Class Integration', () => {
     it('combines custom className with layout classes correctly', () => {
       const customClass = 'custom-nav-styling';
-      render(<LeftNavigation className={customClass} />);
+      renderWithProvider(<LeftNavigation className={customClass} />);
       
       const navElement = screen.getByRole('navigation');
       
@@ -348,7 +359,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
 
     it('handles multiple custom classes correctly', () => {
       const customClasses = 'custom-nav custom-border shadow-lg';
-      render(<LeftNavigation className={customClasses} />);
+      renderWithProvider(<LeftNavigation className={customClasses} />);
       
       const navElement = screen.getByRole('navigation');
       
@@ -364,7 +375,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
 
   describe('Error Prevention and Edge Cases', () => {
     it('maintains layout stability with missing props', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
       
       const navElement = screen.getByRole('navigation');
       
@@ -373,7 +384,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
     });
 
     it('handles undefined className without layout issues', () => {
-      render(<LeftNavigation className={undefined} />);
+      renderWithProvider(<LeftNavigation className={undefined} />);
       
       const navElement = screen.getByRole('navigation');
       
@@ -383,7 +394,7 @@ describe('LeftNavigation T-002: Layout and Styling', () => {
 
     it('prevents layout breaks with extreme content', () => {
       // This tests what happens if someone modifies the component with long text
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
       
       const navElement = screen.getByRole('navigation');
       

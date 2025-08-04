@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import LeftNavigation from "@/components/navigation/left-navigation/LeftNavigation";
+import { LeftNavigationWithProvider } from "@/components/navigation/left-navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +28,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <LeftNavigation />
+        <LeftNavigationWithProvider />
         <main className="ml-[300px] min-h-screen">
           <div className="p-6">
             {children}

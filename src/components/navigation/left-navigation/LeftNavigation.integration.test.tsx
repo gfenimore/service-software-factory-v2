@@ -7,6 +7,17 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import LeftNavigation from './LeftNavigation';
+import { NavigationProvider } from './NavigationContext';
+
+// Test wrapper for navigation context
+function TestWrapper({ children }: { children: React.ReactNode }) {
+  return <NavigationProvider>{children}</NavigationProvider>;
+}
+
+// Helper function to render with navigation provider
+function renderWithProvider(component: React.ReactElement) {
+  return render(component, { wrapper: TestWrapper });
+}
 
 // Mock Next.js components and hooks
 jest.mock('next/navigation', () => ({
@@ -140,13 +151,13 @@ describe('LeftNavigation T-002: Integration Testing', () => {
   describe('Hydration and SSR Compatibility', () => {
     it('renders consistently on server and client', () => {
       // This test ensures no hydration mismatches
-      const serverRender = render(<LeftNavigation />);
+      const serverRender = renderWithProvider(<LeftNavigation />);
       const navigation1 = screen.getByRole('navigation');
 
       serverRender.unmount();
 
       // Client render should match
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
       const navigation2 = screen.getByRole('navigation');
 
       // Both should have same classes
@@ -155,7 +166,7 @@ describe('LeftNavigation T-002: Integration Testing', () => {
     });
 
     it('maintains consistent module and focus area structure', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       // Module structure should be consistent
       const modules = screen.getAllByRole('heading', { level: 3 });
@@ -167,7 +178,7 @@ describe('LeftNavigation T-002: Integration Testing', () => {
     });
 
     it('preserves semantic HTML structure for SSR', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       const navigation = screen.getByRole('navigation');
 
@@ -226,7 +237,7 @@ describe('LeftNavigation T-002: Integration Testing', () => {
 
   describe('Global Styles Integration', () => {
     it('integrates with Tailwind CSS system', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       const navigation = screen.getByRole('navigation');
 
@@ -242,7 +253,7 @@ describe('LeftNavigation T-002: Integration Testing', () => {
     });
 
     it('maintains consistent styling with global CSS variables', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       // Component should work with CSS custom properties if needed
       const navigation = screen.getByRole('navigation');
@@ -291,7 +302,7 @@ describe('LeftNavigation T-002: Integration Testing', () => {
 
   describe('Accessibility Integration', () => {
     it('maintains accessibility with layout constraints', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       const navigation = screen.getByRole('navigation');
 
@@ -343,7 +354,7 @@ describe('LeftNavigation T-002: Integration Testing', () => {
 
   describe('Mobile and Touch Integration', () => {
     it('handles touch interactions appropriately', () => {
-      render(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       const focusAreaButton = screen.getByRole('menuitem', { name: 'Master View' });
 
