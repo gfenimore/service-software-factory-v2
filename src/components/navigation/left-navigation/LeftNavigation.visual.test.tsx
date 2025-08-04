@@ -388,7 +388,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
         value: 1024,
       });
 
-      rerenderWithProvider(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       navigation = screen.getByRole('navigation');
       expect(navigation).toHaveClass('w-[300px]', 'h-screen');
@@ -403,7 +403,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
       const initialClasses = navigation.className;
 
       // Re-render (simulate content update)
-      rerenderWithProvider(<LeftNavigation />);
+      renderWithProvider(<LeftNavigation />);
 
       const updatedNavigation = screen.getByRole('navigation');
       expect(updatedNavigation.className).toBe(initialClasses);
@@ -416,7 +416,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
       expect(navigation).toHaveClass('w-[300px]', 'fixed');
 
       // Re-render with custom className
-      rerenderWithProvider(<LeftNavigation className="custom-class" />);
+      renderWithProvider(<LeftNavigation className="custom-class" />);
 
       navigation = screen.getByRole('navigation');
       expect(navigation).toHaveClass('w-[300px]', 'fixed', 'custom-class');

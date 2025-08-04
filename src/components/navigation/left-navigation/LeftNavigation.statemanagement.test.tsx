@@ -9,6 +9,13 @@ import '@testing-library/jest-dom';
 import { NavigationProvider, useNavigationContext } from './NavigationContext';
 import LeftNavigation from './LeftNavigation';
 
+// Define the NavigationState type to match your context
+interface NavigationState {
+  activeFocusArea: string | null;
+  error: Error | null;
+  isLoading: boolean;
+}
+
 // Enhanced router mock that returns promises
 const mockPush = jest.fn(() => Promise.resolve());
 const mockRouter = {
@@ -40,11 +47,11 @@ function renderWithProvider(component: React.ReactElement) {
 }
 
 // Test component to expose navigation state
-function NavigationStateInspector({ onStateChange }: { onStateChange: (state: unknown) => void }) {
+function NavigationStateInspector({ onStateChange }: { onStateChange: (state: NavigationState) => void }) {
   const { state } = useNavigationContext();
   
   React.useEffect(() => {
-    onStateChange(state);
+    onStateChange(state as NavigationState);
   }, [state, onStateChange]);
 
   return null;
@@ -58,8 +65,8 @@ describe('T-003: Navigation State Management', () => {
 
   describe('Single Active Focus Area Enforcement (BR-001)', () => {
     it('should enforce only one active focus area at a time', async () => {
-      const stateChanges: unknown[] = [];
-      const captureState = (state: unknown) => stateChanges.push(state);
+      const stateChanges: NavigationState[] = [];
+      const captureState = (state: NavigationState) => stateChanges.push(state);
 
       renderWithProvider(
         <>
@@ -121,8 +128,8 @@ describe('T-003: Navigation State Management', () => {
 
   describe('Navigation State Updates', () => {
     it('should update state correctly on navigation', async () => {
-      const stateChanges: unknown[] = [];
-      const captureState = (state: unknown) => stateChanges.push(state);
+      const stateChanges: NavigationState[] = [];
+      const captureState = (state: NavigationState) => stateChanges.push(state);
 
       renderWithProvider(
         <>
