@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import LeftNavigation from './LeftNavigation';
 import { NavigationProvider } from './NavigationContext';
@@ -45,6 +45,7 @@ describe('LeftNavigation Component', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    localStorage.clear();
   });
 
   describe('Component Rendering', () => {
@@ -98,7 +99,9 @@ describe('LeftNavigation Component', () => {
       
       EXPECTED_MODULES.forEach(module => {
         module.focusAreas.forEach(focusArea => {
-          expect(screen.getByRole('menuitem', { name: focusArea })).toBeInTheDocument();
+          expect(
+            screen.getByRole('menuitem', { name: `${focusArea} focus area` })
+          ).toBeInTheDocument();
         });
       });
     });
@@ -175,17 +178,16 @@ describe('LeftNavigation Component', () => {
   });
 
   describe('Click Interactions and onNavigate Callback', () => {
-    it('calls onNavigate with correct format when focus area clicked', () => {
+    it('calls onNavigate with correct format when focus area clicked', async () => {
       renderWithProvider(<LeftNavigation onNavigate={mockOnNavigate} />);
       
       const masterViewButton = screen.getByRole('menuitem', { name: 'Master View focus area' });
       fireEvent.click(masterViewButton);
-      
-      expect(mockOnNavigate).toHaveBeenCalledWith('accounts-master');
-      expect(mockOnNavigate).toHaveBeenCalledTimes(1);
+      await waitFor(() => expect(mockOnNavigate).toHaveBeenCalledWith('accounts-master'));
+      await waitFor(() => expect(mockOnNavigate).toHaveBeenCalledTimes(1));
     });
 
-    it('calls onNavigate with correct format for all focus areas', () => {
+    it('calls onNavigate with correct format for all focus areas', async () => {
       renderWithProvider(<LeftNavigation onNavigate={mockOnNavigate} />);
       
       const testCases = [
@@ -197,17 +199,15 @@ describe('LeftNavigation Component', () => {
         { buttonName: 'System Settings focus area', expectedCall: 'admin-settings' }
       ];
       
-      testCases.forEach(({ buttonName, expectedCall }, index) => {
+      testCases.forEach(async ({ buttonName, expectedCall }, index) => {
         const button = screen.getByRole('menuitem', { name: buttonName });
         fireEvent.click(button);
-        
-        expect(mockOnNavigate).toHaveBeenNthCalledWith(index + 1, expectedCall);
+        await waitFor(() => expect(mockOnNavigate).toHaveBeenNthCalledWith(index + 1, expectedCall));
       });
-      
-      expect(mockOnNavigate).toHaveBeenCalledTimes(6);
+      await waitFor(() => expect(mockOnNavigate).toHaveBeenCalledTimes(6));
     });
 
-    it('handles multiple clicks on same focus area', () => {
+    it('handles multiple clicks on same focus area', async () => {
       renderWithProvider(<LeftNavigation onNavigate={mockOnNavigate} />);
       
       const masterViewButton = screen.getByRole('menuitem', { name: 'Master View focus area' });
@@ -216,13 +216,13 @@ describe('LeftNavigation Component', () => {
       fireEvent.click(masterViewButton);
       fireEvent.click(masterViewButton);
       
-      expect(mockOnNavigate).toHaveBeenCalledTimes(3);
-      expect(mockOnNavigate).toHaveBeenNthCalledWith(1, 'Accounts > Master View');
-      expect(mockOnNavigate).toHaveBeenNthCalledWith(2, 'Accounts > Master View');
-      expect(mockOnNavigate).toHaveBeenNthCalledWith(3, 'Accounts > Master View');
+      await waitFor(() => expect(mockOnNavigate).toHaveBeenCalledTimes(3));
+      expect(mockOnNavigate).toHaveBeenNthCalledWith(1, 'accounts-master');
+      expect(mockOnNavigate).toHaveBeenNthCalledWith(2, 'accounts-master');
+      expect(mockOnNavigate).toHaveBeenNthCalledWith(3, 'accounts-master');
     });
 
-    it('handles clicks on different focus areas in sequence', () => {
+    it('handles clicks on different focus areas in sequence', async () => {
       renderWithProvider(<LeftNavigation onNavigate={mockOnNavigate} />);
       
       const accountsButton = screen.getByRole('menuitem', { name: 'Master View focus area' });
@@ -231,9 +231,9 @@ describe('LeftNavigation Component', () => {
       fireEvent.click(accountsButton);
       fireEvent.click(operationsButton);
       
+      await waitFor(() => expect(mockOnNavigate).toHaveBeenCalledTimes(2));
       expect(mockOnNavigate).toHaveBeenNthCalledWith(1, 'accounts-master');
       expect(mockOnNavigate).toHaveBeenNthCalledWith(2, 'operations-work-orders');
-      expect(mockOnNavigate).toHaveBeenCalledTimes(2);
     });
   });
 

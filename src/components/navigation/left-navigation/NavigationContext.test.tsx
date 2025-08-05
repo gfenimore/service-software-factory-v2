@@ -7,6 +7,12 @@ import { ReactNode } from 'react';
 import { NavigationProvider, useNavigationContext, useNavigationRouting } from './NavigationContext';
 import { DEFAULT_NAVIGATION_STATE } from './config';
 
+// Mock Next.js usePathname hook
+const mockUsePathname = jest.fn();
+jest.mock('next/navigation', () => ({
+  usePathname: () => mockUsePathname()
+}));
+
 // Test wrapper component
 function TestWrapper({ children }: { children: ReactNode }) {
   return <NavigationProvider>{children}</NavigationProvider>;
@@ -28,6 +34,7 @@ describe('NavigationContext', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     localStorageMock.getItem.mockReturnValue(null);
+    mockUsePathname.mockReturnValue('/');
   });
 
   describe('useNavigationContext', () => {
@@ -47,6 +54,7 @@ describe('NavigationContext', () => {
       const { result } = renderHook(() => useNavigationContext(), {
         wrapper: TestWrapper,
       });
+      act(() => {});
 
       expect(result.current.state).toEqual(DEFAULT_NAVIGATION_STATE);
       expect(result.current.actions).toHaveProperty('selectFocusArea');
@@ -210,6 +218,86 @@ describe('NavigationContext', () => {
       }).not.toThrow();
 
       expect(result.current.state.activeFocusArea).toBeNull();
+    });
+  });
+
+  describe('T-005: Auto-Restore Functionality', () => {
+    it('should auto-restore from URL on mount when pathname matches focus area', () => {
+      mockUsePathname.mockReturnValue('/accounts/master');
+
+      const { result } = renderHook(() => useNavigationContext(), {
+        wrapper: TestWrapper,
+      });
+      act(() => {});
+
+      expect(result.current.state.activeFocusArea).toBe('accounts-master');
+    });
+
+    it('should auto-restore from localStorage when no URL match', () => {
+      const storedState = {
+        activeFocusArea: 'operations-scheduling',
+        timestamp: Date.now()
+      };
+
+      mockUsePathname.mockReturnValue('/');
+      localStorageMock.getItem.mockReturnValue(JSON.stringify(storedState));
+
+      const { result } = renderHook(() => useNavigationContext(), {
+        wrapper: TestWrapper,
+      });
+      act(() => {});
+
+      // Wait for useEffect to complete
+      expect(result.current.state.activeFocusArea).toBe('operations-scheduling');
+    });
+
+    it('should prioritize URL over localStorage', () => {
+      const storedState = {
+        activeFocusArea: 'admin-users',
+        timestamp: Date.now()
+      };
+
+      mockUsePathname.mockReturnValue('/accounts/reports');
+      localStorageMock.getItem.mockReturnValue(JSON.stringify(storedState));
+
+      const { result } = renderHook(() => useNavigationContext(), {
+        wrapper: TestWrapper,
+      });
+      act(() => {});
+
+      // URL should take priority
+      expect(result.current.state.activeFocusArea).toBe('accounts-reports');
+    });
+
+    it('should fallback to null when no URL match and no localStorage', () => {
+      mockUsePathname.mockReturnValue('/some/unknown/path');
+      localStorageMock.getItem.mockReturnValue(null);
+
+      const { result } = renderHook(() => useNavigationContext(), {
+        wrapper: TestWrapper,
+      });
+      act(() => {});
+
+      expect(result.current.state.activeFocusArea).toBeNull();
+    });
+
+    it('should update when pathname changes', () => {
+      mockUsePathname.mockReturnValue('/');
+      
+      const { result, rerender } = renderHook(() => useNavigationContext(), {
+        wrapper: TestWrapper,
+      });
+      act(() => {});
+
+      expect(result.current.state.activeFocusArea).toBeNull();
+
+      // Change pathname
+      mockUsePathname.mockReturnValue('/operations/work-orders');
+      
+      // Rerender to trigger useEffect
+      rerender();
+
+      expect(result.current.state.activeFocusArea).toBe('operations-work-orders');
     });
   });
 

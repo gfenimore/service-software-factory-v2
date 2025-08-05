@@ -31,14 +31,16 @@ jest.mock('next/navigation', () => ({
 
 // Mock layout component for integration testing
 const MockRootLayout = ({ children }: { children: React.ReactNode }) => (
-  <div className="mock-root-layout">
-    <LeftNavigation />
-    <main className="ml-[300px] min-h-screen">
-      <div className="p-6">
-        {children}
-      </div>
-    </main>
-  </div>
+  <NavigationProvider>
+    <div className="mock-root-layout">
+      <LeftNavigation />
+      <main className="ml-[300px] min-h-screen">
+        <div className="p-6">
+          {children}
+        </div>
+      </main>
+    </div>
+  </NavigationProvider>
 );
 
 const MockPageContent = () => (
@@ -50,6 +52,11 @@ const MockPageContent = () => (
     </div>
   </div>
 );
+
+// Clear persisted navigation state between tests
+beforeEach(() => {
+  localStorage.clear();
+});
 
 describe('LeftNavigation T-002: Integration Testing', () => {
   describe('Root Layout Integration', () => {
@@ -279,7 +286,7 @@ describe('LeftNavigation T-002: Integration Testing', () => {
       const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
 
       try {
-        render(<PotentiallyErrorComponent shouldError={false} />);
+        renderWithProvider(<PotentiallyErrorComponent shouldError={false} />);
         expect(screen.getByRole('navigation')).toBeInTheDocument();
       } finally {
         consoleError.mockRestore();
@@ -287,7 +294,7 @@ describe('LeftNavigation T-002: Integration Testing', () => {
     });
 
     it('maintains layout structure even with partial component failures', () => {
-      render(
+      renderWithProvider(
         <div>
           <LeftNavigation />
           <div data-testid="other-component">Other Component</div>
@@ -310,7 +317,7 @@ describe('LeftNavigation T-002: Integration Testing', () => {
       expect(navigation).toHaveAttribute('aria-label', 'Main navigation');
 
       // Focus management should work
-      const firstFocusArea = screen.getByRole('menuitem', { name: 'Master View' });
+      const firstFocusArea = screen.getByRole('menuitem', { name: 'Master View focus area' });
       firstFocusArea.focus();
       expect(firstFocusArea).toHaveFocus();
     });
@@ -356,7 +363,7 @@ describe('LeftNavigation T-002: Integration Testing', () => {
     it('handles touch interactions appropriately', () => {
       renderWithProvider(<LeftNavigation />);
 
-      const focusAreaButton = screen.getByRole('menuitem', { name: 'Master View' });
+      const focusAreaButton = screen.getByRole('menuitem', { name: 'Master View focus area' });
 
       // Should be touchable (button element)
       expect(focusAreaButton.tagName).toBe('BUTTON');

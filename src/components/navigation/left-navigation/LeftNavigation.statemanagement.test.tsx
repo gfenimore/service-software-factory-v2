@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { NavigationProvider, useNavigationContext } from './NavigationContext';
 import LeftNavigation from './LeftNavigation';
@@ -61,45 +61,50 @@ describe('T-003: Navigation State Management', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockPush.mockClear();
+    localStorage.clear();
   });
 
   describe('Single Active Focus Area Enforcement (BR-001)', () => {
     it('should enforce only one active focus area at a time', async () => {
       const stateChanges: NavigationState[] = [];
       const captureState = (state: NavigationState) => stateChanges.push(state);
-
-      renderWithProvider(
-        <>
-          <LeftNavigation />
-          <NavigationStateInspector onStateChange={captureState} />
-        </>
-      );
-
+      
+      await act(async () => {
+        renderWithProvider(
+          <>
+            <LeftNavigation />
+            <NavigationStateInspector onStateChange={captureState} />
+          </>
+        );
+      });
+       
       // Click first focus area
       const masterViewButton = screen.getByRole('menuitem', { name: 'Master View focus area' });
       fireEvent.click(masterViewButton);
-
+       
       await waitFor(() => {
         const latestState = stateChanges[stateChanges.length - 1];
         expect(latestState.activeFocusArea).toBe('accounts-master');
       });
-
+       
       // Click different focus area
       const workOrdersButton = screen.getByRole('menuitem', { name: 'Work Orders focus area' });
       fireEvent.click(workOrdersButton);
-
+       
       await waitFor(() => {
         const latestState = stateChanges[stateChanges.length - 1];
         expect(latestState.activeFocusArea).toBe('operations-work-orders');
       });
-
+       
       // Verify only one is active
       const finalState = stateChanges[stateChanges.length - 1];
       expect(finalState.activeFocusArea).toBe('operations-work-orders');
     });
 
     it('should show visual active state for selected focus area', async () => {
-      renderWithProvider(<LeftNavigation />);
+      await act(async () => {
+        renderWithProvider(<LeftNavigation />);
+      });
 
       const masterViewButton = screen.getByRole('menuitem', { name: 'Master View focus area' });
       const workOrdersButton = screen.getByRole('menuitem', { name: 'Work Orders focus area' });

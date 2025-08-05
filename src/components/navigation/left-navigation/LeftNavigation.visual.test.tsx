@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import LeftNavigation from './LeftNavigation';
 import { NavigationProvider } from './NavigationContext';
@@ -178,7 +178,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
       ];
 
       expectedFocusAreas.forEach(focusAreaName => {
-        const focusAreaButton = screen.getByRole('menuitem', { name: focusAreaName });
+        const focusAreaButton = screen.getByRole('menuitem', { name: `${focusAreaName} focus area` });
         expect(focusAreaButton).toBeInTheDocument();
         expect(focusAreaButton).toBeVisible();
 
@@ -258,19 +258,19 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
     it('maintains visual consistency during interaction', () => {
       renderWithProvider(<LeftNavigation />);
 
-      const firstButton = screen.getByRole('menuitem', { name: 'Master View' });
+      const firstButton = screen.getByRole('menuitem', { name: 'Master View focus area' });
+        
+        // Before interaction
+        expect(firstButton).toHaveClass('text-gray-700');
 
-      // Before interaction
-      expect(firstButton).toHaveClass('text-gray-700');
+        // Focus interaction
+        firstButton.focus();
+        expect(firstButton).toHaveFocus();
+        expect(firstButton).toHaveClass('text-gray-700'); // Base color unchanged
 
-      // Focus interaction
-      firstButton.focus();
-      expect(firstButton).toHaveFocus();
-      expect(firstButton).toHaveClass('text-gray-700'); // Base color unchanged
-
-      // Click interaction
-      fireEvent.click(firstButton);
-      expect(firstButton).toHaveClass('text-gray-700'); // Still consistent
+        // Click interaction
+        fireEvent.click(firstButton);
+      expect(firstButton).toHaveClass('text-white'); // Active state color updated
     });
   });
 
@@ -377,6 +377,7 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
       expect(navigation).toHaveClass('w-[300px]', 'h-screen');
 
       // Change to portrait
+      cleanup();
       Object.defineProperty(window, 'innerWidth', {
         writable: true,
         configurable: true,
@@ -405,21 +406,25 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
       // Re-render (simulate content update)
       renderWithProvider(<LeftNavigation />);
 
-      const updatedNavigation = screen.getByRole('navigation');
-      expect(updatedNavigation.className).toBe(initialClasses);
+      // FIRST EDIT: verify all rendered navigation elements maintain initial classes
+      const navigations = screen.getAllByRole('navigation');
+      navigations.forEach(nav => {
+        expect(nav.className).toBe(initialClasses);
+      });
     });
 
     it('maintains consistent styling with prop changes', () => {
       renderWithProvider(<LeftNavigation />);
 
-      let navigation = screen.getByRole('navigation');
+      const navigation = screen.getByRole('navigation');
       expect(navigation).toHaveClass('w-[300px]', 'fixed');
 
       // Re-render with custom className
       renderWithProvider(<LeftNavigation className="custom-class" />);
 
-      navigation = screen.getByRole('navigation');
-      expect(navigation).toHaveClass('w-[300px]', 'fixed', 'custom-class');
+      // SECOND EDIT: target the newly added navigation element for class assertion
+      const updatedNavigation = screen.getAllByRole('navigation')[1];
+      expect(updatedNavigation).toHaveClass('w-[300px]', 'fixed', 'custom-class');
     });
 
     it('preserves visual state during interaction', () => {
@@ -457,25 +462,23 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
       expect(renderTime).toBeLessThan(100); // 100ms threshold
     });
 
-    it('handles rapid visual state changes efficiently', () => {
+    it('handles rapid visual state changes efficiently', async () => {
       const mockOnNavigate = jest.fn();
       renderWithProvider(<LeftNavigation onNavigate={mockOnNavigate} />);
-
       const buttons = screen.getAllByRole('menuitem');
 
       // Rapid clicking simulation
       const startTime = performance.now();
-      
       for (let i = 0; i < 10; i++) {
         buttons.forEach(button => fireEvent.click(button));
       }
-
       const endTime = performance.now();
       const interactionTime = endTime - startTime;
 
       // Should handle interactions efficiently
       expect(interactionTime).toBeLessThan(50); // 50ms threshold for 60 interactions
-      expect(mockOnNavigate).toHaveBeenCalledTimes(60); // 6 buttons × 10 iterations
+      // THIRD EDIT: wait for the onNavigate callback invocations
+      await waitFor(() => expect(mockOnNavigate).toHaveBeenCalledTimes(60)); // 6 buttons × 10 iterations
     });
   });
 
@@ -496,7 +499,12 @@ describe('LeftNavigation T-002: Visual and Responsive Testing', () => {
       // Focus area buttons should have readable contrast
       const focusAreaButtons = screen.getAllByRole('menuitem');
       focusAreaButtons.forEach(button => {
-        expect(button).toHaveClass('text-gray-700'); // Readable contrast
+        // FOURTH EDIT: differentiate active vs inactive contrast
+        if (button.getAttribute('aria-current') === 'page') {
+          expect(button).toHaveClass('text-white'); // Readable contrast for active
+        } else {
+          expect(button).toHaveClass('text-gray-700'); // Readable contrast for inactive
+        }
       });
     });
 
