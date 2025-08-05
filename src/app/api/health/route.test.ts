@@ -1,10 +1,27 @@
 import { GET } from './route'
-import { NextRequest } from 'next/server'
+
+// Mock Supabase client
+jest.mock('@/lib/supabase/client', () => ({
+  createClient: () => ({
+    from: () => ({
+      select: () => ({
+        limit: () => Promise.resolve({ error: null })
+      })
+    })
+  })
+}))
+
+// Mock logger
+jest.mock('@/lib/logger', () => ({
+  logger: {
+    info: jest.fn(),
+    error: jest.fn()
+  }
+}))
 
 describe('GET /api/health', () => {
   it('should return healthy status', async () => {
-    const request = new NextRequest('http://localhost:3000/api/health')
-    const response = await GET(request)
+    const response = await GET()
     const data = await response.json()
 
     expect(response.status).toBe(200)
