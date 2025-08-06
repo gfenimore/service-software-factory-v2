@@ -1,21 +1,25 @@
 # API Route Testing Guide for Next.js 14
 
 ## Overview
+
 This guide explains how to properly test Next.js 14 API routes with Jest, using proper Request/Response polyfills without workarounds.
 
 ## Setup Summary
 
 ### 1. **Separate Jest Configurations**
+
 - `jest.config.mjs` - For React component tests (uses jsdom environment)
 - `jest.config.api.mjs` - For API route tests (uses node environment)
 
 ### 2. **Key Dependencies**
+
 - `jest` - Test runner
 - `undici` - Provides Web API polyfills (Request, Response, Headers)
 - `@testing-library/jest-dom` - DOM assertions
 - Standard Next.js dependencies
 
 ### 3. **Setup Files**
+
 - `jest.setup.js` - Component test setup
 - `jest.setup.api.js` - API test setup with Request/Response polyfills
 
@@ -42,40 +46,43 @@ npm run test:api:coverage     # API routes
 ## Writing API Route Tests
 
 ### Basic GET Request Test
+
 ```typescript
-import { GET } from '@/app/api/health/route';
+import { GET } from '@/app/api/health/route'
 
 it('should return healthy status', async () => {
-  const response = await GET();
-  const data = await response.json();
-  
-  expect(response.status).toBe(200);
-  expect(data.status).toBe('healthy');
-});
+  const response = await GET()
+  const data = await response.json()
+
+  expect(response.status).toBe(200)
+  expect(data.status).toBe('healthy')
+})
 ```
 
 ### GET Request with Query Parameters
+
 ```typescript
-import { GET } from '@/app/api/example/route';
-import { NextRequest } from 'next/server';
+import { GET } from '@/app/api/example/route'
+import { NextRequest } from 'next/server'
 
 it('should handle query parameters', async () => {
   const request = new NextRequest(
     new Request('http://localhost:3000/api/example?name=John&role=admin')
-  );
-  
-  const response = await GET(request);
-  const data = await response.json();
-  
-  expect(response.status).toBe(200);
-  expect(data.message).toBe('Hello, John!');
-});
+  )
+
+  const response = await GET(request)
+  const data = await response.json()
+
+  expect(response.status).toBe(200)
+  expect(data.message).toBe('Hello, John!')
+})
 ```
 
 ### POST Request with Body
+
 ```typescript
-import { POST } from '@/app/api/users/route';
-import { NextRequest } from 'next/server';
+import { POST } from '@/app/api/users/route'
+import { NextRequest } from 'next/server'
 
 it('should create user', async () => {
   const request = new NextRequest(
@@ -89,37 +96,40 @@ it('should create user', async () => {
         email: 'john@example.com',
       }),
     })
-  );
-  
-  const response = await POST(request);
-  const data = await response.json();
-  
-  expect(response.status).toBe(201);
-  expect(data.name).toBe('John Doe');
-});
+  )
+
+  const response = await POST(request)
+  const data = await response.json()
+
+  expect(response.status).toBe(201)
+  expect(data.name).toBe('John Doe')
+})
 ```
 
 ### Testing Error Scenarios
+
 ```typescript
 it('should handle database errors', async () => {
   // Mock your database client to throw an error
   createClientMock.mockReturnValueOnce({
     from: jest.fn(() => ({
       select: jest.fn(() => ({
-        limit: jest.fn(() => Promise.resolve({ 
-          data: null, 
-          error: new Error('Connection failed') 
-        })),
+        limit: jest.fn(() =>
+          Promise.resolve({
+            data: null,
+            error: new Error('Connection failed'),
+          })
+        ),
       })),
     })),
-  });
+  })
 
-  const response = await GET();
-  const data = await response.json();
-  
-  expect(response.status).toBe(500);
-  expect(data.error).toBeDefined();
-});
+  const response = await GET()
+  const data = await response.json()
+
+  expect(response.status).toBe(500)
+  expect(data.error).toBeDefined()
+})
 ```
 
 ## Key Points
@@ -132,12 +142,15 @@ it('should handle database errors', async () => {
 ## Common Issues and Solutions
 
 ### Issue: "Request is not defined"
+
 **Solution**: Ensure you're using the API test config: `npm run test:api`
 
 ### Issue: Tests interfering with each other
+
 **Solution**: API tests are isolated from component tests via separate configs
 
 ### Issue: Environment variables not loading
+
 **Solution**: Check `jest.setup.api.js` for environment variable mocks
 
 ## Best Practices
@@ -148,6 +161,7 @@ it('should handle database errors', async () => {
 4. **Test edge cases** - Include tests for validation, errors, and edge cases
 
 ## Example Test Structure
+
 ```
 src/
 ├── app/
@@ -160,4 +174,4 @@ src/
 │           └── route.test.ts
 ```
 
-This setup provides a clean, hack-free way to test Next.js 14 API routes with full type safety and proper Web API support. 
+This setup provides a clean, hack-free way to test Next.js 14 API routes with full type safety and proper Web API support.

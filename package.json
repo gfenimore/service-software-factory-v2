@@ -20,7 +20,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "validate": "npm run type-check && npm run lint && npm run test:ci",
-    "quality-check": "node scripts/quality-check.js"
+    "quality-check": "node scripts/quality-check.js",
+    "sdlc:inventory": "node scripts/generate-sdlc-inventory.js",
+    "install:jq": "bash scripts/install-jq.sh"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
