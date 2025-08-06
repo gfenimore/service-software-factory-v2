@@ -8,7 +8,7 @@ export type FocusAreaId =
   | 'operations-work-orders' | 'operations-scheduling'  
   | 'admin-users' | 'admin-settings';
 
-export type PlaceholderType = 'accounts-3column' | 'coming-soon';
+export type PlaceholderType = 'accounts-3column' | 'coming-soon' | 'implemented';
 
 export type NavigationRoute = 
   | '/accounts/master' | '/accounts/reports' 

@@ -19,8 +19,8 @@ export const NAVIGATION_CONFIG: ModuleDefinition[] = [
         id: 'accounts-reports', 
         moduleId: 'accounts',
         name: 'Reports', 
-        route: '/accounts/reports', 
-        placeholder: 'coming-soon' 
+        route: '/accounts/reports',
+        placeholder: 'implemented'
       }
     ]
   },

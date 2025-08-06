@@ -268,23 +268,79 @@ If you cannot complete the task breakdown:
 3. Do NOT continue with partial/incorrect output
 4. Do NOT save file to wrong location
 
-## Next Agent Invocation
+## COMPLETION AND HANDOFF
 
-If all success criteria met, invoke:
+After successfully creating the task breakdown, you MUST include this section at the end of your output:
+
+````markdown
+## 🤝 Agent Handoff Status
+
+### Completion Checklist:
+
+- ✅ Requirements found and analyzed
+- ✅ [X] tasks created with all required fields
+- ✅ Business rules mapped to tasks
+- ✅ Verification commands specified
+- ✅ Commit checkpoints defined
+- ✅ Saved to: `.cursor/artifacts/current/planning/${CURRENT_STORY}-tasks.md`
+
+### Quality Gate Status: PASSED ✅
+
+**Ready for ARCHITECT agent**
+
+### Auto-Launch Configuration:
+
+```yaml
+next_agent: architect
+command: create-technical-design
+parameters: ${CURRENT_STORY}
+confidence: HIGH
+validation_passed: true
+```
+````
+
+### Manual Invocation (Option C - Current Mode):
+
+To proceed with technical design:
 
 ```
-@architect design
+@architect create-technical-design ${CURRENT_STORY}
 ```
 
-(Architect will read current story from session-state.json)
+<!--
+Future Auto-Launch (when enabled):
+if quality_gate == "PASSED" and confidence == "HIGH":
+    @architect create-technical-design ${CURRENT_STORY}
+-->
+
+````
+
+If quality gate FAILED, instead show:
+
+```markdown
+## 🚨 Agent Handoff Status
+
+### Quality Gate Status: FAILED ❌
+
+**Issues Found**:
+- [List specific problems]
+
+**Human Intervention Required**
+
+### Recommended Actions:
+1. [Specific fix needed]
+2. [Another fix needed]
+
+**DO NOT proceed to ARCHITECT until issues resolved**
+````
 
 ## FINAL INSTRUCTION
 
-After creating your task breakdown:
+Your output MUST:
 
-1. Save to: `.cursor/artifacts/current/planning/${CURRENT_STORY}-tasks.md`
-2. Verify file exists at correct location
-3. Report success or failure honestly
-4. The ARCHITECT agent depends on finding this file at the exact location specified
+1. Create the actual task breakdown file at the correct location
+2. Include all required task fields and business rule mappings
+3. End with the Agent Handoff Status section
+4. Be ready for ARCHITECT to consume immediately
 
-Remember: Your enhanced task breakdown should make business rules, acceptance criteria, and Gherkin scenarios directly implementable by the development team.
+Remember: The ARCHITECT agent depends on finding your file at the exact location specified AND seeing a PASSED quality gate status.
