@@ -1,0 +1,45 @@
+{
+  "current_story": "US-005",
+  "story_description": "account-details",
+  "phase": "planning_complete",
+  "devops_mode": "standard",
+  "devops_initialized": true,
+  "feature_branch": "feature/US-005-account-details",
+  "workflow_path": "standard",
+  "created_at": "2024-12-19T16:30:00Z",
+  "tasks_completed": 0,
+  "tasks_total": 11,
+  "planner_ran_early": true,
+  "value_slices": [
+    {
+      "slice_number": 1,
+      "name": "Basic Details Panel",
+      "tasks": ["T-001", "T-002", "T-003", "T-004"],
+      "user_value": "Click 'View Details' on any account card and see extended account information in a panel",
+      "estimated_time": "2 hours",
+      "status": "not_started"
+    },
+    {
+      "slice_number": 2,
+      "name": "Enhanced Interactions",
+      "tasks": ["T-005", "T-006", "T-007"],
+      "user_value": "Navigate details naturally with keyboard, click outside to close, and have only one panel open at a time",
+      "estimated_time": "1.5 hours",
+      "status": "not_started"
+    },
+    {
+      "slice_number": 3,
+      "name": "Complete Data Display",
+      "tasks": ["T-008", "T-009", "T-010", "T-011"],
+      "user_value": "View all account details with proper formatting and graceful handling of missing data",
+      "estimated_time": "1.5 hours",
+      "status": "not_started"
+    }
+  ],
+  "error_budget_used": {
+    "test_failures": 0,
+    "typescript_errors": 0,
+    "eslint_warnings": 0,
+    "time_spent_minutes": 0
+  }
+}
