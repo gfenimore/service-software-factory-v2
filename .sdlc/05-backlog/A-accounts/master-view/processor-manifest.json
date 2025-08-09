@@ -1,0 +1,142 @@
+{
+  "story": "US-004",
+  "slice": 1,
+  "architecture_doc": ".sdlc/05-backlog/A-accounts/master-view/us-004-architecture.md",
+  "analysis_timestamp": "2024-12-19T18:00:00Z",
+  "processors": [
+    {
+      "sequence": 1,
+      "processor": "TYPE-PROCESSOR",
+      "purpose": "Create all TypeScript interfaces for layout components",
+      "input": ".sdlc/05-backlog/A-accounts/master-view/us-004-architecture.md",
+      "output": "src/types/masterView.types.ts",
+      "interfaces": [
+        "MasterViewLayoutProps",
+        "LayoutGridAreas",
+        "ColumnContainerProps",
+        "AccountsColumnHeaderProps",
+        "PageLayoutIntegration"
+      ],
+      "estimated_time_minutes": 5,
+      "validation": "npm run type-check"
+    },
+    {
+      "sequence": 2,
+      "processor": "SCAFFOLD-PROCESSOR",
+      "purpose": "Create MasterViewLayout component shell",
+      "task": "T-001",
+      "component": "MasterViewLayout",
+      "input": ".sdlc/05-backlog/A-accounts/master-view/us-004-architecture.md",
+      "output": "src/components/master-view/MasterViewLayout.tsx",
+      "needs_client": false,
+      "estimated_time_minutes": 5,
+      "validation": "npm run type-check"
+    },
+    {
+      "sequence": 3,
+      "processor": "SCAFFOLD-PROCESSOR",
+      "purpose": "Create ColumnContainer component shell",
+      "task": "T-002",
+      "component": "ColumnContainer",
+      "input": ".sdlc/05-backlog/A-accounts/master-view/us-004-architecture.md",
+      "output": "src/components/master-view/ColumnContainer.tsx",
+      "needs_client": false,
+      "estimated_time_minutes": 5,
+      "validation": "npm run type-check"
+    },
+    {
+      "sequence": 4,
+      "processor": "SCAFFOLD-PROCESSOR",
+      "purpose": "Create AccountsColumnHeader component shell",
+      "task": "T-003",
+      "component": "AccountsColumnHeader",
+      "input": ".sdlc/05-backlog/A-accounts/master-view/us-004-architecture.md",
+      "output": "src/components/accounts/AccountsColumnHeader.tsx",
+      "needs_client": false,
+      "estimated_time_minutes": 5,
+      "validation": "npm run type-check"
+    },
+    {
+      "sequence": 5,
+      "processor": "REACT-PROCESSOR",
+      "purpose": "Add CSS Grid layout logic to MasterViewLayout",
+      "task": "T-001",
+      "component": "MasterViewLayout",
+      "input": "src/components/master-view/MasterViewLayout.tsx",
+      "output": "src/components/master-view/MasterViewLayout.tsx",
+      "logic_type": "layout",
+      "estimated_time_minutes": 5,
+      "validation": "npm run dev && verify grid layout"
+    },
+    {
+      "sequence": 6,
+      "processor": "REACT-PROCESSOR",
+      "purpose": "Add scrolling logic to ColumnContainer",
+      "task": "T-002",
+      "component": "ColumnContainer",
+      "input": "src/components/master-view/ColumnContainer.tsx",
+      "output": "src/components/master-view/ColumnContainer.tsx",
+      "logic_type": "scrolling",
+      "estimated_time_minutes": 3,
+      "validation": "npm run dev && verify scrolling"
+    },
+    {
+      "sequence": 7,
+      "processor": "REACT-PROCESSOR",
+      "purpose": "Add count display logic to AccountsColumnHeader",
+      "task": "T-003",
+      "component": "AccountsColumnHeader",
+      "input": "src/components/accounts/AccountsColumnHeader.tsx",
+      "output": "src/components/accounts/AccountsColumnHeader.tsx",
+      "logic_type": "display",
+      "estimated_time_minutes": 2,
+      "validation": "npm run dev && verify count displays"
+    },
+    {
+      "sequence": 8,
+      "processor": "MODIFY-PROCESSOR",
+      "purpose": "Integrate all layout components into main page",
+      "task": "T-004",
+      "target_file": "src/app/page.tsx",
+      "modifications": [
+        "Import MasterViewLayout, ColumnContainer, AccountsColumnHeader",
+        "Replace existing content with MasterViewLayout wrapper",
+        "Add three ColumnContainers to grid areas",
+        "Add AccountsColumnHeader to first column"
+      ],
+      "estimated_time_minutes": 5,
+      "validation": "npm run dev && verify complete three-column layout"
+    }
+  ],
+  "summary": {
+    "total_processors": 8,
+    "unique_processors": 4,
+    "total_estimated_minutes": 35,
+    "components_to_create": 3,
+    "files_to_modify": 1,
+    "validation_gates": 8
+  },
+  "execution_script": {
+    "filename": "run-us004-slice1.sh",
+    "commands": [
+      "# Step 1: Create all types",
+      "invoke-processor type-processor us-004-types",
+      "",
+      "# Step 2: Scaffold all components",
+      "invoke-processor scaffold-processor T-001",
+      "invoke-processor scaffold-processor T-002",
+      "invoke-processor scaffold-processor T-003",
+      "",
+      "# Step 3: Add React logic to each component",
+      "invoke-processor react-processor T-001",
+      "invoke-processor react-processor T-002",
+      "invoke-processor react-processor T-003",
+      "",
+      "# Step 4: Integration",
+      "invoke-processor modify-processor T-004",
+      "",
+      "# Final validation",
+      "npm run type-check && npm run dev"
+    ]
+  }
+}
