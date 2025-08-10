@@ -10,9 +10,39 @@ export interface AccountCardProps {
 }
 
 export function AccountCard({ account, isSelected, onSelect, onViewDetails }: AccountCardProps) {
+  const handleClick = () => {
+    if (onSelect) {
+      onSelect(account)
+    }
+  }
+
   return (
-    <div data-testid="account-card">
-      Component Works!
+    <div 
+      data-testid="account-card"
+      onClick={handleClick}
+      className={`
+        bg-white border rounded-lg p-4 mb-3 cursor-pointer transition-all duration-200
+        hover:shadow-md hover:bg-gray-50
+        ${isSelected 
+          ? 'border-blue-500 bg-blue-50 shadow-md' 
+          : 'border-gray-200'
+        }
+      `}
+    >
+      <div className="flex flex-col space-y-2">
+        <h3 className="font-semibold text-gray-900 text-sm truncate">
+          {account.company_name}
+        </h3>
+        
+        <div className="text-xs text-gray-600">
+          <div className="truncate">
+            Contact: {account.contact_name || 'No contact'}
+          </div>
+          <div className="truncate">
+            Location: {account.billing_city || 'No location'}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

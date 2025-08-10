@@ -9,6 +9,22 @@
 const fs = require('fs');
 const path = require('path');
 
+// Load path configuration
+const loadPathConfig = () => {
+  const configPath = '.sdlc/config/path-config.json';
+  if (fs.existsSync(configPath)) {
+    return JSON.parse(fs.readFileSync(configPath, 'utf8'));
+  }
+  // Fallback defaults
+  return {
+    paths: {
+      manifestPath: '.sdlc/05-backlog/A-accounts/master-view/'
+    }
+  };
+};
+
+const config = loadPathConfig();
+
 class ManifestPreValidator {
   constructor(manifestPath) {
     this.manifestPath = manifestPath;
@@ -305,7 +321,7 @@ class ManifestPreValidator {
 
 // Main execution
 function main() {
-  const manifestPath = process.argv[2] || '.sdlc/05-backlog/A-accounts/master-view/processor-manifest.json';
+  const manifestPath = process.argv[2] || path.join(config.paths.manifestPath, 'processor-manifest.json');
   
   console.log('\x1b[34m🔍 Manifest Pre-Validation Tool\x1b[0m');
   console.log(`Analyzing: ${manifestPath}\n`);

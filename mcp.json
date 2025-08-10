@@ -1,0 +1,27 @@
+{
+  "mcpServers": {
+    "supabase": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@supabase/mcp-server-supabase@latest",
+        "--access-token",
+        "sbp_ee93c96326503d1fd49d42c344122dd9733ef83f"
+      ]
+    },
+    "Context7": {
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "GitHub": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github",
+        "--token",
+        "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ithub_pat_11AOD3WWQ0bgZkuzy0EPev_U3JPyGzWJTNfntKJfjmekdi4UZ4jIYxQ6LyleIgKhAvYJ2WNPCQxXzRY1PP"
+      ]
+    }
+  }
+}

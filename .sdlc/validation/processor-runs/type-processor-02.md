@@ -8,7 +8,7 @@ _Exported on 8/8/2025 at 09:26:11 EDT from Cursor (1.4.2)_
 @type-processor process-architecture
 
 You are TYPE-PROCESSOR. Your prompt is in:
-.sdlc/01-core/A-agents/processors/type-processor-v1.md
+.sdlc/01-core/A-agents/processors/type-processor.md
 
 Process this input:
 .sdlc/05-backlog/A-accounts/master-view/us-005-architecture.md

@@ -8,10 +8,27 @@
 const fs = require('fs');
 const path = require('path');
 
+// Load path configuration
+const loadPathConfig = () => {
+  const configPath = '.sdlc/config/path-config.json';
+  if (fs.existsSync(configPath)) {
+    return JSON.parse(fs.readFileSync(configPath, 'utf8'));
+  }
+  // Fallback defaults
+  return {
+    paths: {
+      userStoriesPath: '.sdlc/05-backlog/A-accounts/',
+      manifestPath: '.sdlc/05-backlog/A-accounts/master-view/',
+      currentWorkPath: '.sdlc/current-work/'
+    }
+  };
+};
+
 class ValueSliceExtractor {
   constructor() {
     this.slices = [];
     this.story = null;
+    this.config = loadPathConfig();
   }
 
   // Parse a task file for value slices
@@ -109,7 +126,7 @@ class ValueSliceExtractor {
 
   // Check which slices are completed
   checkCompletedSlices() {
-    const manifestDir = '.sdlc/05-backlog/A-accounts/master-view';
+    const manifestDir = this.config.paths.manifestPath;
     
     this.slices.forEach(slice => {
       const manifestPath = path.join(manifestDir, `processor-manifest-vs${slice.number}.json`);

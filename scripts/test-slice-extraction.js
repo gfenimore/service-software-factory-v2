@@ -5,6 +5,24 @@
  */
 
 const fs = require('fs');
+const path = require('path');
+
+// Load path configuration
+const loadPathConfig = () => {
+  const configPath = '.sdlc/config/path-config.json';
+  if (fs.existsSync(configPath)) {
+    return JSON.parse(fs.readFileSync(configPath, 'utf8'));
+  }
+  // Fallback defaults
+  return {
+    paths: {
+      manifestPath: '.sdlc/05-backlog/A-accounts/master-view/'
+    }
+  };
+};
+
+const config = loadPathConfig();
+const manifestDir = config.paths.manifestPath;
 
 // Hardcoded slice data for us-004 based on the file
 const sliceData = {
@@ -15,7 +33,7 @@ const sliceData = {
       name: "Three-Column Layout Foundation",
       tasks: ["T-001", "T-002", "T-003", "T-004"],
       userValue: "See properly structured three-column layout",
-      manifestExists: fs.existsSync('.sdlc/05-backlog/A-accounts/master-view/processor-manifest-vs1.json'),
+      manifestExists: fs.existsSync(path.join(manifestDir, 'processor-manifest-vs1.json')),
       status: "ready"
     },
     {
@@ -23,7 +41,7 @@ const sliceData = {
       name: "Account Cards Display",
       tasks: ["T-005", "T-006", "T-007", "T-008"],
       userValue: "View all accounts as informative cards",
-      manifestExists: fs.existsSync('.sdlc/05-backlog/A-accounts/master-view/processor-manifest-vs2.json'),
+      manifestExists: fs.existsSync(path.join(manifestDir, 'processor-manifest-vs2.json')),
       status: "ready"
     },
     {
@@ -31,7 +49,7 @@ const sliceData = {
       name: "Interactive Selection",
       tasks: ["T-009", "T-010", "T-011"],
       userValue: "Select accounts with clear visual feedback",
-      manifestExists: fs.existsSync('.sdlc/05-backlog/A-accounts/master-view/processor-manifest-vs3.json'),
+      manifestExists: fs.existsSync(path.join(manifestDir, 'processor-manifest-vs3.json')),
       status: "pending"
     }
   ],

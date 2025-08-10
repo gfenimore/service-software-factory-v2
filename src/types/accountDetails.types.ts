@@ -7,7 +7,11 @@ export interface AccountDetailsPanelProps {
 export interface Account {
   id: string
   company_name: string
-  // Minimal props for this slice only
+  contact_name?: string
+  billing_city?: string | null
+  status?: 'Active' | 'Inactive'
+  account_type?: 'Residential' | 'Commercial'
+  // Additional props for extensibility
   [key: string]: unknown
 }
 

@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node:*)",
+      "Bash(true)",
+      "Bash(grep:*)",
+      "Bash(rm:*)",
+      "Bash(chmod:*)",
+      "Bash(./scripts/run-slice.sh:*)",
+      "Bash(jq:*)",
+      "Bash(cat:*)",
+      "Bash(npm run type-check:*)",
+      "Bash(git add:*)",
+      "Bash(mv:*)",
+      "Bash(mkdir:*)",
+      "Bash(npm run build:*)",
+      "Bash(timeout 10 npm run build:*)",
+      "Bash(npx next build:*)",
+      "Bash(git reset:*)",
+      "Bash(bash:*)"
+    ],
+    "deny": []
+  }
+}

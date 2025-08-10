@@ -8,7 +8,7 @@ _Exported on 8/8/2025 at 11:52:34 EDT from Cursor (1.4.2)_
 @scaffold-processor process-accountcard
 
 You are SCAFFOLD-PROCESSOR. Your prompt is in:
-.sdlc/01-core/A-agents/processors/scaffold-processor-v1.md
+.sdlc/01-core/A-agents/processors/scaffold-processor.md
 
 Process this input:
 Create a basic AccountCard component with these props:

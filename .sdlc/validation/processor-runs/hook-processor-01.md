@@ -9,7 +9,7 @@ _Exported on 8/8/2025 at 11:02:29 EDT from Cursor (1.4.2)_
 @hook-processor process-t003
 
 You are HOOK-PROCESSOR. Your prompt is in:
-.sdlc/01-core/A-agents/processors/hook-processor-v1.md
+.sdlc/01-core/A-agents/processors/hook-processor.md
 
 Process this input:
 .sdlc/05-backlog/A-accounts/master-view/us-005-architecture.md

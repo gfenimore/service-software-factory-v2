@@ -9,6 +9,20 @@
 const fs = require('fs');
 const path = require('path');
 
+// Load path configuration
+const loadPathConfig = () => {
+  const configPath = '.sdlc/config/path-config.json';
+  if (fs.existsSync(configPath)) {
+    return JSON.parse(fs.readFileSync(configPath, 'utf8'));
+  }
+  // Fallback defaults
+  return {
+    paths: {
+      manifestPath: '.sdlc/05-backlog/A-accounts/master-view/'
+    }
+  };
+};
+
 // ANSI color codes
 const colors = {
   red: '\x1b[31m',
@@ -19,7 +33,8 @@ const colors = {
 };
 
 // Default manifest path
-const DEFAULT_MANIFEST = '.sdlc/05-backlog/A-accounts/master-view/processor-manifest.json';
+const config = loadPathConfig();
+const DEFAULT_MANIFEST = path.join(config.paths.manifestPath, 'processor-manifest.json');
 
 class ProcessorValidator {
   constructor(manifestPath) {

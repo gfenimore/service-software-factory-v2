@@ -11,8 +11,17 @@ MAGENTA='\033[0;35m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
-# Configuration
-MANIFEST_PATH="${1:-.sdlc/05-backlog/A-accounts/master-view/processor-manifest.json}"
+# Configuration - Load from path-config.json
+PATH_CONFIG=".sdlc/config/path-config.json"
+if [ -f "$PATH_CONFIG" ] && command -v jq &> /dev/null; then
+    DEFAULT_MANIFEST_DIR=$(jq -r '.paths.manifestPath' "$PATH_CONFIG" | sed 's/\/$//')
+    DEFAULT_MANIFEST="${DEFAULT_MANIFEST_DIR}/processor-manifest.json"
+else
+    # Fallback to defaults if config not found
+    DEFAULT_MANIFEST=".sdlc/05-backlog/A-accounts/master-view/processor-manifest.json"
+fi
+
+MANIFEST_PATH="${1:-$DEFAULT_MANIFEST}"
 LOG_FILE="processor-run-$(date +%Y%m%d-%H%M%S).log"
 TEST_LOG_FILE="test-twin-run-$(date +%Y%m%d-%H%M%S).log"
 CLAUDE_PATH="$HOME/AppData/Roaming/npm/claude"

@@ -9,7 +9,7 @@ _Exported on 8/8/2025 at 10:45:42 EDT from Cursor (1.4.2)_
 @react-processor process-t001
 
 You are REACT-PROCESSOR. Your prompt is in:
-.sdlc/01-core/A-agents/processors/react-processor-v1.md
+.sdlc/01-core/A-agents/processors/react-processor.md
 
 Process this input:
 src/components/accounts/AccountDetailsPanel.tsx

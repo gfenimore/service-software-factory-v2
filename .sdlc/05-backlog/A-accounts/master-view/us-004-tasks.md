@@ -1,5 +1,16 @@
 # Task Breakdown: US-004 - Display Account Cards in Three-Column Master View
 
+## Null Safety Strategy
+
+**CRITICAL**: All tasks must implement comprehensive null/undefined handling:
+
+- **Type Safety**: Use TypeScript unions (T | null | undefined) for all nullable fields
+- **Safe Access**: Always use optional chaining (?.) and nullish coalescing (??)
+- **Default Values**: Define meaningful fallbacks for all null/undefined scenarios
+- **Validation**: Add runtime type guards before data processing
+- **UI Resilience**: Implement loading states, error boundaries, and fallback UI
+- **State Management**: Handle null initial states and null transitions gracefully
+
 ## Value Slice Summary
 
 ### Value Slice 1: Three-Column Layout Foundation
@@ -99,6 +110,9 @@ Create the header component for column 1 that displays the accounts count and wi
 - [ ] Accepts count prop and displays correctly
 - [ ] Proper styling consistent with design system
 - [ ] Component is type-safe with TypeScript
+- [ ] **NULL LOGIC**: Display "Accounts (0)" when count is null/undefined
+- [ ] **NULL LOGIC**: Use default value for missing count prop
+- [ ] **NULL LOGIC**: Handle negative or invalid count values gracefully
 
 ### 🧠 Planning Reasoning
 
@@ -152,6 +166,11 @@ Define TypeScript interfaces for account data structure matching the Supabase sc
 - [ ] Interfaces are exported for reuse
 - [ ] Type definitions match Supabase schema
 - [ ] No TypeScript compilation errors
+- [ ] **NULL LOGIC**: Handle nullable fields with proper TypeScript unions (string | null)
+- [ ] **NULL LOGIC**: Define fallback display values for null/undefined data
+- [ ] **NULL LOGIC**: Add optional chaining (?.) for all nested object access
+- [ ] **NULL LOGIC**: Use nullish coalescing (??) for default values
+- [ ] **NULL LOGIC**: Validate all incoming data with type guards
 
 ### 🧠 Planning Reasoning
 
@@ -179,6 +198,13 @@ Create the individual account card component that displays account information i
 - [ ] City/State location is shown
 - [ ] Card has proper hover states
 - [ ] Component accepts Account type props
+- [ ] **NULL LOGIC**: Display "N/A" for null company names
+- [ ] **NULL LOGIC**: Display "No Contact" for null contact names
+- [ ] **NULL LOGIC**: Display "Location TBD" for null city/state values
+- [ ] **NULL LOGIC**: Handle undefined props gracefully without crashes
+- [ ] **NULL LOGIC**: Use safe rendering patterns (account?.field ?? 'default')
+- [ ] **NULL LOGIC**: Add prop validation to prevent null object drilling
+- [ ] **NULL LOGIC**: Implement loading skeleton when data is null
 
 ### 🧠 Planning Reasoning
 
@@ -206,6 +232,12 @@ Create custom hook to fetch account data from Supabase with proper error handlin
 - [ ] Filters for active accounts only
 - [ ] Proper TypeScript typing
 - [ ] Error handling implemented
+- [ ] **NULL LOGIC**: Handle null/undefined responses from Supabase
+- [ ] **NULL LOGIC**: Return empty array [] when no data available
+- [ ] **NULL LOGIC**: Validate data structure before returning to components
+- [ ] **NULL LOGIC**: Implement try-catch for API failures returning null
+- [ ] **NULL LOGIC**: Add data transformation to handle DB nulls before component use
+- [ ] **NULL LOGIC**: Set loading state to true while handling null responses
 
 ### 🧠 Planning Reasoning
 
@@ -233,6 +265,12 @@ Create the accounts list component that renders all account cards and integrates
 - [ ] Loading state displays during fetch
 - [ ] Error state handles API failures
 - [ ] Header count updates with actual account count
+- [ ] **NULL LOGIC**: Display "No accounts found" when accounts array is empty
+- [ ] **NULL LOGIC**: Handle null accounts array without breaking render
+- [ ] **NULL LOGIC**: Show count as "0" when accounts data is null/undefined
+- [ ] **NULL LOGIC**: Implement fallback UI for null/error states
+- [ ] **NULL LOGIC**: Use conditional rendering to prevent null array mapping
+- [ ] **NULL LOGIC**: Add loading skeleton for null data during fetch
 
 ### 🧠 Planning Reasoning
 
@@ -260,6 +298,12 @@ Create state management hook for handling account selection with proper business
 - [ ] Provides select/deselect functions
 - [ ] Handles toggle behavior (click selected to deselect)
 - [ ] TypeScript types for all functions
+- [ ] **NULL LOGIC**: Handle null selectedAccountId (no selection state)
+- [ ] **NULL LOGIC**: Validate account ID exists before setting selection
+- [ ] **NULL LOGIC**: Clear selection when selected account is removed from data
+- [ ] **NULL LOGIC**: Use null as initial state for selectedAccountId
+- [ ] **NULL LOGIC**: Add null checks before state updates
+- [ ] **NULL LOGIC**: Handle edge case of selecting null/undefined IDs
 
 ### 🧠 Planning Reasoning
 
@@ -287,6 +331,9 @@ Add click handlers to account cards that integrate with the selection state mana
 - [ ] Clicking selected card deselects it
 - [ ] Click events are properly typed
 - [ ] No console errors on interaction
+- [ ] **NULL LOGIC**: Prevent clicks when account data is null/undefined
+- [ ] **NULL LOGIC**: Handle null account IDs in click handlers
+- [ ] **NULL LOGIC**: Add defensive checks before state updates
 
 ### 🧠 Planning Reasoning
 
@@ -314,6 +361,9 @@ Add visual styling to indicate selected state with proper contrast and accessibi
 - [ ] Hover states work properly with selection
 - [ ] Visual feedback is immediate on selection
 - [ ] Design is consistent with system patterns
+- [ ] **NULL LOGIC**: Handle null selection state in visual styling
+- [ ] **NULL LOGIC**: Prevent visual glitches when account data is null
+- [ ] **NULL LOGIC**: Use conditional classes for null-safe styling
 
 ### 🧠 Planning Reasoning
 

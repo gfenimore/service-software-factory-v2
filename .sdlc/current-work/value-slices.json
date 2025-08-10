@@ -12,7 +12,7 @@
       ],
       "userValue": "See properly structured three-column layout",
       "manifestExists": true,
-      "status": "completed"
+      "status": "ready"
     },
     {
       "number": 2,
@@ -25,7 +25,7 @@
       ],
       "userValue": "View all accounts as informative cards",
       "manifestExists": true,
-      "status": "completed"
+      "status": "ready"
     },
     {
       "number": 3,
@@ -36,8 +36,8 @@
         "T-011"
       ],
       "userValue": "Select accounts with clear visual feedback",
-      "manifestExists": false,
-      "status": "completed"
+      "manifestExists": true,
+      "status": "pending"
     }
   ],
   "currentSlice": 3,

@@ -10,9 +10,16 @@ BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 NC='\033[0m'
 
-# Configuration
-WORK_DIR=".sdlc/current-work"
-MANIFEST_DIR=".sdlc/05-backlog/A-accounts/master-view"
+# Configuration - Load from path-config.json
+PATH_CONFIG=".sdlc/config/path-config.json"
+if [ -f "$PATH_CONFIG" ]; then
+    WORK_DIR=$(jq -r '.paths.currentWorkPath' "$PATH_CONFIG" | sed 's/\/$//')
+    MANIFEST_DIR=$(jq -r '.paths.manifestPath' "$PATH_CONFIG" | sed 's/\/$//')
+else
+    # Fallback to defaults if config not found
+    WORK_DIR=".sdlc/current-work"
+    MANIFEST_DIR=".sdlc/05-backlog/A-accounts/master-view"
+fi
 SLICE_DATA="$WORK_DIR/value-slices.json"
 CURRENT_SLICE_FILE="$WORK_DIR/current-slice.json"
 LOG_FILE="slice-run-$(date +%Y%m%d-%H%M%S).log"
