@@ -1,0 +1,168 @@
+{
+  "timestamp": "2025-08-09T20:09:58.481Z",
+  "manifest": ".sdlc/05-backlog/A-accounts/master-view/processor-manifest-vs2.json",
+  "story": "US-004",
+  "slice": 2,
+  "summary": {
+    "total": 8,
+    "passed": 5,
+    "failed": -1,
+    "warnings": 2,
+    "details": [
+      {
+        "sequence": 1,
+        "processor": "TYPE-PROCESSOR",
+        "purpose": "Create Account data types and component props",
+        "status": "warning",
+        "messages": [
+          "✗ Expected output file missing: src/types/account.types.ts",
+          "  Possible alternatives found:",
+          "    - src\\types\\accountDetails.types.ts"
+        ]
+      },
+      {
+        "sequence": 2,
+        "processor": "SCAFFOLD-PROCESSOR",
+        "purpose": "Create AccountCard component shell",
+        "status": "passed",
+        "messages": [
+          "✓ Output file exists: src/components/accounts/AccountCard.tsx"
+        ]
+      },
+      {
+        "sequence": 3,
+        "processor": "HOOK-PROCESSOR",
+        "purpose": "Create useAccounts hook for data fetching",
+        "status": "warning",
+        "messages": [
+          "✗ Expected output file missing: src/hooks/useAccounts.ts",
+          "  Possible alternatives found:",
+          "    - src\\hooks\\useAccountDetails.ts"
+        ]
+      },
+      {
+        "sequence": 4,
+        "processor": "API-PROCESSOR",
+        "purpose": "Add Supabase integration to useAccounts hook",
+        "status": "failed",
+        "messages": [
+          "✗ Target file missing: src/hooks/useAccounts.ts"
+        ]
+      },
+      {
+        "sequence": 5,
+        "processor": "REACT-PROCESSOR",
+        "purpose": "Add display logic to AccountCard",
+        "status": "passed",
+        "messages": [
+          "✓ Target file exists: src/components/accounts/AccountCard.tsx"
+        ]
+      },
+      {
+        "sequence": 6,
+        "processor": "SCAFFOLD-PROCESSOR",
+        "purpose": "Create AccountsList component shell",
+        "status": "passed",
+        "messages": [
+          "✓ Output file exists: src/components/accounts/AccountsList.tsx"
+        ]
+      },
+      {
+        "sequence": 7,
+        "processor": "REACT-PROCESSOR",
+        "purpose": "Add rendering logic to AccountsList",
+        "status": "passed",
+        "messages": [
+          "✓ Target file exists: src/components/accounts/AccountsList.tsx"
+        ]
+      },
+      {
+        "sequence": 8,
+        "processor": "MODIFY-PROCESSOR",
+        "purpose": "Connect AccountsColumnHeader to real account count",
+        "status": "passed",
+        "messages": [
+          "✓ Target file exists: src/components/master-view/AccountsColumnHeader.tsx"
+        ]
+      }
+    ]
+  },
+  "details": [
+    {
+      "sequence": 1,
+      "processor": "TYPE-PROCESSOR",
+      "purpose": "Create Account data types and component props",
+      "status": "warning",
+      "messages": [
+        "✗ Expected output file missing: src/types/account.types.ts",
+        "  Possible alternatives found:",
+        "    - src\\types\\accountDetails.types.ts"
+      ]
+    },
+    {
+      "sequence": 2,
+      "processor": "SCAFFOLD-PROCESSOR",
+      "purpose": "Create AccountCard component shell",
+      "status": "passed",
+      "messages": [
+        "✓ Output file exists: src/components/accounts/AccountCard.tsx"
+      ]
+    },
+    {
+      "sequence": 3,
+      "processor": "HOOK-PROCESSOR",
+      "purpose": "Create useAccounts hook for data fetching",
+      "status": "warning",
+      "messages": [
+        "✗ Expected output file missing: src/hooks/useAccounts.ts",
+        "  Possible alternatives found:",
+        "    - src\\hooks\\useAccountDetails.ts"
+      ]
+    },
+    {
+      "sequence": 4,
+      "processor": "API-PROCESSOR",
+      "purpose": "Add Supabase integration to useAccounts hook",
+      "status": "failed",
+      "messages": [
+        "✗ Target file missing: src/hooks/useAccounts.ts"
+      ]
+    },
+    {
+      "sequence": 5,
+      "processor": "REACT-PROCESSOR",
+      "purpose": "Add display logic to AccountCard",
+      "status": "passed",
+      "messages": [
+        "✓ Target file exists: src/components/accounts/AccountCard.tsx"
+      ]
+    },
+    {
+      "sequence": 6,
+      "processor": "SCAFFOLD-PROCESSOR",
+      "purpose": "Create AccountsList component shell",
+      "status": "passed",
+      "messages": [
+        "✓ Output file exists: src/components/accounts/AccountsList.tsx"
+      ]
+    },
+    {
+      "sequence": 7,
+      "processor": "REACT-PROCESSOR",
+      "purpose": "Add rendering logic to AccountsList",
+      "status": "passed",
+      "messages": [
+        "✓ Target file exists: src/components/accounts/AccountsList.tsx"
+      ]
+    },
+    {
+      "sequence": 8,
+      "processor": "MODIFY-PROCESSOR",
+      "purpose": "Connect AccountsColumnHeader to real account count",
+      "status": "passed",
+      "messages": [
+        "✓ Target file exists: src/components/master-view/AccountsColumnHeader.tsx"
+      ]
+    }
+  ]
+}
