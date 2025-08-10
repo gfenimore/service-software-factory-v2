@@ -1,0 +1,76 @@
+{
+  "timestamp": "2025-08-10T00:51:30.555Z",
+  "manifest": ".sdlc/05-backlog/A-accounts/master-view/processor-manifest-vs3.json",
+  "story": "US-004",
+  "slice": 3,
+  "summary": {
+    "total": 3,
+    "passed": 2,
+    "failed": -1,
+    "warnings": 1,
+    "details": [
+      {
+        "sequence": 1,
+        "processor": "HOOK-PROCESSOR",
+        "purpose": "Create selection state management hook",
+        "status": "warning",
+        "messages": [
+          "✗ Expected output file missing: src/hooks/useAccountSelection.ts",
+          "  Possible alternatives found:",
+          "    - src\\hooks\\useAccountDetails.ts",
+          "    - src\\hooks\\useAccountSelection.hook.test.ts"
+        ]
+      },
+      {
+        "sequence": 2,
+        "processor": "MODIFY-PROCESSOR",
+        "purpose": "Add click handlers to AccountCard for selection",
+        "status": "passed",
+        "messages": [
+          "✓ Target file exists: src/components/accounts/AccountCard.tsx"
+        ]
+      },
+      {
+        "sequence": 3,
+        "processor": "MODIFY-PROCESSOR",
+        "purpose": "Add visual selection indicators to AccountCard",
+        "status": "passed",
+        "messages": [
+          "✓ Target file exists: src/components/accounts/AccountCard.tsx"
+        ]
+      }
+    ]
+  },
+  "details": [
+    {
+      "sequence": 1,
+      "processor": "HOOK-PROCESSOR",
+      "purpose": "Create selection state management hook",
+      "status": "warning",
+      "messages": [
+        "✗ Expected output file missing: src/hooks/useAccountSelection.ts",
+        "  Possible alternatives found:",
+        "    - src\\hooks\\useAccountDetails.ts",
+        "    - src\\hooks\\useAccountSelection.hook.test.ts"
+      ]
+    },
+    {
+      "sequence": 2,
+      "processor": "MODIFY-PROCESSOR",
+      "purpose": "Add click handlers to AccountCard for selection",
+      "status": "passed",
+      "messages": [
+        "✓ Target file exists: src/components/accounts/AccountCard.tsx"
+      ]
+    },
+    {
+      "sequence": 3,
+      "processor": "MODIFY-PROCESSOR",
+      "purpose": "Add visual selection indicators to AccountCard",
+      "status": "passed",
+      "messages": [
+        "✓ Target file exists: src/components/accounts/AccountCard.tsx"
+      ]
+    }
+  ]
+}
