@@ -2,379 +2,393 @@
 
 ## Value Slice Summary
 
-### Value Slice 1: Basic Details Panel
+### Value Slice 1: Account Selection with Details Modal
 
 **Tasks**: T-001 through T-004
-**User Can Now**: "Click 'View Details' on any account card and see extended account information in a panel"
-**Architecture Needed**: Yes (first slice needs design for panel component and state management)
+**User Can Now**: "Select an account card to reveal detail options, then click contacts icon to view contact information in a modal"
+**Architecture Needed**: Yes (first slice needs design for selection state enhancement and modal pattern)
 **Estimated Time**: 2 hours
 
-### Value Slice 2: Enhanced Interactions
+### Value Slice 2: Enhanced Modal Interactions
 
 **Tasks**: T-005 through T-007
-**User Can Now**: "Navigate details naturally with keyboard, click outside to close, and have only one panel open at a time"
+**User Can Now**: "Navigate modals naturally with keyboard, click outside to close, and access additional detail types (service agreements)"
 **Architecture Needed**: No (uses existing patterns from Slice 1)
 **Estimated Time**: 1.5 hours
 
-### Value Slice 3: Complete Data Display
+### Value Slice 3: Complete Details Access
 
 **Tasks**: T-008 through T-011
-**User Can Now**: "View all account details with proper formatting and graceful handling of missing data"
+**User Can Now**: "Access all account details (financial data, account notes) through dedicated icons with proper data formatting and responsive design"
 **Architecture Needed**: No (extends existing patterns)
 **Estimated Time**: 1.5 hours
 
 ## Detailed Task Breakdown
 
-## Task 1: Create Account Details Panel Component Shell
+## Task 1: Enhance Account Card Selection State with Detail Options
 
-**VALUE_SLICE**: 1 - Basic Details Panel
-**DELIVERABLE**: src/components/accounts/AccountDetailsPanel.tsx
-**ESTIMATED TIME**: 20 minutes
+**VALUE_SLICE**: 1 - Account Selection with Details Modal
+**DELIVERABLE**: src/components/accounts/AccountCard.tsx (modified)
+**ESTIMATED TIME**: 30 minutes
+**COMPLEXITY**: Medium
+**DEPENDENCIES**: None
+**VERIFY**: npm run dev && select account card to see contact details icon appear
+**BUSINESS_RULE**: Selected account card shows additional action icons
+**ACCEPTANCE_CRITERIA**: When account card is selected, detail option icons (contacts, etc.) become visible
+
+### Details
+
+Modify the existing AccountCard component to show additional action icons (starting with contacts) when the card is in selected state. These icons only appear on the selected card, not on all cards.
+
+### Success Criteria
+
+- [ ] Selected card shows contacts icon (and space for future icons)
+- [ ] Icons only visible when card is selected
+- [ ] Icons positioned appropriately within card layout
+- [ ] Visual feedback on icon hover/click
+- [ ] Selection state properly triggers icon visibility
+
+### 🧠 Planning Reasoning
+
+This establishes the pattern where selection reveals options, keeping cards clean when not selected. This follows the Master View philosophy of "see what you want, when you want."
+
+## Task 2: Create Contact Details Modal Component
+
+**VALUE_SLICE**: 1 - Account Selection with Details Modal
+**DELIVERABLE**: src/components/accounts/ContactDetailsModal.tsx
+**ESTIMATED TIME**: 25 minutes
 **COMPLEXITY**: Low
 **DEPENDENCIES**: None
-**VERIFY**: npm run dev && curl http://localhost:3000 | grep "AccountDetailsPanel"
-**BUSINESS_RULE**: Detail panel has clear close button (X)
-**ACCEPTANCE_CRITERIA**: Selected account card shows "View Details" action button/icon
+**VERIFY**: npm run dev && curl http://localhost:3000 | grep "ContactDetailsModal"
+**BUSINESS_RULE**: Contact details display in a modal overlay
+**ACCEPTANCE_CRITERIA**: Modal shows contact information with clear close mechanism
 
 ### Details
 
-Create the foundational detail panel component with proper structure for displaying account information and close functionality.
+Create a modal component specifically for displaying account contacts and their communication logs. Modal should overlay the three-column view without disrupting it.
 
 ### Success Criteria
 
-- [ ] Panel component renders without errors
-- [ ] Close button (X) is prominently displayed
-- [ ] Panel has proper container structure for account details
-- [ ] Component follows existing design patterns
+- [ ] Modal renders as overlay (not panel)
+- [ ] Modal has clear close button (X)
+- [ ] Modal has proper backdrop/overlay
+- [ ] Modal structure ready for contact data
+- [ ] Follows existing modal patterns if any
 
 ### 🧠 Planning Reasoning
 
-Starting with the panel shell establishes the visual foundation immediately. This is the core container that will house all account details, and having the close button from the start ensures proper UX patterns are established.
+A modal is the right choice here as it temporarily focuses user attention on contact details without losing the three-column context. The modal preserves the master view structure.
 
-## Task 2: Add View Details Button to Account Cards
+## Task 3: Implement Contact Modal State Management
 
-**VALUE_SLICE**: 1 - Basic Details Panel
-**DELIVERABLE**: src/components/accounts/AccountCard.tsx (modified)
-**ESTIMATED TIME**: 15 minutes
-**COMPLEXITY**: Low
-**DEPENDENCIES**: T-001
-**VERIFY**: npm run dev && inspect account cards for "View Details" button
-**BUSINESS_RULE**: Clicking "View Details" opens account detail panel
-**ACCEPTANCE_CRITERIA**: Selected account card shows "View Details" action button/icon
-
-### Details
-
-Add a "View Details" button or icon to existing account cards that will trigger the detail panel opening.
-
-### Success Criteria
-
-- [ ] Button/icon appears on account cards
-- [ ] Button has clear visual indication of its purpose
-- [ ] Button follows existing card design patterns
-- [ ] Click handler is properly attached
-
-### 🧠 Planning Reasoning
-
-The trigger mechanism must be in place before we can connect the panel functionality. This task ensures users have a clear way to access details while maintaining the card's existing functionality.
-
-## Task 3: Implement Panel Open/Close State Management
-
-**VALUE_SLICE**: 1 - Basic Details Panel
-**DELIVERABLE**: src/components/accounts/useAccountDetails.ts
-**ESTIMATED TIME**: 25 minutes
+**VALUE_SLICE**: 1 - Account Selection with Details Modal
+**DELIVERABLE**: src/components/accounts/useContactModal.ts
+**ESTIMATED TIME**: 20 minutes
 **COMPLEXITY**: Medium
-**DEPENDENCIES**: T-001, T-002
-**VERIFY**: npm test -- --watchAll=false --testNamePattern="account details state"
-**BUSINESS_RULE**: Only one detail panel can be open at a time
-**ACCEPTANCE_CRITERIA**: Clicking "View Details" opens account detail panel
+**DEPENDENCIES**: T-002
+**VERIFY**: npm test -- --watchAll=false --testNamePattern="contact modal state"
+**BUSINESS_RULE**: Only one modal can be open at a time
+**ACCEPTANCE_CRITERIA**: Contact icon click opens modal with correct account context
 
 ### Details
 
-Create custom hook for managing which account's details are currently displayed, including open/close logic and ensuring only one panel is open at a time.
+Create custom hook for managing modal visibility and tracking which account's contacts are being viewed. Ensures modal state is properly managed.
 
 ### Success Criteria
 
-- [ ] Hook manages currently selected account for details
-- [ ] Opening details for new account closes previous panel
+- [ ] Hook tracks modal open/closed state
+- [ ] Hook maintains current account context
+- [ ] Opening modal for new account works correctly
 - [ ] Close function properly resets state
 - [ ] State updates trigger proper re-renders
 
 ### 🧠 Planning Reasoning
 
-State management is critical for the "one panel at a time" business rule. This hook centralizes the logic and makes it reusable across components while ensuring consistent behavior.
+Separating modal state management makes it reusable and testable. This pattern can be extended for other detail modals (service agreements, financial data) in future slices.
 
-## Task 4: Connect Panel to Account Selection
+## Task 4: Connect Contact Icon to Modal Display
 
-**VALUE_SLICE**: 1 - Basic Details Panel
+**VALUE_SLICE**: 1 - Account Selection with Details Modal
 **DELIVERABLE**: src/components/accounts/AccountMasterView.tsx (modified)
-**ESTIMATED TIME**: 30 minutes
+**ESTIMATED TIME**: 25 minutes
 **COMPLEXITY**: Medium
 **DEPENDENCIES**: T-001, T-002, T-003
-**VERIFY**: npm run dev && click "View Details" on account card to verify panel opens with basic info
-**BUSINESS_RULE**: Detail panel shows information not on the card
-**ACCEPTANCE_CRITERIA**: Detail panel shows account information
+**VERIFY**: npm run dev && select account, click contacts icon to verify modal opens with contact list
+**BUSINESS_RULE**: View account contacts, along with communication log for each
+**ACCEPTANCE_CRITERIA**: Contact details modal displays all contacts for selected account
 
 ### Details
 
-Integrate the details panel with the master view, connecting the account selection to panel display and showing basic account information.
+Wire up the complete flow: selecting an account card reveals the contacts icon, clicking the icon opens the modal with that account's contact information and communication logs.
 
 ### Success Criteria
 
-- [ ] Clicking "View Details" opens panel for correct account
-- [ ] Panel displays basic account information
-- [ ] Panel positioning doesn't interfere with three-column view
-- [ ] Close button successfully closes panel
+- [ ] Account selection reveals contact icon
+- [ ] Clicking contact icon opens modal
+- [ ] Modal displays correct account's contacts
+- [ ] Modal shows communication log per contact
+- [ ] Close button/backdrop click closes modal
+- [ ] ESC key closes modal (basic implementation)
 
 ### 🧠 Planning Reasoning
 
-This completes Value Slice 1 by creating the full user flow. Users can now click to see details and close the panel, delivering the core promised value.
+This completes Value Slice 1 by delivering the full user flow. Users can now access detailed contact information on-demand without cluttering the main interface.
 
 ## VALUE SLICE CHECKPOINT 1: After Tasks 1-4
 
-**Slice Name**: Basic Details Panel
-**Commit message**: "feat: implement basic account details panel with open/close functionality"
-**User Value Delivered**: Users can now view extended account details on-demand
+**Slice Name**: Account Selection with Details Modal
+**Commit message**: "feat: add contact details modal accessible from selected account cards"
+**User Value Delivered**: Users can now view detailed contact information on-demand by selecting an account and clicking the contacts icon
 **Deployment Ready**: Yes - creates preview URL
 **Verification**:
 
 - npm run dev
-- Click "View Details" on any account card
-- Verify panel opens with account information
-- Verify close button works
-  **Next Slice Decision Point**: Continue to Slice 2 or gather feedback
+- Click to select an account card
+- Verify contacts icon appears on selected card
+- Click contacts icon
+- Verify modal opens with contact information
+- Verify modal can be closed
+  **Next Slice Decision Point**: Continue to enhance modal interactions or add other detail types
 
-## Task 5: Add ESC Key Support for Panel Closure
+## Task 5: Add ESC Key Support for Modal Closure
 
-**VALUE_SLICE**: 2 - Enhanced Interactions
-**DELIVERABLE**: src/components/accounts/AccountDetailsPanel.tsx (modified)
+**VALUE_SLICE**: 2 - Enhanced Modal Interactions
+**DELIVERABLE**: src/components/accounts/ContactDetailsModal.tsx (modified)
 **ESTIMATED TIME**: 20 minutes
 **COMPLEXITY**: Low
 **DEPENDENCIES**: T-004
-**VERIFY**: npm run dev && open details panel, press ESC to verify it closes
-**BUSINESS_RULE**: ESC key closes open detail panel
-**ACCEPTANCE_CRITERIA**: ESC key closes open detail panel
+**VERIFY**: npm run dev && open contact modal, press ESC to verify it closes
+**BUSINESS_RULE**: ESC key closes open modal
+**ACCEPTANCE_CRITERIA**: ESC key closes any open detail modal
 
 ### Details
 
-Add keyboard event listener to close the details panel when ESC key is pressed, improving accessibility and user experience.
+Enhance the modal component with proper keyboard event handling for ESC key closure, improving accessibility and user experience.
 
 ### Success Criteria
 
-- [ ] ESC key closes open details panel
-- [ ] Event listener is properly cleaned up
-- [ ] ESC works regardless of focus within panel
-- [ ] No conflicts with other ESC handlers
+- [ ] ESC key closes open modal from anywhere
+- [ ] Event listener is properly attached/removed
+- [ ] No memory leaks from event handlers
+- [ ] Works regardless of focus location
+- [ ] No conflicts with other keyboard handlers
 
 ### 🧠 Planning Reasoning
 
-Keyboard accessibility is essential for professional applications. ESC is the standard key for closing modals/panels, making this a natural user expectation.
+Keyboard accessibility is essential for professional applications. ESC to close modals is a universal UX pattern that users expect.
 
-## Task 6: Implement Click-Outside-to-Close Functionality
+## Task 6: Implement Click-Outside-to-Close for Modals
 
-**VALUE_SLICE**: 2 - Enhanced Interactions
-**DELIVERABLE**: src/components/accounts/useClickOutside.ts
+**VALUE_SLICE**: 2 - Enhanced Modal Interactions
+**DELIVERABLE**: src/hooks/useClickOutside.ts
 **ESTIMATED TIME**: 25 minutes
 **COMPLEXITY**: Medium
 **DEPENDENCIES**: T-004
-**VERIFY**: npm run dev && open details panel, click outside to verify it closes
-**BUSINESS_RULE**: Clicking outside panel closes it
-**ACCEPTANCE_CRITERIA**: Clicking outside panel closes it
+**VERIFY**: npm run dev && open contact modal, click backdrop to verify it closes
+**BUSINESS_RULE**: Clicking outside modal (on backdrop) closes it
+**ACCEPTANCE_CRITERIA**: Clicking modal backdrop closes the modal
 
 ### Details
 
-Create reusable hook for detecting clicks outside the details panel and automatically closing it, enhancing the natural interaction flow.
+Create reusable hook for detecting clicks on the modal backdrop and closing the modal. This should work for all detail modals we'll create.
 
 ### Success Criteria
 
-- [ ] Clicking outside panel closes it
-- [ ] Clicking inside panel keeps it open
-- [ ] Hook is reusable for other components
-- [ ] Event listeners are properly managed
+- [ ] Clicking backdrop closes modal
+- [ ] Clicking inside modal keeps it open
+- [ ] Hook is reusable for all modals
+- [ ] Event handling is performant
+- [ ] Properly cleanup on unmount
 
 ### 🧠 Planning Reasoning
 
-Click-outside-to-close is a standard UX pattern that users expect. This makes the panel feel more integrated and less intrusive to the master view workflow.
+Click-outside-to-close via backdrop is standard modal behavior. Making this a reusable hook ensures consistency across all detail modals.
 
-## Task 7: Enforce Single Panel Business Rule
+## Task 7: Add Service Agreement Details Modal
 
-**VALUE_SLICE**: 2 - Enhanced Interactions
-**DELIVERABLE**: src/components/accounts/useAccountDetails.ts (modified)
-**ESTIMATED TIME**: 15 minutes
-**COMPLEXITY**: Low
-**DEPENDENCIES**: T-003, T-005, T-006
-**VERIFY**: npm run dev && open multiple account details to verify only one stays open
-**BUSINESS_RULE**: Only one detail panel can be open at a time, Selecting different account closes current detail panel
-**ACCEPTANCE_CRITERIA**: Only one detail panel can be open at a time
+**VALUE_SLICE**: 2 - Enhanced Modal Interactions
+**DELIVERABLE**: src/components/accounts/ServiceAgreementModal.tsx
+**ESTIMATED TIME**: 30 minutes
+**COMPLEXITY**: Medium
+**DEPENDENCIES**: T-001, T-003
+**VERIFY**: npm run dev && select account, click service agreement icon to verify modal opens
+**BUSINESS_RULE**: Service agreement(s) for that account viewable on demand
+**ACCEPTANCE_CRITERIA**: Service agreement icon appears on selected card and opens detail modal
 
 ### Details
 
-Enhance the state management to ensure that opening details for a new account automatically closes any currently open panel.
+Create service agreement modal following the same pattern as contacts. Add service agreement icon to selected account cards that opens a modal showing agreement details.
 
 ### Success Criteria
 
-- [ ] Opening new account details closes previous panel
-- [ ] Smooth transition between different account details
-- [ ] No visual flashing or layout jumps
-- [ ] State correctly reflects which account is showing details
+- [ ] Service agreement icon appears on selected cards
+- [ ] Icon opens service agreement modal
+- [ ] Modal displays agreement details properly
+- [ ] Modal reuses click-outside and ESC patterns
+- [ ] Multiple agreements handled gracefully
 
 ### 🧠 Planning Reasoning
 
-This completes the interaction enhancement by ensuring the business rule is strictly enforced. Users get predictable behavior and the three-column view stays uncluttered.
+This proves the pattern is extensible. By adding a second detail type, we validate that our modal approach scales to all the detail types mentioned in the Master View Feature Definition.
 
 ## VALUE SLICE CHECKPOINT 2: After Tasks 5-7
 
-**Slice Name**: Enhanced Interactions
-**Commit message**: "feat: add keyboard and click-outside support for account details panel"
-**User Value Delivered**: Users can now interact naturally with details panel using standard UX patterns
+**Slice Name**: Enhanced Modal Interactions
+**Commit message**: "feat: add keyboard/click-outside support and service agreement modal"
+**User Value Delivered**: Users can now interact naturally with modals using standard patterns and access service agreement details
 **Deployment Ready**: Yes - enhances existing functionality
 **Verification**:
 
 - npm run dev
-- Test ESC key closing panel
-- Test click outside to close
-- Test single panel enforcement
-  **Next Slice Decision Point**: Continue to Slice 3 for complete data display
+- Test ESC key closing modals
+- Test backdrop click to close
+- Test service agreement icon and modal
+- Verify all interactions feel natural
+  **Next Slice Decision Point**: Continue to complete all detail types
 
-## Task 8: Display Complete Account Details Data
+## Task 8: Add Financial Data Modal
 
-**VALUE_SLICE**: 3 - Complete Data Display
-**DELIVERABLE**: src/components/accounts/AccountDetailsContent.tsx
+**VALUE_SLICE**: 3 - Complete Details Access
+**DELIVERABLE**: src/components/accounts/FinancialDataModal.tsx
 **ESTIMATED TIME**: 30 minutes
 **COMPLEXITY**: Medium
-**DEPENDENCIES**: T-001
-**VERIFY**: npm run dev && verify all required fields show: billing address, account type, service location count, dates, notes
-**BUSINESS_RULE**: Detail panel shows information not on the card (full billing address, account type, service location count, created date, last updated date, account notes)
-**ACCEPTANCE_CRITERIA**: Detail panel shows specified account information
+**DEPENDENCIES**: T-001, T-003
+**VERIFY**: npm run dev && select account, click financial icon to see balance, payment history
+**BUSINESS_RULE**: Account financial data accessible on demand
+**ACCEPTANCE_CRITERIA**: Financial data icon opens modal with account balance and payment information
 
 ### Details
 
-Create comprehensive display component showing all required account details including billing address, account type, service locations, dates, and notes.
+Create financial data modal showing account balance, payment history, and other financial information. Add financial icon to selected account cards.
 
 ### Success Criteria
 
-- [ ] Full billing address displayed (street, city, state, zip)
-- [ ] Account type shown (Commercial/Residential)
-- [ ] Service location count displayed
-- [ ] Created and last updated dates shown
-- [ ] Account notes/special instructions displayed
-- [ ] Information is well-formatted and readable
+- [ ] Financial data icon appears on selected cards
+- [ ] Modal displays account balance clearly
+- [ ] Payment history shown in readable format
+- [ ] Handles missing financial data gracefully
+- [ ] Follows established modal patterns
 
 ### 🧠 Planning Reasoning
 
-This task implements the core data requirements, ensuring users can access all the extended information they need without cluttering the main card view.
+Financial data is sensitive and detail-heavy, making a modal the perfect choice. Users can quickly check financial status without leaving their workflow.
 
-## Task 9: Handle Null/Empty Fields Gracefully
+## Task 9: Add Account Notes Modal
 
-**VALUE_SLICE**: 3 - Complete Data Display
-**DELIVERABLE**: src/components/accounts/AccountDetailsContent.tsx (modified)
+**VALUE_SLICE**: 3 - Complete Details Access
+**DELIVERABLE**: src/components/accounts/AccountNotesModal.tsx
+**ESTIMATED TIME**: 25 minutes
+**COMPLEXITY**: Low
+**DEPENDENCIES**: T-001, T-003
+**VERIFY**: npm run dev && select account with notes, click notes icon to view
+**BUSINESS_RULE**: Account notes/special instructions viewable on demand
+**ACCEPTANCE_CRITERIA**: Notes icon opens modal showing account notes and special instructions
+
+### Details
+
+Create account notes modal for viewing special instructions and notes. This completes the full set of detail types from the Master View specification.
+
+### Success Criteria
+
+- [ ] Notes icon appears on selected cards
+- [ ] Modal displays notes with proper formatting
+- [ ] Long notes are scrollable within modal
+- [ ] Empty notes handled gracefully
+- [ ] Consistent with other modals
+
+### 🧠 Planning Reasoning
+
+Notes often contain critical service information. Having them easily accessible but not cluttering the main view supports efficient operations.
+
+## Task 10: Handle Empty States Across All Modals
+
+**VALUE_SLICE**: 3 - Complete Details Access
+**DELIVERABLE**: src/components/shared/EmptyModalState.tsx
 **ESTIMATED TIME**: 20 minutes
 **COMPLEXITY**: Low
-**DEPENDENCIES**: T-008
-**VERIFY**: npm test -- --watchAll=false --testNamePattern="empty field handling"
+**DEPENDENCIES**: T-007, T-008, T-009
+**VERIFY**: npm test -- --watchAll=false --testNamePattern="empty state handling"
 **BUSINESS_RULE**: Handle null/empty fields gracefully
-**ACCEPTANCE_CRITERIA**: Account with minimal data shows "Not specified" for empty fields
+**ACCEPTANCE_CRITERIA**: All modals show appropriate messages for missing data
 
 ### Details
 
-Implement proper handling for missing or null data fields, showing user-friendly messages like "Not specified" instead of empty spaces or errors.
+Create consistent empty state handling across all detail modals, showing user-friendly messages when data is not available.
 
 ### Success Criteria
 
-- [ ] Null fields show "Not specified" or similar message
-- [ ] Empty strings are handled appropriately
-- [ ] No blank spaces where data should be
-- [ ] Consistent formatting for missing data indicators
+- [ ] Consistent empty state component created
+- [ ] All modals use same empty patterns
+- [ ] Messages are helpful and actionable
+- [ ] Visual design matches modal styles
+- [ ] Different messages for different data types
 
 ### 🧠 Planning Reasoning
 
-Real-world data is often incomplete. Graceful handling ensures the panel always looks professional and provides clear information about data availability.
+Professional applications handle missing data gracefully. Consistent empty states across all modals provides a polished user experience.
 
-## Task 10: Implement Responsive Detail Panel Layout
+## Task 11: Add Loading States for Modal Data
 
-**VALUE_SLICE**: 3 - Complete Data Display
-**DELIVERABLE**: src/components/accounts/AccountDetailsPanel.tsx (modified with styles)
-**ESTIMATED TIME**: 25 minutes
-**COMPLEXITY**: Medium
-**DEPENDENCIES**: T-008, T-009
-**VERIFY**: npm run dev && verify panel layout works properly across screen sizes
-**BUSINESS_RULE**: Three columns remain fully visible when account selected
-**ACCEPTANCE_CRITERIA**: At-a-glance preservation requirements
-
-### Details
-
-Ensure the details panel layout works responsively while maintaining the three-column master view visibility at all screen sizes.
-
-### Success Criteria
-
-- [ ] Panel doesn't interfere with three-column layout
-- [ ] Responsive design works on various screen sizes
-- [ ] Content is readable without horizontal scrolling
-- [ ] Panel positioning is consistent and predictable
-
-### 🧠 Planning Reasoning
-
-The master view's power is in showing relationships across three columns. The details panel must enhance rather than compromise this core value proposition.
-
-## Task 11: Add Scrolling Support for Long Content
-
-**VALUE_SLICE**: 3 - Complete Data Display
-**DELIVERABLE**: src/components/accounts/AccountDetailsContent.tsx (modified)
-**ESTIMATED TIME**: 15 minutes
+**VALUE_SLICE**: 3 - Complete Details Access
+**DELIVERABLE**: src/components/shared/ModalLoadingState.tsx
+**ESTIMATED TIME**: 20 minutes
 **COMPLEXITY**: Low
-**DEPENDENCIES**: T-008, T-010
-**VERIFY**: npm run dev && test with account having very long notes to verify scrolling works
-**BUSINESS_RULE**: Account with very long notes shows scrollable content within detail area
-**ACCEPTANCE_CRITERIA**: Account with very long notes is scrollable within detail area
+**DEPENDENCIES**: T-007, T-008, T-009
+**VERIFY**: npm run dev && verify modals show loading state before data appears
+**BUSINESS_RULE**: Professional loading experience while fetching data
+**ACCEPTANCE_CRITERIA**: All modals show loading indicator while fetching data
 
 ### Details
 
-Implement proper scrolling behavior for cases where account details (especially notes) exceed the available panel space.
+Implement loading states for all modals to handle the time between opening and data display, ensuring smooth user experience.
 
 ### Success Criteria
 
-- [ ] Long content scrolls within panel boundaries
-- [ ] Scroll indicators are visible when needed
-- [ ] Panel maintains fixed height
-- [ ] Scrolling is smooth and intuitive
+- [ ] Loading component shows immediately
+- [ ] Smooth transition to loaded content
+- [ ] No layout shift when data loads
+- [ ] Loading state is visually clear
+- [ ] Consistent across all modal types
 
 ### 🧠 Planning Reasoning
 
-This completes the data display requirements by handling edge cases. Long notes won't break the layout or compromise the master view's structure.
+Even with fast data loading, showing loading states prevents the UI from feeling broken or frozen. This completes the professional polish of our modal system.
 
 ## VALUE SLICE CHECKPOINT 3: After Tasks 8-11
 
-**Slice Name**: Complete Data Display
-**Commit message**: "feat: complete account details panel with full data display and responsive layout"
-**User Value Delivered**: Users can now view all account information with professional formatting and responsive design
+**Slice Name**: Complete Details Access
+**Commit message**: "feat: complete account details system with all data types and polish"
+**User Value Delivered**: Users can now access all account details (contacts, agreements, financial, notes) through a consistent, polished modal interface
 **Deployment Ready**: Yes - full feature implementation complete
 **Verification**:
 
 - npm run dev
-- Test all data fields display correctly
-- Test empty field handling
-- Test responsive layout
-- Test scrolling with long content
+- Test all four detail types (contacts, agreements, financial, notes)
+- Verify empty states display correctly
+- Verify loading states work smoothly
+- Confirm all modals follow same interaction patterns
   **Next Slice Decision Point**: Feature complete - ready for QA
 
 ## Architecture Requirements
 
 ### Value Slice 1: REQUIRES ARCHITECT
 
-- New detail panel component patterns needed
-- State management approach for panel visibility
-- Integration with existing master view architecture
+- Modal pattern establishment
+- Selection state enhancement approach
+- Icon positioning within selected cards
+- Modal state management pattern
 
 ### Value Slice 2: NO ARCHITECT NEEDED
 
-- Uses component patterns from Slice 1
+- Uses modal patterns from Slice 1
 - Standard event handling patterns
-- Existing state management approach
+- Reuses established state management
 
 ### Value Slice 3: NO ARCHITECT NEEDED
 
-- Uses display patterns from Slice 1
-- Standard responsive design patterns
-- Existing data handling approaches
+- Uses all patterns from Slice 1
+- Standard loading/empty states
+- Consistent modal implementations
 
 ## OUTPUT VALIDATION CHECKLIST
 
@@ -386,3 +400,5 @@ This completes the data display requirements by handling edge cases. Long notes 
 - [x] Total of 11 tasks across all slices
 - [x] Each task belongs to exactly one slice
 - [x] Tasks follow required format with VALUE_SLICE, DELIVERABLE, VERIFY, DEPENDS fields
+- [x] All tasks aligned with modal approach (not panel)
+- [x] Tasks match Master View Feature Definition intent
