@@ -1,15 +1,29 @@
 'use client'
 
 import type { Account } from '@/types/accountDetails.types'
+import { DetailActionIcons } from './DetailActionIcons'
 
 export interface AccountCardProps {
   account: Account
   isSelected?: boolean
   onSelect?: (account: Account) => void
   onViewDetails?: () => void
+  onContactClick?: () => void
+  onServiceAgreementClick?: () => void
+  onFinancialClick?: () => void
+  onNotesClick?: () => void
 }
 
-export function AccountCard({ account, isSelected, onSelect, onViewDetails }: AccountCardProps) {
+export function AccountCard({ 
+  account, 
+  isSelected, 
+  onSelect, 
+  onViewDetails,
+  onContactClick,
+  onServiceAgreementClick,
+  onFinancialClick,
+  onNotesClick
+}: AccountCardProps) {
   const handleClick = () => {
     if (onSelect) {
       onSelect(account)
@@ -43,6 +57,16 @@ export function AccountCard({ account, isSelected, onSelect, onViewDetails }: Ac
           </div>
         </div>
       </div>
+      
+      {/* Show detail action icons only when card is selected */}
+      {isSelected && (
+        <DetailActionIcons
+          onContactClick={onContactClick}
+          onServiceAgreementClick={onServiceAgreementClick}
+          onFinancialClick={onFinancialClick}
+          onNotesClick={onNotesClick}
+        />
+      )}
     </div>
   )
 }

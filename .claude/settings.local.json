@@ -24,7 +24,10 @@
       "Bash(git mv:*)",
       "Bash(mklink:*)",
       "Bash(ln:*)",
-      "Bash(git tag:*)"
+      "Bash(git tag:*)",
+      "Bash(git push:*)",
+      "Bash(tools/jq.exe:*)",
+      "Bash(npm install:*)"
     ],
     "deny": []
   }
