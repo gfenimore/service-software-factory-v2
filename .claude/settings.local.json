@@ -17,7 +17,13 @@
       "Bash(timeout 10 npm run build:*)",
       "Bash(npx next build:*)",
       "Bash(git reset:*)",
-      "Bash(bash:*)"
+      "Bash(bash:*)",
+      "Bash(git checkout:*)",
+      "Bash(find:*)",
+      "Bash(tree:*)",
+      "Bash(git mv:*)",
+      "Bash(mklink:*)",
+      "Bash(ln:*)"
     ],
     "deny": []
   }

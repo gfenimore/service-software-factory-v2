@@ -1,16 +1,22 @@
 {
-  "version": "1.0",
+  "version": "2.0",
   "lastUpdated": "2025-08-10",
   "paths": {
     "manifestPath": ".sdlc/05-backlog/A-accounts/master-view/",
-    "userStoriesPath": ".sdlc/05-backlog/A-accounts/",
-    "sessionStatePath": ".sdlc/07-operations/A-session-tracking/",
-    "currentWorkPath": ".sdlc/current-work/",
+    "userStoriesPath": ".product-specs/00-platform-core/epics/EP-001-accounts/features/",
+    "sessionStatePath": ".sdlc/10-project-tracking/config/",
+    "currentWorkPath": ".sdlc/10-project-tracking/iterations/current/",
     "validationPath": ".sdlc/validation/",
-    "processorsPath": ".sdlc/01-core/A-agents/processors/"
+    "processorsPath": ".sdlc/01-core/A-agents/processors/",
+    "trackingPath": ".sdlc/10-project-tracking/",
+    "archivePath": ".sdlc/09-archive/",
+    "productSpecsPath": ".product-specs/00-platform-core/",
+    "reportsPath": ".sdlc/10-project-tracking/reports/"
   },
   "migration": {
-    "status": "pre-migration",
-    "symlinksActive": false
+    "status": "completed",
+    "symlinksActive": false,
+    "migratedOn": "2025-08-10",
+    "previousVersion": "1.0"
   }
 }

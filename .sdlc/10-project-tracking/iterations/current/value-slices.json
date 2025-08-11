@@ -1,0 +1,45 @@
+{
+  "story": "US-004",
+  "slices": [
+    {
+      "number": 1,
+      "name": "Three-Column Layout Foundation",
+      "tasks": [
+        "T-001",
+        "T-002",
+        "T-003",
+        "T-004"
+      ],
+      "userValue": "See properly structured three-column layout",
+      "manifestExists": true,
+      "status": "ready"
+    },
+    {
+      "number": 2,
+      "name": "Account Cards Display",
+      "tasks": [
+        "T-005",
+        "T-006",
+        "T-007",
+        "T-008"
+      ],
+      "userValue": "View all accounts as informative cards",
+      "manifestExists": true,
+      "status": "ready"
+    },
+    {
+      "number": 3,
+      "name": "Interactive Selection",
+      "tasks": [
+        "T-009",
+        "T-010",
+        "T-011"
+      ],
+      "userValue": "Select accounts with clear visual feedback",
+      "manifestExists": true,
+      "status": "pending"
+    }
+  ],
+  "currentSlice": 3,
+  "totalSlices": 3
+}

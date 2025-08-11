@@ -11,7 +11,7 @@
         "T-004"
       ],
       "userValue": "See properly structured three-column layout",
-      "manifestExists": true,
+      "manifestExists": false,
       "status": "ready"
     },
     {
@@ -24,7 +24,7 @@
         "T-008"
       ],
       "userValue": "View all accounts as informative cards",
-      "manifestExists": true,
+      "manifestExists": false,
       "status": "ready"
     },
     {
@@ -36,7 +36,7 @@
         "T-011"
       ],
       "userValue": "Select accounts with clear visual feedback",
-      "manifestExists": true,
+      "manifestExists": false,
       "status": "pending"
     }
   ],

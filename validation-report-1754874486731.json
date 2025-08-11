@@ -1,0 +1,70 @@
+{
+  "timestamp": "2025-08-11T01:08:06.731Z",
+  "manifest": ".sdlc/05-backlog/A-accounts/master-view/processor-manifest.json",
+  "story": "US-004",
+  "slice": 3,
+  "summary": {
+    "total": 3,
+    "passed": 3,
+    "failed": 0,
+    "warnings": 0,
+    "details": [
+      {
+        "sequence": 1,
+        "processor": "HOOK-PROCESSOR",
+        "purpose": "Create selection state management hook",
+        "status": "passed",
+        "messages": [
+          "✓ Output file exists: src/hooks/useAccountSelection.ts"
+        ]
+      },
+      {
+        "sequence": 2,
+        "processor": "MODIFY-PROCESSOR",
+        "purpose": "Add click handlers to AccountCard for selection",
+        "status": "passed",
+        "messages": [
+          "✓ Target file exists: src/components/accounts/AccountCard.tsx"
+        ]
+      },
+      {
+        "sequence": 3,
+        "processor": "MODIFY-PROCESSOR",
+        "purpose": "Add visual selection indicators to AccountCard",
+        "status": "passed",
+        "messages": [
+          "✓ Target file exists: src/components/accounts/AccountCard.tsx"
+        ]
+      }
+    ]
+  },
+  "details": [
+    {
+      "sequence": 1,
+      "processor": "HOOK-PROCESSOR",
+      "purpose": "Create selection state management hook",
+      "status": "passed",
+      "messages": [
+        "✓ Output file exists: src/hooks/useAccountSelection.ts"
+      ]
+    },
+    {
+      "sequence": 2,
+      "processor": "MODIFY-PROCESSOR",
+      "purpose": "Add click handlers to AccountCard for selection",
+      "status": "passed",
+      "messages": [
+        "✓ Target file exists: src/components/accounts/AccountCard.tsx"
+      ]
+    },
+    {
+      "sequence": 3,
+      "processor": "MODIFY-PROCESSOR",
+      "purpose": "Add visual selection indicators to AccountCard",
+      "status": "passed",
+      "messages": [
+        "✓ Target file exists: src/components/accounts/AccountCard.tsx"
+      ]
+    }
+  ]
+}
