@@ -27,7 +27,15 @@
       "Bash(git tag:*)",
       "Bash(git push:*)",
       "Bash(tools/jq.exe:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "mcp__supabase__list_projects",
+      "Bash(./scripts/supabase-setup.sh:*)",
+      "Bash(supabase link:*)",
+      "Bash(./scripts/deploy-supabase-tables.sh:*)",
+      "Bash(supabase db:*)",
+      "Bash(./scripts/get-supabase-keys.sh:*)",
+      "mcp__supabase__execute_sql",
+      "Bash(curl:*)"
     ],
     "deny": []
   }

@@ -1,12 +1,14 @@
 'use client'
 
 import { AccountMasterView } from '@/components/accounts/AccountMasterView'
+import { useAccounts } from '@/hooks/useAccounts'
 import type { Account } from '@/types/accountDetails.types'
 
-// Mock data for testing
-const mockAccounts: Account[] = [
+// Fallback mock data if database is not available
+const fallbackAccounts: Account[] = [
   {
     id: '1',
+    account_number: 'ACC-001234',
     company_name: 'ABC Manufacturing Co',
     contact_name: 'John Smith',
     contact_email: 'john@abcmfg.com',
@@ -30,6 +32,7 @@ const mockAccounts: Account[] = [
   },
   {
     id: '2',
+    account_number: 'ACC-001235',
     company_name: 'XYZ Services LLC',
     contact_name: 'Jane Doe',
     contact_email: 'jane@xyzservices.com',
@@ -51,6 +54,7 @@ const mockAccounts: Account[] = [
   },
   {
     id: '3',
+    account_number: 'ACC-001236',
     company_name: 'Tech Innovations Inc',
     contact_name: 'Bob Johnson',
     contact_email: 'bob@techinnovations.com',
@@ -73,6 +77,11 @@ const mockAccounts: Account[] = [
 ]
 
 export default function US005Slice1TestPage() {
+  const { accounts, loading, error } = useAccounts()
+  
+  // Use real accounts if available, otherwise use fallback
+  const displayAccounts = accounts.length > 0 ? accounts : fallbackAccounts
+  
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto p-8">
@@ -95,15 +104,33 @@ export default function US005Slice1TestPage() {
           </div>
         </div>
 
+        {loading && (
+          <div className="text-center py-4">
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+            <p className="mt-2 text-gray-500">Loading accounts from Supabase...</p>
+          </div>
+        )}
+        
+        {error && (
+          <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4 rounded">
+            <p className="font-bold">Database Connection Issue</p>
+            <p className="text-sm">Using fallback data. Error: {error}</p>
+            <p className="text-xs mt-2">Make sure accounts table exists in Supabase</p>
+          </div>
+        )}
+
         <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-          <div className="p-4 border-b border-gray-200">
+          <div className="p-4 border-b border-gray-200 flex justify-between items-center">
             <h2 className="font-semibold text-gray-900">Accounts Column</h2>
+            <span className="text-sm text-gray-500">
+              Data: {accounts.length > 0 ? '✅ Supabase' : '⚠️ Fallback'}
+            </span>
           </div>
           <div className="h-[600px]" data-testid="t004-integration">
             <AccountMasterView
-              accounts={mockAccounts}
-              isLoading={false}
-              error={null}
+              accounts={displayAccounts}
+              isLoading={loading}
+              error={error}
             />
           </div>
         </div>

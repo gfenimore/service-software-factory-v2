@@ -1,13 +1,19 @@
 import { createBrowserClient } from '@supabase/ssr'
-import type { Database } from './types'
+import type { Database } from './database.types'
 
-/**
- * Creates a Supabase client for browser/client-side usage
- * This client is used in React components and API functions
- */
 export function createClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    console.error('❌ Missing Supabase environment variables!')
+    console.log('NEXT_PUBLIC_SUPABASE_URL:', supabaseUrl)
+    console.log('NEXT_PUBLIC_SUPABASE_ANON_KEY:', supabaseAnonKey ? 'Set' : 'Missing')
+    throw new Error('Missing Supabase environment variables. Please check your .env.local file.')
+  }
+
   return createBrowserClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    supabaseUrl,
+    supabaseAnonKey
   )
 }

@@ -2,8 +2,12 @@
 
 import { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { X } from 'lucide-react'
+import { X, User, Mail, Phone, Briefcase } from 'lucide-react'
 import type { Account } from '@/types/accountDetails.types'
+import { useContacts } from '@/hooks/useContacts'
+import type { Database } from '@/lib/supabase/database.types'
+
+type Contact = Database['public']['Tables']['contacts']['Row']
 
 export interface ContactInfo {
   id: string
@@ -30,6 +34,9 @@ export function ContactDetailsModal({
   contacts = []
 }: ContactDetailsModalProps) {
   const modalRef = useRef<HTMLDivElement>(null)
+  
+  // Fetch real contacts from Supabase using account ID
+  const { contacts: dbContacts, loading, error } = useContacts(account?.id)
 
   // Handle ESC key press
   useEffect(() => {
@@ -60,19 +67,30 @@ export function ContactDetailsModal({
 
   if (!isOpen || !account) return null
 
-  // Mock contact data for now (will be replaced with real data)
-  const mockContacts: ContactInfo[] = contacts.length > 0 ? contacts : [
-    {
-      id: '1',
-      name: account.contact_name || 'Primary Contact',
-      role: 'Account Manager',
-      email: (account.contact_email as string) || 'contact@example.com',
-      phone: (account.contact_phone as string) || '(555) 123-4567',
-      isPrimary: true,
-      lastContact: '2 days ago',
-      notes: 'Prefers email communication'
-    }
-  ]
+  // Transform database contacts to display format
+  const displayContacts: ContactInfo[] = dbContacts.length > 0 
+    ? dbContacts.map((contact: Contact) => ({
+        id: contact.id,
+        name: `${contact.first_name} ${contact.last_name}`,
+        role: contact.title || undefined,
+        email: contact.email || undefined,
+        phone: contact.phone || contact.mobile || undefined,
+        isPrimary: false, // is_primary field doesn't exist in current schema
+        notes: contact.notes || undefined
+      }))
+    : contacts.length > 0 
+      ? contacts 
+      : [
+          {
+            id: '1',
+            name: account.contact_name || 'No contacts available',
+            role: 'Primary Contact',
+            email: (account.contact_email as string) || undefined,
+            phone: (account.contact_phone as string) || undefined,
+            isPrimary: true,
+            notes: 'Contact information from account record'
+          }
+        ].filter(c => c.name !== 'No contacts available' || (!c.email && !c.phone))
 
   return createPortal(
     <div 
@@ -111,13 +129,23 @@ export function ContactDetailsModal({
 
         {/* Content */}
         <div className="p-6 overflow-y-auto max-h-[calc(80vh-8rem)]">
-          {mockContacts.length === 0 ? (
+          {loading ? (
+            <div className="text-center py-8">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+              <p className="mt-2 text-gray-500">Loading contacts...</p>
+            </div>
+          ) : error ? (
+            <div className="text-center py-8">
+              <p className="text-red-500">Error loading contacts: {error}</p>
+              <p className="text-sm text-gray-500 mt-2">Using cached data if available</p>
+            </div>
+          ) : displayContacts.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               No contacts available for this account
             </div>
           ) : (
             <div className="space-y-4">
-              {mockContacts.map((contact) => (
+              {displayContacts.map((contact) => (
                 <div 
                   key={contact.id}
                   className="border rounded-lg p-4 hover:bg-gray-50 transition-colors"

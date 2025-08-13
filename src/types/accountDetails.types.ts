@@ -6,7 +6,9 @@ export interface AccountDetailsPanelProps {
 
 export interface Account {
   id: string
-  company_name: string
+  account_number?: string // Added for Supabase integration
+  company_name: string // Keep for backward compatibility
+  account_name?: string // New preferred field name
   contact_name?: string
   billing_city?: string | null
   status?: 'Active' | 'Inactive'
