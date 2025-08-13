@@ -1,10 +1,4 @@
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[]
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
 
 export interface Database {
   public: {
@@ -16,12 +10,10 @@ export interface Database {
           first_name: string
           last_name: string
           title: string | null
-          email: string | null
-          phone: string | null
-          mobile: string | null
-          is_primary: boolean
-          is_billing: boolean
-          is_technical: boolean
+          email_address: string | null
+          phone_number: string | null
+          is_primary_contact: boolean
+          communication_preference: 'Voice' | 'Text' | 'Email' | null
           notes: string | null
           created_at: string
           updated_at: string
@@ -32,12 +24,10 @@ export interface Database {
           first_name: string
           last_name: string
           title?: string | null
-          email?: string | null
-          phone?: string | null
-          mobile?: string | null
-          is_primary?: boolean
-          is_billing?: boolean
-          is_technical?: boolean
+          email_address?: string | null
+          phone_number?: string | null
+          is_primary_contact?: boolean
+          communication_preference?: 'Voice' | 'Text' | 'Email' | null
           notes?: string | null
           created_at?: string
           updated_at?: string
@@ -48,12 +38,10 @@ export interface Database {
           first_name?: string
           last_name?: string
           title?: string | null
-          email?: string | null
-          phone?: string | null
-          mobile?: string | null
-          is_primary?: boolean
-          is_billing?: boolean
-          is_technical?: boolean
+          email_address?: string | null
+          phone_number?: string | null
+          is_primary_contact?: boolean
+          communication_preference?: 'Voice' | 'Text' | 'Email' | null
           notes?: string | null
           created_at?: string
           updated_at?: string

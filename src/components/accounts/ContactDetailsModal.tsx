@@ -27,14 +27,14 @@ export interface ContactDetailsModalProps {
   contacts?: ContactInfo[]
 }
 
-export function ContactDetailsModal({ 
-  isOpen, 
-  onClose, 
+export function ContactDetailsModal({
+  isOpen,
+  onClose,
   account,
-  contacts = []
+  contacts = [],
 }: ContactDetailsModalProps) {
   const modalRef = useRef<HTMLDivElement>(null)
-  
+
   // Fetch real contacts from Supabase using account ID
   const { contacts: dbContacts, loading, error } = useContacts(account?.id)
 
@@ -68,41 +68,42 @@ export function ContactDetailsModal({
   if (!isOpen || !account) return null
 
   // Transform database contacts to display format
-  const displayContacts: ContactInfo[] = dbContacts.length > 0 
-    ? dbContacts.map((contact: Contact) => ({
-        id: contact.id,
-        name: `${contact.first_name} ${contact.last_name}`,
-        role: contact.title || undefined,
-        email: contact.email || undefined,
-        phone: contact.phone || contact.mobile || undefined,
-        isPrimary: false, // is_primary field doesn't exist in current schema
-        notes: contact.notes || undefined
-      }))
-    : contacts.length > 0 
-      ? contacts 
-      : [
-          {
-            id: '1',
-            name: account.contact_name || 'No contacts available',
-            role: 'Primary Contact',
-            email: (account.contact_email as string) || undefined,
-            phone: (account.contact_phone as string) || undefined,
-            isPrimary: true,
-            notes: 'Contact information from account record'
-          }
-        ].filter(c => c.name !== 'No contacts available' || (!c.email && !c.phone))
+  const displayContacts: ContactInfo[] =
+    dbContacts.length > 0
+      ? dbContacts.map((contact: Contact) => ({
+          id: contact.id,
+          name: `${contact.first_name} ${contact.last_name}`,
+          role: contact.title || undefined,
+          email: contact.email_address || undefined,
+          phone: contact.phone_number || undefined,
+          isPrimary: false, // TODO: use contact.is_primary_contact when available
+          notes: contact.notes || undefined,
+        }))
+      : contacts.length > 0
+        ? contacts
+        : [
+            {
+              id: '1',
+              name: account.contact_name || 'No contacts available',
+              role: 'Primary Contact',
+              email: (account.contact_email as string) || undefined,
+              phone: (account.contact_phone as string) || undefined,
+              isPrimary: true,
+              notes: 'Contact information from account record',
+            },
+          ].filter((c) => c.name !== 'No contacts available' || (!c.email && !c.phone))
 
   return createPortal(
-    <div 
+    <div
       className="fixed inset-0 z-50 flex items-center justify-center"
       onClick={handleBackdropClick}
       data-testid="contact-details-modal-backdrop"
     >
       {/* Backdrop */}
       <div className="absolute inset-0 bg-black bg-opacity-50" />
-      
+
       {/* Modal */}
-      <div 
+      <div
         ref={modalRef}
         className="relative bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[80vh] overflow-hidden"
         data-testid="contact-details-modal"
@@ -110,12 +111,8 @@ export function ContactDetailsModal({
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b">
           <div>
-            <h2 className="text-xl font-semibold text-gray-900">
-              Contact Details
-            </h2>
-            <p className="text-sm text-gray-500 mt-1">
-              {account.company_name}
-            </p>
+            <h2 className="text-xl font-semibold text-gray-900">Contact Details</h2>
+            <p className="text-sm text-gray-500 mt-1">{account.company_name}</p>
           </div>
           <button
             onClick={onClose}
@@ -146,7 +143,7 @@ export function ContactDetailsModal({
           ) : (
             <div className="space-y-4">
               {displayContacts.map((contact) => (
-                <div 
+                <div
                   key={contact.id}
                   className="border rounded-lg p-4 hover:bg-gray-50 transition-colors"
                 >
@@ -160,9 +157,7 @@ export function ContactDetailsModal({
                           </span>
                         )}
                       </h3>
-                      {contact.role && (
-                        <p className="text-sm text-gray-600">{contact.role}</p>
-                      )}
+                      {contact.role && <p className="text-sm text-gray-600">{contact.role}</p>}
                     </div>
                     {contact.lastContact && (
                       <span className="text-xs text-gray-500">
@@ -175,7 +170,7 @@ export function ContactDetailsModal({
                     {contact.email && (
                       <div className="flex items-center gap-2">
                         <span className="text-gray-500">Email:</span>
-                        <a 
+                        <a
                           href={`mailto:${contact.email}`}
                           className="text-blue-600 hover:underline"
                         >
@@ -186,10 +181,7 @@ export function ContactDetailsModal({
                     {contact.phone && (
                       <div className="flex items-center gap-2">
                         <span className="text-gray-500">Phone:</span>
-                        <a 
-                          href={`tel:${contact.phone}`}
-                          className="text-blue-600 hover:underline"
-                        >
+                        <a href={`tel:${contact.phone}`} className="text-blue-600 hover:underline">
                           {contact.phone}
                         </a>
                       </div>

@@ -35,7 +35,10 @@
       "Bash(supabase db:*)",
       "Bash(./scripts/get-supabase-keys.sh:*)",
       "mcp__supabase__execute_sql",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(npm run check:quick:*)",
+      "Bash(npm run lint:*)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }
