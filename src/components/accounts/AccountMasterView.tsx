@@ -10,18 +10,30 @@ export interface AccountMasterViewProps {
   accounts: Account[]
   isLoading?: boolean
   error?: string | null
+  selectedAccountId?: string | null
+  onAccountSelect?: (account: Account) => void
 }
 
-export function AccountMasterView({ 
-  accounts, 
-  isLoading, 
-  error 
+export function AccountMasterView({
+  accounts,
+  isLoading,
+  error,
+  selectedAccountId: externalSelectedId,
+  onAccountSelect,
 }: AccountMasterViewProps) {
-  const [selectedAccountId, setSelectedAccountId] = useState<string | null>(null)
+  // Use internal state if no external control provided
+  const [internalSelectedId, setInternalSelectedId] = useState<string | null>(null)
+  const selectedAccountId =
+    externalSelectedId !== undefined ? externalSelectedId : internalSelectedId
+
   const { isOpen, currentAccount, openModal, closeModal } = useContactModal()
 
   const handleAccountSelect = (account: Account) => {
-    setSelectedAccountId(account.id)
+    if (onAccountSelect) {
+      onAccountSelect(account)
+    } else {
+      setInternalSelectedId(account.id)
+    }
   }
 
   const handleContactClick = (account: Account) => {
@@ -62,7 +74,9 @@ export function AccountMasterView({
             isSelected={selectedAccountId === account.id}
             onSelect={handleAccountSelect}
             onContactClick={() => handleContactClick(account)}
-            onServiceAgreementClick={() => console.log('Service Agreement clicked for', account.company_name)}
+            onServiceAgreementClick={() =>
+              console.log('Service Agreement clicked for', account.company_name)
+            }
             onFinancialClick={() => console.log('Financial clicked for', account.company_name)}
             onNotesClick={() => console.log('Notes clicked for', account.company_name)}
           />
@@ -70,11 +84,7 @@ export function AccountMasterView({
       </div>
 
       {/* Contact Details Modal */}
-      <ContactDetailsModal
-        isOpen={isOpen}
-        onClose={closeModal}
-        account={currentAccount}
-      />
+      <ContactDetailsModal isOpen={isOpen} onClose={closeModal} account={currentAccount} />
     </>
   )
 }

@@ -38,7 +38,14 @@
       "Bash(curl:*)",
       "Bash(npm run check:quick:*)",
       "Bash(npm run lint:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(npx eslint:*)",
+      "Bash(cp:*)",
+      "Bash(for dir in 02-planning 03-design 04-development 05-testing 06-deployment 08-quality 10-learning 11-communications)",
+      "Bash(do if [ -d \".sdlc/$dir\" ])",
+      "Bash(then cp -r \".sdlc/$dir\" \".sdlc/12-sdlc-design/sdlc-experimental/\")",
+      "Bash(fi)",
+      "Bash(done)"
     ],
     "deny": []
   }

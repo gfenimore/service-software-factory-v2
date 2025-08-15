@@ -1,0 +1,114 @@
+{
+  "story": "US-004",
+  "slice": 3,
+  "slice_name": "Interactive Selection",
+  "architecture_doc": ".sdlc/05-backlog/A-accounts/master-view/us-004-tasks.md",
+  "analysis_timestamp": "2025-01-09T18:30:00Z",
+  "processors": [
+    {
+      "sequence": 1,
+      "processor": "HOOK-PROCESSOR",
+      "purpose": "Create selection state management hook",
+      "task": "T-009",
+      "hook_name": "useAccountSelection",
+      "input": ".sdlc/05-backlog/A-accounts/master-view/us-004-tasks.md",
+      "output": "src/hooks/useAccountSelection.ts",
+      "features": [
+        "Manage selected account ID state",
+        "Single selection business rule enforcement",
+        "Select/deselect functions with toggle behavior",
+        "TypeScript types for all functions",
+        "Null safety for account IDs"
+      ],
+      "estimated_time_minutes": 20,
+      "validation": "npm run type-check && npm test -- --watchAll=false useAccountSelection"
+    },
+    {
+      "sequence": 2,
+      "processor": "MODIFY-PROCESSOR",
+      "purpose": "Add click handlers to AccountCard for selection",
+      "task": "T-010",
+      "target_file": "src/components/accounts/AccountCard.tsx",
+      "modifications": [
+        "Import useAccountSelection hook",
+        "Add onClick handler to card container",
+        "Integrate selection logic with click events",
+        "Handle null account ID edge cases",
+        "Add proper TypeScript event typing"
+      ],
+      "estimated_time_minutes": 15,
+      "validation": "npm run dev && verify click interactions work"
+    },
+    {
+      "sequence": 3,
+      "processor": "MODIFY-PROCESSOR",
+      "purpose": "Add visual selection indicators to AccountCard",
+      "task": "T-011",
+      "target_file": "src/components/accounts/AccountCard.tsx",
+      "modifications": [
+        "Add conditional CSS classes for selected state",
+        "Implement visual selection styling",
+        "Ensure accessibility contrast requirements",
+        "Handle hover states with selection",
+        "Add null-safe conditional styling logic"
+      ],
+      "estimated_time_minutes": 15,
+      "validation": "npm run dev && verify visual selection indicators display correctly"
+    }
+  ],
+  "summary": {
+    "total_processors": 3,
+    "unique_processors": 2,
+    "total_estimated_minutes": 50,
+    "components_to_create": 0,
+    "hooks_to_create": 1,
+    "files_to_modify": 1,
+    "validation_gates": 3,
+    "business_rules_enforced": [
+      "Only one account can be selected at a time",
+      "Clicking selected card deselects it",
+      "Visual feedback for selection state"
+    ]
+  },
+  "execution_script": {
+    "filename": "run-us004-slice3.sh",
+    "commands": [
+      "# Value Slice 3: Interactive Selection",
+      "# Tasks T-009 through T-011",
+      "",
+      "# Step 1: Create selection state management hook",
+      "invoke-processor hook-processor T-009",
+      "npm run type-check",
+      "",
+      "# Step 2: Add click interactions to AccountCard",
+      "invoke-processor modify-processor T-010",
+      "npm run type-check",
+      "",
+      "# Step 3: Add visual selection indicators",
+      "invoke-processor modify-processor T-011",
+      "",
+      "# Final validation - complete slice 3",
+      "npm run type-check",
+      "npm run dev",
+      "echo 'Value Slice 3 (Interactive Selection) complete!'",
+      "echo 'User can now: Click on account cards to select them with clear visual feedback'"
+    ]
+  },
+  "dependencies": {
+    "requires_completion_before_start": [
+      "T-005: Account data types must exist",
+      "T-006: AccountCard component must exist"
+    ],
+    "external_dependencies": [
+      "useAccountSelection hook (created by T-009)",
+      "Existing AccountCard component structure"
+    ]
+  },
+  "quality_gates": {
+    "type_safety": "All processors must pass npm run type-check",
+    "functionality": "Each task must pass manual verification in npm run dev",
+    "business_rules": "Selection behavior must enforce single-selection rule",
+    "null_safety": "All components must handle null/undefined states gracefully",
+    "accessibility": "Visual indicators must meet contrast requirements"
+  }
+}
