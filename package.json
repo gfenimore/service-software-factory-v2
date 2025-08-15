@@ -32,7 +32,12 @@
     "validate:strict": "npm run type-check && npm run lint && npm run test:ci",
     "quality-check": "node scripts/quality-check.js",
     "sdlc:inventory": "node scripts/generate-sdlc-inventory.js",
-    "install:jq": "bash scripts/install-jq.sh"
+    "install:jq": "bash scripts/install-jq.sh",
+    "todo": "node scripts/terminal-todo-board.js",
+    "todo:watch": "node scripts/terminal-todo-board.js watch",
+    "todo:add": "node scripts/terminal-todo-board.js add",
+    "todo:sync": "node scripts/claude-todo-sync.js sync",
+    "todo:report": "node scripts/claude-todo-sync.js report"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

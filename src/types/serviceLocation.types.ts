@@ -29,7 +29,7 @@ export interface ServiceLocationsResponse {
 export interface ServiceLocationsListProps {
   accountId: string
   accountName: string
-  onLocationSelect: (locationId: string) => void
+  onLocationSelect?: (location: { id: string; name: string }) => void
   className?: string
 }
 
