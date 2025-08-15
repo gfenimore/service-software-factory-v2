@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useState, ReactNode } from 'react'
+import React, { createContext, useContext, useState, ReactNode, useCallback, useMemo } from 'react'
 
 interface MasterViewContextType {
   selectedAccountId: string | null
@@ -17,30 +17,37 @@ export function MasterViewProvider({ children }: { children: ReactNode }) {
   const [selectedAccountName, setSelectedAccountName] = useState<string | null>(null)
   const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null)
 
-  const setSelectedAccount = (id: string | null, name: string | null) => {
+  // Stabilize function references with useCallback
+  const setSelectedAccount = useCallback((id: string | null, name: string | null) => {
     setSelectedAccountId(id)
     setSelectedAccountName(name)
     // Clear location selection when account changes
     setSelectedLocationId(null)
-  }
+  }, [])
 
-  const setSelectedLocation = (id: string | null) => {
+  const setSelectedLocation = useCallback((id: string | null) => {
     setSelectedLocationId(id)
-  }
+  }, [])
 
-  return (
-    <MasterViewContext.Provider
-      value={{
-        selectedAccountId,
-        selectedAccountName,
-        selectedLocationId,
-        setSelectedAccount,
-        setSelectedLocation,
-      }}
-    >
-      {children}
-    </MasterViewContext.Provider>
+  // Memoize the context value to prevent unnecessary re-renders
+  const value = useMemo(
+    () => ({
+      selectedAccountId,
+      selectedAccountName,
+      selectedLocationId,
+      setSelectedAccount,
+      setSelectedLocation,
+    }),
+    [
+      selectedAccountId,
+      selectedAccountName,
+      selectedLocationId,
+      setSelectedAccount,
+      setSelectedLocation,
+    ]
   )
+
+  return <MasterViewContext.Provider value={value}>{children}</MasterViewContext.Provider>
 }
 
 export function useMasterView() {

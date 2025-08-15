@@ -4,6 +4,7 @@ import React from 'react'
 import { MasterViewLayout } from '@/components/master-view/MasterViewLayout'
 import { AccountMasterView } from '@/components/accounts/AccountMasterView'
 import { ServiceLocationsList } from '@/components/master-view/ServiceLocationsList'
+import { WorkOrdersList } from '@/components/work-orders/WorkOrdersList'
 import { MasterViewProvider, useMasterView } from '@/contexts/MasterViewContext'
 import { useAccounts } from '@/hooks/useAccounts'
 import { useAccountSelection } from '@/hooks/useAccountSelection'
@@ -18,6 +19,10 @@ function AccountsMasterViewContent() {
   // Get context functions for location selection
   const { setSelectedAccount, setSelectedLocation } = useMasterView()
 
+  // Location selection state for Column 3
+  const [selectedLocationId, setSelectedLocationId] = React.useState<string | null>(null)
+  const [selectedLocationName, setSelectedLocationName] = React.useState<string | null>(null)
+
   // Find the selected account for details panels
   const selectedAccount = accounts.find((a) => a.id === selectedAccountId)
 
@@ -29,7 +34,10 @@ function AccountsMasterViewContent() {
         selectedAccount.company_name || selectedAccount.account_name || null
       )
     }
-  }, [selectedAccountId, selectedAccount, setSelectedAccount])
+    // Clear location selection when account changes
+    setSelectedLocationId(null)
+    setSelectedLocationName(null)
+  }, [selectedAccountId, selectedAccount, setSelectedAccount]) // setSelectedAccount is now stable from useCallback
 
   return (
     <MasterViewLayout>
@@ -57,47 +65,29 @@ function AccountsMasterViewContent() {
         <ServiceLocationsList
           accountId={selectedAccountId || ''}
           accountName={selectedAccount?.company_name || selectedAccount?.account_name || ''}
-          onLocationSelect={(locationId) => {
-            console.log('Location selected:', locationId)
-            // Location selection will be fully implemented in Value Slice 2
+          onLocationSelect={(location) => {
+            // Only update if actually changing
+            if (selectedLocationId !== location.id) {
+              setSelectedLocationId(location.id)
+              setSelectedLocationName(location.name)
+              setSelectedLocation(location.id)
+            }
           }}
           className="h-full"
         />
       </div>
 
-      {/* Column 3: Placeholder for additional context/actions */}
+      {/* Column 3: Work Orders */}
       <div className="h-full flex flex-col bg-gray-50">
-        <div className="flex-shrink-0 p-4 border-b border-gray-200 bg-white">
-          <h2 className="text-lg font-semibold text-gray-900">Actions</h2>
-          <p className="text-sm text-gray-500 mt-1">Quick actions and tools</p>
-        </div>
-        <div className="flex-1 p-4 overflow-auto">
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h3 className="font-medium text-gray-900 mb-4">Quick Actions</h3>
-            <div className="space-y-3">
-              <button className="w-full text-left px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm text-gray-700 transition-colors">
-                📊 Generate Report
-              </button>
-              <button className="w-full text-left px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm text-gray-700 transition-colors">
-                📧 Send Email
-              </button>
-              <button className="w-full text-left px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm text-gray-700 transition-colors">
-                📅 Schedule Meeting
-              </button>
-              <button className="w-full text-left px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm text-gray-700 transition-colors">
-                📝 Add Note
-              </button>
-            </div>
-          </div>
-
-          <div className="mt-4 bg-blue-50 rounded-lg border border-blue-200 p-4">
-            <h4 className="text-sm font-medium text-blue-900 mb-2">Contact Details Available</h4>
-            <p className="text-xs text-blue-700">
-              Click the phone icon on any account card to view detailed contact information
-              including names, emails, and phone numbers.
-            </p>
-          </div>
-        </div>
+        <WorkOrdersList
+          locationId={selectedLocationId || ''}
+          locationName={selectedLocationName || ''}
+          onWorkOrderSelect={(workOrderId) => {
+            console.log('Work order selected:', workOrderId)
+            // Future enhancement: Could trigger actions or updates
+          }}
+          className="h-full"
+        />
       </div>
     </MasterViewLayout>
   )

@@ -74,6 +74,14 @@ export const ServiceLocationsList: React.FC<ServiceLocationsListProps> = ({
     enabled: !!accountId,
   })
 
+  // Track selected location for visual feedback
+  const [selectedLocationId, setSelectedLocationId] = React.useState<string | null>(null)
+
+  // Clear selection when account changes
+  React.useEffect(() => {
+    setSelectedLocationId(null)
+  }, [accountId])
+
   // No account selected
   if (!accountId) {
     return (
@@ -107,7 +115,18 @@ export const ServiceLocationsList: React.FC<ServiceLocationsListProps> = ({
         </h3>
         <div className="space-y-2">
           {locations.map((location) => (
-            <ServiceLocationCard key={location.id} location={location} />
+            <div
+              key={location.id}
+              onClick={() => {
+                setSelectedLocationId(location.id)
+                onLocationSelect?.({ id: location.id, name: location.location_name })
+              }}
+              className={`cursor-pointer rounded-lg transition-all ${
+                selectedLocationId === location.id ? 'ring-2 ring-blue-500' : ''
+              }`}
+            >
+              <ServiceLocationCard location={location} />
+            </div>
           ))}
         </div>
       </div>
