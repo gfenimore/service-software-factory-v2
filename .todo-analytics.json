@@ -1,0 +1,23 @@
+{
+  "totalTasks": 3,
+  "completedTasks": 1,
+  "averageCompletionTime": 6713,
+  "tasksByDay": {
+    "2025-08-15": 1
+  },
+  "tasksByHour": {
+    "10": 1
+  },
+  "patterns": {
+    "mostProductiveDay": null,
+    "mostProductiveHour": "10",
+    "longestTask": {
+      "content": "Review handoff document struct",
+      "time": 6713
+    },
+    "shortestTask": {
+      "content": "Review handoff document struct",
+      "time": 6713
+    }
+  }
+}
