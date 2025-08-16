@@ -109,6 +109,6 @@ export async function GET(request: NextRequest) {
     })
   } catch (error) {
     console.error('Verification error:', error)
-    return NextResponse.json({ error: 'Verification failed', details: error }, { status: 500 })
+    return NextResponse.json({ error: 'Verification failed' }, { status: 500 }) // SECURITY: Never expose error details
   }
 }

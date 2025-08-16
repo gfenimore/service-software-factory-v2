@@ -11,24 +11,24 @@ export function useAccounts() {
       try {
         setLoading(true)
         setError(null)
-        
+
         console.log('🔍 Fetching accounts via API route...')
-        
+
         // Use API route which runs on server with proper keys
         const response = await fetch('/api/accounts')
         const data = await response.json()
-        
+
         console.log('API response:', data)
-        
+
         if (!response.ok) {
           throw new Error(data.error || 'Failed to fetch accounts')
         }
-        
+
         // Transform to match Account type
         const transformedAccounts: Account[] = (data.accounts || []).map((acc: any) => ({
           id: acc.id,
           account_number: acc.account_number,
-          company_name: acc.account_name, // Map account_name to company_name for compatibility
+          company_name: acc.account_name, // Map account_name to company_name for UI compatibility
           account_name: acc.account_name,
           contact_name: acc.contact_name,
           contact_email: acc.contact_email,
@@ -48,20 +48,21 @@ export function useAccounts() {
           account_type: acc.account_type,
           status: acc.status,
           created_at: acc.created_at,
-          updated_at: acc.updated_at
+          updated_at: acc.updated_at,
         }))
-        
+
         console.log('✅ Successfully fetched', transformedAccounts.length, 'accounts')
         setAccounts(transformedAccounts)
       } catch (err) {
         console.error('❌ Error fetching accounts:', err)
-        const errorMessage = err instanceof Error 
-          ? err.message 
-          : typeof err === 'object' && err !== null && 'message' in err
-            ? String((err as any).message)
-            : 'Failed to fetch accounts'
+        const errorMessage =
+          err instanceof Error
+            ? err.message
+            : typeof err === 'object' && err !== null && 'message' in err
+              ? String((err as any).message)
+              : 'Failed to fetch accounts'
         setError(errorMessage)
-        
+
         // Fallback to mock data if database not ready
         setAccounts([])
       } finally {

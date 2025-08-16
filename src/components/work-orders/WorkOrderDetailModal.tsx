@@ -12,29 +12,7 @@ import type {
   WorkOrderStatus,
   WorkOrderPriority,
 } from '@/types/workOrder.types'
-
-// Status color mapping (matching WorkOrderCard)
-const getStatusColor = (status: WorkOrderStatus): string => {
-  const colors = {
-    Scheduled: 'bg-gray-100 text-gray-700',
-    Assigned: 'bg-blue-100 text-blue-700',
-    'In-Progress': 'bg-yellow-100 text-yellow-700',
-    Completed: 'bg-green-100 text-green-700',
-    Invoiced: 'bg-purple-100 text-purple-700',
-  }
-  return colors[status] || 'bg-gray-100 text-gray-700'
-}
-
-// Priority badge color
-const getPriorityBadgeColor = (priority: WorkOrderPriority): string => {
-  const colors = {
-    Emergency: 'bg-red-100 text-red-700',
-    High: 'bg-orange-100 text-orange-700',
-    Medium: 'bg-blue-100 text-blue-700',
-    Low: 'bg-gray-100 text-gray-700',
-  }
-  return colors[priority] || 'bg-gray-100 text-gray-700'
-}
+import { StatusBadge, PriorityBadge } from '@/components/ui/StatusBadge'
 
 export function WorkOrderDetailModal({ workOrder, isOpen, onClose }: WorkOrderDetailModalProps) {
   // Handle escape key
@@ -101,16 +79,18 @@ export function WorkOrderDetailModal({ workOrder, isOpen, onClose }: WorkOrderDe
           <div className="px-6 py-4">
             {/* Priority and Status */}
             <div className="flex gap-3 mb-6">
-              <span
-                className={`px-3 py-1 text-sm font-medium rounded-full ${getPriorityBadgeColor(workOrder.priority)}`}
-              >
-                {workOrder.priority} Priority
-              </span>
-              <span
-                className={`px-3 py-1 text-sm font-medium rounded-full ${getStatusColor(workOrder.status)}`}
-              >
-                {workOrder.status}
-              </span>
+              <PriorityBadge
+                priority={workOrder.priority as 'Emergency' | 'High' | 'Medium' | 'Low'}
+                variant="subtle"
+                size="md"
+              />
+              <StatusBadge
+                status={
+                  workOrder.status === 'In-Progress' ? 'In Progress' : (workOrder.status as any)
+                }
+                variant="subtle"
+                size="md"
+              />
             </div>
 
             {/* Description */}

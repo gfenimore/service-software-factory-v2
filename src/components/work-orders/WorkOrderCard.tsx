@@ -12,29 +12,9 @@ import type {
   WorkOrderStatus,
   WorkOrderPriority,
 } from '@/types/workOrder.types'
-
-// Status color mapping
-const getStatusColor = (status: WorkOrderStatus): string => {
-  const colors = {
-    Scheduled: 'bg-gray-100 text-gray-700',
-    Assigned: 'bg-blue-100 text-blue-700',
-    'In-Progress': 'bg-yellow-100 text-yellow-700',
-    Completed: 'bg-green-100 text-green-700',
-    Invoiced: 'bg-purple-100 text-purple-700',
-  }
-  return colors[status] || 'bg-gray-100 text-gray-700'
-}
-
-// Priority color mapping
-const getPriorityColor = (priority: WorkOrderPriority): string => {
-  const colors = {
-    Emergency: 'bg-red-500',
-    High: 'bg-orange-500',
-    Medium: 'bg-blue-500',
-    Low: 'bg-gray-300',
-  }
-  return colors[priority] || 'bg-gray-300'
-}
+import { Card } from '@/components/ui/Card'
+import { StatusBadge } from '@/components/ui/StatusBadge'
+import { getPriorityColorHex } from '@/utils/status-colors'
 
 // Format date for display
 const formatDate = (dateString: string): string => {
@@ -74,15 +54,23 @@ export function WorkOrderCard({ workOrder, onClick, isSelected = false }: WorkOr
     return scheduledDate < today
   })()
 
+  // Map priority to correct type for the badge
+  const priorityMap: Record<WorkOrderPriority, 'Emergency' | 'High' | 'Medium' | 'Low'> = {
+    Emergency: 'Emergency',
+    High: 'High',
+    Medium: 'Medium',
+    Low: 'Low',
+  }
+
+  // Map status to match our StatusBadge expectations
+  const statusValue = workOrder.status === 'In-Progress' ? 'In Progress' : (workOrder.status as any)
+
   return (
-    <div
+    <Card
+      variant={isSelected ? 'selected' : 'default'}
+      interactive={true}
       onClick={onClick}
-      className={`
-        relative p-4 bg-white rounded-lg border shadow-sm cursor-pointer
-        transition-all duration-200 hover:shadow-md
-        ${isSelected ? 'ring-2 ring-blue-500 border-blue-500' : 'border-gray-200 hover:border-gray-300'}
-        ${isOverdue ? 'bg-red-50' : ''}
-      `}
+      className={`relative ${isOverdue ? 'bg-red-50' : ''}`}
     >
       {/* Header Section */}
       <div className="flex items-start justify-between mb-2">
@@ -99,11 +87,7 @@ export function WorkOrderCard({ workOrder, onClick, isSelected = false }: WorkOr
         </div>
 
         {/* Status Badge */}
-        <span
-          className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(workOrder.status)}`}
-        >
-          {workOrder.status}
-        </span>
+        <StatusBadge status={statusValue} variant="subtle" size="sm" />
       </div>
 
       {/* Description */}
@@ -138,9 +122,10 @@ export function WorkOrderCard({ workOrder, onClick, isSelected = false }: WorkOr
 
       {/* Priority Indicator */}
       <div
-        className={`absolute left-0 top-0 bottom-0 w-1 rounded-l-lg ${getPriorityColor(workOrder.priority)}`}
+        className="absolute left-0 top-0 bottom-0 w-1 rounded-l-lg"
+        style={{ backgroundColor: getPriorityColorHex(priorityMap[workOrder.priority]) }}
       />
-    </div>
+    </Card>
   )
 }
 

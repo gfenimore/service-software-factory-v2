@@ -4,17 +4,18 @@ import { createClient } from '@supabase/supabase-js'
 export async function GET(request: NextRequest) {
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    
+    const supabaseKey =
+      process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
     if (!supabaseUrl || !supabaseKey) {
       return NextResponse.json({ error: 'Missing Supabase configuration' }, { status: 500 })
     }
-    
+
     const supabase = createClient(supabaseUrl, supabaseKey, {
       auth: {
         persistSession: false,
-        autoRefreshToken: false
-      }
+        autoRefreshToken: false,
+      },
     })
 
     // First, get all accounts - using actual column names
@@ -24,10 +25,13 @@ export async function GET(request: NextRequest) {
       .limit(5)
 
     if (accountsError) {
-      return NextResponse.json({ 
-        error: 'Failed to fetch accounts', 
-        details: accountsError 
-      }, { status: 500 })
+      return NextResponse.json(
+        {
+          error: 'Failed to fetch accounts',
+          details: accountsError,
+        },
+        { status: 500 }
+      )
     }
 
     // Then, get all contacts
@@ -37,36 +41,41 @@ export async function GET(request: NextRequest) {
       .limit(10)
 
     if (contactsError) {
-      return NextResponse.json({ 
-        error: 'Failed to fetch contacts', 
-        details: contactsError 
-      }, { status: 500 })
+      return NextResponse.json(
+        {
+          error: 'Failed to fetch contacts',
+          details: contactsError,
+        },
+        { status: 500 }
+      )
     }
 
     // Check if account_ids in contacts match account_numbers in accounts
     const results: any = {
       accounts: accounts?.map((a: any) => ({
         account_number: a.account_number,
-        company_name: a.company_name
+        company_name: a.company_name,
       })),
       contacts: contacts?.map((c: any) => ({
         id: c.id,
         account_id: c.account_id,
         first_name: c.first_name,
-        last_name: c.last_name
+        last_name: c.last_name,
       })),
-      matches: []
+      matches: [],
     }
 
     // Find matching contacts for each account
     if (accounts && contacts) {
       for (const account of accounts) {
-        const matchingContacts = contacts.filter((c: any) => c.account_id === (account as any).account_number)
+        const matchingContacts = contacts.filter(
+          (c: any) => c.account_id === (account as any).account_number
+        )
         if (matchingContacts.length > 0) {
           results.matches.push({
             account_number: (account as any).account_number,
             company_name: (account as any).company_name,
-            contact_count: matchingContacts.length
+            contact_count: matchingContacts.length,
           })
         }
       }
@@ -76,7 +85,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('Unexpected error:', error)
     return NextResponse.json(
-      { error: 'An unexpected error occurred', details: error },
+      { error: 'An unexpected error occurred' }, // SECURITY: Never expose error details
       { status: 500 }
     )
   }

@@ -3,6 +3,80 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export interface Database {
   public: {
     Tables: {
+      accounts: {
+        Row: {
+          id: string
+          account_number: string
+          account_name: string
+          contact_name: string | null
+          contact_email: string | null
+          contact_phone: string | null
+          billing_address_1: string | null
+          billing_address_2: string | null
+          billing_city: string | null
+          billing_state: string | null
+          billing_zip: string | null
+          billing_country: string | null
+          service_address_1: string | null
+          service_address_2: string | null
+          service_city: string | null
+          service_state: string | null
+          service_zip: string | null
+          service_country: string | null
+          account_type: string | null
+          status: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          account_number: string
+          account_name: string
+          contact_name?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          billing_address_1?: string | null
+          billing_address_2?: string | null
+          billing_city?: string | null
+          billing_state?: string | null
+          billing_zip?: string | null
+          billing_country?: string | null
+          service_address_1?: string | null
+          service_address_2?: string | null
+          service_city?: string | null
+          service_state?: string | null
+          service_zip?: string | null
+          service_country?: string | null
+          account_type?: string | null
+          status?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          account_number?: string
+          account_name?: string
+          contact_name?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          billing_address_1?: string | null
+          billing_address_2?: string | null
+          billing_city?: string | null
+          billing_state?: string | null
+          billing_zip?: string | null
+          billing_country?: string | null
+          service_address_1?: string | null
+          service_address_2?: string | null
+          service_city?: string | null
+          service_state?: string | null
+          service_zip?: string | null
+          service_country?: string | null
+          account_type?: string | null
+          status?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
       contacts: {
         Row: {
           id: string
