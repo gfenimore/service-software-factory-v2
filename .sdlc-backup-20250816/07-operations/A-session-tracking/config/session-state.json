@@ -1,0 +1,45 @@
+{
+  "current_story": "US-005",
+  "current_task": "ready-to-plan",
+  "story_description": "Master View Account Details",
+  "task_description": "Ready for planning phase",
+  "workflow_path": "full_sdlc",
+  "branch": "feature/master-view",
+  "status": "ready",
+  "phase": "planning",
+  "last_agent": "none",
+  "next_agent": "planner",
+  "started_at": "2025-01-20T16:30:00Z",
+  "last_updated": "2025-01-20T16:30:00Z",
+  "tasks_total": 0,
+  "tasks_completed": 0,
+  "tasks_remaining": [],
+  "value_slices": [],
+  "current_slice": null,
+  "architecture_complete": false,
+  "preview_url": null,
+  "production_url": null,
+  "commits": [],
+  "quality_metrics": {
+    "typescript_errors": 0,
+    "eslint_warnings": 0,
+    "test_failures": 0,
+    "test_coverage": 0,
+    "build_status": "not_started"
+  },
+  "error_budget_used": {
+    "test_failures": 0,
+    "typescript_errors": 0,
+    "eslint_warnings": 0,
+    "time_spent_minutes": 0
+  },
+  "checkpoints": [],
+  "requirements_path": "C:/Users/GarryFenimo/.sdlc/05-backlog/A-accounts/master-view/us-005-account-details.md",
+  "artifacts_path": "C:/Users/GarryFenimo/.sdlc/05-backlog/A-accounts/master-view/",
+  "notes": [
+    "Priority feature for client demo",
+    "Master-detail view of single account",
+    "Three-column interface pattern",
+    "Focus on account information and contacts"
+  ]
+}

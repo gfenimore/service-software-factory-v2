@@ -47,7 +47,8 @@
       "Bash(fi)",
       "Bash(done)",
       "Bash(timeout:*)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "Bash(for file in .sdlc/01-core/A-agents/*.md .sdlc/01-core/A-agents/processors/*.md)"
     ],
     "deny": []
   }

@@ -3,7 +3,12 @@
 # This bypasses MCP and uses Supabase CLI directly
 
 # Configuration
-SUPABASE_ACCESS_TOKEN="${SUPABASE_ACCESS_TOKEN:-sb_secret_uhdqxf2WbtxgzqHOYkFWAw_LwBYWRlp}"
+SUPABASE_ACCESS_TOKEN="${SUPABASE_ACCESS_TOKEN:-}"
+if [ -z "$SUPABASE_ACCESS_TOKEN" ]; then
+  echo "Error: SUPABASE_ACCESS_TOKEN environment variable not set"
+  echo "Please set it in your .env.local file or export it before running this script"
+  exit 1
+fi
 SUPABASE_PROJECT_ID="${SUPABASE_PROJECT_ID:-}"
 
 echo "==================================="

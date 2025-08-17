@@ -1,0 +1,23 @@
+// .cursor/artifacts/structure.json
+{
+  "version": "2.0",
+  "pattern": "{module}/{story}/{enhancement?}/{artifact}",
+  "base_path": ".cursor/artifacts/current",
+  "artifacts": {
+    "requirements": "requirements.md",
+    "planning": "planning.md",
+    "architecture": "architecture.md",
+    "development": "development.md",
+    "testing": "test-report.md",
+    "review": "review.md",
+    "state": "state.json"
+  },
+  "state_transitions": {
+    "PLAN": ["DEV"],
+    "DEV": ["TEST"],
+    "TEST": ["REVIEW", "DEV"],
+    "REVIEW": ["DEPLOY", "DEV"],
+    "DEPLOY": ["DONE"],
+    "DONE": []
+  }
+}

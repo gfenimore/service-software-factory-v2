@@ -1,0 +1,164 @@
+{
+  "story": "US-004",
+  "slice": 2,
+  "architecture_doc": ".sdlc/05-backlog/A-accounts/master-view/us-004-tasks.md",
+  "analysis_timestamp": "2025-08-09T15:30:00Z",
+  "processors": [
+    {
+      "sequence": 1,
+      "processor": "TYPE-PROCESSOR",
+      "purpose": "Create Account data types and component props",
+      "task": "T-005",
+      "input": ".sdlc/05-backlog/A-accounts/master-view/us-004-tasks.md",
+      "output": "src/types/account.types.ts",
+      "interfaces": ["Account", "AccountCardProps", "AccountsListProps"],
+      "estimated_time_minutes": 5,
+      "validation": "npm run type-check"
+    },
+    {
+      "sequence": 2,
+      "processor": "SCAFFOLD-PROCESSOR",
+      "purpose": "Create AccountCard component shell",
+      "task": "T-006",
+      "component": "AccountCard",
+      "input": ".sdlc/05-backlog/A-accounts/master-view/us-004-tasks.md",
+      "output": "src/components/accounts/AccountCard.tsx",
+      "needs_client": false,
+      "estimated_time_minutes": 5,
+      "validation": "npm run type-check"
+    },
+    {
+      "sequence": 3,
+      "processor": "HOOK-PROCESSOR",
+      "purpose": "Create useAccounts hook for data fetching",
+      "task": "T-007",
+      "hook": "useAccounts",
+      "input": ".sdlc/05-backlog/A-accounts/master-view/us-004-tasks.md",
+      "output": "src/hooks/useAccounts.ts",
+      "features": [
+        "fetch accounts from Supabase",
+        "loading state",
+        "error handling",
+        "data transformation"
+      ],
+      "estimated_time_minutes": 10,
+      "validation": "npm run type-check"
+    },
+    {
+      "sequence": 4,
+      "processor": "API-PROCESSOR",
+      "purpose": "Add Supabase integration to useAccounts hook",
+      "task": "T-007",
+      "input": ".sdlc/05-backlog/A-accounts/master-view/us-004-tasks.md",
+      "target_file": "src/hooks/useAccounts.ts",
+      "operations": [
+        "Connect to Supabase client",
+        "Implement accounts query",
+        "Add error handling",
+        "Transform Supabase response to Account type"
+      ],
+      "estimated_time_minutes": 15,
+      "validation": "npm run type-check"
+    },
+    {
+      "sequence": 5,
+      "processor": "REACT-PROCESSOR",
+      "purpose": "Add display logic to AccountCard",
+      "task": "T-006",
+      "component": "AccountCard",
+      "input": ".sdlc/05-backlog/A-accounts/master-view/us-004-tasks.md",
+      "target_file": "src/components/accounts/AccountCard.tsx",
+      "features": [
+        "Display account name",
+        "Display account description",
+        "Display masked account number",
+        "Display account balance",
+        "Card styling with border and padding"
+      ],
+      "estimated_time_minutes": 10,
+      "validation": "npm run type-check"
+    },
+    {
+      "sequence": 6,
+      "processor": "SCAFFOLD-PROCESSOR",
+      "purpose": "Create AccountsList component shell",
+      "task": "T-008",
+      "component": "AccountsList",
+      "input": ".sdlc/05-backlog/A-accounts/master-view/us-004-tasks.md",
+      "output": "src/components/accounts/AccountsList.tsx",
+      "needs_client": false,
+      "estimated_time_minutes": 5,
+      "validation": "npm run type-check"
+    },
+    {
+      "sequence": 7,
+      "processor": "REACT-PROCESSOR",
+      "purpose": "Add rendering logic to AccountsList",
+      "task": "T-008",
+      "component": "AccountsList",
+      "input": ".sdlc/05-backlog/A-accounts/master-view/us-004-tasks.md",
+      "target_file": "src/components/accounts/AccountsList.tsx",
+      "features": [
+        "Use useAccounts hook",
+        "Map accounts to AccountCard components",
+        "Handle loading state",
+        "Handle error state",
+        "Handle empty state",
+        "Vertical list layout with gap"
+      ],
+      "estimated_time_minutes": 15,
+      "validation": "npm run type-check"
+    },
+    {
+      "sequence": 8,
+      "processor": "MODIFY-PROCESSOR",
+      "purpose": "Connect AccountsColumnHeader to real account count",
+      "task": "T-008",
+      "input": ".sdlc/05-backlog/A-accounts/master-view/us-004-tasks.md",
+      "target_file": "src/components/master-view/AccountsColumnHeader.tsx",
+      "modifications": [
+        "Import useAccounts hook",
+        "Replace hardcoded count with real accounts.length",
+        "Handle loading state for count display"
+      ],
+      "estimated_time_minutes": 10,
+      "validation": "npm run dev && verify account count updates"
+    }
+  ],
+  "summary": {
+    "total_processors": 8,
+    "unique_processors": 6,
+    "total_estimated_minutes": 75,
+    "components_to_create": 2,
+    "hooks_to_create": 1,
+    "files_to_modify": 1,
+    "validation_gates": 8
+  },
+  "execution_script": {
+    "filename": "run-us004-slice2.sh",
+    "commands": [
+      "# Step 1: Create account types",
+      "invoke-processor type-processor T-005",
+      "",
+      "# Step 2: Create AccountCard component",
+      "invoke-processor scaffold-processor T-006",
+      "",
+      "# Step 3: Create data fetching hook",
+      "invoke-processor hook-processor T-007",
+      "invoke-processor api-processor T-007",
+      "",
+      "# Step 4: Add logic to AccountCard",
+      "invoke-processor react-processor T-006",
+      "",
+      "# Step 5: Create AccountsList component",
+      "invoke-processor scaffold-processor T-008",
+      "invoke-processor react-processor T-008",
+      "",
+      "# Step 6: Update header with real count",
+      "invoke-processor modify-processor T-008",
+      "",
+      "# Final validation",
+      "npm run type-check && npm run dev"
+    ]
+  }
+}

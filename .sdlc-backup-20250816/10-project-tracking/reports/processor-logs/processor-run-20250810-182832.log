@@ -1,0 +1,11 @@
+[0;32m🚀 Starting STRICT Processor Pipeline[0m
+Manifest: .sdlc/05-backlog/A-accounts/master-view/processor-manifest.json
+Validation: ENABLED (strict mode)
+----------------------------------------
+Story: US-004, Slice: 3
+Processors to run: 3
+
+[1;33m[1/3] Running HOOK-PROCESSOR[0m
+Purpose: Create selection state management hook
+Expected Output: src/hooks/useAccountSelection.ts
+Creating hook: null

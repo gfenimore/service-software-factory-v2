@@ -1,9 +1,19 @@
 const { createClient } = require('@supabase/supabase-js')
+require('dotenv').config({ path: '.env.local' })
 
-const supabase = createClient(
-  'https://gketbzzsevhgxhnlcjzu.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdrZXRienpzZXZoZ3hobmxjanp1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI2MTY0MDQsImV4cCI6MjA2ODE5MjQwNH0.Z5xUBHWouvUBj_DO2IBvCqFooi961x9L-DZudNYa0Ss'
-)
+// Load from environment variables - security audit fix (CWE-798)
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error('Missing Supabase environment variables!')
+  console.error(
+    'Please ensure .env.local contains NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY'
+  )
+  process.exit(1)
+}
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 async function checkLocations() {
   console.log('Checking service locations...\n')
