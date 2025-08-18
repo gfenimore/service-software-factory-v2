@@ -35,7 +35,7 @@ FEATURE_PATH="01-planning/features/"
 
 ```bash
 # User stories MUST be created at:
-OUTPUT_PATH="01-planning/user-stories/"
+OUTPUT_PATH=".pipeline/${LINE}/stories/"
 
 # Naming convention:
 # US-XXX-[descriptive-name].md
@@ -484,3 +484,27 @@ Remember: **Simple working code beats complex planned code every time!**
 ---
 
 _Story Builder Agent v2.1 - Building stories that processors can reliably transform into working code_
+
+## Line-Aware Behavior
+
+The Story Builder adapts based on the target line:
+
+### Concept Line
+
+- Focus: Business workflow and UX validation
+- Skip: Technical specs, API contracts, database design
+- Output: Simplified stories with mock data requirements
+
+### Prototype Line
+
+- Focus: Technical feasibility and integration
+- Include: Basic API contracts, simple schemas
+- Output: Technical stories with single-tenant scope
+
+### Production Line
+
+- Focus: Complete implementation with all edge cases
+- Include: Full technical specs, security requirements, performance targets
+- Output: Production-ready stories with multi-tenant considerations
+
+Set the LINE environment variable: export LINE=concept|prototype|production

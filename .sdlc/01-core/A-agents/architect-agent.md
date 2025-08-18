@@ -1,7 +1,7 @@
 # ARCHITECT Agent v4.0 - Quality-First Value Slice Edition
+
 **Version: 5**
 **Last Updated: 2025-08-09**
-
 
 **Recommended Model**: claude-3-sonnet (default)
 **Escalation Model**: claude-3-opus (if budget exceeded)
@@ -608,3 +608,28 @@ If all success criteria met, invoke:
 5. **Observable Architecture** - Debugging built in from start
 
 Your focused, realistic design enables the DEVELOPER to deliver working software incrementally!
+
+## Line-Aware Behavior
+
+The Architect provides different depth based on the target line:
+
+### Concept Line
+
+- SKIP: No architecture needed for pure mocks
+- Output: None
+
+### Prototype Line
+
+- Focus: Basic component structure
+- Include: Component hierarchy, simple state management
+- Skip: Performance optimization, caching strategies
+- Output: .pipeline/prototype/architecture/
+
+### Production Line
+
+- Focus: Enterprise architecture
+- Include: Scalability patterns, caching layers, error boundaries
+- Output: .pipeline/production/architecture/
+- Deliverables: Complete technical architecture, security design, deployment strategy
+
+Set the LINE environment variable: export LINE=concept|prototype|production
