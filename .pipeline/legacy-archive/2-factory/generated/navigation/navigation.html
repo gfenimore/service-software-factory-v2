@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation - Service Manager</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            height: 100vh;
+            display: flex;
+        }
+
+        /* Navigation Sidebar */
+        .nav-sidebar {
+            width: 260px;
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* App Header */
+        .nav-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            background: #000;
+            color: white;
+        }
+
+        .app-logo {
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Navigation Menu */
+        .nav-menu {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 0;
+        }
+
+        .nav-module {
+            margin-bottom: 20px;
+        }
+
+        .nav-module-header {
+            padding: 10px 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            background: #f0f0f0;
+        }
+
+        .nav-link.active {
+            background: #e8e8e8;
+            border-left: 3px solid #000;
+        }
+
+        .nav-icon {
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: #ff4444;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .nav-divider {
+            height: 1px;
+            background: #e0e0e0;
+            margin: 10px 20px;
+        }
+
+        /* Nested Navigation */
+        .nav-children {
+            display: none;
+            background: #f8f8f8;
+        }
+
+        .nav-item.expanded .nav-children {
+            display: block;
+        }
+
+        .nav-children .nav-link {
+            padding-left: 50px;
+            font-size: 14px;
+        }
+
+        .nav-expand {
+            margin-left: auto;
+            transition: transform 0.2s;
+        }
+
+        .nav-item.expanded .nav-expand {
+            transform: rotate(90deg);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            padding: 10px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .quick-action-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 10px;
+            background: #000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .quick-action-btn:hover {
+            background: #333;
+        }
+
+        /* User Menu */
+        .user-menu {
+            padding: 10px;
+            border-top: 1px solid #e0e0e0;
+            background: white;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .user-info:hover {
+            background: #f0f0f0;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: #000;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            bottom: 60px;
+            left: 10px;
+            right: 10px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .user-dropdown.open {
+            display: block;
+        }
+
+        .user-dropdown-item {
+            display: block;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .user-dropdown-item:hover {
+            background: #f0f0f0;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .content-header {
+            margin-bottom: 20px;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            gap: 10px;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .breadcrumb-separator {
+            color: #999;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .content-body {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 20px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-sidebar {
+                position: fixed;
+                left: -260px;
+                z-index: 1000;
+                transition: left 0.3s;
+            }
+
+            .nav-sidebar.open {
+                left: 0;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 1001;
+                background: white;
+                border: 1px solid #e0e0e0;
+                padding: 10px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+
+    <!-- Navigation Sidebar -->
+    <nav class="nav-sidebar" id="navSidebar">
+        <!-- Header -->
+        <div class="nav-header">
+            <div class="app-logo">
+                <span>🏭</span>
+                <span>Service Manager</span>
+            </div>
+        </div>
+
+        <!-- Navigation Menu -->
+        <div class="nav-menu">
+            
+            <div class="nav-module">
+                <div class="nav-module-header">Operations</div>
+                
+        <div class="nav-item ">
+            <a class="nav-link" 
+               href="#" 
+               onclick="handleNavClick(event, 'dashboard-view'); "
+               data-view="dashboard-view">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+                
+                
+            </a>
+            
+        </div>
+        <div class="nav-item ">
+            <a class="nav-link" 
+               href="#" 
+               onclick="handleNavClick(event, 'work-order-daily-view'); "
+               data-view="work-order-daily-view">
+                <span class="nav-icon">📅</span>
+                <span>Today's Work</span>
+                <span class="nav-badge">12</span>
+                
+            </a>
+            
+        </div>
+        <div class="nav-item ">
+            <a class="nav-link" 
+               href="#" 
+               onclick="handleNavClick(event, 'dispatch-board-view'); "
+               data-view="dispatch-board-view">
+                <span class="nav-icon">🗺️</span>
+                <span>Dispatch Board</span>
+                
+                
+            </a>
+            
+        </div>
+            </div>
+            <div class="nav-module">
+                <div class="nav-module-header">Customers</div>
+                
+        <div class="nav-item ">
+            <a class="nav-link" 
+               href="#" 
+               onclick="handleNavClick(event, 'field-config-account-list-view-1755720191672'); "
+               data-view="field-config-account-list-view-1755720191672">
+                <span class="nav-icon">👥</span>
+                <span>All Accounts</span>
+                
+                
+            </a>
+            
+        </div>
+        <div class="nav-item ">
+            <a class="nav-link" 
+               href="#" 
+               onclick="handleNavClick(event, 'account-form-create'); "
+               data-view="account-form-create">
+                <span class="nav-icon">➕</span>
+                <span>Add Account</span>
+                
+                
+            </a>
+            
+        </div><div class="nav-divider"></div>
+        <div class="nav-item ">
+            <a class="nav-link" 
+               href="#" 
+               onclick="handleNavClick(event, 'service-location-list-view'); "
+               data-view="service-location-list-view">
+                <span class="nav-icon">📍</span>
+                <span>Service Locations</span>
+                
+                
+            </a>
+            
+        </div>
+        <div class="nav-item has-children">
+            <a class="nav-link" 
+               href="#" 
+               onclick="handleNavClick(event, ''); toggleNavItem(event, true)"
+               data-view="">
+                <span class="nav-icon">📈</span>
+                <span>Reports</span>
+                
+                <span class="nav-expand">›</span>
+            </a>
+            <div class="nav-children">
+                
+        <div class="nav-item ">
+            <a class="nav-link" 
+               href="#" 
+               onclick="handleNavClick(event, 'customer-activity-report'); "
+               data-view="customer-activity-report">
+                <span class="nav-icon">📄</span>
+                <span>Customer Activity</span>
+                
+                
+            </a>
+            
+        </div>
+        <div class="nav-item ">
+            <a class="nav-link" 
+               href="#" 
+               onclick="handleNavClick(event, 'service-history-report'); "
+               data-view="service-history-report">
+                <span class="nav-icon">📄</span>
+                <span>Service History</span>
+                
+                
+            </a>
+            
+        </div>
+            </div>
+        </div>
+            </div>
+            <div class="nav-module">
+                <div class="nav-module-header">Work Orders</div>
+                
+        <div class="nav-item ">
+            <a class="nav-link" 
+               href="#" 
+               onclick="handleNavClick(event, 'work-order-list-view'); "
+               data-view="work-order-list-view">
+                <span class="nav-icon">📋</span>
+                <span>All Work Orders</span>
+                
+                
+            </a>
+            
+        </div>
+        <div class="nav-item ">
+            <a class="nav-link" 
+               href="#" 
+               onclick="handleNavClick(event, 'work-order-form-create'); "
+               data-view="work-order-form-create">
+                <span class="nav-icon">✏️</span>
+                <span>Create Work Order</span>
+                
+                
+            </a>
+            
+        </div>
+        <div class="nav-item ">
+            <a class="nav-link" 
+               href="#" 
+               onclick="handleNavClick(event, 'work-order-scheduled-view'); "
+               data-view="work-order-scheduled-view">
+                <span class="nav-icon">🕒</span>
+                <span>Scheduled</span>
+                <span class="nav-badge">8</span>
+                
+            </a>
+            
+        </div>
+        <div class="nav-item ">
+            <a class="nav-link" 
+               href="#" 
+               onclick="handleNavClick(event, 'work-order-progress-view'); "
+               data-view="work-order-progress-view">
+                <span class="nav-icon">🔄</span>
+                <span>In Progress</span>
+                <span class="nav-badge">3</span>
+                
+            </a>
+            
+        </div>
+        <div class="nav-item ">
+            <a class="nav-link" 
+               href="#" 
+               onclick="handleNavClick(event, 'work-order-completed-view'); "
+               data-view="work-order-completed-view">
+                <span class="nav-icon">✅</span>
+                <span>Completed Today</span>
+                
+                
+            </a>
+            
+        </div>
+            </div>
+            <div class="nav-module">
+                <div class="nav-module-header">Resources</div>
+                
+        <div class="nav-item ">
+            <a class="nav-link" 
+               href="#" 
+               onclick="handleNavClick(event, 'technician-list-view'); "
+               data-view="technician-list-view">
+                <span class="nav-icon">👷</span>
+                <span>Technicians</span>
+                
+                
+            </a>
+            
+        </div>
+        <div class="nav-item ">
+            <a class="nav-link" 
+               href="#" 
+               onclick="handleNavClick(event, 'equipment-list-view'); "
+               data-view="equipment-list-view">
+                <span class="nav-icon">🔧</span>
+                <span>Equipment</span>
+                
+                
+            </a>
+            
+        </div>
+        <div class="nav-item has-children">
+            <a class="nav-link" 
+               href="#" 
+               onclick="handleNavClick(event, ''); toggleNavItem(event, true)"
+               data-view="">
+                <span class="nav-icon">📦</span>
+                <span>Inventory</span>
+                
+                <span class="nav-expand">›</span>
+            </a>
+            <div class="nav-children">
+                
+        <div class="nav-item ">
+            <a class="nav-link" 
+               href="#" 
+               onclick="handleNavClick(event, 'chemical-inventory-view'); "
+               data-view="chemical-inventory-view">
+                <span class="nav-icon">📄</span>
+                <span>Chemicals</span>
+                
+                
+            </a>
+            
+        </div>
+        <div class="nav-item ">
+            <a class="nav-link" 
+               href="#" 
+               onclick="handleNavClick(event, 'supplies-inventory-view'); "
+               data-view="supplies-inventory-view">
+                <span class="nav-icon">📄</span>
+                <span>Supplies</span>
+                
+                
+            </a>
+            
+        </div>
+        <div class="nav-item ">
+            <a class="nav-link" 
+               href="#" 
+               onclick="handleNavClick(event, 'inventory-reorder-view'); "
+               data-view="inventory-reorder-view">
+                <span class="nav-icon">📄</span>
+                <span>Reorder List</span>
+                <span class="nav-badge">5</span>
+                
+            </a>
+            
+        </div>
+            </div>
+        </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        
+        <div class="quick-actions">
+            
+            <button class="quick-action-btn" onclick="loadView('work-order-quick-create')">
+                <span>➕</span>
+                <span>New Work Order</span>
+            </button>
+        
+            <button class="quick-action-btn" onclick="loadView('customer-search')">
+                <span>🔍</span>
+                <span>Find Customer</span>
+            </button>
+        
+        </div>
+
+        <!-- User Menu -->
+        
+        <div class="user-menu">
+            <div class="user-info" onclick="toggleUserDropdown()">
+                <div class="user-avatar">U</div>
+                <div>
+                    <div style="font-weight: 500;">User Name</div>
+                    <div style="font-size: 12px; color: #666;">user@example.com</div>
+                </div>
+            </div>
+            <div class="user-dropdown">
+                
+            <a href="#" class="user-dropdown-item" onclick="handleUserAction('profile')">
+                Profile
+            </a>
+        
+            <a href="#" class="user-dropdown-item" onclick="handleUserAction('settings')">
+                Settings
+            </a>
+        
+            <a href="#" class="user-dropdown-item" onclick="handleUserAction('help')">
+                Help
+            </a>
+        
+            <a href="#" class="user-dropdown-item" onclick="handleUserAction('logout')">
+                Logout
+            </a>
+        
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <div class="content-header">
+            <div class="breadcrumbs">
+                <span>Home</span>
+                <span class="breadcrumb-separator">›</span>
+                <span>Dashboard</span>
+            </div>
+            <h1 class="page-title">Dashboard</h1>
+        </div>
+        <div class="content-body">
+            <p>Select an item from the navigation menu to load the corresponding view.</p>
+            <p>This area will display ViewForge-generated content.</p>
+        </div>
+    </main>
+
+    <script>
+        // Track active navigation item
+        let activeNavItem = null;
+
+        // Handle navigation clicks
+        function handleNavClick(event, viewConfig) {
+            event.preventDefault();
+            
+            // Update active state
+            if (activeNavItem) {
+                activeNavItem.classList.remove('active');
+            }
+            event.currentTarget.classList.add('active');
+            activeNavItem = event.currentTarget;
+
+            // Load view (placeholder for now)
+            loadView(viewConfig);
+        }
+
+        // Toggle nested navigation
+        function toggleNavItem(event, hasChildren) {
+            if (hasChildren) {
+                event.preventDefault();
+                const navItem = event.currentTarget.closest('.nav-item');
+                navItem.classList.toggle('expanded');
+            }
+        }
+
+        // Load ViewForge view
+        function loadView(viewConfig) {
+            const contentBody = document.querySelector('.content-body');
+            const pageTitle = document.querySelector('.page-title');
+            
+            // Update page title
+            pageTitle.textContent = viewConfig.replace(/-/g, ' ').replace(/w/g, l => l.toUpperCase());
+            
+            // Load view (in real implementation, would fetch and render ViewForge output)
+            contentBody.innerHTML = `
+                <div style="padding: 20px; background: #f8f8f8; border-radius: 5px;">
+                    <h2>Loading View: ${viewConfig}</h2>
+                    <p>This would load the ViewForge-generated view from:</p>
+                    <code>configurations/${viewConfig}.json</code>
+                    <br><br>
+                    <p>The view would be rendered here using the appropriate generator.</p>
+                </div>
+            `;
+
+            // Update breadcrumbs
+            updateBreadcrumbs(viewConfig);
+        }
+
+        // Update breadcrumbs
+        function updateBreadcrumbs(viewConfig) {
+            const breadcrumbs = document.querySelector('.breadcrumbs');
+            const parts = viewConfig.split('-');
+            
+            let html = '<span>Home</span>';
+            parts.forEach((part, index) => {
+                html += '<span class="breadcrumb-separator">›</span>';
+                html += `<span>${part.charAt(0).toUpperCase() + part.slice(1)}</span>`;
+            });
+            
+            breadcrumbs.innerHTML = html;
+        }
+
+        // Toggle user dropdown
+        function toggleUserDropdown() {
+            const dropdown = document.querySelector('.user-dropdown');
+            dropdown.classList.toggle('open');
+        }
+
+        // Handle user menu actions
+        function handleUserAction(action) {
+            console.log('User action:', action);
+            // Implement user actions (profile, settings, logout)
+        }
+
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('navSidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const sidebar = document.getElementById('navSidebar');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !toggle.contains(e.target)) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set first item as active
+            const firstNavLink = document.querySelector('.nav-link');
+            if (firstNavLink) {
+                firstNavLink.classList.add('active');
+                activeNavItem = firstNavLink;
+            }
+        });
+    </script>
+</body>
+</html>

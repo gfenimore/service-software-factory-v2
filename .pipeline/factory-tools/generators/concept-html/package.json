@@ -1,0 +1,24 @@
+{
+  "name": "concept-line-generator",
+  "version": "1.0.0",
+  "description": "Generates pure HTML from ViewForge configurations - Concept Line of the Progressive Factory",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test-generator.js",
+    "generate": "node index.js"
+  },
+  "keywords": [
+    "concept-line",
+    "generator",
+    "viewforge",
+    "html",
+    "black-and-white"
+  ],
+  "author": "Service Software Factory",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

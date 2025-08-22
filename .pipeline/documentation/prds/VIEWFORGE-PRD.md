@@ -6,9 +6,37 @@
 
 ### Problem Statement
 
-For **software factory operators (humans and AI agents like Claude Code)**, who struggle with **maintaining precision and consistency when configuring UI components across the three-line progressive factory (Concept, Prototype, Production)**, this results in **configuration drift between iterations, repeated manual corrections, lost context between handoffs, and ultimately unpredictable factory output that requires extensive rework**. Furthermore, **without a single source of truth for configurations, operators cannot confidently evolve the factory's capabilities or ensure that improvements in one line propagate correctly to others**.
+**Current Conditions:**
+For **software factory operators (humans and AI agents like Claude Code)** working with the three-line progressive factory, the following conditions exist:
 
-Our product **ViewForge 2.0** provides **a visual configuration system that serves as the single source of truth, ensuring conceptual precision and contextual consistency across all factory lines**, which results in **controlled evolution of factory output, elimination of configuration drift, preserved context through the entire pipeline, and the ability to confidently improve factory capabilities knowing changes will propagate predictably**.
+1. **Manual configuration repetition** - Each factory line requires separate configuration
+2. **No visual configuration tools** - Everything is code-based, requiring deep technical knowledge
+3. **Lost context between handoffs** - Each operator must reverse-engineer intent from code
+4. **No configuration validation** - Can't verify completeness until generation fails
+5. **Inconsistent field naming** - Same field called different names in different places
+6. **No relationship visibility** - Can't see or configure related entity fields
+7. **No single source of truth** - Configurations scattered across multiple files and formats
+
+**Impacts of These Conditions:**
+These conditions result in:
+- **Configuration drift** - Each iteration diverges from the original intent
+- **Repeated manual corrections** - Same fixes applied multiple times across lines
+- **Wasted operator time** - Hours spent on configuration instead of innovation
+- **Unpredictable factory output** - Never sure what will be generated
+- **Extensive rework** - Discovering missing fields after generation
+- **Fear of change** - Can't confidently evolve the factory without breaking existing configs
+- **Knowledge silos** - Only the original configurator understands the setup
+- **Failed iterations** - Generation fails due to incomplete configurations
+
+**Our Solution:**
+ViewForge 2.0 provides **a visual configuration system** that serves as the **single source of truth** for all factory lines. It ensures **conceptual precision and contextual consistency** through:
+- Visual field selection with relationship support
+- Hierarchy-aware configuration scoping
+- Live preview of configured output
+- Validated JSON export with full context
+- Configuration reuse across projects
+
+This results in **controlled evolution** of factory output, **elimination of configuration drift**, **preserved context** through the entire pipeline, and the ability to **confidently improve** factory capabilities knowing changes will propagate predictably.
 
 ### High-Level Goals & Metrics (with Measurement Notes)
 

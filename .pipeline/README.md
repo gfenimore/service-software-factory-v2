@@ -1,159 +1,186 @@
-# 🏭 Pipeline Directory Structure
-*Configuration-Driven UI Factory for Pest Control System*
+# 🏭 Three-Line Factory Pipeline
 
-## 📂 Directory Organization
+## Overview
+This is a Configuration-Driven UI Factory that generates user interfaces from JSON configurations through three progressive production lines. Sprint 1 successfully delivered all three lines operational.
 
-### 🔧 01-factory-tools/
-**The Factory - Tools that build things**
-- `viewforge/` - Visual field configurator (ViewForge)
-- `generators/` - Code generators that consume configs and produce UI
-- `docs/` - Documentation for understanding the system
-
-### 📝 02-configurations/
-**The Inputs - What we configure**
-- `entities/` - Entity field configurations (Account, Service Location, Work Order)
-- `navigation/` - Menu and navigation configurations
-- `layouts/` - Page layout configurations
-
-### 🏭 03-generated/
-**The Outputs - What the factory produces**
-- `concept-line/` - HTML/CSS/JS outputs (no framework)
-- `prototype-line/` - React component outputs
-- `production-line/` - Vue component outputs
-
-### 🧪 04-testing/
-**Quality Control - Testing and demos**
-- `demos/` - Interactive demonstrations
-- `workflows/` - End-to-end workflow tests
-
-### 📊 05-feedback/
-**Continuous Improvement - User feedback loop**
-- `system/` - Feedback collection tools
-- `sessions/` - Recorded feedback sessions
-- `reports/` - Analysis and insights
-
-### 📚 06-archive/
-**History - Previous iterations and backups**
-- `iteration-1/` - First version attempts
-- `migration-backup/` - Backups from migrations
-
----
-
-## 🔄 The Factory Flow
+## 📂 Directory Structure
 
 ```
-1. CONFIGURE → 2. GENERATE → 3. TEST → 4. FEEDBACK → 5. ITERATE
+.pipeline/
+├── factory-tools/              # All generators and tools
+│   ├── viewforge/             # Visual configuration tool
+│   │   ├── v3/               # Current version (Sprint 1 success)
+│   │   │   └── index.html    # Main ViewForge UI
+│   │   └── archive/          # Previous versions (v1, v2)
+│   │
+│   ├── generators/            # Code generators by production line
+│   │   ├── concept-html/     # B&W HTML generator
+│   │   ├── prototype-react/  # React + Tailwind generator
+│   │   └── production-vue/   # Vue generator (future)
+│   │
+│   └── iteration-manager/     # Iteration management tools
+│
+├── configurations/            # All input configurations
+│   ├── entities/             # Entity field configurations
+│   ├── navigation/           # Navigation menus
+│   ├── layouts/              # Page layouts
+│   └── test-fixtures/        # Test configurations
+│
+├── generated/                 # All generated outputs
+│   ├── concept-line/         # HTML outputs
+│   ├── prototype-line/       # React outputs
+│   └── production-line/      # Vue outputs (future)
+│
+├── iterations/               # Iteration tracking system
+│   ├── current/             # Active iteration pointer
+│   ├── archive/             # All 9 historical iterations
+│   └── manifest.json        # Iteration registry
+│
+├── documentation/            # Consolidated documentation
+│   ├── prds/               # Product Requirement Documents
+│   ├── learnings/          # Sprint learnings
+│   ├── handoffs/           # Handoff documents
+│   └── jobs-to-be-done/    # JTBD format docs
+│
+└── legacy-archive/          # Historical structures preserved
+    ├── 1-inputs/           # Old input system
+    ├── 2-factory/          # Old factory structure
+    └── 3-workspace/        # Old workspace
 ```
-
-### Step 1: Configure (02-configurations/)
-Use ViewForge to visually configure entity fields:
-```
-01-factory-tools/viewforge/configurator.html
-  ↓ (exports JSON)
-02-configurations/entities/account/list-view.json
-```
-
-### Step 2: Generate (03-generated/)
-Run generators to produce UI code:
-```
-02-configurations/entities/account/list-view.json
-  ↓ (processed by)
-01-factory-tools/generators/html-generator.js
-  ↓ (produces)
-03-generated/concept-line/views/account-list.html
-```
-
-### Step 3: Test (04-testing/)
-Test the generated UI:
-```
-03-generated/concept-line/complete-apps/app.html
-  ↓ (tested in)
-04-testing/workflows/morning-dispatch/
-```
-
-### Step 4: Collect Feedback (05-feedback/)
-Gather user feedback on generated UI:
-```
-04-testing/demos/pest-control-demo.html
-  ↓ (feedback collected)
-05-feedback/sessions/2025-01-21-feedback.json
-```
-
-### Step 5: Iterate
-Use feedback to improve configurations and regenerate.
-
----
 
 ## 🚀 Quick Start
 
-### To Configure a New Entity:
-1. Open `01-factory-tools/viewforge/configurator.html`
-2. Configure fields for your entity
-3. Export to `02-configurations/entities/[entity-name]/`
-
-### To Generate UI:
+### 1. Configure a View (ViewForge)
 ```bash
-cd 01-factory-tools/generators
-node html-generator.js ../../02-configurations/entities/account/list-view.json ../../03-generated/concept-line/views/account-list.html
+# Open ViewForge in browser
+open .pipeline/factory-tools/viewforge/v3/index.html
+
+# Configure your view visually
+# Export JSON configuration
 ```
 
-### To Create Complete App:
+### 2. Generate B&W HTML (Concept Line)
 ```bash
-cd 01-factory-tools/generators
-node layout-generator.js ../../02-configurations/layouts/three-column.json ../../03-generated/concept-line/complete-apps/app.html
+cd .pipeline/factory-tools/generators/concept-html
+node index.js <config-file> <output-file>
+
+# Example:
+node index.js test-fixtures/account-list-config.json ../../generated/concept-line/account-list.html
 ```
 
----
+### 3. Generate React Components (Prototype Line)
+```bash
+cd .pipeline/factory-tools/generators/prototype-react
+node index.js <config-file> <output-dir>
 
-## 📍 Current Status
+# Example:
+node index.js ../concept-html/test-fixtures/account-list-config.json ../../generated/prototype-line/account-list/
+```
 
-### ✅ Working
-- ViewForge configurator
-- HTML generator
-- Navigation generator
-- Layout generator
-- Account entity (partial)
+## 📋 Sprint 1 Accomplishments
 
-### 🚧 In Progress
-- Service Location entity configuration
-- Work Order entity configuration
-- React generator
+### ✅ Working Tools
+1. **ViewForge v3** - Visual field configuration tool
+2. **Concept Generator** - B&W HTML with semantic markup
+3. **Prototype Generator** - React + Tailwind components
 
-### 📅 Planned
-- Vue generator
-- Database connections
-- Context rules engine
+### 📚 Key Learnings
+- Jobs-to-be-Done format > User Stories
+- Throw away bad code (v2 → v3 was right decision)
+- Preview is mandatory for configuration tools
+- Test with real data immediately
 
----
+### 🎯 Proven Pipeline
+```
+ViewForge → JSON Config → Concept Line (HTML) → Prototype Line (React)
+```
 
-## 🎯 Today's Focus
+Successfully tested with Account List + Service Location fields
 
-Working on configuring core pest control entities:
-1. Service Location
-2. Work Order
-3. Testing full pipeline with real entities
+## 🔄 Iteration System
 
----
+The pipeline maintains a sophisticated iteration tracking system with 9 iterations:
+- Current iteration: `ITER-2025-08-22-009`
+- Access via: `.pipeline/iterations/current/iteration-pointer.json`
+- Full history preserved in: `.pipeline/iterations/archive/`
 
 ## 📖 Key Documents
 
-- **System Design**: `01-factory-tools/docs/architecture/CONFIGURATION-DRIVEN-FACTORY-PROPOSAL.md`
-- **Navigation Philosophy**: `01-factory-tools/docs/philosophy/NAVIGATION-PHILOSOPHY.md`
-- **Status Report**: `STATUS-AND-TASK-PLAN-2025-01-21.md`
+| Document | Location | Purpose |
+|----------|----------|---------|
+| ViewForge PRD | `documentation/prds/VIEWFORGE-PRD.md` | ViewForge requirements |
+| Concept PRD | `documentation/prds/CONCEPT-GENERATOR-PRD.md` | HTML generator spec |
+| Prototype PRD | `documentation/prds/PROTOTYPE-GENERATOR-PRD.md` | React generator spec |
+| Sprint 1 Summary | `documentation/learnings/SPRINT-1-LEARNINGS-SUMMARY.md` | Key learnings |
+| Latest Handoff | `documentation/handoffs/HANDOFF-SPRINT-1-COMPLETE.md` | Sprint 1 completion |
+
+## 🎨 Design Principles
+
+1. **Configuration First** - All UI driven by JSON configs
+2. **Single Source of Truth** - ViewForge configs drive everything
+3. **Progressive Enhancement** - HTML → React → Vue
+4. **Context-Aware** - Built for future context adaptation
+5. **Domain-Focused** - Pest control operations focus
+
+## 🧪 Testing
+
+### Test Concept Generator
+```bash
+cd .pipeline/factory-tools/generators/concept-html
+node test-generator.js
+```
+
+### Test Prototype Generator
+```bash
+cd .pipeline/factory-tools/generators/prototype-react
+node index.js ../concept-html/test-fixtures/account-list-config.json ./output/
+```
+
+## 🚧 Next Sprint Possibilities
+
+- [ ] Add more view types (detail, form)
+- [ ] Build Production Line (Vue) generator
+- [ ] Add more entities (Work Orders, Service Locations)
+- [ ] Create automated pipeline runner
+- [ ] Implement context rules engine
+
+## 📝 Configuration Format
+
+```json
+{
+  "hierarchy": {
+    "userStory": {
+      "code": "US-001",
+      "title": "View Account List"
+    }
+  },
+  "entity": {
+    "primary": "account"
+  },
+  "fields": [
+    {
+      "id": "field-1",
+      "label": "Account Name",
+      "path": "account.name",
+      "type": "text"
+    }
+  ],
+  "layout": {
+    "type": "table"
+  }
+}
+```
+
+## 🔧 Maintenance
+
+### Backup Created
+A full backup was created before reorganization:
+`.pipeline-backup-2025-08-22-165751/`
+
+### Legacy Archive
+All historical structures preserved in:
+`.pipeline/legacy-archive/`
 
 ---
 
-## 🔍 Finding Things
-
-| What You're Looking For | Where It Is |
-|------------------------|-------------|
-| ViewForge UI | `01-factory-tools/viewforge/configurator.html` |
-| Generators | `01-factory-tools/generators/` |
-| Entity Configs | `02-configurations/entities/` |
-| Generated HTML | `03-generated/concept-line/` |
-| Demos | `04-testing/demos/` |
-| Documentation | `01-factory-tools/docs/` |
-
----
-
-*The pipeline is now organized for clarity and efficiency. Each directory has a clear purpose in the factory flow.*
+*Three-Line Factory v1.0 - Sprint 1 Complete*

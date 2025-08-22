@@ -1,0 +1,82 @@
+{
+  "version": "3.0.0",
+  "hierarchy": {
+    "application": {
+      "id": "field-service",
+      "name": "Field Service Management"
+    },
+    "module": {
+      "id": "accounts",
+      "name": "Account Management"
+    },
+    "subModule": {
+      "id": "accounts-list",
+      "name": "Account List"
+    },
+    "userStory": {
+      "id": "US-001",
+      "code": "US-001",
+      "title": "View account list"
+    }
+  },
+  "scope": {
+    "level": "story",
+    "path": "Field Service Management > Account Management > Account List > US-001"
+  },
+  "entity": {
+    "primary": "account",
+    "related": ["serviceLocation"]
+  },
+  "fields": [
+    {
+      "entity": "account",
+      "field": "accountNumber",
+      "label": "Account Number",
+      "type": "string",
+      "isRelated": false
+    },
+    {
+      "entity": "account",
+      "field": "name",
+      "label": "Account Name",
+      "type": "string",
+      "isRelated": false
+    },
+    {
+      "entity": "account",
+      "field": "type",
+      "label": "Type",
+      "type": "enum",
+      "isRelated": false
+    },
+    {
+      "entity": "account",
+      "field": "status",
+      "label": "Status",
+      "type": "enum",
+      "isRelated": false
+    },
+    {
+      "entity": "serviceLocation",
+      "field": "address",
+      "label": "Primary Address",
+      "type": "string",
+      "isRelated": true
+    },
+    {
+      "entity": "serviceLocation",
+      "field": "city",
+      "label": "City",
+      "type": "string",
+      "isRelated": true
+    }
+  ],
+  "layout": {
+    "type": "table",
+    "features": {
+      "sorting": true,
+      "pagination": true,
+      "filtering": false
+    }
+  }
+}

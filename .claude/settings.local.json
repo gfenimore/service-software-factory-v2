@@ -56,12 +56,17 @@
       "Bash(npm run concept:switch-iteration:*)",
       "Bash(npm run:*)",
       "Bash(start:*)",
-      "Bash(touch:*)"
+      "Bash(touch:*)",
+      "Bash(powershell:*)",
+      "Bash(.pipeline/auto-commit.sh:*)"
     ],
     "deny": [],
     "additionalDirectories": [
       "C:\\c\\Users\\GarryFenimore\\Projects",
-      "C:\\Users\\GarryFenimore\\Downloads"
+      "C:\\Users\\GarryFenimore\\Downloads",
+      "C:\\c\\Users\\GarryFenimore\\Projects\\service-software-factory-v2\\.pipeline\\02-concept-line",
+      "C:\\c\\Users\\GarryFenimore\\Projects\\service-software-factory-v2\\.pipeline\\01-factory-tools\\viewforge",
+      "C:\\c\\Users\\GarryFenimore\\Projects\\service-software-factory-v2\\src"
     ]
   }
 }
