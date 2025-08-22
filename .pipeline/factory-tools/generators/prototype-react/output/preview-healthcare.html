@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Preview: Healthcare Theme</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-8 bg-gray-50">
+    <h1 class="text-3xl font-bold text-slate-900">
+        Healthcare Theme Preview
+    </h1>
+    
+    <div class="space-y-6">
+        <!-- Table Preview -->
+        <div class="overflow-x-auto shadow-lg rounded-xl">
+            <table class="min-w-full bg-white">
+                <thead class="bg-teal-50 border-b-2 border-teal-200">
+                    <tr>
+                        <th class="px-8 py-4 text-left text-sm font-semibold text-teal-800 tracking-wide">Column 1</th>
+                        <th class="px-8 py-4 text-left text-sm font-semibold text-teal-800 tracking-wide">Column 2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="hover:bg-teal-50/30 transition-colors cursor-pointer">
+                        <td class="px-8 py-5 text-base text-slate-900">Data 1</td>
+                        <td class="px-8 py-5 text-base text-slate-900">
+                            <span class="bg-emerald-100 text-emerald-800 border border-emerald-200">Active</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Button Preview -->
+        <div class="flex gap-4">
+            <button class="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-base font-medium">Primary Button</button>
+            <button class="px-6 py-3 border-2 border-teal-300 text-teal-700 rounded-lg hover:bg-teal-50">Secondary Button</button>
+        </div>
+        
+        <!-- Input Preview -->
+        <div>
+            <input type="text" placeholder="Sample input" 
+                   class="px-5 py-3 border-2 border-slate-300 rounded-lg text-base focus:ring-4 focus:ring-teal-500/20 focus:border-teal-500">
+        </div>
+    </div>
+</body>
+</html>
