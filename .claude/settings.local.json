@@ -58,7 +58,10 @@
       "Bash(start:*)",
       "Bash(touch:*)",
       "Bash(powershell:*)",
-      "Bash(.pipeline/auto-commit.sh:*)"
+      "Bash(.pipeline/auto-commit.sh:*)",
+      "Bash(npx -y tsc --noEmit --jsx react --esModuleInterop --skipLibCheck components/AccountListView.tsx)",
+      "Bash(npx -y typescript tsc:*)",
+      "Bash(npx tsc:*)"
     ],
     "deny": [],
     "additionalDirectories": [
