@@ -139,6 +139,23 @@ function setupEventListeners() {
         updateSummary();
     });
     
+    // User Story selection - THIS WAS MISSING!
+    document.getElementById('story-select').addEventListener('change', (e) => {
+        const storyCode = e.target.value;
+        if (storyCode) {
+            const moduleKey = document.getElementById('module-select').value;
+            const module = HierarchyData.modules[moduleKey];
+            AppState.configuration.userStory = {
+                id: storyCode,
+                code: storyCode,
+                title: module.stories[storyCode]
+            };
+        } else {
+            AppState.configuration.userStory = null;
+        }
+        updateSummary();
+    });
+    
     // Primary entity selection
     document.getElementById('primary-entity').addEventListener('change', (e) => {
         const entity = e.target.value;
@@ -332,6 +349,9 @@ function nextStep() {
                 generatePreview();
             }
         }
+    } else if (AppState.currentStep === 3) {
+        // On step 3, "Next" becomes "Complete" - just export
+        exportConfiguration();
     }
 }
 
@@ -464,8 +484,32 @@ function exportConfiguration() {
     jsonOutput.style.display = 'block';
     jsonOutput.value = JSON.stringify(config, null, 2);
     
+    // Add success feedback
+    const exportButton = document.querySelector('.primary[onclick="exportConfiguration()"]');
+    const originalText = exportButton.textContent;
+    exportButton.textContent = '✓ Configuration Exported Successfully!';
+    exportButton.style.background = '#4CAF50';
+    exportButton.style.color = '#fff';
+    
+    // Change Complete button to indicate success
+    const nextBtn = document.getElementById('next-btn');
+    if (nextBtn.textContent === 'Complete') {
+        nextBtn.textContent = '✓ Completed';
+        nextBtn.style.background = '#4CAF50';
+    }
+    
+    // Restore button after 3 seconds
+    setTimeout(() => {
+        exportButton.textContent = originalText;
+        exportButton.style.background = '';
+        exportButton.style.color = '';
+    }, 3000);
+    
     // Also log to console for easy copying
     console.log('Exported Configuration:', config);
+    
+    // Show alert for additional confirmation
+    alert('Configuration exported successfully! The JSON is displayed below and has been logged to the console.');
 }
 
 function getHierarchyPath() {
