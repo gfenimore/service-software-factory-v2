@@ -220,15 +220,90 @@ tail -20 .pipeline/01-factory-tools/viewforge/DEVELOPMENT-LOG.md
 └── versions/                   # All historical versions
 ```
 
-## 7. Testing & Validation Strategy
+## 7. Retrospective Process
 
-### 7.1 Test Checkpoints
+### 7.1 Iteration Retrospectives (Every Friday)
+After each iteration completes:
+
+1. **Capture Session** (30 min)
+   - What worked well?
+   - What didn't work?
+   - What surprised us?
+   - What blocked us?
+
+2. **Analysis** (15 min)
+   - Identify patterns in issues
+   - Recognize successful approaches
+   - Note technical debt created
+
+3. **Action Items** (15 min)
+   - Ideas for improvement → IDEA-BACKLOG.md
+   - Critical fixes → Next iteration
+   - Process improvements → PROJECT-LIFECYCLE.md updates
+
+### 7.2 Retrospective Artifacts
+- **Location**: `.pipeline/01-factory-tools/viewforge/retrospectives/`
+- **Naming**: `RETRO-ITER-{iteration-id}.md`
+- **Template**: See RETROSPECTIVE-TEMPLATE.md
+
+## 8. Feature Lifecycle Tracking
+
+### 8.1 Metrics for Each Feature
+```yaml
+feature_id: FEA-001
+name: "Field Configuration"
+scope: "Single entity, list view"
+complexity: 3  # 1-5 scale
+risk: 2       # 1-5 scale
+status: "in_progress"
+started: "2025-08-22T09:00:00Z"
+elapsed_active: "0h 0m"  # Updated during work
+blocked_time: "0h 0m"
+completed: null
+actual_complexity: null  # Set on completion
+```
+
+### 8.2 Tracking Process
+1. **Start of work**: Record timestamp, initial estimates
+2. **During work**: Track active vs blocked time
+3. **Completion**: Record actual complexity, total elapsed
+4. **Retrospective**: Compare estimates vs actuals
+
+### 8.3 Feature Tracker
+- **File**: FEATURE-TRACKER.md
+- **Updates**: Real-time during development
+- **Review**: Weekly during retrospectives
+
+## 9. Idea Backlog Management
+
+### 9.1 Idea Categories
+- **Quick Wins**: < 2 hours, low risk
+- **Enhancements**: Improve existing features
+- **New Features**: Expand capabilities
+- **Tech Debt**: Refactoring needs
+- **Process**: Workflow improvements
+
+### 9.2 Idea Lifecycle
+1. **Capture**: During retrospectives or development
+2. **Triage**: Weekly review for priority/feasibility
+3. **Schedule**: Assign to iterations or defer
+4. **Execute**: Track as features
+5. **Review**: Validate impact in retrospective
+
+### 9.3 Backlog File
+- **Location**: IDEA-BACKLOG.md
+- **Format**: Categorized markdown with priority scores
+- **Review**: Weekly during iteration planning
+
+## 10. Testing & Validation Strategy
+
+### 10.1 Test Checkpoints
 - After each feature: Manual test
 - End of day: Full regression test
 - End of week: User acceptance test
 - Before merge: Complete validation
 
-### 7.2 Test Scenarios
+### 10.2 Test Scenarios
 ```javascript
 // Must-pass scenarios for each phase
 const week1Tests = [
@@ -246,9 +321,9 @@ const week2Tests = [
 ];
 ```
 
-## 8. Risk Mitigation
+## 11. Risk Mitigation
 
-### 8.1 Backup Strategy
+### 11.1 Backup Strategy
 ```bash
 # Automated backup every 2 hours
 */120 * * * * cp -r .pipeline/01-factory-tools/viewforge/ ~/backups/vf-$(date +%Y%m%d-%H%M%S)/
@@ -257,7 +332,7 @@ const week2Tests = [
 ./scripts/backup-viewforge.sh
 ```
 
-### 8.2 Recovery Procedures
+### 11.2 Recovery Procedures
 ```bash
 # If something breaks
 git stash                    # Save current work
@@ -268,9 +343,9 @@ git stash pop                # Try to reapply changes
 cp -r ~/backups/vf-latest/ .pipeline/01-factory-tools/viewforge/
 ```
 
-## 9. Communication Protocol
+## 12. Communication Protocol
 
-### 9.1 Status Updates
+### 12.1 Status Updates
 ```markdown
 # Daily status format
 ## ViewForge 2.0 - Day [N] Status
@@ -281,14 +356,14 @@ cp -r ~/backups/vf-latest/ .pipeline/01-factory-tools/viewforge/
 - **Confidence**: [Green/Yellow/Red]
 ```
 
-### 9.2 Issue Escalation
+### 12.2 Issue Escalation
 ```
 Level 1: Note in DEVELOPMENT-LOG.md → Continue working
 Level 2: Create issue file → Attempt resolution
 Level 3: Stop work → Document completely → Seek help
 ```
 
-## 10. Pre-Development Checklist
+## 13. Pre-Development Checklist
 
 ### Before Starting ViewForge 2.0 Development
 
@@ -317,7 +392,7 @@ Level 3: Stop work → Document completely → Seek help
 - [ ] Interruption protocol understood
 - [ ] Success criteria defined
 
-## 11. Launch Sequence
+## 14. Launch Sequence
 
 ### Executing Project Start
 ```bash
@@ -351,7 +426,7 @@ echo "## Project Started: $(date)" >> .pipeline/01-factory-tools/viewforge/DEVEL
 echo "✅ ViewForge 2.0 project initialized and ready for development"
 ```
 
-## 12. Success Metrics
+## 15. Success Metrics
 
 ### How We Know We're Succeeding
 1. **No Lost Work**: Every change is in Git
