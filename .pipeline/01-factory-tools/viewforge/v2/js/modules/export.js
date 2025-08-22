@@ -58,6 +58,10 @@ const ExportModule = {
         const entity = AppState.currentEntity;
         const entityInfo = AppState.entities[entity];
         
+        // Get hierarchy context
+        const hierarchyContext = Hierarchy.getHierarchyContext();
+        const configScope = Hierarchy.getConfigurationScope();
+        
         // Get field details
         const fields = AppState.selectedFields.map(fieldName => {
             const field = BUSM.getField(entity, fieldName);
@@ -77,11 +81,36 @@ const ExportModule = {
         });
         
         return {
-            version: '2.0.0',
+            version: '2.0.1',  // Updated for hierarchy support
+            
+            // NEW: Hierarchy context for generators
+            hierarchy: {
+                application: {
+                    id: hierarchyContext.applicationId,
+                    name: hierarchyContext.applicationName
+                },
+                module: {
+                    id: hierarchyContext.moduleId,
+                    name: hierarchyContext.moduleName
+                },
+                subModule: {
+                    id: hierarchyContext.subModuleId,
+                    name: hierarchyContext.subModuleName
+                },
+                userStory: {
+                    id: hierarchyContext.userStoryId,
+                    code: hierarchyContext.userStoryCode,
+                    title: hierarchyContext.userStoryTitle
+                }
+            },
+            
+            // NEW: Configuration scope
+            scope: configScope,
+            
             metadata: {
                 createdBy: 'ViewForge 2.0',
                 createdAt: new Date().toISOString(),
-                iteration: 'ITER-2025-08-22-009',
+                iteration: 'Sprint-1-Spike',
                 line: 'concept'
             },
             entity: {

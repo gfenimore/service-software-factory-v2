@@ -6,6 +6,10 @@ const App = {
     init() {
         console.log('ViewForge 2.0 initializing...');
         
+        // Initialize hierarchy FIRST
+        Hierarchy.initializeUI();
+        console.log('Hierarchy context:', Hierarchy.getBreadcrumb());
+        
         // Load saved configuration if exists
         const hasConfig = AppState.loadConfiguration();
         
@@ -26,7 +30,14 @@ const App = {
         if (hasConfig && AppState.currentEntity) {
             this.selectEntity(AppState.currentEntity);
         } else {
-            this.updateUI();
+            // For Sprint 1: Auto-select Account entity
+            this.selectEntity('account');
+        }
+        
+        // Update story display
+        const storyEl = document.getElementById('config-story');
+        if (storyEl) {
+            storyEl.textContent = Hierarchy.currentHierarchy.userStory.code;
         }
         
         console.log('ViewForge 2.0 ready');

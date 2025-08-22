@@ -1,5 +1,34 @@
 /* Component-specific styles */
 
+/* Hierarchy Display */
+.breadcrumb-bar {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #000;
+    background: #f8f8f8;
+    font-size: 0.875rem;
+}
+
+#hierarchy-breadcrumb {
+    font-weight: 500;
+}
+
+.hierarchy-display {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: 0.875rem;
+}
+
+.hierarchy-display span {
+    padding: 0.125rem 0.5rem;
+    border: 1px solid #000;
+}
+
+.hierarchy-separator {
+    border: none !important;
+    padding: 0 !important;
+}
+
 /* Entity Tabs */
 .entity-tabs {
     display: flex;
