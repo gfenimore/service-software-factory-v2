@@ -1,2 +1,368 @@
 ========================================
 Auto-commit started at Fri, Aug 22, 2025  5:33:31 PM
+warning: in the working copy of '.pipeline/auto-commit.log', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/generators/concept-html/output/account-list-with-location.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/generators/concept-html/output/account-list.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/generators/prototype-react/output/account-list/components/AccountListView.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/generators/prototype-react/output/account-list/data/AccountListMockData.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/generators/prototype-react/output/account-list/index.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/generators/prototype-react/output/account-list/types/AccountListTypes.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/generators/prototype-react/output/components/AccountListView.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/generators/prototype-react/output/data/AccountListMockData.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/generators/prototype-react/output/index.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/generators/prototype-react/output/types/AccountListTypes.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/generated/concept-line/account-list-with-location.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/generated/concept-line/account-list.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/generated/prototype-line/account-list/components/AccountListView.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/generated/prototype-line/account-list/data/AccountListMockData.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/generated/prototype-line/account-list/index.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/generated/prototype-line/account-list/types/AccountListTypes.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/legacy-archive/01-factory-tools/viewforge/customer_service_prd.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/legacy-archive/02-concept-line/generator/output/account-list-with-location.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/legacy-archive/02-concept-line/generator/output/account-list.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/legacy-archive/03-prototype-line/generator/output/account-list/components/AccountListView.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/legacy-archive/03-prototype-line/generator/output/account-list/data/AccountListMockData.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/legacy-archive/03-prototype-line/generator/output/account-list/index.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/legacy-archive/03-prototype-line/generator/output/account-list/types/AccountListTypes.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.claude/settings.local.json', LF will be replaced by CRLF the next time Git touches it
+Also staging .claude/ changes
+→ No staged files match any configured task.
+[feature/viewforge-2.0 5c542ca] checkpoint(pipeline): Auto-save at 17:33 - Updated: tools configs outputs docs  (334 files)
+ 335 files changed, 22383 insertions(+), 129 deletions(-)
+ create mode 100644 .pipeline/HANDOFF-SPRINT-1-COMPLETE.md
+ create mode 100644 .pipeline/PROPOSED-REORGANIZATION.md
+ create mode 100644 .pipeline/REORGANIZATION-EXAMPLES.md
+ create mode 100644 .pipeline/SPRINT-1-LEARNINGS-SUMMARY.md
+ create mode 100644 .pipeline/auto-commit.log
+ create mode 100644 .pipeline/auto-commit.sh
+ rename .pipeline/{02-configurations => configurations}/entities/account/field-config-account-list-view-1755720191672.json (100%)
+ rename .pipeline/{02-configurations => configurations}/entities/service-location/field-config-location-list-view-1755803970337.json (100%)
+ rename .pipeline/{02-configurations => configurations}/layouts/layout-config-sample.json (100%)
+ rename .pipeline/{02-configurations => configurations}/navigation/nav-config-context-aware.json (100%)
+ rename .pipeline/{02-configurations => configurations}/navigation/nav-config-pest-control-v1.json (100%)
+ rename .pipeline/{02-configurations => configurations}/navigation/nav-config-sample.json (100%)
+ create mode 100644 .pipeline/configurations/test-fixtures/account-list-config.json
+ create mode 100644 .pipeline/configurations/test-fixtures/account-list-with-location.json
+ create mode 100644 .pipeline/documentation/handoffs/HANDOFF-2025-01-21.md
+ create mode 100644 .pipeline/documentation/handoffs/HANDOFF-SPRINT-1-COMPLETE.md
+ create mode 100644 .pipeline/documentation/learnings/CONCEPT-GENERATOR-LEARNINGS.md
+ create mode 100644 .pipeline/documentation/learnings/SPRINT-1-LEARNINGS-SUMMARY.md
+ create mode 100644 .pipeline/documentation/learnings/VIEWFORGE-LEARNINGS.md
+ create mode 100644 .pipeline/documentation/prds/CONCEPT-GENERATOR-PRD.md
+ create mode 100644 .pipeline/documentation/prds/PROTOTYPE-GENERATOR-PRD.md
+ rename .pipeline/{01-factory-tools/viewforge => documentation/prds}/VIEWFORGE-PRD.md (88%)
+ create mode 100644 .pipeline/factory-tools/generators/concept-html/CONCEPT-GENERATOR-LEARNINGS.md
+ create mode 100644 .pipeline/factory-tools/generators/concept-html/CONCEPT-GENERATOR-PRD.md
+ create mode 100644 .pipeline/factory-tools/generators/concept-html/SPRINT-1-COMPLETE.md
+ create mode 100644 .pipeline/factory-tools/generators/concept-html/generators/detail.js
+ create mode 100644 .pipeline/factory-tools/generators/concept-html/generators/list.js
+ create mode 100644 .pipeline/factory-tools/generators/concept-html/generators/table.js
+ create mode 100644 .pipeline/factory-tools/generators/concept-html/index.js
+ create mode 100644 .pipeline/factory-tools/generators/concept-html/metadata.js
+ create mode 100644 .pipeline/factory-tools/generators/concept-html/output/account-list-with-location.html
+ create mode 100644 .pipeline/factory-tools/generators/concept-html/output/account-list.html
+ create mode 100644 .pipeline/factory-tools/generators/concept-html/package.json
+ create mode 100644 .pipeline/factory-tools/generators/concept-html/parser.js
+ create mode 100644 .pipeline/factory-tools/generators/concept-html/sample-data.js
+ create mode 100644 .pipeline/factory-tools/generators/concept-html/test-fixtures/account-list-config.json
+ create mode 100644 .pipeline/factory-tools/generators/concept-html/test-fixtures/account-list-with-location.json
+ create mode 100644 .pipeline/factory-tools/generators/concept-html/test-generator.js
+ create mode 100644 .pipeline/factory-tools/generators/concept-html/validator.js
+ create mode 100644 .pipeline/factory-tools/generators/prototype-react/PROTOTYPE-GENERATOR-PRD.md
+ create mode 100644 .pipeline/factory-tools/generators/prototype-react/PROTOTYPE-MVP-COMPLETE.md
+ create mode 100644 .pipeline/factory-tools/generators/prototype-react/generators/mock-data.js
+ create mode 100644 .pipeline/factory-tools/generators/prototype-react/generators/table-view.js
+ create mode 100644 .pipeline/factory-tools/generators/prototype-react/generators/types.js
+ create mode 100644 .pipeline/factory-tools/generators/prototype-react/index.js
+ create mode 100644 .pipeline/factory-tools/generators/prototype-react/output/account-list/components/AccountListView.tsx
+ create mode 100644 .pipeline/factory-tools/generators/prototype-react/output/account-list/data/AccountListMockData.ts
+ create mode 100644 .pipeline/factory-tools/generators/prototype-react/output/account-list/index.tsx
+ create mode 100644 .pipeline/factory-tools/generators/prototype-react/output/account-list/types/AccountListTypes.ts
+ create mode 100644 .pipeline/factory-tools/generators/prototype-react/output/components/AccountListView.tsx
+ create mode 100644 .pipeline/factory-tools/generators/prototype-react/output/data/AccountListMockData.ts
+ create mode 100644 .pipeline/factory-tools/generators/prototype-react/output/index.tsx
+ create mode 100644 .pipeline/factory-tools/generators/prototype-react/output/types/AccountListTypes.ts
+ create mode 100644 .pipeline/factory-tools/generators/prototype-react/parser.js
+ create mode 100644 .pipeline/factory-tools/generators/prototype-react/validator.js
+ rename .pipeline/{2-factory => factory-tools}/iteration-manager/ITERATION-MANAGER-GUIDE.md (100%)
+ rename .pipeline/{2-factory => factory-tools}/iteration-manager/iteration-manager.js (100%)
+ create mode 100644 .pipeline/factory-tools/viewforge/VIEWFORGE-LEARNINGS.md
+ create mode 100644 .pipeline/factory-tools/viewforge/VIEWFORGE-PRD.md
+ rename .pipeline/{01-factory-tools/viewforge => factory-tools/viewforge/archive}/v1/configurator-backup.html (100%)
+ rename .pipeline/{01-factory-tools/viewforge => factory-tools/viewforge/archive}/v2-archived-learning/css/base.css (100%)
+ rename .pipeline/{01-factory-tools/viewforge => factory-tools/viewforge/archive}/v2-archived-learning/css/components.css (100%)
+ rename .pipeline/{01-factory-tools/viewforge => factory-tools/viewforge/archive}/v2-archived-learning/css/concept-line.css (100%)
+ rename .pipeline/{01-factory-tools/viewforge => factory-tools/viewforge/archive}/v2-archived-learning/index.html (100%)
+ rename .pipeline/{01-factory-tools/viewforge => factory-tools/viewforge/archive}/v2-archived-learning/js/core/app.js (100%)
+ rename .pipeline/{01-factory-tools/viewforge => factory-tools/viewforge/archive}/v2-archived-learning/js/core/hierarchy.js (100%)
+ rename .pipeline/{01-factory-tools/viewforge => factory-tools/viewforge/archive}/v2-archived-learning/js/core/state.js (100%)
+ rename .pipeline/{01-factory-tools/viewforge => factory-tools/viewforge/archive}/v2-archived-learning/js/integrations/busm.js (100%)
+ rename .pipeline/{01-factory-tools/viewforge => factory-tools/viewforge/archive}/v2-archived-learning/js/modules/export.js (100%)
+ rename .pipeline/{01-factory-tools/viewforge => factory-tools/viewforge/archive}/v2-archived-learning/js/modules/field-config.js (100%)
+ rename .pipeline/{01-factory-tools => factory-tools}/viewforge/v3/V3-APPROACH.md (100%)
+ rename .pipeline/{01-factory-tools => factory-tools}/viewforge/v3/index.html (100%)
+ rename .pipeline/{01-factory-tools => factory-tools}/viewforge/v3/js/v3-app.js (100%)
+ create mode 100644 .pipeline/generated/concept-line/account-list-with-location.html
+ create mode 100644 .pipeline/generated/concept-line/account-list.html
+ rename .pipeline/{03-generated => generated}/concept-line/complete-apps/complete-app.html (100%)
+ rename .pipeline/{03-generated => generated}/concept-line/complete-apps/iteration-2-app.html (100%)
+ rename .pipeline/{03-generated => generated}/concept-line/navigation/navigation.html (100%)
+ rename .pipeline/{03-generated => generated}/concept-line/views/service-location-list.html (100%)
+ create mode 100644 .pipeline/generated/prototype-line/account-list/components/AccountListView.tsx
+ create mode 100644 .pipeline/generated/prototype-line/account-list/data/AccountListMockData.ts
+ create mode 100644 .pipeline/generated/prototype-line/account-list/index.tsx
+ create mode 100644 .pipeline/generated/prototype-line/account-list/types/AccountListTypes.ts
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/docs/architecture/CONCEPT-LINE-FLOW.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/docs/architecture/CONFIGURATION-DRIVEN-FACTORY-PROPOSAL.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/docs/architecture/END-TO-END-PROCESS.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/docs/architecture/SESSION-SUMMARY-2025-08-18.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/docs/architecture/STATUS-AND-TASK-PLAN-2025-01-21.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/docs/philosophy/CONCEPT-LINE-PRINCIPLES.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/docs/philosophy/CONTEXT-AWARE-NAVIGATION-DESIGN.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/docs/philosophy/LAYOUT-GENERATOR-CONCEPT.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/docs/philosophy/NAVIGATION-AS-HUMAN-NEED.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/docs/philosophy/NAVIGATION-PHILOSOPHY.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/generators/layout-generator.js (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/generators/navigation-generator.js (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/generators/pattern-based-generator.js (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/generators/simple-html-generator.js (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/ims/ims-generator-bridge.js (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/ims/iteration-manager.js (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/rules/rule-extractor.js (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/rules/rule-templates.json (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/viewer/simple-server.js (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/viewforge/BUGS.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/viewforge/CONTEXT-PRESERVATION.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/viewforge/CURRENT-CONTEXT.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/viewforge/DEVELOPMENT-LOG.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/viewforge/DRILL-DOWN-PATTERNS-V1.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/viewforge/DRILL-DOWN-REALITY-CHECK.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/viewforge/FEATURE-TRACKER.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/viewforge/IDEA-BACKLOG.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/viewforge/LAYOUT-INNOVATION-BRAINSTORM.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/viewforge/MASTER-VIEW-PATTERNS-V1.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/viewforge/PROJECT-LIFECYCLE.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/viewforge/RETROSPECTIVE-TEMPLATE.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/viewforge/SPRINT-1-ACTUAL.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/viewforge/UPGRADE-PLAN.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/viewforge/VIEWFORGE-2.0-DESIGN.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/viewforge/VIEWFORGE-ERD.md (100%)
+ create mode 100644 .pipeline/legacy-archive/01-factory-tools/viewforge/VIEWFORGE-LEARNINGS.md
+ create mode 100644 .pipeline/legacy-archive/01-factory-tools/viewforge/VIEWFORGE-PRD.md
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/viewforge/VIEWFORGE-REQUIREMENTS-V2.md (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/viewforge/auto-commit.sh (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/viewforge/configurator.html (100%)
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/viewforge/customer_service_prd.md (100%)
+ rename .pipeline/{2-factory/ui-config/configurator/field-configurator.html => legacy-archive/01-factory-tools/viewforge/v1/configurator-backup.html} (100%)
+ create mode 100644 .pipeline/legacy-archive/01-factory-tools/viewforge/v2-archived-learning/css/base.css
+ create mode 100644 .pipeline/legacy-archive/01-factory-tools/viewforge/v2-archived-learning/css/components.css
+ create mode 100644 .pipeline/legacy-archive/01-factory-tools/viewforge/v2-archived-learning/css/concept-line.css
+ create mode 100644 .pipeline/legacy-archive/01-factory-tools/viewforge/v2-archived-learning/index.html
+ create mode 100644 .pipeline/legacy-archive/01-factory-tools/viewforge/v2-archived-learning/js/core/app.js
+ create mode 100644 .pipeline/legacy-archive/01-factory-tools/viewforge/v2-archived-learning/js/core/hierarchy.js
+ create mode 100644 .pipeline/legacy-archive/01-factory-tools/viewforge/v2-archived-learning/js/core/state.js
+ create mode 100644 .pipeline/legacy-archive/01-factory-tools/viewforge/v2-archived-learning/js/integrations/busm.js
+ create mode 100644 .pipeline/legacy-archive/01-factory-tools/viewforge/v2-archived-learning/js/modules/export.js
+ create mode 100644 .pipeline/legacy-archive/01-factory-tools/viewforge/v2-archived-learning/js/modules/field-config.js
+ create mode 100644 .pipeline/legacy-archive/01-factory-tools/viewforge/v3/V3-APPROACH.md
+ create mode 100644 .pipeline/legacy-archive/01-factory-tools/viewforge/v3/index.html
+ create mode 100644 .pipeline/legacy-archive/01-factory-tools/viewforge/v3/js/v3-app.js
+ rename .pipeline/{ => legacy-archive}/01-factory-tools/viewforge/viewforge-review-feedback.md (100%)
+ create mode 100644 .pipeline/legacy-archive/02-concept-line/generator/CONCEPT-GENERATOR-LEARNINGS.md
+ create mode 100644 .pipeline/legacy-archive/02-concept-line/generator/CONCEPT-GENERATOR-PRD.md
+ create mode 100644 .pipeline/legacy-archive/02-concept-line/generator/SPRINT-1-COMPLETE.md
+ create mode 100644 .pipeline/legacy-archive/02-concept-line/generator/generators/detail.js
+ create mode 100644 .pipeline/legacy-archive/02-concept-line/generator/generators/list.js
+ create mode 100644 .pipeline/legacy-archive/02-concept-line/generator/generators/table.js
+ create mode 100644 .pipeline/legacy-archive/02-concept-line/generator/index.js
+ create mode 100644 .pipeline/legacy-archive/02-concept-line/generator/metadata.js
+ create mode 100644 .pipeline/legacy-archive/02-concept-line/generator/output/account-list-with-location.html
+ create mode 100644 .pipeline/legacy-archive/02-concept-line/generator/output/account-list.html
+ create mode 100644 .pipeline/legacy-archive/02-concept-line/generator/package.json
+ create mode 100644 .pipeline/legacy-archive/02-concept-line/generator/parser.js
+ create mode 100644 .pipeline/legacy-archive/02-concept-line/generator/sample-data.js
+ create mode 100644 .pipeline/legacy-archive/02-concept-line/generator/test-fixtures/account-list-config.json
+ create mode 100644 .pipeline/legacy-archive/02-concept-line/generator/test-fixtures/account-list-with-location.json
+ create mode 100644 .pipeline/legacy-archive/02-concept-line/generator/test-generator.js
+ create mode 100644 .pipeline/legacy-archive/02-concept-line/generator/validator.js
+ rename .pipeline/{2-factory/ui-config/configurations => legacy-archive/02-configurations/entities/account}/field-config-account-list-view-1755720191672.json (100%)
+ create mode 100644 .pipeline/legacy-archive/02-configurations/entities/service-location/field-config-location-list-view-1755803970337.json
+ rename .pipeline/{2-factory/generators => legacy-archive/02-configurations/layouts}/layout-config-sample.json (100%)
+ rename .pipeline/{2-factory/generators => legacy-archive/02-configurations/navigation}/nav-config-context-aware.json (100%)
+ rename .pipeline/{2-factory/generators => legacy-archive/02-configurations/navigation}/nav-config-pest-control-v1.json (100%)
+ rename .pipeline/{2-factory/generators => legacy-archive/02-configurations/navigation}/nav-config-sample.json (100%)
+ rename .pipeline/{2-factory/generated/apps => legacy-archive/03-generated/concept-line/complete-apps}/complete-app.html (100%)
+ create mode 100644 .pipeline/legacy-archive/03-generated/concept-line/complete-apps/iteration-2-app.html
+ rename .pipeline/{2-factory/generated => legacy-archive/03-generated/concept-line}/navigation/navigation.html (100%)
+ create mode 100644 .pipeline/legacy-archive/03-generated/concept-line/views/service-location-list.html
+ create mode 100644 .pipeline/legacy-archive/03-prototype-line/PROTOTYPE-LINE-PRINCIPLES.md
+ create mode 100644 .pipeline/legacy-archive/03-prototype-line/generator/PROTOTYPE-GENERATOR-PRD.md
+ create mode 100644 .pipeline/legacy-archive/03-prototype-line/generator/PROTOTYPE-MVP-COMPLETE.md
+ create mode 100644 .pipeline/legacy-archive/03-prototype-line/generator/generators/mock-data.js
+ create mode 100644 .pipeline/legacy-archive/03-prototype-line/generator/generators/table-view.js
+ create mode 100644 .pipeline/legacy-archive/03-prototype-line/generator/generators/types.js
+ create mode 100644 .pipeline/legacy-archive/03-prototype-line/generator/index.js
+ create mode 100644 .pipeline/legacy-archive/03-prototype-line/generator/output/account-list/components/AccountListView.tsx
+ create mode 100644 .pipeline/legacy-archive/03-prototype-line/generator/output/account-list/data/AccountListMockData.ts
+ create mode 100644 .pipeline/legacy-archive/03-prototype-line/generator/output/account-list/index.tsx
+ create mode 100644 .pipeline/legacy-archive/03-prototype-line/generator/output/account-list/types/AccountListTypes.ts
+ create mode 100644 .pipeline/legacy-archive/03-prototype-line/generator/parser.js
+ create mode 100644 .pipeline/legacy-archive/03-prototype-line/generator/validator.js
+ rename .pipeline/{ => legacy-archive}/04-testing/demos/context-navigation-demo.html (100%)
+ rename .pipeline/{ => legacy-archive}/04-testing/demos/pest-control-navigation-demo.html (100%)
+ rename .pipeline/{ => legacy-archive}/1-inputs/busm/BUSM.yaml (100%)
+ rename .pipeline/{ => legacy-archive}/1-inputs/config/.eslintrc.progressive.js (100%)
+ rename .pipeline/{ => legacy-archive}/1-inputs/config/agent-line-config.yaml (100%)
+ rename .pipeline/{ => legacy-archive}/1-inputs/config/factory-standards.yaml (100%)
+ rename .pipeline/{ => legacy-archive}/1-inputs/config/paths-progressive.yaml (100%)
+ rename .pipeline/{ => legacy-archive}/1-inputs/config/paths.yaml (100%)
+ rename .pipeline/{ => legacy-archive}/1-inputs/config/processor-line-config.yaml (100%)
+ rename .pipeline/{ => legacy-archive}/1-inputs/requirements/1.1.1-master-view/1.1.1-master-view-spec.md (100%)
+ rename .pipeline/{ => legacy-archive}/1-inputs/requirements/BUSM.mmd (100%)
+ rename .pipeline/{ => legacy-archive}/1-inputs/requirements/busm-registry.js (100%)
+ rename .pipeline/{ => legacy-archive}/1-inputs/requirements/feedback-requirements/account-display-feedback-spec.md (100%)
+ rename .pipeline/{ => legacy-archive}/1-inputs/requirements/feedback-sessions/active/FB-demo-2025-08-19-mej12che-2-IMPLEMENTED.md (100%)
+ rename .pipeline/{ => legacy-archive}/1-inputs/requirements/feedback-sessions/active/FB-demo-2025-08-19-mej12che-2.json (100%)
+ rename .pipeline/{ => legacy-archive}/1-inputs/requirements/feedback-sessions/active/current-session.json (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/CONCEPT-LINE-FLOW.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/CONFIGURATION-DRIVEN-FACTORY-PROPOSAL.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/END-TO-END-PROCESS.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/SESSION-SUMMARY-2025-08-18.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/STATUS-AND-TASK-PLAN-2025-01-21.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/agents/TYPE-BUILDER.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/components/feedback-collector.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/components/simple-feedback-saver.html (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/components/smart-feedback-collector.html (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/components/smart-feedback-system.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/contracts/BUSM-INTEGRATION-EXAMPLE.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/contracts/busm-registry.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/design-system/tokens-minimal.css (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/feedback-system/EXPORT-INSTRUCTIONS.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/feedback-system/FEEDBACK-ARCHITECTURE.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/feedback-system/FULL-CITIZENSHIP-FLOW.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/feedback-system/QUICK-START.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/feedback-system/SUPABASE-FEEDBACK-DESIGN.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/feedback-system/feedback-client-server.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/feedback-system/feedback-evolution-roadmap.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/feedback-system/feedback-server.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/feedback-system/feedback-to-requirements.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/feedback-system/implement-feedback.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/feedback-system/inject-feedback.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/feedback-system/process-browser-feedback.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/feedback-system/process-session.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/feedback-system/sample-feedback.json (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/feedback-system/supabase-feedback-client.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/feedback-system/tailwind-v4-prep-plan.md (100%)
+ create mode 100644 .pipeline/legacy-archive/2-factory/generated/apps/complete-app.html
+ create mode 100644 .pipeline/legacy-archive/2-factory/generated/navigation/navigation.html
+ rename .pipeline/{ => legacy-archive}/2-factory/generators/CONTEXT-AWARE-NAVIGATION-DESIGN.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/generators/LAYOUT-GENERATOR-CONCEPT.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/generators/NAVIGATION-AS-HUMAN-NEED.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/generators/NAVIGATION-PHILOSOPHY.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/generators/context-navigation-demo.html (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/generators/generate.sh (100%)
+ create mode 100644 .pipeline/legacy-archive/2-factory/generators/layout-config-sample.json
+ rename .pipeline/{ => legacy-archive}/2-factory/generators/layout-generator.js (100%)
+ create mode 100644 .pipeline/legacy-archive/2-factory/generators/nav-config-context-aware.json
+ create mode 100644 .pipeline/legacy-archive/2-factory/generators/nav-config-pest-control-v1.json
+ create mode 100644 .pipeline/legacy-archive/2-factory/generators/nav-config-sample.json
+ rename .pipeline/{ => legacy-archive}/2-factory/generators/navigation-generator-requirements.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/generators/navigation-generator.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/generators/pattern-based-generator.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/generators/pest-control-navigation-demo.html (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/generators/simple-html-generator.js (100%)
+ create mode 100644 .pipeline/legacy-archive/2-factory/iteration-manager/ITERATION-MANAGER-GUIDE.md
+ create mode 100644 .pipeline/legacy-archive/2-factory/iteration-manager/iteration-manager.js
+ rename .pipeline/{ => legacy-archive}/2-factory/orchestration/executor.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/orchestration/run-complete-pipeline.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/orchestration/run-pipeline.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/EXTRACT-PROCESSOR.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/concept-generator/CONCEPT-GENERATOR.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/feedback-processor/FEEDBACK-TO-TASKS.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/idea-processor/IDEA-PROCESSOR-CONCEPT.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/requirements-parser/REQUIREMENTS-PARSER.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/story-builder/STORY-BUILDER.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/transformers/ASSEMBLY-PROCESSOR.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/transformers/COMPONENT-GENERATOR.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/transformers/ENHANCEMENT-PROCESSOR.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/transformers/EXTRACT-PROCESSOR.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/transformers/components-output/AccountsColumn.tsx (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/transformers/components-output/Card.tsx (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/transformers/components-output/LocationsColumn.tsx (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/transformers/components-output/MasterView.tsx (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/transformers/components-output/SearchBox.tsx (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/transformers/components-output/WorkordersColumn.tsx (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/transformers/components-output/hooks.ts (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/transformers/components-output/index.ts (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/transformers/components-output/mockData.ts (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/transformers/components-output/package.json (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/transformers/components-output/types.ts (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/transformers/test-output/components.json (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/transformers/test-output/events.json (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/transformers/test-output/extraction-manifest.json (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/transformers/test-output/mockData.json (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/processors/transformers/test-output/styles.json (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/ui-config/CONFIGURATION-VISUAL-GUIDE.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/ui-config/FIELD-SELECTION-CONTEXTS.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/ui-config/NEXT-STEPS.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/ui-config/OPS-GUIDE.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/ui-config/REQUIREMENTS-TO-PATTERNS-MAPPING.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/ui-config/UI-GENERATION-CAPABILITY.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/ui-config/V1-THREE-VIEWS.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/ui-config/archive/field-selector-single-entity.html (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/ui-config/archive/field-selector-v2.html (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/ui-config/archive/field-selector-v3.html (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/ui-config/archive/field-selector-with-relations-mockup.html (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/ui-config/card-fields.yaml (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/ui-config/card-patterns.yaml (100%)
+ create mode 100644 .pipeline/legacy-archive/2-factory/ui-config/configurations/field-config-account-list-view-1755720191672.json
+ create mode 100644 .pipeline/legacy-archive/2-factory/ui-config/configurator/field-configurator.html
+ rename .pipeline/{ => legacy-archive}/2-factory/ui-config/field-configuration.js (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/ui-config/field-configurator-requirements.md (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/ui-config/field-selector.html (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/ui-config/layout-optimized.css (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/ui-config/test-renders/test-configuration-render.html (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/ui-templates/card-compact.html (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/ui-templates/card-data.html (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/ui-templates/card-list.html (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/ui-templates/card-metric.html (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/validation/requirements.json (100%)
+ rename .pipeline/{ => legacy-archive}/2-factory/validation/validation-rules.json (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/concept/account-list-view-1755727805146.html (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/concept/account-list-with-table.html (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/concept/iteration-2-enhanced.html (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/concept/iteration-3-optimized.html (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/current/architecture/US-006-architecture.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/current/architecture/US-007-architecture.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/current/features/master-view-business-feature.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/current/features/master-view-technical-feautre.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/current/session.json (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/current/stories/US-006-service-locations-v2.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/current/stories/US-006-service-locations-v21.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/current/stories/US-006-service-locations-v3.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/current/stories/US-006-service-locations.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/current/stories/US-007-work-orders.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/current/tasks/US-006-tasks.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/prototype/1.1.1-master-view/README.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/prototype/1.1.1-master-view/package.json (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/prototype/1.1.1-master-view/src/types/index.ts (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/prototype/1.1.1-master-view/tsconfig.json (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/prototype/architecture/US-006-architecture.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/prototype/architecture/US-007-architecture.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/prototype/features/master-view-business-feature.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/prototype/features/master-view-technical-feautre.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/prototype/session.json (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/prototype/stories/US-006-service-locations-v2.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/prototype/stories/US-006-service-locations-v21.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/prototype/stories/US-006-service-locations-v3.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/prototype/stories/US-006-service-locations.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/prototype/stories/US-007-work-orders.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/prototype/tasks/US-006-tasks.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/runs/run-001/RUN-PLAN.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/runs/run-001/plans/prototype-work-items.md (100%)
+ rename .pipeline/{ => legacy-archive}/3-workspace/runs/run-001/stories/US-1.1.1-master-view.md (100%)
+ rename .pipeline/{ => legacy-archive}/5-archive/feedback-styles.css (100%)
+✅ Successfully committed: checkpoint(pipeline): Auto-save at 17:33 - Updated: tools configs outputs docs  (334 files)
+Auto-commit completed at Fri, Aug 22, 2025  5:33:34 PM
+========================================
+Auto-commit started at Fri, Aug 22, 2025  5:48:34 PM
