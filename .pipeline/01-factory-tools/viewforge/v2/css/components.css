@@ -1,0 +1,234 @@
+/* Component-specific styles */
+
+/* Entity Tabs */
+.entity-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+.entity-tab {
+    padding: 0.75rem;
+    text-align: left;
+    border: 1px solid #000;
+    background: #fff;
+}
+
+.entity-tab.active {
+    background: #000;
+    color: #fff;
+}
+
+.entity-tab:not(.active):hover {
+    background: #f0f0f0;
+}
+
+/* Entity Info */
+.entity-info {
+    padding: 1rem;
+    border: 1px solid #000;
+    margin-top: 1rem;
+}
+
+#entity-details {
+    font-size: 0.875rem;
+}
+
+/* Config Header */
+.config-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.view-context {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.view-context select {
+    width: auto;
+}
+
+/* Field Selector */
+.field-selector {
+    border: 1px solid #000;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.field-controls {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.field-controls input {
+    flex: 1;
+}
+
+.field-controls button {
+    white-space: nowrap;
+}
+
+.field-list {
+    flex: 1;
+    overflow-y: auto;
+    border: 1px solid #000;
+    padding: 0.5rem;
+}
+
+/* Field Items */
+.field-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    border-bottom: 1px solid #ccc;
+}
+
+.field-item:last-child {
+    border-bottom: none;
+}
+
+.field-item:hover {
+    background: #f8f8f8;
+}
+
+.field-item input[type="checkbox"] {
+    margin-right: 0.75rem;
+}
+
+.field-name {
+    flex: 1;
+    font-weight: 500;
+}
+
+.field-type {
+    font-size: 0.75rem;
+    padding: 0.125rem 0.5rem;
+    border: 1px solid #000;
+    margin-left: 0.5rem;
+}
+
+/* Selected Fields */
+.selected-fields {
+    border: 1px solid #000;
+    padding: 1rem;
+    min-height: 200px;
+}
+
+.selected-fields h3 {
+    margin-bottom: 0.5rem;
+}
+
+.selected-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.selected-item {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    margin-bottom: 0.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.selected-item button {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+}
+
+/* Configuration Summary */
+.config-summary {
+    border: 1px solid #000;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Actions */
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.btn-primary {
+    background: #000;
+    color: #fff;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background: #333;
+}
+
+.btn-secondary {
+    border: 2px solid #000;
+}
+
+.btn-danger {
+    border: 2px solid #000;
+    background: repeating-linear-gradient(
+        45deg,
+        #fff,
+        #fff 5px,
+        #f0f0f0 5px,
+        #f0f0f0 10px
+    );
+}
+
+/* Export Result */
+.export-result {
+    border: 1px solid #000;
+    padding: 1rem;
+}
+
+#json-output {
+    width: 100%;
+    height: 150px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    margin: 0.5rem 0;
+    resize: vertical;
+}
+
+#copy-json {
+    width: 100%;
+}
+
+/* Status Messages */
+.status-message {
+    padding: 0.5rem;
+    border: 1px solid #000;
+    margin: 0.5rem 0;
+}
+
+.status-success {
+    background: repeating-linear-gradient(
+        90deg,
+        #fff,
+        #fff 10px,
+        #f0f0f0 10px,
+        #f0f0f0 20px
+    );
+}
+
+.status-error {
+    background: repeating-linear-gradient(
+        45deg,
+        #fff,
+        #fff 5px,
+        #e0e0e0 5px,
+        #e0e0e0 10px
+    );
+    font-weight: bold;
+}

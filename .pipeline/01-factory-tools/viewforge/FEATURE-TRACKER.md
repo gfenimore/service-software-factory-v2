@@ -11,12 +11,12 @@ description: "Allow users to select and configure fields for one entity type"
 scope: "Single entity, list view context, no relationships"
 complexity_estimate: 3  # 1-5 scale
 risk_estimate: 2       # 1-5 scale
-status: "not_started"
+status: "in_progress"
 iteration: "ITER-2025-08-22-009"
 
 # Timeline
 planned_start: "2025-01-22T09:00:00Z"
-actual_start: null
+actual_start: "2025-01-22T09:17:00Z"
 planned_end: "2025-01-22T17:00:00Z"
 actual_end: null
 
