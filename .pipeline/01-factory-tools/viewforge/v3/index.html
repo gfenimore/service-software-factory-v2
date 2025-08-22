@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViewForge v3 - Configuration-Driven UI Factory</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #fff;
+            color: #000;
+            line-height: 1.6;
+        }
+        
+        /* Layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Wizard Steps */
+        .wizard-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f8f8;
+            border: 1px solid #000;
+        }
+        
+        .step {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin: 0 5px;
+            cursor: pointer;
+            background: #fff;
+        }
+        
+        .step.active {
+            background: #000;
+            color: #fff;
+            border-color: #000;
+        }
+        
+        .step.completed {
+            background: #e0e0e0;
+            border-color: #000;
+        }
+        
+        /* Content Area */
+        .content-area {
+            min-height: 500px;
+            border: 1px solid #000;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        /* Step 1: Scope Selection */
+        .scope-selector {
+            display: none;
+        }
+        
+        .scope-selector.active {
+            display: block;
+        }
+        
+        .hierarchy-level {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+        }
+        
+        .hierarchy-level h3 {
+            margin-bottom: 10px;
+        }
+        
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #000;
+            background: #fff;
+            font-size: 14px;
+        }
+        
+        /* Step 2: Field Configuration */
+        .field-configurator {
+            display: none;
+        }
+        
+        .field-configurator.active {
+            display: block;
+        }
+        
+        .entity-selector {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f8f8;
+            border: 1px solid #000;
+        }
+        
+        .field-selector {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .available-fields,
+        .selected-fields {
+            flex: 1;
+            border: 1px solid #000;
+            padding: 15px;
+            min-height: 300px;
+        }
+        
+        .field-item {
+            padding: 5px 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+        
+        .field-item:hover {
+            background: #f0f0f0;
+        }
+        
+        .field-item.selected {
+            background: #e0e0e0;
+            border-color: #000;
+        }
+        
+        /* Step 3: Preview */
+        .preview-container {
+            display: none;
+        }
+        
+        .preview-container.active {
+            display: block;
+        }
+        
+        .preview-frame {
+            border: 2px solid #000;
+            padding: 20px;
+            background: #fff;
+            min-height: 400px;
+        }
+        
+        /* Preview Table */
+        .preview-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #000;
+        }
+        
+        .preview-table th,
+        .preview-table td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .preview-table th {
+            background: #f0f0f0;
+            font-weight: 600;
+        }
+        
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            border: 1px solid #000;
+            background: #f8f8f8;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: 1px solid #000;
+            background: #fff;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background: #f0f0f0;
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        button.primary {
+            background: #000;
+            color: #fff;
+        }
+        
+        button.primary:hover {
+            background: #333;
+        }
+        
+        /* Configuration Summary */
+        .config-summary {
+            position: fixed;
+            right: 20px;
+            top: 100px;
+            width: 250px;
+            padding: 15px;
+            background: #fff;
+            border: 2px solid #000;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .config-summary h3 {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 5px;
+        }
+        
+        .config-summary dl {
+            font-size: 12px;
+        }
+        
+        .config-summary dt {
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        
+        .config-summary dd {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ViewForge v3</h1>
+            <div class="subtitle">PRD-Driven Configuration System</div>
+        </header>
+        
+        <!-- Wizard Steps -->
+        <div class="wizard-steps">
+            <div class="step active" data-step="1">
+                <strong>Step 1</strong><br>
+                Scope & Hierarchy
+            </div>
+            <div class="step" data-step="2">
+                <strong>Step 2</strong><br>
+                Field Selection
+            </div>
+            <div class="step" data-step="3">
+                <strong>Step 3</strong><br>
+                Preview & Export
+            </div>
+        </div>
+        
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Step 1: Scope Selection -->
+            <div class="scope-selector active" data-content="1">
+                <h2>Configuration Scope</h2>
+                <p>Define where this configuration belongs in the hierarchy</p>
+                
+                <div class="hierarchy-level">
+                    <h3>Application</h3>
+                    <select id="app-select">
+                        <option value="fsm">Field Service Management</option>
+                    </select>
+                </div>
+                
+                <div class="hierarchy-level">
+                    <h3>Module</h3>
+                    <select id="module-select">
+                        <option value="">-- Select Module --</option>
+                        <option value="accounts">Account Management</option>
+                        <option value="service">Service Delivery</option>
+                        <option value="billing">Billing & Invoicing</option>
+                    </select>
+                </div>
+                
+                <div class="hierarchy-level">
+                    <h3>SubModule</h3>
+                    <select id="submodule-select" disabled>
+                        <option value="">-- Select SubModule --</option>
+                    </select>
+                </div>
+                
+                <div class="hierarchy-level">
+                    <h3>User Story</h3>
+                    <select id="story-select" disabled>
+                        <option value="">-- Select User Story --</option>
+                    </select>
+                </div>
+                
+                <div class="hierarchy-level">
+                    <h3>Configuration Scope Level</h3>
+                    <select id="scope-level-select">
+                        <option value="story">Story Level (Most Specific)</option>
+                        <option value="submodule">SubModule Level</option>
+                        <option value="module">Module Level</option>
+                        <option value="app">Application Level</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Step 2: Field Configuration -->
+            <div class="field-configurator" data-content="2">
+                <h2>Field Configuration</h2>
+                
+                <div class="entity-selector">
+                    <label>Primary Entity:</label>
+                    <select id="primary-entity">
+                        <option value="">-- Select Entity --</option>
+                        <option value="account">Account</option>
+                        <option value="serviceLocation">Service Location</option>
+                        <option value="workOrder">Work Order</option>
+                    </select>
+                    
+                    <label style="margin-left: 20px;">Add Related Fields From:</label>
+                    <select id="related-entity">
+                        <option value="">-- None --</option>
+                    </select>
+                </div>
+                
+                <div class="field-selector">
+                    <div class="available-fields">
+                        <h3>Available Fields</h3>
+                        <div id="available-fields-list">
+                            <!-- Fields will be populated here -->
+                        </div>
+                    </div>
+                    
+                    <div class="selected-fields">
+                        <h3>Selected Fields (Display Order)</h3>
+                        <div id="selected-fields-list">
+                            <!-- Selected fields will appear here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 3: Preview -->
+            <div class="preview-container" data-content="3">
+                <h2>Preview & Export</h2>
+                
+                <div class="preview-frame">
+                    <h3>Account List View</h3>
+                    <table class="preview-table" id="preview-table">
+                        <!-- Preview will be generated here -->
+                    </table>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <button class="primary" onclick="exportConfiguration()">Export Configuration JSON</button>
+                </div>
+                
+                <textarea id="json-output" style="width: 100%; height: 200px; margin-top: 20px; display: none;" readonly></textarea>
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <div class="navigation">
+            <button id="prev-btn" onclick="previousStep()" disabled>Previous</button>
+            <button id="next-btn" class="primary" onclick="nextStep()">Next</button>
+        </div>
+    </div>
+    
+    <!-- Configuration Summary (Floating) -->
+    <div class="config-summary">
+        <h3>Configuration</h3>
+        <dl>
+            <dt>Scope:</dt>
+            <dd id="summary-scope">Not Set</dd>
+            <dt>Module:</dt>
+            <dd id="summary-module">Not Set</dd>
+            <dt>Entity:</dt>
+            <dd id="summary-entity">Not Set</dd>
+            <dt>Fields:</dt>
+            <dd id="summary-fields">0 selected</dd>
+        </dl>
+    </div>
+    
+    <script src="js/v3-app.js"></script>
+</body>
+</html>
