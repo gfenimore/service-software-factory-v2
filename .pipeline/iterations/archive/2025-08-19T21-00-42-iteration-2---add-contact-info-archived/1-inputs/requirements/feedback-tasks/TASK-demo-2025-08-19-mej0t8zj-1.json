@@ -1,0 +1,23 @@
+{
+  "id": "TASK-demo-2025-08-19-mej0t8zj-1",
+  "title": "When I am viewing the account cards in the account",
+  "description": "When I am viewing the account cards in the account column, I want to see the primary contact's full name, and their preferred contact method value displayed.",
+  "type": "enhancement",
+  "priority": "medium",
+  "estimate": "1-2 hours",
+  "complexity": "medium",
+  "context": {
+    "url": "file:///C:/Users/GarryFenimore/Projects/service-software-factory-v2/.pipeline/3-workspace/concept/test-with-server.html",
+    "timestamp": "2025-08-19T20:55:35.895Z",
+    "viewport": "1856x627",
+    "elements": {
+      "visible": 98,
+      "buttons": 3,
+      "inputs": 3
+    },
+    "selectedAccount": "Acme Corp"
+  },
+  "createdAt": "2025-08-19T20:55:35.930Z",
+  "status": "pending",
+  "implementation": []
+}

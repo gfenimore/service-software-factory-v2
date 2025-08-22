@@ -1,0 +1,473 @@
+{
+  "version": "1.0.0",
+  "created": "2025-01-21",
+  "description": "Standard rule templates for common UI patterns",
+  
+  "templates": {
+    "list-view": {
+      "name": "List View Rules",
+      "description": "Standard rules for any list/grid view",
+      "rules": [
+        {
+          "id": "LIST-001",
+          "name": "Default Sort Order",
+          "category": "display",
+          "defaultEnabled": true,
+          "parameters": {
+            "sortField": "createdDate",
+            "sortDirection": "desc"
+          },
+          "expressions": {
+            "concept": "Display in order specified",
+            "prototype": "Client-side sorting with click headers",
+            "production": "Server-side sorting with index optimization"
+          }
+        },
+        {
+          "id": "LIST-002",
+          "name": "Pagination",
+          "category": "performance",
+          "defaultEnabled": true,
+          "parameters": {
+            "pageSize": 20,
+            "maxPageSize": 100
+          },
+          "expressions": {
+            "concept": "Show first 20 items only",
+            "prototype": "Basic pagination with page numbers",
+            "production": "Virtual scrolling with lazy loading"
+          }
+        },
+        {
+          "id": "LIST-003",
+          "name": "Empty State",
+          "category": "display",
+          "defaultEnabled": true,
+          "parameters": {
+            "emptyMessage": "No items found"
+          },
+          "expressions": {
+            "concept": "Show text message",
+            "prototype": "Styled empty state component",
+            "production": "Empty state with action suggestions"
+          }
+        },
+        {
+          "id": "LIST-004",
+          "name": "Loading State",
+          "category": "display",
+          "defaultEnabled": true,
+          "parameters": {
+            "loadingType": "spinner"
+          },
+          "expressions": {
+            "concept": "No loading indicator needed (mock data)",
+            "prototype": "Simple spinner during fetch",
+            "production": "Skeleton screens with progressive loading"
+          }
+        },
+        {
+          "id": "LIST-005",
+          "name": "Selection Behavior",
+          "category": "interaction",
+          "defaultEnabled": true,
+          "parameters": {
+            "selectionMode": "single",
+            "highlightSelected": true
+          },
+          "expressions": {
+            "concept": "Click to show details",
+            "prototype": "Single selection with visual feedback",
+            "production": "Selection with keyboard navigation support"
+          }
+        },
+        {
+          "id": "LIST-006",
+          "name": "Search/Filter",
+          "category": "interaction",
+          "defaultEnabled": false,
+          "parameters": {
+            "searchFields": ["name"],
+            "debounceMs": 300
+          },
+          "expressions": {
+            "concept": "Simple text filter",
+            "prototype": "Client-side search with debounce",
+            "production": "Server-side search with caching"
+          }
+        }
+      ]
+    },
+    
+    "detail-view": {
+      "name": "Detail View Rules",
+      "description": "Standard rules for detail/read-only views",
+      "rules": [
+        {
+          "id": "DETAIL-001",
+          "name": "Field Display Order",
+          "category": "display",
+          "defaultEnabled": true,
+          "parameters": {
+            "grouping": "logical"
+          },
+          "expressions": {
+            "concept": "Show all fields in order",
+            "prototype": "Grouped by sections",
+            "production": "Role-based field visibility"
+          }
+        },
+        {
+          "id": "DETAIL-002",
+          "name": "Null Value Handling",
+          "category": "display",
+          "defaultEnabled": true,
+          "parameters": {
+            "nullDisplay": "—"
+          },
+          "expressions": {
+            "concept": "Show dash for empty",
+            "prototype": "Contextual empty messages",
+            "production": "Smart defaults based on field type"
+          }
+        },
+        {
+          "id": "DETAIL-003",
+          "name": "Related Data Loading",
+          "category": "performance",
+          "defaultEnabled": true,
+          "parameters": {
+            "loadStrategy": "lazy"
+          },
+          "expressions": {
+            "concept": "Show all data immediately (mocked)",
+            "prototype": "Lazy load related entities",
+            "production": "Smart prefetching based on usage"
+          }
+        },
+        {
+          "id": "DETAIL-004",
+          "name": "Action Availability",
+          "category": "interaction",
+          "defaultEnabled": true,
+          "parameters": {
+            "actions": ["edit", "delete"]
+          },
+          "expressions": {
+            "concept": "Show all action buttons",
+            "prototype": "Enable based on state",
+            "production": "Role-based action visibility"
+          }
+        }
+      ]
+    },
+    
+    "form-view": {
+      "name": "Form View Rules",
+      "description": "Standard rules for create/edit forms",
+      "rules": [
+        {
+          "id": "FORM-001",
+          "name": "Required Field Validation",
+          "category": "validation",
+          "defaultEnabled": true,
+          "parameters": {
+            "indicatorType": "asterisk",
+            "validateOn": "submit"
+          },
+          "expressions": {
+            "concept": "Show asterisk for required",
+            "prototype": "Validate on blur with inline errors",
+            "production": "Progressive validation with helpful messages"
+          }
+        },
+        {
+          "id": "FORM-002",
+          "name": "Field Format Validation",
+          "category": "validation",
+          "defaultEnabled": true,
+          "parameters": {
+            "formatRules": "auto-detect"
+          },
+          "expressions": {
+            "concept": "No format validation",
+            "prototype": "Basic format checks (email, phone)",
+            "production": "Advanced validation with suggestions"
+          }
+        },
+        {
+          "id": "FORM-003",
+          "name": "Save Behavior",
+          "category": "interaction",
+          "defaultEnabled": true,
+          "parameters": {
+            "saveMode": "explicit",
+            "confirmUnsaved": true
+          },
+          "expressions": {
+            "concept": "Save button (no-op)",
+            "prototype": "Save with success feedback",
+            "production": "Optimistic save with rollback"
+          }
+        },
+        {
+          "id": "FORM-004",
+          "name": "Error Handling",
+          "category": "interaction",
+          "defaultEnabled": true,
+          "parameters": {
+            "errorDisplay": "inline"
+          },
+          "expressions": {
+            "concept": "Alert on error",
+            "prototype": "Inline error messages",
+            "production": "Smart error recovery suggestions"
+          }
+        },
+        {
+          "id": "FORM-005",
+          "name": "Field Dependencies",
+          "category": "interaction",
+          "defaultEnabled": false,
+          "parameters": {
+            "dependencies": []
+          },
+          "expressions": {
+            "concept": "All fields always visible",
+            "prototype": "Show/hide based on values",
+            "production": "Dynamic form with conditional logic"
+          }
+        },
+        {
+          "id": "FORM-006",
+          "name": "Auto-save",
+          "category": "interaction",
+          "defaultEnabled": false,
+          "parameters": {
+            "autoSaveInterval": 30000
+          },
+          "expressions": {
+            "concept": "No auto-save",
+            "prototype": "Save draft locally",
+            "production": "Server-side draft with recovery"
+          }
+        }
+      ]
+    },
+    
+    "navigation": {
+      "name": "Navigation Rules",
+      "description": "Standard rules for navigation and routing",
+      "rules": [
+        {
+          "id": "NAV-001",
+          "name": "Deep Linking",
+          "category": "navigation",
+          "defaultEnabled": true,
+          "parameters": {
+            "urlStrategy": "path"
+          },
+          "expressions": {
+            "concept": "No routing (single page)",
+            "prototype": "Basic routes for main views",
+            "production": "Full deep linking with state"
+          }
+        },
+        {
+          "id": "NAV-002",
+          "name": "Browser Back Button",
+          "category": "navigation",
+          "defaultEnabled": true,
+          "parameters": {
+            "handleBack": true
+          },
+          "expressions": {
+            "concept": "Not applicable",
+            "prototype": "Basic history support",
+            "production": "Smart navigation with confirmations"
+          }
+        },
+        {
+          "id": "NAV-003",
+          "name": "Breadcrumbs",
+          "category": "display",
+          "defaultEnabled": false,
+          "parameters": {
+            "showBreadcrumbs": true
+          },
+          "expressions": {
+            "concept": "No breadcrumbs",
+            "prototype": "Simple path display",
+            "production": "Interactive breadcrumb navigation"
+          }
+        }
+      ]
+    },
+    
+    "state-management": {
+      "name": "State Management Rules",
+      "description": "Rules for handling application state",
+      "rules": [
+        {
+          "id": "STATE-001",
+          "name": "Selection Persistence",
+          "category": "state",
+          "defaultEnabled": true,
+          "parameters": {
+            "persistSelection": "session"
+          },
+          "expressions": {
+            "concept": "Selection clears on navigation",
+            "prototype": "Selection persists in session",
+            "production": "User preference for persistence"
+          }
+        },
+        {
+          "id": "STATE-002",
+          "name": "Cache Strategy",
+          "category": "performance",
+          "defaultEnabled": false,
+          "parameters": {
+            "cacheTimeout": 300000,
+            "cacheLocation": "memory"
+          },
+          "expressions": {
+            "concept": "No caching (always mock)",
+            "prototype": "Simple memory cache",
+            "production": "Intelligent cache with invalidation"
+          }
+        },
+        {
+          "id": "STATE-003",
+          "name": "Optimistic Updates",
+          "category": "performance",
+          "defaultEnabled": false,
+          "parameters": {
+            "enableOptimistic": false
+          },
+          "expressions": {
+            "concept": "Not applicable",
+            "prototype": "Wait for server confirmation",
+            "production": "Optimistic with rollback"
+          }
+        }
+      ]
+    },
+    
+    "security": {
+      "name": "Security Rules",
+      "description": "Security and permission rules",
+      "rules": [
+        {
+          "id": "SEC-001",
+          "name": "Field-Level Security",
+          "category": "security",
+          "defaultEnabled": false,
+          "parameters": {
+            "fieldSecurity": false
+          },
+          "expressions": {
+            "concept": "All fields visible",
+            "prototype": "Basic role checks",
+            "production": "Full RBAC with field masking"
+          }
+        },
+        {
+          "id": "SEC-002",
+          "name": "Action Authorization",
+          "category": "security",
+          "defaultEnabled": false,
+          "parameters": {
+            "checkPermissions": false
+          },
+          "expressions": {
+            "concept": "All actions available",
+            "prototype": "Role-based actions",
+            "production": "Fine-grained permissions"
+          }
+        },
+        {
+          "id": "SEC-003",
+          "name": "Audit Logging",
+          "category": "security",
+          "defaultEnabled": false,
+          "parameters": {
+            "auditLevel": "none"
+          },
+          "expressions": {
+            "concept": "No audit",
+            "prototype": "Basic change tracking",
+            "production": "Complete audit trail"
+          }
+        }
+      ]
+    },
+    
+    "performance": {
+      "name": "Performance Rules",
+      "description": "Performance optimization rules",
+      "rules": [
+        {
+          "id": "PERF-001",
+          "name": "Load Time Target",
+          "category": "performance",
+          "defaultEnabled": true,
+          "parameters": {
+            "targetMs": 1000,
+            "measure": false
+          },
+          "expressions": {
+            "concept": "Instant (mock data)",
+            "prototype": "Target <1s with measurement",
+            "production": "p95 <500ms with monitoring"
+          }
+        },
+        {
+          "id": "PERF-002",
+          "name": "Bundle Optimization",
+          "category": "performance",
+          "defaultEnabled": false,
+          "parameters": {
+            "codeSplitting": false
+          },
+          "expressions": {
+            "concept": "Single file",
+            "prototype": "Basic bundling",
+            "production": "Code splitting with lazy loading"
+          }
+        },
+        {
+          "id": "PERF-003",
+          "name": "API Call Optimization",
+          "category": "performance",
+          "defaultEnabled": false,
+          "parameters": {
+            "batchRequests": false,
+            "debounceMs": 300
+          },
+          "expressions": {
+            "concept": "No API calls",
+            "prototype": "Individual requests",
+            "production": "Batched and debounced"
+          }
+        }
+      ]
+    }
+  },
+  
+  "rule-application": {
+    "description": "How templates apply to different contexts",
+    "contexts": {
+      "account-list": ["list-view", "navigation", "state-management"],
+      "account-detail": ["detail-view", "navigation", "state-management"],
+      "account-form": ["form-view", "navigation", "state-management"],
+      "master-view": ["list-view", "detail-view", "navigation", "state-management", "performance"]
+    }
+  },
+  
+  "conflict-resolution": {
+    "priority": ["BUSM", "Story", "ViewForge", "Template"],
+    "strategy": "highest-priority-wins",
+    "manual-override": true
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "handlers": {},
+  "customEvents": [
+    {
+      "name": "account:selected",
+      "type": "custom"
+    },
+    {
+      "name": "location:selected",
+      "type": "custom"
+    },
+    {
+      "name": "workOrder:selected",
+      "type": "custom"
+    }
+  ],
+  "listeners": [],
+  "flows": [],
+  "summary": {
+    "totalHandlers": 0,
+    "totalCustomEvents": 3,
+    "totalListeners": 0,
+    "totalFlows": 0
+  }
+}

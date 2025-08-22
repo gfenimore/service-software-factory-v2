@@ -1,0 +1,27 @@
+{
+  "generator": "CONCEPT-GENERATOR",
+  "version": "1.0",
+  "timestamp": "2025-08-19T00:56:53.350Z",
+  "subModule": "1.1.1",
+  "files": [
+    "1.1.1-master-view-CONCEPT.html"
+  ],
+  "mockData": {
+    "accounts": 50,
+    "locations": 250,
+    "workOrders": 1724
+  },
+  "validationCriteria": [
+    "Users can navigate to any work order in < 3 clicks",
+    "Column relationships are intuitive",
+    "Performance is acceptable with mock data",
+    "Search functionality works in all columns",
+    "Keyboard navigation is functional"
+  ],
+  "nextSteps": [
+    "Visual validation against requirements",
+    "User testing for workflow validation",
+    "Performance testing with mock data",
+    "Accessibility audit"
+  ]
+}

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Feedback Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        
+        .feedback-item {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        
+        .feedback-item.high {
+            border-left: 4px solid #ff4444;
+        }
+        
+        .feedback-item.medium {
+            border-left: 4px solid #ffaa00;
+        }
+        
+        .feedback-item.low {
+            border-left: 4px solid #44ff44;
+        }
+        
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        button:hover {
+            background: #45a049;
+        }
+        
+        .stats {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎯 Feedback Manager</h1>
+    
+    <div class="stats">
+        <h3>How to Use:</h3>
+        <ol>
+            <li>Open your concept HTML in the browser</li>
+            <li>Click the 💡 button and submit feedback</li>
+            <li>In the browser console (F12), type: <code>copy(localStorage.getItem('conceptFeedback'))</code></li>
+            <li>Paste it in the box below</li>
+            <li>Click "Process Feedback"</li>
+        </ol>
+    </div>
+    
+    <h2>Step 1: Paste Your Feedback JSON</h2>
+    <textarea id="feedbackInput" placeholder="Paste your feedback JSON here..."></textarea>
+    <button onclick="processFeedback()">Process Feedback</button>
+    
+    <div id="results"></div>
+    
+    <script>
+        function processFeedback() {
+            const input = document.getElementById('feedbackInput').value;
+            const results = document.getElementById('results');
+            
+            try {
+                const feedback = JSON.parse(input);
+                
+                let html = '<h2>Your Feedback Items:</h2>';
+                
+                feedback.forEach((item, index) => {
+                    html += `
+                        <div class="feedback-item ${item.priority}">
+                            <h3>#${index + 1}: ${item.type.toUpperCase()} - ${item.component || 'General'}</h3>
+                            <p><strong>Description:</strong> ${item.description}</p>
+                            ${item.expectedBehavior ? `<p><strong>Expected:</strong> ${item.expectedBehavior}</p>` : ''}
+                            <p><strong>Priority:</strong> ${item.priority}</p>
+                            <p><strong>Context:</strong> Viewing ${item.context?.appState?.selectedAccount || 'Nothing'}</p>
+                            <p><strong>Submitted:</strong> ${new Date(item.timestamp).toLocaleString()}</p>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                    <div class="stats">
+                        <h3>Summary:</h3>
+                        <p>Total Items: ${feedback.length}</p>
+                        <p>High Priority: ${feedback.filter(f => f.priority === 'high').length}</p>
+                        <p>Medium Priority: ${feedback.filter(f => f.priority === 'medium').length}</p>
+                        <p>Low Priority: ${feedback.filter(f => f.priority === 'low').length}</p>
+                    </div>
+                    
+                    <h2>Generated Tasks (Copy This!):</h2>
+                    <textarea readonly>${generateTasks(feedback)}</textarea>
+                    <button onclick="copyTasks()">Copy Tasks to Clipboard</button>
+                `;
+                
+                results.innerHTML = html;
+                
+            } catch (e) {
+                results.innerHTML = `<p style="color: red;">Error: ${e.message}</p>`;
+            }
+        }
+        
+        function generateTasks(feedback) {
+            let tasks = '# Feedback Tasks\n\n';
+            
+            feedback.forEach((item, index) => {
+                tasks += `## Task ${index + 1}: ${item.description.substring(0, 50)}...\n\n`;
+                tasks += `**Type:** ${item.type}\n`;
+                tasks += `**Priority:** ${item.priority}\n`;
+                tasks += `**Component:** ${item.component || 'General'}\n\n`;
+                tasks += `### Description\n${item.description}\n\n`;
+                if (item.expectedBehavior) {
+                    tasks += `### Expected Behavior\n${item.expectedBehavior}\n\n`;
+                }
+                tasks += `### Context\n`;
+                tasks += `- User was viewing: ${item.context?.appState?.selectedAccount || 'Dashboard'}\n`;
+                tasks += `- Location: ${item.context?.appState?.selectedLocation || 'None'}\n\n`;
+                tasks += '---\n\n';
+            });
+            
+            return tasks;
+        }
+        
+        function copyTasks() {
+            const textarea = document.querySelector('textarea[readonly]');
+            textarea.select();
+            document.execCommand('copy');
+            alert('Tasks copied to clipboard!');
+        }
+    </script>
+</body>
+</html>

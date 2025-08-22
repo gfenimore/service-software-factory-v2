@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration Test - Account List View</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        .account-card {
+            background: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+        }
+
+        .account-card:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            background: #000;
+            color: white;
+            padding: 12px 16px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .card-body {
+            padding: 16px;
+        }
+
+        .card-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .card-row:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .field {
+            min-width: 0;
+        }
+
+        .field-label {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .field-value {
+            font-size: 14px;
+            color: #000;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .field-value.status-active {
+            color: #22c55e;
+        }
+
+        .field-value.currency {
+            color: #dc2626;
+        }
+
+        .metadata {
+            margin-top: 40px;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+        }
+
+        .metadata h2 {
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            font-size: 13px;
+        }
+
+        .metadata-item {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .metadata-label {
+            color: #666;
+        }
+
+        .metadata-value {
+            font-weight: 600;
+        }
+
+        .config-json {
+            margin-top: 20px;
+            padding: 16px;
+            background: #f8f8f8;
+            border: 1px solid #ddd;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Configuration Test: Account List View</h1>
+        <p class="subtitle">Testing field configuration from: field-config-account-list-view-1755720191672.json</p>
+
+        <div class="cards-grid" id="cardsContainer">
+            <!-- Cards will be generated here -->
+        </div>
+
+        <div class="metadata">
+            <h2>Configuration Metadata</h2>
+            <div class="metadata-grid">
+                <div class="metadata-item">
+                    <span class="metadata-label">Entity Type:</span>
+                    <span class="metadata-value">Account</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="metadata-label">Context Type:</span>
+                    <span class="metadata-value">List View</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="metadata-label">Total Fields:</span>
+                    <span class="metadata-value">7</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="metadata-label">Join Count:</span>
+                    <span class="metadata-value">1 (primaryContact)</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="metadata-label">Performance Impact:</span>
+                    <span class="metadata-value">Low</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="metadata-label">Version:</span>
+                    <span class="metadata-value">1.0.4</span>
+                </div>
+            </div>
+
+            <div class="config-json">
+                <strong>Configuration Structure:</strong><br><br>
+                Header: account.accountName<br>
+                Row 1: account.status | account.accountType | account.balance<br>
+                Row 2: primaryContact.name | primaryContact.title | primaryContact.phone<br>
+                Row 3: (empty)
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Your exported configuration
+        const configuration = {
+            "entityType": "account",
+            "contextType": "list-view",
+            "header": {
+                "rowId": "header",
+                "rowLabel": "Header",
+                "fields": [
+                    {
+                        "path": "account.accountName",
+                        "source": "account",
+                        "type": "text",
+                        "label": "Account Name"
+                    }
+                ]
+            },
+            "body": [
+                {
+                    "rowId": "row1",
+                    "rowLabel": "Row 1",
+                    "fields": [
+                        {
+                            "path": "account.status",
+                            "source": "account",
+                            "type": "status",
+                            "label": "Status"
+                        },
+                        {
+                            "path": "account.accountType",
+                            "source": "account",
+                            "type": "text",
+                            "label": "Account Type"
+                        },
+                        {
+                            "path": "account.balance",
+                            "source": "account",
+                            "type": "currency",
+                            "label": "Balance"
+                        }
+                    ]
+                },
+                {
+                    "rowId": "row2",
+                    "rowLabel": "Row 2",
+                    "fields": [
+                        {
+                            "path": "primaryContact.name",
+                            "source": "primaryContact",
+                            "type": "text",
+                            "label": "Contact Name"
+                        },
+                        {
+                            "path": "primaryContact.title",
+                            "source": "primaryContact",
+                            "type": "text",
+                            "label": "Title"
+                        },
+                        {
+                            "path": "primaryContact.phone",
+                            "source": "primaryContact",
+                            "type": "phone",
+                            "label": "Phone"
+                        }
+                    ]
+                },
+                {
+                    "rowId": "row3",
+                    "rowLabel": "Row 3",
+                    "fields": []
+                }
+            ]
+        };
+
+        // Sample data for multiple accounts
+        const sampleAccounts = [
+            {
+                account: {
+                    accountName: 'Acme Corporation',
+                    status: 'Active',
+                    accountType: 'Commercial',
+                    balance: '$12,450.00'
+                },
+                primaryContact: {
+                    name: 'John Smith',
+                    title: 'Facility Manager',
+                    phone: '(555) 123-4567'
+                }
+            },
+            {
+                account: {
+                    accountName: 'TechStart Inc',
+                    status: 'Active',
+                    accountType: 'Startup',
+                    balance: '$8,230.00'
+                },
+                primaryContact: {
+                    name: 'Sarah Johnson',
+                    title: 'Operations Director',
+                    phone: '(555) 234-5678'
+                }
+            },
+            {
+                account: {
+                    accountName: 'Global Manufacturing',
+                    status: 'Active',
+                    accountType: 'Enterprise',
+                    balance: '$45,890.00'
+                },
+                primaryContact: {
+                    name: 'Michael Chen',
+                    title: 'VP of Facilities',
+                    phone: '(555) 345-6789'
+                }
+            },
+            {
+                account: {
+                    accountName: 'City Medical Center',
+                    status: 'Active',
+                    accountType: 'Healthcare',
+                    balance: '$23,100.00'
+                },
+                primaryContact: {
+                    name: 'Dr. Emily Brown',
+                    title: 'Facilities Admin',
+                    phone: '(555) 456-7890'
+                }
+            }
+        ];
+
+        // Function to get value from path
+        function getValueFromPath(data, path) {
+            const parts = path.split('.');
+            let value = data;
+            for (const part of parts) {
+                value = value?.[part];
+            }
+            return value || 'N/A';
+        }
+
+        // Function to render a single card
+        function renderCard(accountData) {
+            // Get header value
+            const headerValue = configuration.header.fields.length > 0 
+                ? getValueFromPath(accountData, configuration.header.fields[0].path)
+                : 'No Header';
+
+            // Build card HTML
+            let cardHTML = `
+                <div class="account-card">
+                    <div class="card-header">${headerValue}</div>
+                    <div class="card-body">
+            `;
+
+            // Render body rows
+            configuration.body.forEach(row => {
+                if (row.fields.length > 0) {
+                    cardHTML += '<div class="card-row">';
+                    
+                    row.fields.forEach(field => {
+                        const value = getValueFromPath(accountData, field.path);
+                        const statusClass = field.type === 'status' && value === 'Active' ? 'status-active' : '';
+                        const currencyClass = field.type === 'currency' ? 'currency' : '';
+                        
+                        cardHTML += `
+                            <div class="field">
+                                <div class="field-label">${field.label}</div>
+                                <div class="field-value ${statusClass} ${currencyClass}">${value}</div>
+                            </div>
+                        `;
+                    });
+                    
+                    cardHTML += '</div>';
+                }
+            });
+
+            cardHTML += `
+                    </div>
+                </div>
+            `;
+
+            return cardHTML;
+        }
+
+        // Render all cards
+        function renderAllCards() {
+            const container = document.getElementById('cardsContainer');
+            let html = '';
+            
+            sampleAccounts.forEach(account => {
+                html += renderCard(account);
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', renderAllCards);
+    </script>
+</body>
+</html>

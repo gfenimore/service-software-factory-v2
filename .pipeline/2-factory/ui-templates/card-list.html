@@ -1,0 +1,97 @@
+<!-- LIST CARD TEMPLATE -->
+<!-- Best for: Scannable lists with avatars, 8-12 items -->
+<div class="card-list">
+  <div class="card-avatar">{{avatar}}</div>
+  <div class="card-content">
+    <div class="card-primary">{{primary}}</div>
+    <div class="card-secondary">{{secondary}}</div>
+  </div>
+  <div class="card-action">{{action}}</div>
+</div>
+
+<style>
+.card-list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: white;
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  padding: var(--space-3);
+  margin-bottom: var(--space-2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.card-list:hover {
+  box-shadow: var(--card-shadow-hover);
+}
+
+.card-list.selected {
+  border: 2px solid var(--color-primary);
+  background: var(--gray-50);
+}
+
+.card-list .card-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-semibold);
+  font-size: var(--text-base);
+  color: var(--gray-600);
+  flex-shrink: 0;
+}
+
+.card-list .card-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-list .card-primary {
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  color: var(--gray-900);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 2px;
+}
+
+.card-list .card-secondary {
+  font-size: var(--text-sm);
+  color: var(--gray-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-list .card-action {
+  flex-shrink: 0;
+}
+
+.card-list .card-action .badge {
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.card-list .card-action button {
+  padding: var(--space-1) var(--space-2);
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: 4px;
+  font-size: var(--text-sm);
+  color: var(--gray-700);
+  cursor: pointer;
+}
+
+.card-list .card-action button:hover {
+  background: var(--gray-200);
+}
+</style>

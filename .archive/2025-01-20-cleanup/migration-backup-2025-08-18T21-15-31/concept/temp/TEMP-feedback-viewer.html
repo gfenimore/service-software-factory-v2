@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TEMP Feedback Viewer (Delete After Use)</title>
+    <style>
+        body {
+            font-family: system-ui;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f9fafb;
+        }
+        .temp-notice {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 300px;
+            font-family: monospace;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        #output {
+            margin-top: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        pre {
+            background: #1f2937;
+            color: #10b981;
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="temp-notice">
+        <strong>🗑️ TEMPORARY FILE</strong><br>
+        This is a disposable viewer. Delete this file after use!<br>
+        Location: .pipeline/concept/temp/
+    </div>
+    
+    <h1>Paste Your Feedback JSON</h1>
+    <textarea id="jsonInput" placeholder="Paste your feedback JSON here..."></textarea>
+    <button onclick="analyzeFeedback()">Analyze Feedback</button>
+    
+    <div id="output"></div>
+    
+    <script>
+        function analyzeFeedback() {
+            const input = document.getElementById('jsonInput').value;
+            const output = document.getElementById('output');
+            
+            try {
+                const data = JSON.parse(input);
+                
+                // Quick analysis
+                const analysis = {
+                    subModule: data.subModule,
+                    sessionLength: Math.floor((data.summary?.totalTime || 0) / 60) + ' minutes',
+                    interactions: data.summary?.totalInteractions || 0,
+                    sentiment: data.summary?.sentimentBreakdown || {},
+                    painPoints: data.painPoints?.map(p => p.description) || [],
+                    mustHaves: data.scopeDecisions?.mustHave || [],
+                    niceToHaves: data.scopeDecisions?.niceToHave || [],
+                    workflows: data.workflows?.map(w => ({
+                        goal: w.description,
+                        steps: w.steps.length
+                    })) || []
+                };
+                
+                output.innerHTML = `
+                    <h2>📊 Feedback Analysis</h2>
+                    <pre>${JSON.stringify(analysis, null, 2)}</pre>
+                    
+                    <h3>Key Insights:</h3>
+                    <ul>
+                        <li>Session Duration: ${analysis.sessionLength}</li>
+                        <li>Total Clicks: ${analysis.interactions}</li>
+                        <li>Pain Points Found: ${analysis.painPoints.length}</li>
+                        <li>Features Marked as Must-Have: ${analysis.mustHaves.length}</li>
+                    </ul>
+                    
+                    ${analysis.painPoints.length > 0 ? `
+                        <h3>Pain Points:</h3>
+                        <ol>
+                            ${analysis.painPoints.map(p => `<li>${p}</li>`).join('')}
+                        </ol>
+                    ` : ''}
+                `;
+                
+                // Log to console for CC to see
+                console.log('FEEDBACK ANALYSIS:', analysis);
+                
+            } catch (e) {
+                output.innerHTML = `<div style="color: red;">Error: ${e.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>

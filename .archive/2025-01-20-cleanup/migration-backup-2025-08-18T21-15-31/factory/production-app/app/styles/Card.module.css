@@ -1,0 +1,36 @@
+.card {
+  padding: 12px;
+  margin: 4px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: white;
+}
+
+.card:hover {
+  border-color: #1976d2;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card.selected {
+  background-color: #e3f2fd;
+  border-color: #1976d2;
+}
+
+.cardTitle {
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+.cardSubtitle {
+  font-size: 0.875rem;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.cardMeta {
+  font-size: 0.75rem;
+  color: #999;
+}

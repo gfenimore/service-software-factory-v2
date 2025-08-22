@@ -1,0 +1,377 @@
+{
+  "version": "2.0",
+  "appName": "Service Manager",
+  "type": "context-aware",
+  
+  "contexts": {
+    "dispatcher-morning": {
+      "role": "dispatcher",
+      "timeContext": "morning",
+      "goals": [
+        "review-overnight-issues",
+        "assign-daily-routes",
+        "handle-emergencies"
+      ],
+      "modules": [
+        {
+          "id": "morning-priority",
+          "label": "Morning Priority",
+          "icon": "🌅",
+          "items": [
+            {
+              "label": "Overnight Issues",
+              "icon": "⚠️",
+              "badge": "3",
+              "viewConfig": "issues-overnight",
+              "priority": "urgent"
+            },
+            {
+              "label": "Unassigned Routes",
+              "icon": "🚫",
+              "badge": "5",
+              "viewConfig": "routes-unassigned",
+              "priority": "high"
+            },
+            {
+              "label": "Today's Schedule",
+              "icon": "📅",
+              "viewConfig": "schedule-today",
+              "priority": "normal"
+            },
+            {
+              "label": "Weather Alerts",
+              "icon": "🌧️",
+              "badge": "!",
+              "viewConfig": "weather-impact",
+              "priority": "contextual"
+            }
+          ]
+        },
+        {
+          "id": "quick-tasks",
+          "label": "Quick Tasks",
+          "icon": "⚡",
+          "items": [
+            {
+              "label": "Assign Technician",
+              "icon": "👷",
+              "action": "quick-assign"
+            },
+            {
+              "label": "Reschedule Service",
+              "icon": "📆",
+              "action": "quick-reschedule"
+            },
+            {
+              "label": "Contact Customer",
+              "icon": "📞",
+              "action": "quick-call"
+            }
+          ]
+        }
+      ]
+    },
+    
+    "dispatcher-active": {
+      "role": "dispatcher",
+      "timeContext": "midday",
+      "goals": [
+        "monitor-field-operations",
+        "handle-customer-calls",
+        "adjust-schedules"
+      ],
+      "modules": [
+        {
+          "id": "live-monitoring",
+          "label": "Live Operations",
+          "icon": "📡",
+          "items": [
+            {
+              "label": "Technician Map",
+              "icon": "🗺️",
+              "viewConfig": "technician-tracker",
+              "refreshRate": 30
+            },
+            {
+              "label": "In Progress",
+              "icon": "🔄",
+              "badge": "8",
+              "viewConfig": "work-orders-active"
+            },
+            {
+              "label": "Customer Queue",
+              "icon": "📞",
+              "badge": "2",
+              "viewConfig": "customer-calls-waiting"
+            }
+          ]
+        },
+        {
+          "id": "adjustments",
+          "label": "Adjustments",
+          "icon": "🔧",
+          "items": [
+            {
+              "label": "Delays",
+              "icon": "⏰",
+              "badge": "1",
+              "viewConfig": "service-delays"
+            },
+            {
+              "label": "Cancellations",
+              "icon": "❌",
+              "viewConfig": "today-cancellations"
+            },
+            {
+              "label": "Add-ons",
+              "icon": "➕",
+              "viewConfig": "service-addons"
+            }
+          ]
+        }
+      ]
+    },
+    
+    "technician-field": {
+      "role": "technician",
+      "location": "field",
+      "goals": [
+        "complete-route",
+        "document-services",
+        "manage-supplies"
+      ],
+      "modules": [
+        {
+          "id": "my-route",
+          "label": "My Route",
+          "icon": "🛣️",
+          "items": [
+            {
+              "label": "Current Stop",
+              "icon": "📍",
+              "viewConfig": "current-service",
+              "sticky": true
+            },
+            {
+              "label": "Next Stop",
+              "icon": "⏭️",
+              "viewConfig": "next-service"
+            },
+            {
+              "label": "Today's List",
+              "icon": "📋",
+              "badge": "6",
+              "viewConfig": "my-route-list"
+            }
+          ]
+        },
+        {
+          "id": "service-tools",
+          "label": "Service Tools",
+          "icon": "🔨",
+          "items": [
+            {
+              "label": "Service Form",
+              "icon": "📝",
+              "viewConfig": "service-completion-form"
+            },
+            {
+              "label": "Chemical Usage",
+              "icon": "🧪",
+              "viewConfig": "chemical-tracking"
+            },
+            {
+              "label": "Photo Capture",
+              "icon": "📸",
+              "action": "capture-photo"
+            },
+            {
+              "label": "Customer Sign",
+              "icon": "✍️",
+              "action": "get-signature"
+            }
+          ]
+        }
+      ]
+    },
+    
+    "manager-strategic": {
+      "role": "manager",
+      "intent": "analysis",
+      "goals": [
+        "monitor-performance",
+        "optimize-operations",
+        "review-financials"
+      ],
+      "modules": [
+        {
+          "id": "dashboards",
+          "label": "Dashboards",
+          "icon": "📊",
+          "items": [
+            {
+              "label": "KPI Overview",
+              "icon": "🎯",
+              "viewConfig": "kpi-dashboard"
+            },
+            {
+              "label": "Revenue Trends",
+              "icon": "📈",
+              "viewConfig": "revenue-analysis"
+            },
+            {
+              "label": "Route Efficiency",
+              "icon": "⚡",
+              "viewConfig": "route-optimization"
+            },
+            {
+              "label": "Customer Metrics",
+              "icon": "😊",
+              "viewConfig": "customer-satisfaction"
+            }
+          ]
+        },
+        {
+          "id": "reports",
+          "label": "Reports",
+          "icon": "📑",
+          "items": [
+            {
+              "label": "Weekly Summary",
+              "icon": "📅",
+              "viewConfig": "weekly-report"
+            },
+            {
+              "label": "Technician Performance",
+              "icon": "👷",
+              "viewConfig": "tech-performance"
+            },
+            {
+              "label": "Chemical Inventory",
+              "icon": "🧪",
+              "viewConfig": "inventory-report"
+            }
+          ]
+        }
+      ]
+    },
+    
+    "customer-service": {
+      "role": "csr",
+      "intent": "help-customer",
+      "goals": [
+        "resolve-inquiries",
+        "schedule-services",
+        "update-accounts"
+      ],
+      "modules": [
+        {
+          "id": "customer-tools",
+          "label": "Customer Tools",
+          "icon": "🎧",
+          "items": [
+            {
+              "label": "Customer Search",
+              "icon": "🔍",
+              "viewConfig": "customer-search",
+              "autofocus": true
+            },
+            {
+              "label": "Recent Calls",
+              "icon": "📞",
+              "viewConfig": "recent-interactions"
+            },
+            {
+              "label": "Quick Schedule",
+              "icon": "📅",
+              "viewConfig": "scheduling-wizard"
+            }
+          ]
+        },
+        {
+          "id": "common-tasks",
+          "label": "Common Tasks",
+          "icon": "✅",
+          "items": [
+            {
+              "label": "New Customer",
+              "icon": "➕",
+              "viewConfig": "customer-onboarding"
+            },
+            {
+              "label": "Service Inquiry",
+              "icon": "❓",
+              "viewConfig": "service-inquiry-form"
+            },
+            {
+              "label": "Billing Question",
+              "icon": "💰",
+              "viewConfig": "billing-lookup"
+            },
+            {
+              "label": "Complaint",
+              "icon": "😟",
+              "viewConfig": "complaint-form"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  
+  "contextRules": [
+    {
+      "condition": "time >= 6:00 && time < 10:00 && role === 'dispatcher'",
+      "useContext": "dispatcher-morning"
+    },
+    {
+      "condition": "time >= 10:00 && time < 16:00 && role === 'dispatcher'",
+      "useContext": "dispatcher-active"
+    },
+    {
+      "condition": "role === 'technician' && location === 'field'",
+      "useContext": "technician-field"
+    },
+    {
+      "condition": "role === 'manager'",
+      "useContext": "manager-strategic"
+    },
+    {
+      "condition": "role === 'csr'",
+      "useContext": "customer-service"
+    }
+  ],
+  
+  "adaptiveFeatures": {
+    "learningMode": true,
+    "suggestions": {
+      "enabled": true,
+      "maxItems": 3,
+      "position": "top"
+    },
+    "frequentlyUsed": {
+      "enabled": true,
+      "threshold": 5,
+      "position": "section"
+    },
+    "contextualAlerts": {
+      "enabled": true,
+      "types": ["urgent", "deadline", "anomaly"]
+    },
+    "predictiveLoading": {
+      "enabled": true,
+      "preloadNext": 2
+    }
+  },
+  
+  "personalization": {
+    "allowCustomization": true,
+    "features": {
+      "pinItems": true,
+      "hideItems": true,
+      "reorderItems": true,
+      "customShortcuts": true,
+      "colorCoding": true
+    }
+  }
+}

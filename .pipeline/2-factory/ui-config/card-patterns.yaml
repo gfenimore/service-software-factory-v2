@@ -1,0 +1,120 @@
+# Card Pattern Library
+# Standard layouts that can be "stuffed" with your field selections
+
+patterns:
+  compact:
+    name: "Compact Card"
+    best-for: "High-density lists, 10+ items visible"
+    max-fields: 5
+    structure:
+      - slot: "title"
+        location: "top-left"
+        styling: "font-semibold text-base"
+        max-chars: 30
+      - slot: "badge"
+        location: "top-right"
+        styling: "badge"
+        max-chars: 10
+      - slot: "metadata"
+        location: "bottom"
+        styling: "text-sm text-gray-600 with bullet separators"
+        max-fields: 3
+        max-chars-per-field: 15
+
+  metric:
+    name: "Metric Card"
+    best-for: "KPI focus, 5-7 items visible"
+    max-fields: 6
+    structure:
+      - slot: "label"
+        location: "top-left"
+        styling: "text-xs uppercase text-gray-500"
+        max-chars: 20
+      - slot: "value"
+        location: "below-label"
+        styling: "text-2xl font-bold"
+        max-chars: 25
+      - slot: "badge"
+        location: "top-right"
+        styling: "badge"
+      - slot: "metrics"
+        location: "bottom"
+        styling: "flex gap-4"
+        max-fields: 3
+
+  list:
+    name: "List Card"
+    best-for: "Scannable lists with avatars, 8-12 items"
+    max-fields: 4
+    structure:
+      - slot: "avatar"
+        location: "left"
+        styling: "w-10 h-10 rounded-full"
+        content: "initials or icon"
+      - slot: "primary"
+        location: "center-top"
+        styling: "font-medium"
+        max-chars: 30
+      - slot: "secondary"
+        location: "center-bottom"
+        styling: "text-sm text-gray-500"
+        max-chars: 40
+      - slot: "action"
+        location: "right"
+        styling: "badge or button"
+
+  data:
+    name: "Data Card"
+    best-for: "Detailed view, 3-5 items visible"
+    max-fields: 8
+    structure:
+      - slot: "grid"
+        location: "full"
+        styling: "grid grid-cols-2 gap-3"
+        items:
+          - label-value-pair:
+              label-style: "text-xs text-gray-500"
+              value-style: "font-semibold"
+              max-chars: 20
+
+# How to use patterns with field selection:
+usage:
+  # Step 1: Pick a pattern based on how many items you need visible
+  # Step 2: Map your fields to the pattern's slots
+  # Step 3: Generator creates HTML using pattern + your fields
+
+example:
+  pattern: "compact"
+  fields:
+    title: "AccountName"
+    badge: "Status"
+    metadata:
+      - "AccountType"
+      - "BillingCity"
+      - "LocationCount"
+  
+  # This generates:
+  # <div class="card-compact">
+  #   <div class="flex justify-between">
+  #     <h3 class="font-semibold">{AccountName}</h3>
+  #     <span class="badge">{Status}</span>
+  #   </div>
+  #   <div class="text-sm text-gray-600">
+  #     {AccountType} • {BillingCity} • {LocationCount} locations
+  #   </div>
+  # </div>
+
+# Responsive behavior:
+responsive:
+  desktop:
+    accounts: "compact"    # Many items visible
+    locations: "list"       # Medium density
+    work-orders: "data"     # Fewer items, more detail
+  
+  tablet:
+    accounts: "list"
+    locations: "metric"
+    work-orders: "compact"
+  
+  mobile:
+    all: "compact"  # Maximum density on small screens

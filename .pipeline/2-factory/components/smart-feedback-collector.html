@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Feedback Collector - Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .demo-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            margin-top: 0;
+        }
+        
+        .demo-state {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        
+        .demo-state button {
+            margin-right: 10px;
+            padding: 8px 16px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .demo-state button:hover {
+            background: #1976D2;
+        }
+        
+        /* Feedback Button Styles */
+        .feedback-trigger {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 9998;
+            transition: transform 0.2s;
+        }
+        
+        .feedback-trigger:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Modal Styles */
+        .feedback-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+        }
+        
+        .feedback-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .feedback-content {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        .feedback-content h3 {
+            margin-top: 0;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .feedback-context {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .feedback-context h4 {
+            margin-top: 0;
+            color: #666;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .feedback-context pre {
+            margin: 0;
+            font-size: 12px;
+            color: #555;
+            max-height: 100px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #444;
+            font-size: 14px;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 24px;
+        }
+        
+        .form-actions button {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .form-actions button[type="submit"] {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .form-actions button[type="submit"]:hover {
+            background: #45a049;
+        }
+        
+        .form-actions button[type="button"] {
+            background: #f5f5f5;
+            color: #666;
+        }
+        
+        .form-actions button[type="button"]:hover {
+            background: #e8e8e8;
+        }
+        
+        /* Processing Result Styles */
+        .processing-result {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            z-index: 10000;
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        .processing-result.success {
+            border-top: 4px solid #4CAF50;
+        }
+        
+        .processing-result h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .result-details {
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+        
+        .result-details p {
+            margin: 8px 0;
+            font-size: 14px;
+        }
+        
+        .result-details .label {
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .task-preview {
+            background: #fff3cd;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid #ffc107;
+            margin-top: 16px;
+        }
+        
+        .task-preview h4 {
+            margin-top: 0;
+            color: #856404;
+        }
+        
+        .task-preview pre {
+            margin: 0;
+            font-size: 12px;
+            white-space: pre-wrap;
+            color: #856404;
+        }
+        
+        .close-result {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 16px;
+        }
+        
+        .close-result:hover {
+            background: #45a049;
+        }
+        
+        /* Task List */
+        .task-list {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        .task-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .task-item.high {
+            border-left-color: #f44336;
+        }
+        
+        .task-item.medium {
+            border-left-color: #ff9800;
+        }
+        
+        .task-item.low {
+            border-left-color: #2196F3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Demo Content -->
+    <div class="demo-content">
+        <h1>🚀 Smart Feedback Collector Demo</h1>
+        
+        <div class="demo-state">
+            <h3>Simulate Context:</h3>
+            <button onclick="setContext('dashboard')">Dashboard View</button>
+            <button onclick="setContext('account')">Account Selected</button>
+            <button onclick="setContext('location')">Location Selected</button>
+            <button onclick="setContext('workorder')">Work Order Selected</button>
+        </div>
+        
+        <p>Click the <strong>💡 button</strong> in the bottom-right corner to submit feedback!</p>
+        
+        <div id="taskList" class="task-list">
+            <h3>📋 Generated Tasks</h3>
+            <p id="noTasks">No tasks yet. Submit some feedback!</p>
+            <div id="tasks"></div>
+        </div>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div id="feedbackModal" class="feedback-modal">
+        <div class="feedback-content">
+            <h3>💡 Share Your Idea or Feedback</h3>
+            
+            <div class="feedback-context">
+                <h4>Current Context</h4>
+                <pre id="contextDisplay"></pre>
+            </div>
+
+            <form id="feedbackForm">
+                <div class="form-group">
+                    <label>Feedback Type:</label>
+                    <select id="feedbackType" required>
+                        <option value="">Select type...</option>
+                        <option value="ui">UI/UX Improvement</option>
+                        <option value="data">Data/Display Issue</option>
+                        <option value="enhancement">Enhancement</option>
+                        <option value="feature">New Feature</option>
+                        <option value="performance">Performance</option>
+                        <option value="bug">Bug/Issue</option>
+                        <option value="validation">Requirement Validation</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Priority:</label>
+                    <select id="priority">
+                        <option value="low">Nice to have</option>
+                        <option value="medium">Would improve workflow</option>
+                        <option value="high">Critical for usability</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Description:</label>
+                    <textarea id="description" rows="4" required 
+                        placeholder="Describe your idea or issue..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Expected Behavior (optional):</label>
+                    <textarea id="expectedBehavior" rows="2" 
+                        placeholder="What should happen instead?"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Component/Area:</label>
+                    <input type="text" id="component" 
+                        placeholder="e.g., Account List, Search, Navigation">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit">Process Feedback</button>
+                    <button type="button" onclick="feedbackCollector.close()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Feedback Button -->
+    <button class="feedback-trigger" onclick="feedbackCollector.open()" title="Share Feedback">💡</button>
+
+    <!-- Smart Feedback Collector Script -->
+    <script>
+        class SmartFeedbackCollector {
+            constructor() {
+                this.currentContext = {};
+                this.allTasks = [];
+            }
+
+            captureContext() {
+                return {
+                    timestamp: new Date().toISOString(),
+                    url: window.location.href,
+                    viewport: {
+                        width: window.innerWidth,
+                        height: window.innerHeight
+                    },
+                    appState: window.currentAppState || {
+                        view: 'dashboard',
+                        selectedAccount: null,
+                        selectedLocation: null,
+                        selectedWorkOrder: null
+                    }
+                };
+            }
+
+            open() {
+                this.currentContext = this.captureContext();
+                const modal = document.getElementById('feedbackModal');
+                const contextDisplay = document.getElementById('contextDisplay');
+                
+                contextDisplay.textContent = JSON.stringify(this.currentContext.appState, null, 2);
+                modal.classList.add('active');
+                
+                document.getElementById('feedbackForm').onsubmit = (e) => {
+                    e.preventDefault();
+                    this.processFeedback();
+                };
+            }
+
+            close() {
+                document.getElementById('feedbackModal').classList.remove('active');
+                document.getElementById('feedbackForm').reset();
+            }
+
+            processFeedback() {
+                // Gather feedback data
+                const feedback = {
+                    id: `FB-${Date.now()}`,
+                    timestamp: new Date().toISOString(),
+                    type: document.getElementById('feedbackType').value,
+                    priority: document.getElementById('priority').value,
+                    description: document.getElementById('description').value,
+                    expectedBehavior: document.getElementById('expectedBehavior').value,
+                    component: document.getElementById('component').value,
+                    context: this.currentContext
+                };
+
+                // Process and estimate
+                const result = this.analyzeFeedback(feedback);
+                
+                // Generate task
+                const task = this.generateTask(feedback, result);
+                
+                // Save task
+                this.saveTask(task);
+                
+                // Show result
+                this.showProcessingResult(feedback, result, task);
+                
+                // Close modal
+                this.close();
+            }
+
+            analyzeFeedback(feedback) {
+                // Smart analysis based on type and description
+                const analysis = {
+                    complexity: 'low',
+                    estimate: '15 minutes',
+                    implementation: 'Unknown',
+                    autoImplementable: false,
+                    nextStep: 'Review required'
+                };
+
+                // Analyze based on type
+                switch(feedback.type) {
+                    case 'ui':
+                        analysis.complexity = 'low';
+                        analysis.estimate = '15-30 minutes';
+                        analysis.implementation = 'CSS/HTML update';
+                        analysis.autoImplementable = true;
+                        analysis.nextStep = 'Can be implemented immediately';
+                        break;
+                    
+                    case 'enhancement':
+                        analysis.complexity = 'medium';
+                        analysis.estimate = '1-2 hours';
+                        analysis.implementation = 'Feature enhancement';
+                        analysis.nextStep = 'Add to next sprint';
+                        break;
+                    
+                    case 'feature':
+                        analysis.complexity = 'high';
+                        analysis.estimate = '4-8 hours';
+                        analysis.implementation = 'New feature development';
+                        analysis.nextStep = 'Needs design review';
+                        break;
+                    
+                    case 'bug':
+                        analysis.complexity = 'medium';
+                        analysis.estimate = '30-60 minutes';
+                        analysis.implementation = 'Bug fix';
+                        analysis.nextStep = 'Investigate and fix';
+                        break;
+                    
+                    case 'performance':
+                        analysis.complexity = 'high';
+                        analysis.estimate = '2-4 hours';
+                        analysis.implementation = 'Performance optimization';
+                        analysis.nextStep = 'Profile and optimize';
+                        break;
+                }
+
+                // Check for keywords that might change the estimate
+                const desc = feedback.description.toLowerCase();
+                if (desc.includes('color') || desc.includes('font') || desc.includes('size')) {
+                    analysis.complexity = 'low';
+                    analysis.estimate = '15 minutes';
+                    analysis.autoImplementable = true;
+                }
+                if (desc.includes('add button') || desc.includes('new field')) {
+                    analysis.complexity = 'medium';
+                    analysis.estimate = '1 hour';
+                }
+                if (desc.includes('integrate') || desc.includes('api') || desc.includes('database')) {
+                    analysis.complexity = 'high';
+                    analysis.estimate = '1-2 days';
+                    analysis.autoImplementable = false;
+                }
+
+                return analysis;
+            }
+
+            generateTask(feedback, analysis) {
+                const task = {
+                    id: `TASK-${Date.now()}`,
+                    feedbackId: feedback.id,
+                    title: this.generateTaskTitle(feedback),
+                    type: feedback.type,
+                    priority: feedback.priority,
+                    component: feedback.component,
+                    description: feedback.description,
+                    expectedBehavior: feedback.expectedBehavior,
+                    estimate: analysis.estimate,
+                    complexity: analysis.complexity,
+                    implementation: analysis.implementation,
+                    context: feedback.context,
+                    status: 'new',
+                    createdAt: new Date().toISOString(),
+                    steps: this.generateImplementationSteps(feedback, analysis)
+                };
+
+                return task;
+            }
+
+            generateTaskTitle(feedback) {
+                const typePrefix = {
+                    ui: 'UI',
+                    enhancement: 'Enhancement',
+                    feature: 'Feature',
+                    bug: 'Fix',
+                    validation: 'Validation',
+                    data: 'Data',
+                    performance: 'Performance'
+                };
+                
+                const prefix = typePrefix[feedback.type] || 'Task';
+                const shortDesc = feedback.description.substring(0, 40).replace(/\n/g, ' ');
+                return `${prefix}: ${shortDesc}${feedback.description.length > 40 ? '...' : ''}`;
+            }
+
+            generateImplementationSteps(feedback, analysis) {
+                const steps = [];
+                
+                switch(feedback.type) {
+                    case 'ui':
+                        steps.push('Locate the component: ' + (feedback.component || 'Unknown'));
+                        steps.push('Update CSS/HTML for: ' + feedback.description.substring(0, 50));
+                        steps.push('Test across different screen sizes');
+                        steps.push('Verify in Chrome, Firefox, Safari');
+                        break;
+                    
+                    case 'enhancement':
+                        steps.push('Review current implementation');
+                        steps.push('Design enhancement approach');
+                        steps.push('Implement: ' + feedback.description.substring(0, 50));
+                        steps.push('Update related components');
+                        steps.push('Add tests for new functionality');
+                        break;
+                    
+                    case 'feature':
+                        steps.push('Create feature specification');
+                        steps.push('Design UI/UX mockup');
+                        steps.push('Implement backend logic');
+                        steps.push('Build frontend components');
+                        steps.push('Add integration tests');
+                        steps.push('Update documentation');
+                        break;
+                    
+                    case 'bug':
+                        steps.push('Reproduce the issue');
+                        steps.push('Identify root cause');
+                        steps.push('Implement fix');
+                        steps.push('Add regression test');
+                        steps.push('Verify fix in production environment');
+                        break;
+                    
+                    default:
+                        steps.push('Analyze requirement');
+                        steps.push('Implement solution');
+                        steps.push('Test implementation');
+                        steps.push('Deploy to production');
+                }
+                
+                return steps;
+            }
+
+            saveTask(task) {
+                // Save to localStorage (in real app, would send to server)
+                const tasks = JSON.parse(localStorage.getItem('generatedTasks') || '[]');
+                tasks.push(task);
+                localStorage.setItem('generatedTasks', JSON.stringify(tasks));
+                
+                // Add to display list
+                this.allTasks.push(task);
+                this.updateTaskDisplay();
+            }
+
+            updateTaskDisplay() {
+                const taskContainer = document.getElementById('tasks');
+                const noTasks = document.getElementById('noTasks');
+                
+                if (this.allTasks.length > 0) {
+                    noTasks.style.display = 'none';
+                    
+                    taskContainer.innerHTML = this.allTasks.map(task => `
+                        <div class="task-item ${task.priority}">
+                            <h4>${task.title}</h4>
+                            <p><strong>Type:</strong> ${task.type} | 
+                               <strong>Priority:</strong> ${task.priority} | 
+                               <strong>Estimate:</strong> ${task.estimate}</p>
+                            <p>${task.description}</p>
+                            <details>
+                                <summary>Implementation Steps</summary>
+                                <ol>
+                                    ${task.steps.map(step => `<li>${step}</li>`).join('')}
+                                </ol>
+                            </details>
+                        </div>
+                    `).join('');
+                }
+            }
+
+            showProcessingResult(feedback, analysis, task) {
+                // Create result display
+                const resultHTML = `
+                    <div class="processing-result success">
+                        <h3>✅ Feedback Processed Successfully!</h3>
+                        
+                        <div class="result-details">
+                            <p><span class="label">Type:</span> ${feedback.type}</p>
+                            <p><span class="label">Priority:</span> ${feedback.priority}</p>
+                            <p><span class="label">Complexity:</span> ${analysis.complexity}</p>
+                            <p><span class="label">Estimated Time:</span> ${analysis.estimate}</p>
+                            <p><span class="label">Implementation:</span> ${analysis.implementation}</p>
+                            <p><span class="label">Next Step:</span> ${analysis.nextStep}</p>
+                        </div>
+                        
+                        <div class="task-preview">
+                            <h4>📋 Generated Task: ${task.id}</h4>
+                            <pre>${task.title}
+
+${task.steps.map((s, i) => `${i+1}. ${s}`).join('\n')}</pre>
+                        </div>
+                        
+                        <button class="close-result" onclick="this.parentElement.remove()">
+                            Got it! Close
+                        </button>
+                    </div>
+                `;
+                
+                document.body.insertAdjacentHTML('beforeend', resultHTML);
+            }
+
+            exportTasks() {
+                const tasks = JSON.parse(localStorage.getItem('generatedTasks') || '[]');
+                const blob = new Blob([JSON.stringify(tasks, null, 2)], {type: 'application/json'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `tasks-${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+            }
+
+            exportAsMarkdown() {
+                let markdown = '# Generated Tasks\n\n';
+                
+                this.allTasks.forEach((task, index) => {
+                    markdown += `## ${index + 1}. ${task.title}\n\n`;
+                    markdown += `**ID:** ${task.id}\n`;
+                    markdown += `**Type:** ${task.type} | **Priority:** ${task.priority}\n`;
+                    markdown += `**Estimate:** ${task.estimate}\n`;
+                    markdown += `**Component:** ${task.component || 'General'}\n\n`;
+                    markdown += `### Description\n${task.description}\n\n`;
+                    
+                    if (task.expectedBehavior) {
+                        markdown += `### Expected Behavior\n${task.expectedBehavior}\n\n`;
+                    }
+                    
+                    markdown += `### Implementation Steps\n`;
+                    task.steps.forEach((step, i) => {
+                        markdown += `${i + 1}. ${step}\n`;
+                    });
+                    markdown += '\n---\n\n';
+                });
+                
+                const blob = new Blob([markdown], {type: 'text/markdown'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `tasks-${new Date().toISOString().split('T')[0]}.md`;
+                a.click();
+            }
+        }
+
+        // Initialize
+        const feedbackCollector = new SmartFeedbackCollector();
+
+        // Demo context simulator
+        window.currentAppState = {
+            view: 'dashboard',
+            selectedAccount: null,
+            selectedLocation: null,
+            selectedWorkOrder: null
+        };
+
+        function setContext(type) {
+            switch(type) {
+                case 'dashboard':
+                    window.currentAppState = {
+                        view: 'dashboard',
+                        selectedAccount: null,
+                        selectedLocation: null,
+                        selectedWorkOrder: null
+                    };
+                    break;
+                case 'account':
+                    window.currentAppState = {
+                        view: 'accounts',
+                        selectedAccount: 'Account 23 - Acme Corp',
+                        selectedLocation: null,
+                        selectedWorkOrder: null
+                    };
+                    break;
+                case 'location':
+                    window.currentAppState = {
+                        view: 'locations',
+                        selectedAccount: 'Account 23 - Acme Corp',
+                        selectedLocation: 'Location A - Main Office',
+                        selectedWorkOrder: null
+                    };
+                    break;
+                case 'workorder':
+                    window.currentAppState = {
+                        view: 'workorders',
+                        selectedAccount: 'Account 23 - Acme Corp',
+                        selectedLocation: 'Location A - Main Office',
+                        selectedWorkOrder: 'WO-1234 - Monthly Service'
+                    };
+                    break;
+            }
+            
+            alert(`Context set to: ${type}`);
+        }
+
+        // Console helpers
+        console.log('💡 Smart Feedback Collector Ready!');
+        console.log('Commands:');
+        console.log('  feedbackCollector.exportTasks() - Export tasks as JSON');
+        console.log('  feedbackCollector.exportAsMarkdown() - Export tasks as Markdown');
+    </script>
+</body>
+</html>

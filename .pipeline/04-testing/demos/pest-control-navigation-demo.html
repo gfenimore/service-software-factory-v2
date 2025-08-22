@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pest Control Pro - Context Navigation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Role Switcher */
+        .role-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: 2px solid #2c5234;
+            border-radius: 8px;
+            padding: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 250px;
+        }
+
+        .role-title {
+            font-weight: bold;
+            color: #2c5234;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .role-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .role-option:hover {
+            background: #f0f7f2;
+        }
+
+        .role-option input {
+            margin-right: 10px;
+        }
+
+        .role-option label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .role-badge {
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-left: 8px;
+        }
+
+        .badge-full { background: #4CAF50; color: white; }
+        .badge-ops { background: #2196F3; color: white; }
+        .badge-admin { background: #FF9800; color: white; }
+        .badge-field { background: #9C27B0; color: white; }
+
+        .context-info {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .current-role {
+            background: #2c5234;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        /* Navigation */
+        .navigation {
+            width: 280px;
+            background: white;
+            border-right: 2px solid #e0e0e0;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+        }
+
+        .nav-header {
+            padding: 20px;
+            background: #2c5234;
+            color: white;
+            border-bottom: 3px solid #1a3d20;
+        }
+
+        .nav-logo {
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-role-badge {
+            font-size: 11px;
+            background: rgba(255,255,255,0.2);
+            padding: 3px 8px;
+            border-radius: 3px;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        /* Function Tabs */
+        .function-tabs {
+            display: flex;
+            background: #f8f8f8;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 0;
+        }
+
+        .function-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            border-right: 1px solid #e0e0e0;
+            transition: all 0.2s;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .function-tab:last-child {
+            border-right: none;
+        }
+
+        .function-tab:hover {
+            background: #fff;
+        }
+
+        .function-tab.active {
+            background: white;
+            color: #2c5234;
+            font-weight: bold;
+            border-bottom: 2px solid #2c5234;
+        }
+
+        .function-tab.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Priority Alert */
+        .priority-alert {
+            background: linear-gradient(135deg, #ff6b6b, #ff4444);
+            color: white;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 6px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.9; }
+        }
+
+        .priority-title {
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .priority-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 4px;
+            margin-bottom: 6px;
+            cursor: pointer;
+        }
+
+        .priority-item:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        /* Navigation Sections */
+        .nav-section {
+            padding: 15px 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .nav-section-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 10px;
+            padding: 0 10px;
+            font-weight: 600;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            color: #333;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background: #f0f7f2;
+            color: #2c5234;
+        }
+
+        .nav-item.active {
+            background: #e8f5e9;
+            color: #2c5234;
+            font-weight: 500;
+        }
+
+        .nav-item.primary {
+            background: #2c5234;
+            color: white;
+            font-weight: bold;
+        }
+
+        .nav-item.primary:hover {
+            background: #1a3d20;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .badge-number {
+            background: #ff4444;
+            color: white;
+        }
+
+        .badge-warning {
+            background: #ff9800;
+            color: white;
+        }
+
+        .badge-success {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .badge-info {
+            background: #2196F3;
+            color: white;
+        }
+
+        .badge-money {
+            background: #4CAF50;
+            color: white;
+        }
+
+        /* Mobile View Indicator */
+        .mobile-indicator {
+            display: none;
+            background: #9C27B0;
+            color: white;
+            padding: 8px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .navigation.mobile .mobile-indicator {
+            display: block;
+        }
+
+        .navigation.mobile {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .demo-content {
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .demo-content h2 {
+            color: #2c5234;
+            margin-bottom: 20px;
+        }
+
+        .demo-content p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            text-align: left;
+        }
+
+        .feature-card h4 {
+            color: #2c5234;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .feature-card p {
+            font-size: 12px;
+            color: #666;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Role Switcher Panel -->
+    <div class="role-panel">
+        <div class="role-title">
+            <span>🐛</span>
+            <span>Switch Role</span>
+        </div>
+        
+        <div class="role-option">
+            <input type="radio" name="role" id="owner" checked>
+            <label for="owner">Owner</label>
+            <span class="role-badge badge-full">FULL</span>
+        </div>
+        
+        <div class="role-option">
+            <input type="radio" name="role" id="ops-manager-morning">
+            <label for="ops-manager-morning">Ops Manager (AM)</label>
+            <span class="role-badge badge-ops">OPS</span>
+        </div>
+        
+        <div class="role-option">
+            <input type="radio" name="role" id="ops-manager-active">
+            <label for="ops-manager-active">Ops Manager (PM)</label>
+            <span class="role-badge badge-ops">OPS</span>
+        </div>
+        
+        <div class="role-option">
+            <input type="radio" name="role" id="admin">
+            <label for="admin">Administrator</label>
+            <span class="role-badge badge-admin">ADMIN</span>
+        </div>
+        
+        <div class="role-option">
+            <input type="radio" name="role" id="technician">
+            <label for="technician">Technician</label>
+            <span class="role-badge badge-field">FIELD</span>
+        </div>
+        
+        <div class="context-info">
+            <div class="info-row">
+                <span>Time:</span>
+                <span id="current-time">8:30 AM</span>
+            </div>
+            <div class="info-row">
+                <span>Active Role:</span>
+                <span class="current-role" id="active-role">Owner</span>
+            </div>
+            <div class="info-row">
+                <span>Access Level:</span>
+                <span id="access-level">Full System</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navigation" id="navigation">
+        <!-- Content will be dynamically updated -->
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="demo-content">
+            <h2>Pest Control Pro - Role-Based Navigation</h2>
+            <p>This demo shows how navigation adapts to each role's specific needs and responsibilities.</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>👤 Owner</h4>
+                    <p>Full access to all functions with focus on business metrics and strategic decisions.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📅 Ops Manager</h4>
+                    <p>Operations-focused with time-based priorities for morning setup vs. active monitoring.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>💼 Administrator</h4>
+                    <p>Account management and billing focus with limited operations access.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🔧 Technician</h4>
+                    <p>Mobile-optimized field interface for route completion and service reporting.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Navigation configurations for pest control roles
+        const navigationConfigs = {
+            'owner': {
+                header: {
+                    title: '🐛 Pest Control Pro',
+                    role: 'Owner - Strategic View'
+                },
+                tabs: [
+                    { id: 'accounts', label: '👥 Accounts', active: true },
+                    { id: 'operations', label: '🔧 Operations' },
+                    { id: 'administration', label: '📋 Admin' },
+                    { id: 'reports', label: '📊 Reports' }
+                ],
+                sections: {
+                    accounts: [
+                        {
+                            title: 'Executive Dashboard',
+                            items: [
+                                { label: 'Revenue Today', icon: '💰', badge: '$12,450', badgeType: 'money' },
+                                { label: 'Service Completion', icon: '✅', badge: '94%', badgeType: 'success' },
+                                { label: 'New Customers', icon: '🆕', badge: '12', badgeType: 'info' },
+                                { label: 'Cancellations', icon: '⚠️', badge: '2', badgeType: 'warning' }
+                            ]
+                        },
+                        {
+                            title: 'Customer Management',
+                            items: [
+                                { label: 'All Customers', icon: '📋' },
+                                { label: 'High Value Accounts', icon: '⭐' },
+                                { label: 'At Risk Accounts', icon: '🚨', badge: '5', badgeType: 'number' },
+                                { label: 'Growth Opportunities', icon: '📈' }
+                            ]
+                        }
+                    ],
+                    operations: [
+                        {
+                            title: 'Operations Overview',
+                            items: [
+                                { label: "Today's Schedule", icon: '📅' },
+                                { label: 'Route Efficiency', icon: '🗺️' },
+                                { label: 'Technician Performance', icon: '👷' },
+                                { label: 'Service Quality', icon: '⭐' }
+                            ]
+                        }
+                    ],
+                    administration: [
+                        {
+                            title: 'Business Administration',
+                            items: [
+                                { label: 'Payroll Summary', icon: '💵' },
+                                { label: 'Chemical Inventory', icon: '🧪' },
+                                { label: 'Compliance Status', icon: '✓' },
+                                { label: 'Insurance & Licenses', icon: '📄' }
+                            ]
+                        }
+                    ],
+                    reports: [
+                        {
+                            title: 'Financial Reports',
+                            items: [
+                                { label: 'P&L Statement', icon: '💼' },
+                                { label: 'Monthly Trends', icon: '📈' },
+                                { label: 'Customer Retention', icon: '🔄' },
+                                { label: 'Market Analysis', icon: '🎯' }
+                            ]
+                        }
+                    ]
+                },
+                accessLevel: 'Full System'
+            },
+            
+            'ops-manager-morning': {
+                header: {
+                    title: '🐛 Pest Control Pro',
+                    role: 'Ops Manager - Morning Setup'
+                },
+                priority: {
+                    title: '⚠️ MORNING PRIORITY',
+                    items: [
+                        { label: 'Unassigned Routes', badge: '3', icon: '🚫' },
+                        { label: 'Tech Call-Out', badge: '1', icon: '📵' },
+                        { label: "Yesterday's Issues", badge: '2', icon: '⚠️' }
+                    ]
+                },
+                tabs: [
+                    { id: 'operations', label: '🔧 Operations', active: true },
+                    { id: 'accounts', label: '👥 Accounts' },
+                    { id: 'administration', label: '📋 Admin', disabled: true },
+                    { id: 'reports', label: '📊 Reports' }
+                ],
+                sections: {
+                    operations: [
+                        {
+                            title: 'Route Management',
+                            items: [
+                                { label: "Today's Schedule", icon: '📋' },
+                                { label: 'Route Board', icon: '🗺️' },
+                                { label: 'Technician Status', icon: '👷' },
+                                { label: 'Reschedule Queue', icon: '🔄', badge: '4', badgeType: 'number' }
+                            ]
+                        },
+                        {
+                            title: 'Quick Actions',
+                            items: [
+                                { label: 'Assign Route', icon: '👉', primary: true },
+                                { label: 'Schedule Service', icon: '📅' },
+                                { label: 'Call Technician', icon: '📞' }
+                            ]
+                        }
+                    ],
+                    accounts: [
+                        {
+                            title: 'Customer Service',
+                            items: [
+                                { label: 'New Sign-ups', icon: '✨', badge: '2', badgeType: 'info' },
+                                { label: 'Service Due', icon: '🔔' },
+                                { label: 'Customer Search', icon: '🔍' }
+                            ]
+                        }
+                    ],
+                    reports: [
+                        {
+                            title: 'Morning Reports',
+                            items: [
+                                { label: 'Yesterday Summary', icon: '📊' },
+                                { label: 'Week to Date', icon: '📈' }
+                            ]
+                        }
+                    ]
+                },
+                accessLevel: 'Operations'
+            },
+            
+            'ops-manager-active': {
+                header: {
+                    title: '🐛 Pest Control Pro',
+                    role: 'Ops Manager - Live Monitoring'
+                },
+                tabs: [
+                    { id: 'operations', label: '🔧 Operations', active: true },
+                    { id: 'accounts', label: '👥 Accounts' },
+                    { id: 'administration', label: '📋 Admin', disabled: true },
+                    { id: 'reports', label: '📊 Reports' }
+                ],
+                sections: {
+                    operations: [
+                        {
+                            title: 'Live Operations',
+                            items: [
+                                { label: 'Technician Map', icon: '🗺️', badge: 'LIVE', badgeType: 'success' },
+                                { label: 'In Progress', icon: '🔄', badge: '12', badgeType: 'info' },
+                                { label: 'Completed Today', icon: '✅', badge: '28', badgeType: 'success' },
+                                { label: 'Running Behind', icon: '⏰', badge: '2', badgeType: 'warning' }
+                            ]
+                        },
+                        {
+                            title: 'Customer Service',
+                            items: [
+                                { label: 'Incoming Calls', icon: '📱', badge: '3', badgeType: 'number' },
+                                { label: 'Service Requests', icon: '🆘' },
+                                { label: 'Complaints', icon: '😟', badge: '1', badgeType: 'warning' }
+                            ]
+                        },
+                        {
+                            title: 'Adjustments',
+                            items: [
+                                { label: 'Reassign Route', icon: '🔀' },
+                                { label: 'Add Service Stop', icon: '➕' },
+                                { label: 'Cancel Service', icon: '❌' }
+                            ]
+                        }
+                    ]
+                },
+                accessLevel: 'Operations'
+            },
+            
+            'admin': {
+                header: {
+                    title: '🐛 Pest Control Pro',
+                    role: 'Administrator'
+                },
+                tabs: [
+                    { id: 'accounts', label: '👥 Accounts', active: true },
+                    { id: 'administration', label: '📋 Admin' },
+                    { id: 'operations', label: '🔧 Operations', disabled: true },
+                    { id: 'reports', label: '📊 Reports' }
+                ],
+                sections: {
+                    accounts: [
+                        {
+                            title: 'Customer Management',
+                            items: [
+                                { label: 'Customer Search', icon: '🔍', primary: true },
+                                { label: 'New Customer', icon: '➕' },
+                                { label: 'All Customers', icon: '📋' },
+                                { label: 'Service Agreements', icon: '📄' }
+                            ]
+                        }
+                    ],
+                    administration: [
+                        {
+                            title: 'Billing & Payments',
+                            items: [
+                                { label: 'Invoicing', icon: '💰', badge: '12', badgeType: 'info' },
+                                { label: 'Process Payments', icon: '💳' },
+                                { label: 'Past Due', icon: '⚠️', badge: '8', badgeType: 'warning' },
+                                { label: 'Collections', icon: '📞' },
+                                { label: 'Refunds/Credits', icon: '💸' }
+                            ]
+                        }
+                    ],
+                    reports: [
+                        {
+                            title: 'Administrative Reports',
+                            items: [
+                                { label: 'Daily Revenue', icon: '💵' },
+                                { label: 'Aging Report', icon: '📊' },
+                                { label: 'Customer Activity', icon: '📈' }
+                            ]
+                        }
+                    ]
+                },
+                accessLevel: 'Administrative'
+            },
+            
+            'technician': {
+                header: {
+                    title: '🐛 Pest Control Mobile',
+                    role: 'Field Technician'
+                },
+                mobile: true,
+                priority: {
+                    title: '📍 CURRENT STOP',
+                    items: [
+                        { label: 'Acme Corp - Main Office', icon: '🏢' },
+                        { label: 'Service #4 of 9', icon: '📋' }
+                    ]
+                },
+                sections: [
+                    {
+                        title: 'Complete Service',
+                        items: [
+                            { label: 'Service Report', icon: '📝' },
+                            { label: 'Chemical Usage', icon: '🧪' },
+                            { label: 'Take Photos', icon: '📸' },
+                            { label: 'Get Signature', icon: '✍️' },
+                            { label: 'Complete & Next', icon: '➡️', primary: true }
+                        ]
+                    },
+                    {
+                        title: 'My Route',
+                        items: [
+                            { label: 'Route List', icon: '📋', badge: '5 left', badgeType: 'info' },
+                            { label: 'Route Map', icon: '🗺️' },
+                            { label: 'Next Stop', icon: '⏭️' }
+                        ]
+                    },
+                    {
+                        title: 'Support',
+                        items: [
+                            { label: 'Call Office', icon: '📞' },
+                            { label: 'Report Problem', icon: '⚠️' },
+                            { label: 'Request Supplies', icon: '📦' },
+                            { label: 'End Day', icon: '🏁' }
+                        ]
+                    }
+                ],
+                accessLevel: 'Field Only'
+            }
+        };
+
+        // Function to render navigation
+        function renderNavigation(roleKey) {
+            const config = navigationConfigs[roleKey];
+            const nav = document.getElementById('navigation');
+            
+            // Add mobile class if needed
+            if (config.mobile) {
+                nav.classList.add('mobile');
+            } else {
+                nav.classList.remove('mobile');
+            }
+            
+            let html = '';
+            
+            // Mobile indicator
+            if (config.mobile) {
+                html += '<div class="mobile-indicator">📱 Mobile View</div>';
+            }
+            
+            // Header
+            html += `
+                <div class="nav-header">
+                    <div class="nav-logo">${config.header.title}</div>
+                    <div class="nav-role-badge">${config.header.role}</div>
+                </div>
+            `;
+            
+            // Priority section if exists
+            if (config.priority) {
+                html += `
+                    <div class="priority-alert">
+                        <div class="priority-title">${config.priority.title}</div>
+                `;
+                config.priority.items.forEach(item => {
+                    html += `
+                        <div class="priority-item">
+                            <span>${item.icon}</span>
+                            <span>${item.label}</span>
+                            ${item.badge ? `<span class="nav-badge badge-number">${item.badge}</span>` : ''}
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+            
+            // Function tabs (if not mobile)
+            if (config.tabs) {
+                html += '<div class="function-tabs">';
+                config.tabs.forEach(tab => {
+                    const classes = ['function-tab'];
+                    if (tab.active) classes.push('active');
+                    if (tab.disabled) classes.push('disabled');
+                    html += `<div class="${classes.join(' ')}" data-tab="${tab.id}">${tab.label}</div>`;
+                });
+                html += '</div>';
+            }
+            
+            // Sections
+            const sections = config.sections[config.tabs?.find(t => t.active)?.id] || config.sections;
+            
+            if (Array.isArray(sections)) {
+                sections.forEach(section => {
+                    html += `
+                        <div class="nav-section">
+                            <div class="nav-section-title">${section.title}</div>
+                    `;
+                    section.items.forEach(item => {
+                        const classes = ['nav-item'];
+                        if (item.primary) classes.push('primary');
+                        
+                        const badgeClass = item.badgeType ? `badge-${item.badgeType}` : 'badge-number';
+                        
+                        html += `
+                            <div class="${classes.join(' ')}">
+                                <span>${item.icon}</span>
+                                <span>${item.label}</span>
+                                ${item.badge ? `<span class="nav-badge ${badgeClass}">${item.badge}</span>` : ''}
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                });
+            }
+            
+            nav.innerHTML = html;
+            
+            // Add tab switching functionality
+            if (config.tabs) {
+                document.querySelectorAll('.function-tab:not(.disabled)').forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        if (!this.classList.contains('disabled')) {
+                            // Update active tab
+                            document.querySelectorAll('.function-tab').forEach(t => t.classList.remove('active'));
+                            this.classList.add('active');
+                            
+                            // Update sections
+                            const tabId = this.dataset.tab;
+                            const newSections = config.sections[tabId] || [];
+                            
+                            // Re-render sections
+                            let sectionsHtml = '';
+                            newSections.forEach(section => {
+                                sectionsHtml += `
+                                    <div class="nav-section">
+                                        <div class="nav-section-title">${section.title}</div>
+                                `;
+                                section.items.forEach(item => {
+                                    const classes = ['nav-item'];
+                                    if (item.primary) classes.push('primary');
+                                    const badgeClass = item.badgeType ? `badge-${item.badgeType}` : 'badge-number';
+                                    
+                                    sectionsHtml += `
+                                        <div class="${classes.join(' ')}">
+                                            <span>${item.icon}</span>
+                                            <span>${item.label}</span>
+                                            ${item.badge ? `<span class="nav-badge ${badgeClass}">${item.badge}</span>` : ''}
+                                        </div>
+                                    `;
+                                });
+                                sectionsHtml += '</div>';
+                            });
+                            
+                            // Update the sections area
+                            const existingSections = nav.querySelectorAll('.nav-section');
+                            existingSections.forEach(s => s.remove());
+                            nav.insertAdjacentHTML('beforeend', sectionsHtml);
+                        }
+                    });
+                });
+            }
+            
+            // Update access level
+            document.getElementById('access-level').textContent = config.accessLevel;
+        }
+
+        // Role labels
+        const roleLabels = {
+            'owner': 'Owner',
+            'ops-manager-morning': 'Ops Manager',
+            'ops-manager-active': 'Ops Manager',
+            'admin': 'Administrator',
+            'technician': 'Technician'
+        };
+
+        // Handle role switching
+        document.querySelectorAll('input[name="role"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const roleKey = e.target.id;
+                renderNavigation(roleKey);
+                document.getElementById('active-role').textContent = roleLabels[roleKey];
+            });
+        });
+
+        // Update time
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                minute: '2-digit',
+                hour12: true 
+            });
+            document.getElementById('current-time').textContent = timeStr;
+        }
+
+        // Initialize
+        renderNavigation('owner');
+        updateTime();
+        setInterval(updateTime, 60000);
+    </script>
+</body>
+</html>

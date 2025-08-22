@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concept Feedback Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #f9fafb;
+            padding: 20px;
+        }
+        
+        .header {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            color: #111827;
+            margin-bottom: 8px;
+        }
+        
+        .header .subtitle {
+            color: #6b7280;
+            font-size: 14px;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .card h2 {
+            font-size: 16px;
+            color: #374151;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        
+        .metric:last-child {
+            border-bottom: none;
+        }
+        
+        .metric-label {
+            color: #6b7280;
+            font-size: 14px;
+        }
+        
+        .metric-value {
+            font-weight: 600;
+            font-size: 18px;
+            color: #111827;
+        }
+        
+        .sentiment-bar {
+            display: flex;
+            height: 30px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+        
+        .sentiment-segment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .scope-list {
+            margin-top: 8px;
+        }
+        
+        .scope-item {
+            padding: 6px 0;
+            font-size: 14px;
+            color: #374151;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .scope-badge {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .must-have { background: #dcfce7; color: #166534; }
+        .nice-to-have { background: #dbeafe; color: #1e40af; }
+        .future { background: #fef3c7; color: #92400e; }
+        .not-needed { background: #fee2e2; color: #991b1b; }
+        
+        .pain-point {
+            background: #fef2f2;
+            border-left: 3px solid #ef4444;
+            padding: 8px 12px;
+            margin: 8px 0;
+            border-radius: 4px;
+        }
+        
+        .pain-point-title {
+            font-weight: 600;
+            color: #991b1b;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+        
+        .pain-point-desc {
+            color: #7f1d1d;
+            font-size: 12px;
+        }
+        
+        .workflow-step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 0;
+            font-size: 13px;
+            color: #4b5563;
+        }
+        
+        .workflow-step-number {
+            background: #e5e7eb;
+            color: #374151;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .drop-zone {
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 20px;
+            background: white;
+        }
+        
+        .drop-zone.active {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        
+        .hierarchy-badge {
+            display: inline-block;
+            background: #fef3c7;
+            color: #92400e;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📊 Concept Line Feedback Dashboard</h1>
+        <div class="subtitle">Stakeholder feedback analysis for MVP scope definition</div>
+    </div>
+    
+    <div class="drop-zone" id="dropZone">
+        <p style="font-size: 18px; font-weight: 600; color: #374151; margin-bottom: 8px;">
+            Drop feedback JSON file here
+        </p>
+        <p style="font-size: 14px; color: #6b7280;">
+            or click to select file
+        </p>
+        <input type="file" id="fileInput" accept=".json" style="display: none;">
+    </div>
+    
+    <div id="dashboard" class="dashboard" style="display: none;">
+        <!-- Summary Card -->
+        <div class="card">
+            <h2>📈 Session Summary</h2>
+            <div id="summary-content"></div>
+        </div>
+        
+        <!-- Sentiment Card -->
+        <div class="card">
+            <h2>😊 User Sentiment</h2>
+            <div id="sentiment-content"></div>
+        </div>
+        
+        <!-- MVP Scope Card -->
+        <div class="card">
+            <h2>🎯 MVP Scope Decisions</h2>
+            <div id="scope-content"></div>
+        </div>
+        
+        <!-- Pain Points Card -->
+        <div class="card">
+            <h2>⚠️ Pain Points</h2>
+            <div id="pain-content"></div>
+        </div>
+        
+        <!-- Workflows Card -->
+        <div class="card">
+            <h2>🔄 Recorded Workflows</h2>
+            <div id="workflow-content"></div>
+        </div>
+        
+        <!-- Interactions Heatmap -->
+        <div class="card">
+            <h2>🖱️ Interaction Patterns</h2>
+            <div id="interaction-content"></div>
+        </div>
+    </div>
+    
+    <script>
+        // File handling
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const dashboard = document.getElementById('dashboard');
+        
+        dropZone.addEventListener('click', () => fileInput.click());
+        
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('active');
+        });
+        
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('active');
+        });
+        
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('active');
+            
+            const file = e.dataTransfer.files[0];
+            if (file && file.type === 'application/json') {
+                readFile(file);
+            }
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                readFile(file);
+            }
+        });
+        
+        function readFile(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    displayFeedback(data);
+                } catch (err) {
+                    alert('Invalid JSON file');
+                }
+            };
+            reader.readAsText(file);
+        }
+        
+        function displayFeedback(data) {
+            dashboard.style.display = 'grid';
+            dropZone.style.display = 'none';
+            
+            // Summary
+            const summaryContent = document.getElementById('summary-content');
+            summaryContent.innerHTML = `
+                <div class="metric">
+                    <span class="metric-label">Sub-Module</span>
+                    <span class="hierarchy-badge">${data.subModule.id} ${data.subModule.name}</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Session Time</span>
+                    <span class="metric-value">${formatTime(data.summary?.totalTime || 0)}</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Total Interactions</span>
+                    <span class="metric-value">${data.summary?.totalInteractions || 0}</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Pain Points</span>
+                    <span class="metric-value">${data.painPoints?.length || 0}</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Workflows Recorded</span>
+                    <span class="metric-value">${data.workflows?.length || 0}</span>
+                </div>
+            `;
+            
+            // Sentiment
+            const sentimentContent = document.getElementById('sentiment-content');
+            const sentiments = data.summary?.sentimentBreakdown || {};
+            const total = Object.values(sentiments).reduce((a, b) => a + b, 0);
+            
+            if (total > 0) {
+                const sentimentColors = {
+                    'love': '#10b981',
+                    'works': '#3b82f6',
+                    'confused': '#f59e0b',
+                    'missing': '#ef4444'
+                };
+                
+                let barHTML = '<div class="sentiment-bar">';
+                for (const [key, value] of Object.entries(sentiments)) {
+                    const percentage = (value / total * 100).toFixed(0);
+                    barHTML += `
+                        <div class="sentiment-segment" style="background: ${sentimentColors[key]}; width: ${percentage}%">
+                            ${percentage}%
+                        </div>
+                    `;
+                }
+                barHTML += '</div>';
+                
+                sentimentContent.innerHTML = barHTML + `
+                    <div style="font-size: 12px; color: #6b7280; margin-top: 8px;">
+                        ${Object.entries(sentiments).map(([k, v]) => `${k}: ${v}`).join(' | ')}
+                    </div>
+                `;
+            } else {
+                sentimentContent.innerHTML = '<p style="color: #9ca3af; font-size: 14px;">No sentiment data</p>';
+            }
+            
+            // MVP Scope
+            const scopeContent = document.getElementById('scope-content');
+            const scopeDecisions = data.scopeDecisions || {};
+            
+            let scopeHTML = '<div class="scope-list">';
+            
+            if (scopeDecisions.mustHave?.length) {
+                scopeHTML += '<div style="margin-bottom: 12px;"><strong style="color: #166534;">Must Have:</strong>';
+                scopeDecisions.mustHave.forEach(item => {
+                    scopeHTML += `<div class="scope-item">
+                        <span class="scope-badge must-have">MUST</span>
+                        ${item.feature || item}
+                    </div>`;
+                });
+                scopeHTML += '</div>';
+            }
+            
+            if (scopeDecisions.niceToHave?.length) {
+                scopeHTML += '<div style="margin-bottom: 12px;"><strong style="color: #1e40af;">Nice to Have:</strong>';
+                scopeDecisions.niceToHave.forEach(item => {
+                    scopeHTML += `<div class="scope-item">
+                        <span class="scope-badge nice-to-have">NICE</span>
+                        ${item.feature || item}
+                    </div>`;
+                });
+                scopeHTML += '</div>';
+            }
+            
+            if (scopeDecisions.outOfScope?.length) {
+                scopeHTML += '<div style="margin-bottom: 12px;"><strong style="color: #92400e;">Out of Scope:</strong>';
+                scopeDecisions.outOfScope.forEach(item => {
+                    scopeHTML += `<div class="scope-item">
+                        <span class="scope-badge future">FUTURE</span>
+                        ${item.feature || item}
+                    </div>`;
+                });
+                scopeHTML += '</div>';
+            }
+            
+            scopeHTML += '</div>';
+            scopeContent.innerHTML = scopeHTML;
+            
+            // Pain Points
+            const painContent = document.getElementById('pain-content');
+            if (data.painPoints?.length) {
+                painContent.innerHTML = data.painPoints.map(point => `
+                    <div class="pain-point">
+                        <div class="pain-point-title">@ ${formatTime(point.timestamp / 1000)}</div>
+                        <div class="pain-point-desc">${point.description}</div>
+                    </div>
+                `).join('');
+            } else {
+                painContent.innerHTML = '<p style="color: #9ca3af; font-size: 14px;">No pain points reported</p>';
+            }
+            
+            // Workflows
+            const workflowContent = document.getElementById('workflow-content');
+            if (data.workflows?.length) {
+                workflowContent.innerHTML = data.workflows.map(workflow => `
+                    <div style="margin-bottom: 16px;">
+                        <div style="font-weight: 600; color: #374151; margin-bottom: 8px;">
+                            "${workflow.description}"
+                        </div>
+                        ${workflow.steps.slice(0, 5).map((step, i) => `
+                            <div class="workflow-step">
+                                <span class="workflow-step-number">${i + 1}</span>
+                                ${step.text || step.element}
+                            </div>
+                        `).join('')}
+                        ${workflow.steps.length > 5 ? `
+                            <div style="font-size: 12px; color: #9ca3af; margin-top: 4px;">
+                                +${workflow.steps.length - 5} more steps
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+            } else {
+                workflowContent.innerHTML = '<p style="color: #9ca3af; font-size: 14px;">No workflows recorded</p>';
+            }
+            
+            // Interaction patterns
+            const interactionContent = document.getElementById('interaction-content');
+            if (data.interactions?.length) {
+                // Group interactions by element type
+                const elementCounts = {};
+                data.interactions.forEach(i => {
+                    elementCounts[i.element] = (elementCounts[i.element] || 0) + 1;
+                });
+                
+                interactionContent.innerHTML = Object.entries(elementCounts)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 5)
+                    .map(([element, count]) => `
+                        <div class="metric">
+                            <span class="metric-label">${element} clicks</span>
+                            <span class="metric-value">${count}</span>
+                        </div>
+                    `).join('');
+            } else {
+                interactionContent.innerHTML = '<p style="color: #9ca3af; font-size: 14px;">No interaction data</p>';
+            }
+        }
+        
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+    </script>
+</body>
+</html>

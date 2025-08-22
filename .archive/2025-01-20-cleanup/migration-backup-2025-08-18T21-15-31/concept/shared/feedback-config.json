@@ -1,0 +1,91 @@
+{
+  "subModules": {
+    "1.1.1": {
+      "name": "Master View",
+      "feedbackFocus": [
+        "Navigation flow between columns",
+        "Search functionality",
+        "Selection persistence",
+        "Visual hierarchy",
+        "Information density"
+      ],
+      "mvpQuestions": [
+        "Is three-column layout intuitive?",
+        "Should we show work order counts?",
+        "Do we need bulk selection in v1?",
+        "Is search per-column or global?",
+        "Should filters persist between sessions?"
+      ],
+      "metrics": {
+        "targetClicksToWorkOrder": 3,
+        "targetTimeToFind": 10,
+        "targetSatisfaction": 4
+      }
+    },
+    "1.1.2": {
+      "name": "Detail View",
+      "feedbackFocus": [
+        "Form layout",
+        "Required vs optional fields",
+        "Save/Cancel flow",
+        "Validation messages",
+        "Modal vs page navigation"
+      ],
+      "mvpQuestions": [
+        "Which fields are required for MVP?",
+        "Should changes auto-save?",
+        "How to handle unsaved changes?",
+        "Inline edit vs form edit?",
+        "Need field history/audit?"
+      ]
+    },
+    "1.2.1": {
+      "name": "Work Order Management",
+      "feedbackFocus": [
+        "Status workflow",
+        "Scheduling interface",
+        "Assignment process",
+        "Priority indicators",
+        "Completion requirements"
+      ],
+      "mvpQuestions": [
+        "What statuses are needed for v1?",
+        "Can technicians self-assign?",
+        "How to handle emergencies?",
+        "Need recurring work orders?",
+        "Photo upload required?"
+      ]
+    }
+  },
+  "globalQuestions": {
+    "mvpScope": [
+      "What's the ONE thing this must do perfectly?",
+      "What would make you recommend this?",
+      "What's currently most painful?",
+      "What could wait until v2?"
+    ],
+    "satisfaction": [
+      "How does this compare to current process?",
+      "What's missing?",
+      "What's confusing?",
+      "What delighted you?"
+    ]
+  },
+  "feedbackModes": {
+    "discovery": {
+      "description": "Exploring what's possible",
+      "captureEverything": true,
+      "showAllOptions": true
+    },
+    "validation": {
+      "description": "Confirming specific workflows",
+      "focusOnCriticalPath": true,
+      "measureEfficiency": true
+    },
+    "scoping": {
+      "description": "Defining MVP boundaries",
+      "forceRanking": true,
+      "costBenefitVisible": true
+    }
+  }
+}

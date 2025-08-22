@@ -1,0 +1,18 @@
+{
+  "id": "2025-08-19T21-00-42-iteration-2---add-contact-info-archived",
+  "description": "Auto-archived before new iteration",
+  "created": "2025-08-19T21:00:42.906Z",
+  "directories": [
+    "1-inputs/requirements",
+    "2-factory/validation",
+    "3-workspace/concept"
+  ],
+  "stats": {
+    "requirements": 5,
+    "stories": 0,
+    "tasks": 0,
+    "concepts": 0,
+    "validationsPassed": 0,
+    "validationsFailed": 0
+  }
+}

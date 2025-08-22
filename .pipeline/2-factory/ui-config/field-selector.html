@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quick Field Selector - Drag to Reorder</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: -apple-system, sans-serif; 
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+    
+    .entity-config {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    h2 {
+      margin-bottom: 15px;
+      color: #333;
+      border-bottom: 2px solid #2563eb;
+      padding-bottom: 8px;
+    }
+    
+    .pattern-select {
+      margin-bottom: 15px;
+      padding: 8px;
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    
+    .field-list {
+      list-style: none;
+      margin-bottom: 20px;
+    }
+    
+    .field-item {
+      padding: 8px 12px;
+      margin: 4px 0;
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      cursor: move;
+      display: flex;
+      align-items: center;
+      transition: all 0.2s;
+    }
+    
+    .field-item:hover {
+      background: #e9ecef;
+      transform: translateX(2px);
+    }
+    
+    .field-item.dragging {
+      opacity: 0.5;
+      background: #cfe2ff;
+    }
+    
+    .field-item.selected {
+      background: #dcfce7;
+      border-color: #10b981;
+      font-weight: 500;
+    }
+    
+    .field-item input {
+      margin-right: 10px;
+    }
+    
+    .drag-handle {
+      margin-right: 10px;
+      color: #999;
+      cursor: grab;
+    }
+    
+    .drag-handle:active {
+      cursor: grabbing;
+    }
+    
+    .preview {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 4px;
+      border: 2px dashed #dee2e6;
+    }
+    
+    .preview h3 {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    
+    .card-preview {
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 12px;
+    }
+    
+    .card-title { font-weight: 600; margin-bottom: 4px; }
+    .card-badge { 
+      float: right; 
+      padding: 2px 6px; 
+      background: #dcfce7; 
+      border-radius: 3px;
+      font-size: 11px;
+    }
+    .card-metadata { 
+      font-size: 13px; 
+      color: #666; 
+      margin-top: 8px;
+    }
+    
+    .actions {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
+    
+    .btn-secondary {
+      background: white;
+      border: 1px solid #ddd;
+    }
+    
+    .quick-select {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+    
+    .quick-btn {
+      padding: 4px 8px;
+      font-size: 12px;
+      background: #f0f0f0;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    
+    .quick-btn:hover {
+      background: #e0e0e0;
+    }
+    
+    .field-section {
+      margin-bottom: 20px;
+    }
+    
+    .section-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #666;
+      margin: 10px 0 5px;
+      letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Field Configuration - Quick Selection</h1>
+  <p style="margin-bottom: 20px; color: #666;">Check fields you want, drag to reorder. Live preview updates as you select.</p>
+  
+  <div class="container">
+    <!-- ACCOUNTS -->
+    <div class="entity-config">
+      <h2>Account Cards</h2>
+      
+      <label>Pattern:</label>
+      <select class="pattern-select" id="account-pattern" onchange="updatePreview('account')">
+        <option value="compact">Compact (10+ visible)</option>
+        <option value="list" selected>List (8-12 visible)</option>
+        <option value="data">Data (3-5 visible)</option>
+      </select>
+      
+      <div class="quick-select">
+        <button class="quick-btn" onclick="selectPreset('account', 'minimal')">Minimal</button>
+        <button class="quick-btn" onclick="selectPreset('account', 'standard')">Standard</button>
+        <button class="quick-btn" onclick="selectPreset('account', 'detailed')">Detailed</button>
+        <button class="quick-btn" onclick="clearAll('account')">Clear</button>
+      </div>
+      
+      <div class="field-section">
+        <div class="section-title">Essential (Always Shown)</div>
+        <ul class="field-list" id="account-essential">
+          <li class="field-item selected">
+            <input type="checkbox" checked disabled>
+            <span>AccountName (Title)</span>
+          </li>
+          <li class="field-item selected">
+            <input type="checkbox" checked disabled>
+            <span>AccountStatus (Badge)</span>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="field-section">
+        <div class="section-title">Additional Fields (Drag to Reorder)</div>
+        <ul class="field-list" id="account-fields">
+          <li class="field-item" draggable="true" data-field="AccountType">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('account')">
+            <span>Account Type</span>
+          </li>
+          <li class="field-item" draggable="true" data-field="BillingCity">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('account')">
+            <span>City</span>
+          </li>
+          <li class="field-item" draggable="true" data-field="PrimaryContact.FullName">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('account')">
+            <span>Primary Contact</span>
+          </li>
+          <li class="field-item" draggable="true" data-field="PrimaryContact.Phone">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('account')">
+            <span>Phone</span>
+          </li>
+          <li class="field-item" draggable="true" data-field="PrimaryContact.Email">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('account')">
+            <span>Email</span>
+          </li>
+          <li class="field-item" draggable="true" data-field="ServiceLocations.count">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('account')">
+            <span>Location Count</span>
+          </li>
+          <li class="field-item" draggable="true" data-field="NextServiceDate">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('account')">
+            <span>Next Service</span>
+          </li>
+          <li class="field-item" draggable="true" data-field="AccountValue">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('account')">
+            <span>Account Value</span>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="preview">
+        <h3>Preview:</h3>
+        <div class="card-preview" id="account-preview">
+          <div class="card-badge">Active</div>
+          <div class="card-title">Martinez Residence</div>
+          <div class="card-metadata">Select fields above...</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- LOCATIONS -->
+    <div class="entity-config">
+      <h2>Location Cards</h2>
+      
+      <label>Pattern:</label>
+      <select class="pattern-select" id="location-pattern" onchange="updatePreview('location')">
+        <option value="compact">Compact (10+ visible)</option>
+        <option value="list" selected>List (8-12 visible)</option>
+        <option value="data">Data (3-5 visible)</option>
+      </select>
+      
+      <div class="quick-select">
+        <button class="quick-btn" onclick="selectPreset('location', 'minimal')">Minimal</button>
+        <button class="quick-btn" onclick="selectPreset('location', 'standard')">Standard</button>
+        <button class="quick-btn" onclick="selectPreset('location', 'detailed')">Detailed</button>
+        <button class="quick-btn" onclick="clearAll('location')">Clear</button>
+      </div>
+      
+      <div class="field-section">
+        <div class="section-title">Essential (Always Shown)</div>
+        <ul class="field-list">
+          <li class="field-item selected">
+            <input type="checkbox" checked disabled>
+            <span>LocationName (Title)</span>
+          </li>
+          <li class="field-item selected">
+            <input type="checkbox" checked disabled>
+            <span>LocationStatus (Badge)</span>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="field-section">
+        <div class="section-title">Additional Fields (Drag to Reorder)</div>
+        <ul class="field-list" id="location-fields">
+          <li class="field-item" draggable="true" data-field="LocationType">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('location')">
+            <span>Location Type</span>
+          </li>
+          <li class="field-item" draggable="true" data-field="ServiceAddress">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('location')">
+            <span>Service Address</span>
+          </li>
+          <li class="field-item" draggable="true" data-field="ServiceCity">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('location')">
+            <span>City</span>
+          </li>
+          <li class="field-item" draggable="true" data-field="AccessNotes">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('location')">
+            <span>Access Notes</span>
+          </li>
+          <li class="field-item" draggable="true" data-field="WorkOrders.count">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('location')">
+            <span>Work Order Count</span>
+          </li>
+          <li class="field-item" draggable="true" data-field="Equipment.count">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('location')">
+            <span>Equipment Count</span>
+          </li>
+          <li class="field-item" draggable="true" data-field="NextServiceDate">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('location')">
+            <span>Next Service</span>
+          </li>
+          <li class="field-item" draggable="true" data-field="ServiceFrequency">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('location')">
+            <span>Service Frequency</span>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="preview">
+        <h3>Preview:</h3>
+        <div class="card-preview" id="location-preview">
+          <div class="card-badge">Active</div>
+          <div class="card-title">Main Office</div>
+          <div class="card-metadata">Select fields above...</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- WORK ORDERS -->
+    <div class="entity-config">
+      <h2>Work Order Cards</h2>
+      
+      <label>Pattern:</label>
+      <select class="pattern-select" id="workorder-pattern" onchange="updatePreview('workorder')">
+        <option value="compact">Compact (10+ visible)</option>
+        <option value="list">List (8-12 visible)</option>
+        <option value="data" selected>Data (3-5 visible)</option>
+      </select>
+      
+      <div class="quick-select">
+        <button class="quick-btn" onclick="selectPreset('workorder', 'minimal')">Minimal</button>
+        <button class="quick-btn" onclick="selectPreset('workorder', 'standard')">Standard</button>
+        <button class="quick-btn" onclick="selectPreset('workorder', 'detailed')">Detailed</button>
+        <button class="quick-btn" onclick="clearAll('workorder')">Clear</button>
+      </div>
+      
+      <div class="field-section">
+        <div class="section-title">Essential (Always Shown)</div>
+        <ul class="field-list">
+          <li class="field-item selected">
+            <input type="checkbox" checked disabled>
+            <span>WorkOrderNumber (ID)</span>
+          </li>
+          <li class="field-item selected">
+            <input type="checkbox" checked disabled>
+            <span>Title (Description)</span>
+          </li>
+          <li class="field-item selected">
+            <input type="checkbox" checked disabled>
+            <span>Status (Badge)</span>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="field-section">
+        <div class="section-title">Additional Fields (Drag to Reorder)</div>
+        <ul class="field-list" id="workorder-fields">
+          <li class="field-item" draggable="true" data-field="Priority">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('workorder')">
+            <span>Priority</span>
+          </li>
+          <li class="field-item" draggable="true" data-field="WorkOrderType">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('workorder')">
+            <span>Type</span>
+          </li>
+          <li class="field-item" draggable="true" data-field="ScheduledDate">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('workorder')">
+            <span>Scheduled Date</span>
+          </li>
+          <li class="field-item" draggable="true" data-field="DueDate">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('workorder')">
+            <span>Due Date</span>
+          </li>
+          <li class="field-item" draggable="true" data-field="AssignedTo">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('workorder')">
+            <span>Assigned To</span>
+          </li>
+          <li class="field-item" draggable="true" data-field="EstimatedHours">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('workorder')">
+            <span>Est. Hours</span>
+          </li>
+          <li class="field-item" draggable="true" data-field="LocationName">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('workorder')">
+            <span>Location</span>
+          </li>
+          <li class="field-item" draggable="true" data-field="AccountName">
+            <span class="drag-handle">≡</span>
+            <input type="checkbox" onchange="updatePreview('workorder')">
+            <span>Account</span>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="preview">
+        <h3>Preview:</h3>
+        <div class="card-preview" id="workorder-preview">
+          <div class="card-badge">Scheduled</div>
+          <div class="card-title">WO-001 - HVAC Maintenance</div>
+          <div class="card-metadata">Select fields above...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="actions">
+    <button class="btn-secondary" onclick="loadDefaults()">Load Yesterday's Config</button>
+    <button class="btn-primary" onclick="saveConfiguration()">Save Configuration</button>
+  </div>
+  
+  <script>
+    // Drag and drop functionality
+    let draggedItem = null;
+    
+    document.querySelectorAll('.field-list').forEach(list => {
+      list.addEventListener('dragstart', e => {
+        if (e.target.classList.contains('field-item')) {
+          draggedItem = e.target;
+          e.target.classList.add('dragging');
+        }
+      });
+      
+      list.addEventListener('dragend', e => {
+        if (e.target.classList.contains('field-item')) {
+          e.target.classList.remove('dragging');
+        }
+      });
+      
+      list.addEventListener('dragover', e => {
+        e.preventDefault();
+        const afterElement = getDragAfterElement(list, e.clientY);
+        if (draggedItem && list.id.includes(draggedItem.parentElement.id.split('-')[0])) {
+          if (afterElement == null) {
+            list.appendChild(draggedItem);
+          } else {
+            list.insertBefore(draggedItem, afterElement);
+          }
+        }
+      });
+    });
+    
+    function getDragAfterElement(list, y) {
+      const draggableElements = [...list.querySelectorAll('.field-item:not(.dragging)')];
+      
+      return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child };
+        } else {
+          return closest;
+        }
+      }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+    
+    // Update checkbox visual state
+    document.querySelectorAll('.field-item input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', function() {
+        if (this.checked) {
+          this.parentElement.classList.add('selected');
+        } else {
+          this.parentElement.classList.remove('selected');
+        }
+      });
+    });
+    
+    // Preview updates
+    function updatePreview(entity) {
+      const fields = document.querySelectorAll(`#${entity}-fields .field-item`);
+      const selected = [];
+      
+      fields.forEach(field => {
+        if (field.querySelector('input').checked) {
+          selected.push(field.querySelector('span:last-child').textContent);
+        }
+      });
+      
+      const preview = document.getElementById(`${entity}-preview`);
+      const metadata = selected.length > 0 ? selected.join(' • ') : 'No fields selected';
+      
+      if (entity === 'account') {
+        preview.innerHTML = `
+          <div class="card-badge">Active</div>
+          <div class="card-title">Martinez Residence</div>
+          <div class="card-metadata">${metadata}</div>
+        `;
+      } else if (entity === 'location') {
+        preview.innerHTML = `
+          <div class="card-badge">Active</div>
+          <div class="card-title">Main Office</div>
+          <div class="card-metadata">${metadata}</div>
+        `;
+      } else if (entity === 'workorder') {
+        preview.innerHTML = `
+          <div class="card-badge">Scheduled</div>
+          <div class="card-title">WO-001 - HVAC Maintenance</div>
+          <div class="card-metadata">${metadata}</div>
+        `;
+      }
+    }
+    
+    // Presets
+    function selectPreset(entity, preset) {
+      const fields = document.querySelectorAll(`#${entity}-fields .field-item`);
+      
+      // Clear all first
+      fields.forEach(field => {
+        field.querySelector('input').checked = false;
+        field.classList.remove('selected');
+      });
+      
+      // Select based on preset
+      const presets = {
+        account: {
+          minimal: ['AccountType', 'BillingCity'],
+          standard: ['AccountType', 'BillingCity', 'PrimaryContact.FullName', 'ServiceLocations.count'],
+          detailed: ['AccountType', 'BillingCity', 'PrimaryContact.FullName', 'PrimaryContact.Phone', 'ServiceLocations.count', 'NextServiceDate']
+        },
+        location: {
+          minimal: ['LocationType', 'ServiceAddress'],
+          standard: ['LocationType', 'ServiceAddress', 'WorkOrders.count'],
+          detailed: ['LocationType', 'ServiceAddress', 'ServiceCity', 'WorkOrders.count', 'Equipment.count', 'NextServiceDate']
+        },
+        workorder: {
+          minimal: ['Priority', 'DueDate'],
+          standard: ['Priority', 'WorkOrderType', 'DueDate', 'AssignedTo'],
+          detailed: ['Priority', 'WorkOrderType', 'ScheduledDate', 'DueDate', 'AssignedTo', 'LocationName']
+        }
+      };
+      
+      const toSelect = presets[entity][preset];
+      
+      fields.forEach(field => {
+        if (toSelect.includes(field.dataset.field)) {
+          field.querySelector('input').checked = true;
+          field.classList.add('selected');
+        }
+      });
+      
+      updatePreview(entity);
+    }
+    
+    function clearAll(entity) {
+      const fields = document.querySelectorAll(`#${entity}-fields .field-item`);
+      fields.forEach(field => {
+        field.querySelector('input').checked = false;
+        field.classList.remove('selected');
+      });
+      updatePreview(entity);
+    }
+    
+    function loadDefaults() {
+      // Load the configuration we built yesterday
+      selectPreset('account', 'standard');
+      selectPreset('location', 'standard');
+      selectPreset('workorder', 'standard');
+    }
+    
+    function saveConfiguration() {
+      const config = {
+        account: {
+          pattern: document.getElementById('account-pattern').value,
+          fields: getSelectedFields('account')
+        },
+        location: {
+          pattern: document.getElementById('location-pattern').value,
+          fields: getSelectedFields('location')
+        },
+        workorder: {
+          pattern: document.getElementById('workorder-pattern').value,
+          fields: getSelectedFields('workorder')
+        }
+      };
+      
+      console.log('Configuration to save:', config);
+      
+      // Copy to clipboard
+      const configText = JSON.stringify(config, null, 2);
+      navigator.clipboard.writeText(configText).then(() => {
+        alert('Configuration copied to clipboard! Paste it back to me to continue.');
+      });
+      
+      // Also show in console
+      console.log('Copy this configuration:');
+      console.log(configText);
+    }
+    
+    function getSelectedFields(entity) {
+      const fields = [];
+      document.querySelectorAll(`#${entity}-fields .field-item`).forEach(item => {
+        if (item.querySelector('input').checked) {
+          fields.push({
+            field: item.dataset.field,
+            label: item.querySelector('span:last-child').textContent,
+            order: fields.length + 1
+          });
+        }
+      });
+      return fields;
+    }
+    
+    // Load standard preset on start
+    window.onload = () => {
+      selectPreset('account', 'standard');
+      selectPreset('location', 'standard');
+      selectPreset('workorder', 'standard');
+    };
+  </script>
+</body>
+</html>

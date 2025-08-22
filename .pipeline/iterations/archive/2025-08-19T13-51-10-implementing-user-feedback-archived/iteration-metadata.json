@@ -1,0 +1,18 @@
+{
+  "id": "2025-08-19T13-51-10-implementing-user-feedback-archived",
+  "description": "Auto-archived before new iteration",
+  "created": "2025-08-19T13:51:10.869Z",
+  "directories": [
+    "1-inputs/requirements",
+    "2-factory/validation",
+    "3-workspace/concept"
+  ],
+  "stats": {
+    "requirements": 5,
+    "stories": 9,
+    "tasks": 4,
+    "concepts": 1,
+    "validationsPassed": 0,
+    "validationsFailed": 0
+  }
+}

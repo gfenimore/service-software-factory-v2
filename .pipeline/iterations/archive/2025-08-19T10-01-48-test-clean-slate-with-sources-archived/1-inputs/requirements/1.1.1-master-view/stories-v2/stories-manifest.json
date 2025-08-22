@@ -1,0 +1,213 @@
+{
+  "generator": "STORY-BUILDER",
+  "version": "2.0",
+  "timestamp": "2025-08-19T01:17:35.570Z",
+  "subModule": "",
+  "totalStories": 5,
+  "totalRequirements": 35,
+  "mappedRequirements": 24,
+  "unmappedRequirements": [
+    "NAV-001",
+    "VIS-003",
+    "INT-001",
+    "STATE-001",
+    "TECH-001",
+    "UX-001",
+    "COMP-001",
+    "PROC-001",
+    "QUAL-001",
+    "COMPAT-001",
+    "RESP-001"
+  ],
+  "stories": [
+    {
+      "id": "US--001",
+      "title": "Accounts Column",
+      "requirementCount": 14,
+      "requirementIds": [
+        "LAY-001",
+        "NAV-002",
+        "NAV-003",
+        "DAT-001",
+        "VIS-001",
+        "VIS-002",
+        "EVT-001"
+      ]
+    },
+    {
+      "id": "US--002",
+      "title": "Service Locations Column",
+      "requirementCount": 7,
+      "requirementIds": [
+        "NAV-002",
+        "NAV-003",
+        "DAT-001",
+        "VIS-002",
+        "EVT-002"
+      ]
+    },
+    {
+      "id": "US--003",
+      "title": "Work Orders Column",
+      "requirementCount": 5,
+      "requirementIds": [
+        "NAV-002",
+        "NAV-003",
+        "EVT-003",
+        "NAV-004"
+      ]
+    },
+    {
+      "id": "US--004",
+      "title": "Integrated Actions",
+      "requirementCount": 2,
+      "requirementIds": [
+        "NAV-003"
+      ]
+    },
+    {
+      "id": "US--005",
+      "title": "Performance and Quality",
+      "requirementCount": 69,
+      "requirementIds": [
+        "PERF-001",
+        "DAT-001",
+        "DAT-002",
+        "TECH-002",
+        "DAT-003",
+        "PERF-002",
+        "DAT-004",
+        "DAT-005",
+        "PERF-003",
+        "PERF-004",
+        "PERF-005",
+        "PERF-006",
+        "PERF-007",
+        "PERF-008",
+        "PERF-009"
+      ]
+    }
+  ],
+  "requirementMappings": {
+    "LAY-001": {
+      "storyId": "US--001",
+      "acceptanceCriteria": "AC-007",
+      "requirement": "System must provide a three-column browser interface"
+    },
+    "NAV-002": {
+      "storyId": "US--003",
+      "acceptanceCriteria": "AC-006",
+      "requirement": "System must preserve context when navigating between entities"
+    },
+    "PERF-001": {
+      "storyId": "US--005",
+      "acceptanceCriteria": "AC-007",
+      "requirement": "Navigation must be 10x faster than page loads"
+    },
+    "NAV-003": {
+      "storyId": "US--004",
+      "acceptanceCriteria": "AC-002",
+      "requirement": "Common tasks must be completed in 1-2 clicks (reduced from 5-7)"
+    },
+    "DAT-001": {
+      "storyId": "US--005",
+      "acceptanceCriteria": "AC-003",
+      "requirement": "Accounts column must display all accounts with search/filter"
+    },
+    "VIS-001": {
+      "storyId": "US--001",
+      "acceptanceCriteria": "AC-002",
+      "requirement": "Account type indicators (C/R/I) must be displayed"
+    },
+    "VIS-002": {
+      "storyId": "US--002",
+      "acceptanceCriteria": "AC-002",
+      "requirement": "Visual status indicators (active/inactive) must be shown"
+    },
+    "EVT-001": {
+      "storyId": "US--001",
+      "acceptanceCriteria": "AC-007",
+      "requirement": "System must emit account:selected event when account is selected"
+    },
+    "EVT-002": {
+      "storyId": "US--002",
+      "acceptanceCriteria": "AC-006",
+      "requirement": "System must emit location:selected event when location is selected"
+    },
+    "EVT-003": {
+      "storyId": "US--003",
+      "acceptanceCriteria": "AC-006",
+      "requirement": "System must emit workOrder:selected event when work order is selected"
+    },
+    "DAT-002": {
+      "storyId": "US--005",
+      "acceptanceCriteria": "AC-004",
+      "requirement": "Concept Line must use mock data (50 accounts, 200 locations, 500 work orders)"
+    },
+    "TECH-002": {
+      "storyId": "US--005",
+      "acceptanceCriteria": "AC-007",
+      "requirement": "All interactions must use console.log for debugging"
+    },
+    "DAT-003": {
+      "storyId": "US--005",
+      "acceptanceCriteria": "AC-004",
+      "requirement": "System must load minimum 50 accounts"
+    },
+    "PERF-002": {
+      "storyId": "US--005",
+      "acceptanceCriteria": "AC-007",
+      "requirement": "System must handle displaying up to 1000 accounts"
+    },
+    "DAT-004": {
+      "storyId": "US--005",
+      "acceptanceCriteria": "AC-005",
+      "requirement": "System must handle 3-5 locations per account on average"
+    },
+    "DAT-005": {
+      "storyId": "US--005",
+      "acceptanceCriteria": "AC-006",
+      "requirement": "System must handle 5-10 work orders per location on average"
+    },
+    "PERF-003": {
+      "storyId": "US--005",
+      "acceptanceCriteria": "AC-007",
+      "requirement": "Initial render must complete in less than 1 second"
+    },
+    "PERF-004": {
+      "storyId": "US--005",
+      "acceptanceCriteria": "AC-007",
+      "requirement": "Column updates must complete in less than 200ms"
+    },
+    "PERF-005": {
+      "storyId": "US--005",
+      "acceptanceCriteria": "AC-007",
+      "requirement": "Search response must complete in less than 100ms"
+    },
+    "PERF-006": {
+      "storyId": "US--005",
+      "acceptanceCriteria": "AC-007",
+      "requirement": "Scroll performance must maintain 60 fps"
+    },
+    "NAV-004": {
+      "storyId": "US--003",
+      "acceptanceCriteria": "AC-005",
+      "requirement": "Users MUST be able to navigate to any work order in less than 3 clicks"
+    },
+    "PERF-007": {
+      "storyId": "US--005",
+      "acceptanceCriteria": "AC-007",
+      "requirement": "Performance must be acceptable with mock data"
+    },
+    "PERF-008": {
+      "storyId": "US--005",
+      "acceptanceCriteria": "AC-007",
+      "requirement": "50% reduction in navigation time"
+    },
+    "PERF-009": {
+      "storyId": "US--005",
+      "acceptanceCriteria": "AC-007",
+      "requirement": "All interactions must complete in less than 200ms"
+    }
+  }
+}

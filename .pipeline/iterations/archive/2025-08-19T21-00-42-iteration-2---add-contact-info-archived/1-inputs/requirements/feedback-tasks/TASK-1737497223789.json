@@ -1,0 +1,36 @@
+{
+  "id": "TASK-1737497223789",
+  "title": "Add search functionality to filter accounts",
+  "description": "Add search functionality to filter accounts by name or type",
+  "type": "feature",
+  "priority": "high",
+  "estimate": "4-8 hours",
+  "complexity": "high",
+  "context": {
+    "url": "file:///test-with-inline-feedback.html",
+    "timestamp": "2025-01-21T19:47:03.789Z",
+    "viewport": "1920x1080",
+    "selectedAccount": "Global Services",
+    "selectedLocation": null,
+    "selectedWorkOrder": null
+  },
+  "createdAt": "2025-01-21T19:47:03.789Z",
+  "status": "pending",
+  "implementation": [
+    "Design feature specification",
+    "Create UI mockup",
+    "Implement backend logic",
+    "Build frontend components",
+    "Add tests",
+    "Update documentation"
+  ],
+  "processedAt": "2025-08-19T14:52:10.400Z",
+  "source": "browser-feedback",
+  "acceptance": [
+    "Feature works as described",
+    "Edge cases handled",
+    "Error states implemented",
+    "Tests pass",
+    "Documentation updated"
+  ]
+}

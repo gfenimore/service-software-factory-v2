@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Context-Aware Navigation Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Context Switcher */
+        .context-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: 2px solid #000;
+            border-radius: 8px;
+            padding: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .context-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .context-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .context-option label {
+            margin-left: 8px;
+            cursor: pointer;
+        }
+
+        .context-info {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .current-context {
+            background: #4CAF50;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        /* Navigation */
+        .navigation {
+            width: 280px;
+            background: #1a1a1a;
+            color: white;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+        }
+
+        .nav-header {
+            padding: 20px;
+            border-bottom: 1px solid #333;
+            background: #000;
+        }
+
+        .nav-logo {
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-context-badge {
+            font-size: 11px;
+            background: #4CAF50;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        /* Priority Section */
+        .priority-section {
+            background: #ff4444;
+            color: white;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 6px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
+        .priority-title {
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .priority-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .priority-item:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Regular Sections */
+        .nav-section {
+            padding: 15px 10px;
+            border-bottom: 1px solid #333;
+        }
+
+        .nav-section-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            margin-bottom: 10px;
+            padding: 0 10px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            color: #ccc;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background: #333;
+            color: white;
+        }
+
+        .nav-item.suggested {
+            border-left: 3px solid #4CAF50;
+        }
+
+        .nav-item.frequent {
+            background: #2a2a2a;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: #ff4444;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .nav-badge.warning {
+            background: #ff9800;
+        }
+
+        .nav-badge.info {
+            background: #2196F3;
+        }
+
+        /* Smart Suggestions */
+        .suggestions {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 10px;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        .suggestions-title {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .suggestion-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .suggestion-item:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .demo-message {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .demo-message h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .demo-message p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* Transition Effects */
+        .nav-item, .priority-item, .suggestion-item {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Context Switcher Panel -->
+    <div class="context-panel">
+        <div class="context-title">🎭 Switch Context</div>
+        
+        <div class="context-option">
+            <input type="radio" name="context" id="dispatcher-morning" checked>
+            <label for="dispatcher-morning">Dispatcher - Morning</label>
+        </div>
+        
+        <div class="context-option">
+            <input type="radio" name="context" id="dispatcher-active">
+            <label for="dispatcher-active">Dispatcher - Active</label>
+        </div>
+        
+        <div class="context-option">
+            <input type="radio" name="context" id="technician-field">
+            <label for="technician-field">Technician - Field</label>
+        </div>
+        
+        <div class="context-option">
+            <input type="radio" name="context" id="manager">
+            <label for="manager">Manager - Strategic</label>
+        </div>
+        
+        <div class="context-option">
+            <input type="radio" name="context" id="customer-service">
+            <label for="customer-service">Customer Service</label>
+        </div>
+        
+        <div class="context-info">
+            <div>Current Time: <span id="current-time">8:30 AM</span></div>
+            <div>Active Context: <span class="current-context" id="active-context">Morning Dispatch</span></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navigation" id="navigation">
+        <!-- Content will be dynamically updated -->
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="demo-message">
+            <h2>Context-Aware Navigation Demo</h2>
+            <p>Use the context switcher to see how navigation adapts to different roles, times, and situations.</p>
+            <p>Notice how the menu structure, priorities, and suggestions change based on context.</p>
+            <p>In a real system, this would happen automatically based on user role, time of day, current task, and system state.</p>
+        </div>
+    </main>
+
+    <script>
+        // Navigation configurations for different contexts
+        const navigationContexts = {
+            'dispatcher-morning': {
+                header: {
+                    title: '🏭 Service Manager',
+                    context: 'Morning Dispatch - 8:30 AM'
+                },
+                priority: {
+                    title: '⚠️ Urgent - Morning Priority',
+                    items: [
+                        { label: 'Overnight Issues', badge: '3', icon: '🚨' },
+                        { label: 'Unassigned Routes', badge: '5', icon: '🚫' },
+                        { label: 'Weather Alert - Rain', badge: '!', icon: '🌧️' }
+                    ]
+                },
+                suggestions: {
+                    title: '✨ Smart Suggestions',
+                    items: [
+                        { label: 'Assign John to Route 5', icon: '👷' },
+                        { label: 'Call Acme Corp (waiting)', icon: '📞' },
+                        { label: 'Review chemical inventory', icon: '🧪' }
+                    ]
+                },
+                sections: [
+                    {
+                        title: 'Morning Tasks',
+                        items: [
+                            { label: "Today's Schedule", icon: '📅', frequent: true },
+                            { label: 'Technician Status', icon: '👥' },
+                            { label: 'Route Optimizer', icon: '🗺️' }
+                        ]
+                    },
+                    {
+                        title: 'Quick Actions',
+                        items: [
+                            { label: 'Assign Technician', icon: '👷' },
+                            { label: 'Reschedule Service', icon: '📆' },
+                            { label: 'Send Message', icon: '💬' }
+                        ]
+                    }
+                ]
+            },
+            
+            'dispatcher-active': {
+                header: {
+                    title: '🏭 Service Manager',
+                    context: 'Active Operations - 2:00 PM'
+                },
+                sections: [
+                    {
+                        title: 'Live Monitoring',
+                        items: [
+                            { label: 'Technician Map', icon: '🗺️', badge: 'LIVE' },
+                            { label: 'In Progress', icon: '🔄', badge: '8' },
+                            { label: 'Customer Queue', icon: '📞', badge: '2' }
+                        ]
+                    },
+                    {
+                        title: 'Adjustments Needed',
+                        items: [
+                            { label: 'Running Late', icon: '⏰', badge: '1', suggested: true },
+                            { label: 'Cancellations', icon: '❌' },
+                            { label: 'Add-on Services', icon: '➕', badge: '3' }
+                        ]
+                    },
+                    {
+                        title: 'Communications',
+                        items: [
+                            { label: 'Customer Messages', icon: '💬', badge: '5' },
+                            { label: 'Tech Support', icon: '🔧' },
+                            { label: 'Broadcast Alert', icon: '📢' }
+                        ]
+                    }
+                ]
+            },
+            
+            'technician-field': {
+                header: {
+                    title: '🏭 Service Tech App',
+                    context: 'On Route - Stop 3 of 8'
+                },
+                priority: {
+                    title: '📍 Current Service',
+                    items: [
+                        { label: 'Acme Corp - Main Office', icon: '🏢' },
+                        { label: 'View Service Details', icon: '📋' }
+                    ]
+                },
+                sections: [
+                    {
+                        title: 'My Route',
+                        items: [
+                            { label: 'Next: TechStart Inc', icon: '⏭️' },
+                            { label: "Today's List", icon: '📋', badge: '5 left' },
+                            { label: 'Route Map', icon: '🗺️' }
+                        ]
+                    },
+                    {
+                        title: 'Service Tools',
+                        items: [
+                            { label: 'Complete Service', icon: '✅', suggested: true },
+                            { label: 'Chemical Usage', icon: '🧪' },
+                            { label: 'Take Photo', icon: '📸' },
+                            { label: 'Get Signature', icon: '✍️' }
+                        ]
+                    },
+                    {
+                        title: 'Support',
+                        items: [
+                            { label: 'Call Dispatch', icon: '📞' },
+                            { label: 'Report Issue', icon: '⚠️' },
+                            { label: 'Supply Request', icon: '📦' }
+                        ]
+                    }
+                ]
+            },
+            
+            'manager': {
+                header: {
+                    title: '🏭 Manager Dashboard',
+                    context: 'Strategic View'
+                },
+                sections: [
+                    {
+                        title: 'Performance Metrics',
+                        items: [
+                            { label: 'KPI Dashboard', icon: '🎯', frequent: true },
+                            { label: 'Revenue Trends', icon: '📈' },
+                            { label: 'Route Efficiency', icon: '⚡' },
+                            { label: 'Customer Satisfaction', icon: '😊', badge: '92%' }
+                        ]
+                    },
+                    {
+                        title: 'Reports & Analysis',
+                        items: [
+                            { label: 'Weekly Summary', icon: '📊' },
+                            { label: 'Tech Performance', icon: '👷' },
+                            { label: 'Market Analysis', icon: '🎯' },
+                            { label: 'Compliance Report', icon: '✓' }
+                        ]
+                    },
+                    {
+                        title: 'Strategic Planning',
+                        items: [
+                            { label: 'Growth Opportunities', icon: '📈' },
+                            { label: 'Resource Planning', icon: '👥' },
+                            { label: 'Budget Review', icon: '💰' }
+                        ]
+                    }
+                ]
+            },
+            
+            'customer-service': {
+                header: {
+                    title: '🏭 Customer Service',
+                    context: 'Ready for Calls'
+                },
+                suggestions: {
+                    title: '🔍 Quick Search',
+                    items: [
+                        { label: 'Search by Phone', icon: '📞' },
+                        { label: 'Search by Address', icon: '📍' },
+                        { label: 'Recent Callers', icon: '🕒' }
+                    ]
+                },
+                sections: [
+                    {
+                        title: 'Customer Tools',
+                        items: [
+                            { label: 'Customer Search', icon: '🔍', suggested: true },
+                            { label: 'New Customer', icon: '➕' },
+                            { label: 'Schedule Service', icon: '📅' }
+                        ]
+                    },
+                    {
+                        title: 'Common Tasks',
+                        items: [
+                            { label: 'Service Inquiry', icon: '❓', frequent: true },
+                            { label: 'Billing Question', icon: '💰' },
+                            { label: 'File Complaint', icon: '😟' },
+                            { label: 'Update Account', icon: '✏️' }
+                        ]
+                    },
+                    {
+                        title: 'Resources',
+                        items: [
+                            { label: 'Service Catalog', icon: '📖' },
+                            { label: 'Pricing Guide', icon: '💵' },
+                            { label: 'FAQ Answers', icon: '❓' }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // Function to render navigation
+        function renderNavigation(contextKey) {
+            const context = navigationContexts[contextKey];
+            const nav = document.getElementById('navigation');
+            
+            let html = `
+                <div class="nav-header">
+                    <div class="nav-logo">
+                        ${context.header.title}
+                    </div>
+                    <div class="nav-context-badge">
+                        ${context.header.context}
+                    </div>
+                </div>
+            `;
+            
+            // Priority Section
+            if (context.priority) {
+                html += `
+                    <div class="priority-section">
+                        <div class="priority-title">${context.priority.title}</div>
+                `;
+                context.priority.items.forEach(item => {
+                    html += `
+                        <div class="priority-item">
+                            <span>${item.icon}</span>
+                            <span>${item.label}</span>
+                            ${item.badge ? `<span class="nav-badge">${item.badge}</span>` : ''}
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+            
+            // Suggestions
+            if (context.suggestions) {
+                html += `
+                    <div class="suggestions">
+                        <div class="suggestions-title">${context.suggestions.title}</div>
+                `;
+                context.suggestions.items.forEach(item => {
+                    html += `
+                        <div class="suggestion-item">
+                            <span>${item.icon}</span>
+                            <span>${item.label}</span>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+            
+            // Regular Sections
+            context.sections.forEach(section => {
+                html += `
+                    <div class="nav-section">
+                        <div class="nav-section-title">${section.title}</div>
+                `;
+                section.items.forEach(item => {
+                    const classes = ['nav-item'];
+                    if (item.suggested) classes.push('suggested');
+                    if (item.frequent) classes.push('frequent');
+                    
+                    html += `
+                        <div class="${classes.join(' ')}">
+                            <span>${item.icon}</span>
+                            <span>${item.label}</span>
+                            ${item.badge ? `<span class="nav-badge ${item.badgeType || ''}">${item.badge}</span>` : ''}
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            });
+            
+            nav.innerHTML = html;
+        }
+
+        // Context labels
+        const contextLabels = {
+            'dispatcher-morning': 'Morning Dispatch',
+            'dispatcher-active': 'Active Operations',
+            'technician-field': 'Field Service',
+            'manager': 'Strategic View',
+            'customer-service': 'Customer Support'
+        };
+
+        // Handle context switching
+        document.querySelectorAll('input[name="context"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const contextKey = e.target.id;
+                renderNavigation(contextKey);
+                document.getElementById('active-context').textContent = contextLabels[contextKey];
+            });
+        });
+
+        // Update time
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                minute: '2-digit',
+                hour12: true 
+            });
+            document.getElementById('current-time').textContent = timeStr;
+        }
+
+        // Initialize
+        renderNavigation('dispatcher-morning');
+        updateTime();
+        setInterval(updateTime, 60000);
+    </script>
+</body>
+</html>

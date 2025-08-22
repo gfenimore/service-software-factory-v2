@@ -48,8 +48,20 @@
       "Bash(done)",
       "Bash(timeout:*)",
       "Bash(npm run dev:*)",
-      "Bash(for file in .sdlc/01-core/A-agents/*.md .sdlc/01-core/A-agents/processors/*.md)"
+      "Bash(for file in .sdlc/01-core/A-agents/*.md .sdlc/01-core/A-agents/processors/*.md)",
+      "Bash(sed:*)",
+      "Bash(npm run concept:list-iterations:*)",
+      "Bash(npm run concept:new-iteration:*)",
+      "Bash(npm run concept:tag-golden:*)",
+      "Bash(npm run concept:switch-iteration:*)",
+      "Bash(npm run:*)",
+      "Bash(start:*)",
+      "Bash(touch:*)"
     ],
-    "deny": []
+    "deny": [],
+    "additionalDirectories": [
+      "C:\\c\\Users\\GarryFenimore\\Projects",
+      "C:\\Users\\GarryFenimore\\Downloads"
+    ]
   }
 }

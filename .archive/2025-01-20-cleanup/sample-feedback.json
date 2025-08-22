@@ -1,0 +1,48 @@
+[
+  {
+    "id": "FB-1734621234567",
+    "timestamp": "2025-08-19T13:45:00.000Z",
+    "type": "enhancement",
+    "priority": "medium",
+    "description": "Add a count badge showing number of work orders per location",
+    "expectedBehavior": "Each location card should show a small badge with the count of work orders",
+    "component": "Location List",
+    "context": {
+      "appState": {
+        "selectedAccount": "Account 23",
+        "selectedLocation": "Location A",
+        "selectedWorkOrder": null,
+        "visibleItems": {
+          "accounts": 50,
+          "locations": 5,
+          "workOrders": 12
+        }
+      }
+    },
+    "status": "new",
+    "conceptIteration": "2025-08-19T10-12-12-gf-test-run"
+  },
+  {
+    "id": "FB-1734621345678",
+    "timestamp": "2025-08-19T13:47:00.000Z",
+    "type": "ui",
+    "priority": "low",
+    "description": "Make the selected account background color more prominent",
+    "expectedBehavior": "Selected account should have a stronger blue background color",
+    "component": "Account List",
+    "context": {
+      "appState": {
+        "selectedAccount": "Account 15",
+        "selectedLocation": null,
+        "selectedWorkOrder": null,
+        "visibleItems": {
+          "accounts": 50,
+          "locations": 0,
+          "workOrders": 0
+        }
+      }
+    },
+    "status": "new",
+    "conceptIteration": "2025-08-19T10-12-12-gf-test-run"
+  }
+]

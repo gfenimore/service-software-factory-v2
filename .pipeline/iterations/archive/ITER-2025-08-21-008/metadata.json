@@ -1,0 +1,32 @@
+{
+  "id": "ITER-2025-08-21-008",
+  "type": "feature",
+  "line": "concept",
+  "status": "active",
+  "created": "2025-08-21T18:50:41.850Z",
+  "creator": "user",
+  "parent": "ITER-2025-08-21-007",
+  "description": "--type feature --line concept --description Iteration 2: Configure Service Location entity --parent ITER-2025-08-21-007",
+  "scope": {
+    "feature": null,
+    "stories": [],
+    "entities": []
+  },
+  "configurations": {
+    "viewforge": null,
+    "rules": null,
+    "navigation": null
+  },
+  "results": {
+    "artifacts_generated": 0,
+    "tests_passed": 0,
+    "tests_failed": 0,
+    "validation_status": "pending"
+  },
+  "promotion": {
+    "eligible": false,
+    "target_line": null,
+    "blockers": []
+  },
+  "learnings": []
+}

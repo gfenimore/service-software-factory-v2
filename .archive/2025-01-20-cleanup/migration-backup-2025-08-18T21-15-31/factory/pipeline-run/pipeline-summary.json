@@ -1,0 +1,17 @@
+{
+  "timestamp": "2025-08-18T14:29:02.319Z",
+  "pipeline": "concept → prototype → app",
+  "input": "../concept/1.1.1-master-view/1.1.1-master-view-CONCEPT.html",
+  "output": "pipeline-run\\master-view-app",
+  "framework": "next",
+  "statistics": {
+    "extractedFiles": 5,
+    "components": 11,
+    "appFiles": 28
+  },
+  "processors": [
+    "EXTRACT-PROCESSOR",
+    "COMPONENT-GENERATOR",
+    "ASSEMBLY-PROCESSOR"
+  ]
+}
