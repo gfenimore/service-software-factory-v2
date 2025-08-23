@@ -34,7 +34,7 @@ let currentBuild = {
 // Get BUSM entities
 app.get('/api/busm/entities', async (req, res) => {
   try {
-    const busmPath = path.join(FACTORY_TOOLS_DIR, 'busm-reader', 'busm-model.json');
+    const busmPath = FACTORY_TOOLS_DIR + '/busm-reader/busm-model.json';
     console.log('Trying to load BUSM from:', busmPath);
     const busmData = await fs.readFile(busmPath, 'utf8');
     const busm = JSON.parse(busmData);
@@ -62,7 +62,7 @@ app.get('/api/busm/entities', async (req, res) => {
 // Get existing modules
 app.get('/api/modules', async (req, res) => {
   try {
-    const modulePath = path.join(FACTORY_TOOLS_DIR, 'module-system');
+    const modulePath = FACTORY_TOOLS_DIR + '/module-system';
     const files = await fs.readdir(modulePath);
     const modules = files
       .filter(f => f.endsWith('.yaml'))
