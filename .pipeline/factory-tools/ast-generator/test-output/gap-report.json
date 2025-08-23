@@ -1,0 +1,29 @@
+{
+  "total": 3,
+  "gaps": [
+    {
+      "category": "MISSING_TYPE",
+      "message": "Prop 'account' in component 'ServiceScheduler' has no type",
+      "severity": "HIGH"
+    },
+    {
+      "category": "MISSING_INITIAL_VALUE",
+      "message": "State 'selectedDate' in component 'ServiceScheduler' has no initial value",
+      "severity": "MEDIUM"
+    },
+    {
+      "category": "MISSING_IMPLEMENTATION",
+      "message": "Handler 'handleSchedule' in component 'ServiceScheduler' has no implementation",
+      "severity": "HIGH"
+    }
+  ],
+  "bySeverity": {
+    "HIGH": 2,
+    "MEDIUM": 1
+  },
+  "byCategory": {
+    "MISSING_TYPE": 1,
+    "MISSING_INITIAL_VALUE": 1,
+    "MISSING_IMPLEMENTATION": 1
+  }
+}

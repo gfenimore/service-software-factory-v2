@@ -1,0 +1,24 @@
+{
+  "timestamp": "2025-08-23T12:26:25.030Z",
+  "summary": {
+    "total": 3,
+    "critical": 0,
+    "high": 2,
+    "medium": 1,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "icon": "🔴",
+      "message": "Prop 'account' in component 'ServiceScheduler' has no type"
+    },
+    {
+      "icon": "🟡",
+      "message": "State 'selectedDate' in component 'ServiceScheduler' has no initial value"
+    },
+    {
+      "icon": "🔴",
+      "message": "Handler 'handleSchedule' in component 'ServiceScheduler' has no implementation"
+    }
+  ]
+}
