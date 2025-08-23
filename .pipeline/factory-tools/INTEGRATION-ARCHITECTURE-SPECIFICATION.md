@@ -217,6 +217,202 @@ integration-name:
     fallbacks: [failure handling]
 ```
 
+## Version Management Strategy
+
+### Versioning Structure
+
+Integration manifests support explicit version management to handle API evolution, deprecations, and migrations:
+
+```yaml
+geographic-display:
+  concept:
+    render: "map-placeholder"
+    label: "Service Territory Map"
+    purpose: "Display service locations and territories"
+    
+  versions:
+    v2:
+      status: "stable"
+      supported_until: "2025-12-31"
+      prototype:
+        integration: "mapbox-gl-js"
+        version: "2.15.0"
+        features: ["markers", "clustering", "3d-terrain"]
+        
+    v3:
+      status: "beta"
+      available_from: "2025-03-01"
+      prototype:
+        integration: "mapbox-gl-js"
+        version: "3.0.0"
+        features: ["markers", "clustering", "3d-terrain", "globe-view"]
+        breaking_changes:
+          - "New token format required"
+          - "Clustering API changed"
+        migration_guide: "./migrations/mapbox-v2-to-v3.md"
+        
+  active_version: "v2"
+  migration_strategy: "parallel"
+```
+
+### Version Management Patterns
+
+#### 1. Parallel Support Pattern
+Run multiple versions simultaneously during migration periods:
+
+```yaml
+payment-processing:
+  versions:
+    stripe-v2:
+      status: "deprecated"
+      supported_until: "2025-06-30"
+      prototype:
+        integration: "stripe"
+        sdk_version: "^8.0.0"
+        
+    stripe-v3:
+      status: "stable"
+      prototype:
+        integration: "stripe"
+        sdk_version: "^11.0.0"
+        
+  routing:
+    strategy: "percentage"
+    rules:
+      - version: "stripe-v3"
+        traffic: 90
+      - version: "stripe-v2"
+        traffic: 10
+        condition: "legacy_customers_only"
+```
+
+#### 2. Feature Flag Pattern
+Use feature flags to control version rollout:
+
+```yaml
+address-validation:
+  versions:
+    google-places-v1:
+      status: "stable"
+      feature_flag: "use_places_api_v1"
+      
+    google-address-validation:
+      status: "testing"
+      feature_flag: "use_new_address_validation"
+      rollout:
+        stage_1: ["internal_testing"]
+        stage_2: ["beta_customers"]
+        stage_3: ["all_customers"]
+```
+
+#### 3. Automatic Fallback Pattern
+Define automatic fallback chains for resilience:
+
+```yaml
+sms-notifications:
+  versions:
+    primary:
+      integration: "twilio"
+      version: "4.0.0"
+      
+    fallback_chain:
+      - integration: "aws-sns"
+        version: "3.0.0"
+        trigger: "primary_failure"
+      - integration: "sendgrid-sms"
+        version: "2.0.0"
+        trigger: "all_previous_failed"
+```
+
+### Migration Workflow
+
+#### 1. Pre-Migration Phase
+```yaml
+migration:
+  announcement_date: "2025-01-01"
+  deprecation_warnings:
+    start_date: "2025-02-01"
+    console_message: "MapBox v2 will be deprecated on 2025-06-30"
+    documentation_url: "/docs/migrations/mapbox-v3"
+```
+
+#### 2. Parallel Operation Phase
+```yaml
+migration:
+  parallel_start: "2025-03-01"
+  parallel_end: "2025-06-30"
+  monitoring:
+    - metric: "api_errors"
+      alert_threshold: 1.5x_baseline
+    - metric: "performance"
+      alert_threshold: 20%_degradation
+```
+
+#### 3. Cutover Phase
+```yaml
+migration:
+  cutover_date: "2025-06-30"
+  rollback_available_until: "2025-07-14"
+  validation_checks:
+    - all_features_working
+    - performance_baseline_met
+    - no_data_loss
+```
+
+### Version Compatibility Matrix
+
+Maintain compatibility requirements between integrations:
+
+```yaml
+compatibility_matrix:
+  geographic-display:
+    v3:
+      requires:
+        address-validation: ">=v2"
+        browser: ["chrome>=90", "safari>=14", "firefox>=88"]
+      conflicts:
+        legacy-mapping: "*"
+```
+
+### Testing Strategy for Versions
+
+```yaml
+testing:
+  version_testing:
+    automated:
+      - unit_tests_per_version
+      - integration_tests_per_version
+      - cross_version_compatibility_tests
+    manual:
+      - user_acceptance_per_version
+      - performance_benchmarks
+    environments:
+      dev: "latest_version"
+      staging: "next_planned_version"
+      production: "stable_version"
+```
+
+### Version Selection Logic
+
+The factory uses this precedence for version selection:
+
+1. **Explicit override**: Environment variable or configuration
+2. **Feature flag**: If feature flag is set
+3. **Routing rules**: Based on traffic distribution
+4. **Active version**: Default stable version
+5. **Fallback**: Last known good version
+
+```javascript
+// Factory version resolver pseudocode
+function resolveIntegrationVersion(manifest, context) {
+  if (context.override) return context.override;
+  if (context.featureFlags[manifest.feature_flag]) return manifest.feature_version;
+  if (manifest.routing) return applyRoutingRules(manifest.routing, context);
+  if (manifest.active_version) return manifest.active_version;
+  return manifest.versions.find(v => v.status === 'stable');
+}
+```
+
 ## Benefits of This Approach
 
 1. **Maintains Single Source of Truth**: Concept phase remains authoritative for what exists

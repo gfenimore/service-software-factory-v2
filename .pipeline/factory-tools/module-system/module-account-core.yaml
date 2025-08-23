@@ -1,0 +1,329 @@
+# Account Core Module - The Foundation
+# Accounts are the center - everything else relates to them
+
+module:
+  id: account-core
+  name: Account Management Core
+  version: 1.0.0
+  description: Core account management with contacts and locations as sub-modules
+  
+  # Account is the PRIMARY entity
+  entities:
+    owned:
+      - Account
+      - AccountLocation      # Accounts have locations
+      - AccountContact       # Contacts belong to accounts
+      - LocationContact      # Contacts work at locations
+    
+    referenced:
+      - Territory           # Future: for assignment
+      - User               # Future: for ownership
+  
+  # Sub-modules for logical grouping
+  sub_modules:
+    
+    # Sub-module 1: Basic Account
+    account-basic:
+      description: Just account CRUD without relationships
+      entities: [Account]
+      views:
+        - account-list
+        - account-detail
+        - account-form
+      business_rules:
+        - account-validation
+        - account-states
+    
+    # Sub-module 2: Account + Locations
+    account-locations:
+      description: Accounts with service locations
+      entities: [Account, AccountLocation]
+      views:
+        - account-detail-with-locations
+        - location-list
+        - location-form
+      business_rules:
+        - location-validation
+        - primary-location-rules
+    
+    # Sub-module 3: Account + Contacts
+    account-contacts:
+      description: Contacts in context of accounts
+      entities: [Account, AccountContact]
+      views:
+        - account-detail-with-contacts
+        - contact-list-for-account
+        - contact-form
+      business_rules:
+        - contact-validation
+        - primary-contact-rules
+    
+    # Sub-module 4: Full Integration
+    account-complete:
+      description: Accounts + Locations + Contacts
+      entities: [Account, AccountLocation, AccountContact, LocationContact]
+      views:
+        - account-dashboard
+        - account-full-detail
+        - location-with-contacts
+      business_rules:
+        - contact-location-assignment
+        - account-hierarchy-rules
+
+  # Progressive build order
+  build_sequence:
+    phase1: account-basic       # Week 1: Just accounts
+    phase2: account-locations   # Week 2: Add locations
+    phase3: account-contacts    # Week 3: Add contacts
+    phase4: account-complete    # Week 4: Full integration
+
+# ============================================
+# PHASE 1: Account Basic Implementation
+# ============================================
+
+account_basic:
+  entities:
+    Account:
+      accountId: 
+        type: uuid
+        primaryKey: true
+      accountNumber:
+        type: string
+        generated: ACC-{YYYY}-{0000}
+      accountName:
+        type: string
+        required: true
+        unique: true
+        maxLength: 100
+      accountType:
+        type: enum
+        options: [Standard, Premium, Enterprise]
+        required: true
+      status:
+        type: enum
+        options: [Prospect, Active, Suspended, Closed]
+        default: Prospect
+      annualRevenue:
+        type: decimal
+        required_when: accountType == 'Enterprise'
+  
+  business_rules:
+    validation:
+      required: [accountName, accountType]
+      unique: [accountName, accountNumber]
+    
+    states:
+      Prospect: [Active, Closed]
+      Active: [Suspended, Closed]
+      Suspended: [Active, Closed]
+      Closed: []  # Terminal
+    
+    conditional:
+      - when: accountType == 'Enterprise'
+        require: [annualRevenue, creditLimit]
+  
+  views:
+    account-list:
+      display: [accountNumber, accountName, accountType, status]
+      actions: [create, view, edit]
+      navigation:
+        rowClick: account-detail
+
+# ============================================
+# PHASE 2: Add Locations to Accounts
+# ============================================
+
+account_locations:
+  entities:
+    AccountLocation:
+      locationId:
+        type: uuid
+        primaryKey: true
+      accountId:
+        type: uuid
+        foreignKey: Account.accountId
+        required: true
+      locationName:
+        type: string
+        required: true
+      locationType:
+        type: enum
+        options: [Headquarters, Branch, Warehouse, Retail]
+      address:
+        type: string
+        required: true
+      city:
+        type: string
+        required: true
+      state:
+        type: string
+        required: true
+      isPrimary:
+        type: boolean
+        default: false
+  
+  business_rules:
+    validation:
+      required: [locationName, address, city, state]
+    
+    logic:
+      # Only one primary location per account
+      onSetPrimary:
+        - action: clearOtherPrimary
+          condition: isPrimary == true
+      
+      # Can't delete primary location
+      onDelete:
+        - preventIf: isPrimary == true
+          message: Cannot delete primary location
+  
+  views:
+    account-detail-with-locations:
+      sections:
+        - account-info
+        - locations-list
+      
+      locations-list:
+        display: [locationName, locationType, city, state, isPrimary]
+        actions: [add-location, edit-location, set-primary]
+
+# ============================================
+# PHASE 3: Add Contacts to Accounts
+# ============================================
+
+account_contacts:
+  entities:
+    AccountContact:
+      contactId:
+        type: uuid
+        primaryKey: true
+      accountId:
+        type: uuid
+        foreignKey: Account.accountId
+        required: true
+      firstName:
+        type: string
+        required: true
+      lastName:
+        type: string
+        required: true
+      email:
+        type: email
+        required: true
+        unique: true
+      phone:
+        type: string
+      title:
+        type: string
+      isPrimary:
+        type: boolean
+        default: false
+      status:
+        type: enum
+        options: [Active, Inactive]
+        default: Active
+  
+  business_rules:
+    validation:
+      required: [firstName, lastName, email]
+      unique: [email]
+    
+    logic:
+      # Only one primary contact per account
+      onSetPrimary:
+        - action: clearOtherPrimary
+          condition: isPrimary == true
+      
+      # Email format validation
+      email:
+        pattern: ^[^@]+@[^@]+\.[^@]+$
+  
+  views:
+    contact-list-for-account:
+      filter: accountId = current.accountId
+      display: [firstName, lastName, email, title, isPrimary]
+      actions: [add-contact, edit-contact, set-primary]
+
+# ============================================
+# PHASE 4: Full Integration
+# ============================================
+
+account_complete:
+  entities:
+    LocationContact:
+      locationContactId:
+        type: uuid
+        primaryKey: true
+      locationId:
+        type: uuid
+        foreignKey: AccountLocation.locationId
+      contactId:
+        type: uuid
+        foreignKey: AccountContact.contactId
+      role:
+        type: enum
+        options: [Manager, Supervisor, Technician, Admin]
+  
+  business_rules:
+    # Contact can be assigned to multiple locations
+    # Location can have multiple contacts
+    # But each assignment is unique
+    validation:
+      unique: [locationId + contactId]
+  
+  views:
+    location-with-contacts:
+      display:
+        location: [locationName, address]
+        contacts: [firstName, lastName, role]
+      
+      actions:
+        - assign-contact
+        - remove-contact
+        - change-role
+
+# ============================================
+# Module Navigation Structure
+# ============================================
+
+navigation:
+  # Phase 1: Just Accounts
+  phase1:
+    main_menu:
+      - Accounts → account-list
+  
+  # Phase 2: Accounts + Locations  
+  phase2:
+    main_menu:
+      - Accounts → account-list
+    account_detail:
+      tabs:
+        - Details
+        - Locations → location-list
+  
+  # Phase 3: Accounts + Contacts
+  phase3:
+    main_menu:
+      - Accounts → account-list
+    account_detail:
+      tabs:
+        - Details
+        - Locations → location-list
+        - Contacts → contact-list
+  
+  # Phase 4: Full Integration
+  phase4:
+    main_menu:
+      - Accounts → account-dashboard
+    account_dashboard:
+      sections:
+        - account-summary
+        - primary-location
+        - primary-contact
+        - recent-activity
+    account_detail:
+      tabs:
+        - Details
+        - Locations → location-list
+        - Contacts → contact-list
+        - Location Assignments → location-contact-matrix
