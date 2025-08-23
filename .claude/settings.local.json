@@ -62,7 +62,8 @@
       "Bash(npx -y tsc --noEmit --jsx react --esModuleInterop --skipLibCheck components/AccountListView.tsx)",
       "Bash(npx -y typescript tsc:*)",
       "Bash(npx tsc:*)",
-      "Bash(npm init:*)"
+      "Bash(npm init:*)",
+      "Bash(git ls-tree:*)"
     ],
     "deny": [],
     "additionalDirectories": [
