@@ -134,19 +134,19 @@ class PrototypeDatabaseGenerator {
     };
     
     // Check entity exists in BUSM
-    const busmEntity = this.busmModel.entities[this.moduleConfig.entity];
+    const busmEntity = this.busmModel.entities[this.moduleConfig.entity.name];
     if (!busmEntity) {
       validation.errors.push({
         type: 'MISSING_ENTITY',
-        message: `Entity '${this.moduleConfig.entity}' not found in BUSM`
+        message: `Entity '${this.moduleConfig.entity.name}' not found in BUSM`
       });
       validation.hasErrors = true;
       return validation;
     }
     
     // Validate each field
-    this.moduleConfig.fields.forEach(field => {
-      const busmField = busmEntity.fields.find(f => f.name === field.name);
+    this.moduleConfig.entity.fields.forEach(field => {
+      const busmField = busmEntity.fields[field.name];
       
       if (!busmField) {
         validation.warnings.push({
@@ -154,15 +154,14 @@ class PrototypeDatabaseGenerator {
           message: `Field '${field.name}' not found in BUSM`,
           field: field.name
         });
-      } else if (field.type !== busmField.type) {
+      } else if (field.type !== busmField.type && field.type !== 'enum') {
+        // Skip type check for enums as they map to strings in DB
         validation.warnings.push({
           type: 'TYPE_MISMATCH',
           message: `Field '${field.name}' type mismatch (module: ${field.type}, BUSM: ${busmField.type})`,
           field: field.name,
-          resolution: 'Using BUSM type'
+          resolution: 'Using module type'
         });
-        // Auto-fix: use BUSM type
-        field.type = busmField.type;
       }
     });
     
@@ -173,12 +172,12 @@ class PrototypeDatabaseGenerator {
 
   buildSchema() {
     const schema = {};
-    const entityName = this.moduleConfig.entity.toLowerCase();
+    const entityName = this.moduleConfig.entity.name.toLowerCase();
     
     // Build table schema
     schema[entityName] = {
       name: entityName,
-      fields: this.moduleConfig.fields.map(field => ({
+      fields: this.moduleConfig.entity.fields.map(field => ({
         name: this.toSnakeCase(field.name),
         type: this.mapFieldType(field.type),
         required: field.required || false,
@@ -251,10 +250,15 @@ class PrototypeDatabaseGenerator {
     table.fields.forEach((field, index) => {
       let fieldDef = `  ${field.name} ${field.type}`;
       
+      // Remove DEFAULT from type if it's already there (for UUID)
+      if (field.type.includes('DEFAULT')) {
+        fieldDef = `  ${field.name} ${field.type.split('DEFAULT')[0].trim()}`;
+      }
+      
       if (field.primaryKey) {
         fieldDef += ' PRIMARY KEY';
       }
-      if (field.defaultValue) {
+      if (field.defaultValue && !field.type.includes('DEFAULT')) {
         fieldDef += ` DEFAULT ${field.defaultValue}`;
       }
       if (field.required && !field.primaryKey) {
@@ -297,14 +301,14 @@ class PrototypeDatabaseGenerator {
     await fs.mkdir(this.config.outputPath, { recursive: true });
     
     // Generate migration filename
-    const filename = `${migrations.timestamp}_iter${this.config.iteration}_${this.moduleConfig.entity.toLowerCase()}.sql`;
+    const filename = `${migrations.timestamp}_iter${this.config.iteration}_${this.moduleConfig.entity.name.toLowerCase()}.sql`;
     const filepath = path.join(this.config.outputPath, filename);
     
     // Build migration content
     const content = [
       `-- Database Generator v1.0`,
-      `-- Module: ${this.moduleConfig.module}`,
-      `-- Entity: ${this.moduleConfig.entity}`,
+      `-- Module: ${this.moduleConfig.module.name || 'unknown'}`,
+      `-- Entity: ${this.moduleConfig.entity.name}`,
       `-- Iteration: ${this.config.iteration}`,
       `-- Generated: ${new Date().toISOString()}`,
       '',
@@ -383,37 +387,54 @@ class PrototypeDatabaseGenerator {
 
   // Helper methods
   parseYAML(content) {
-    // Simple YAML parser for our use case
-    const result = {};
+    // Enhanced YAML parser for nested module structure
+    const result = {
+      module: {},
+      entity: {
+        fields: []
+      }
+    };
+    
     const lines = content.split('\n');
     let currentSection = null;
-    let currentArray = null;
+    let currentField = null;
+    let inFieldsArray = false;
     
     lines.forEach(line => {
       const trimmed = line.trim();
       if (!trimmed || trimmed.startsWith('#')) return;
       
+      // Top-level sections
       if (!line.startsWith(' ') && line.endsWith(':')) {
         currentSection = line.slice(0, -1);
-        result[currentSection] = currentSection === 'fields' ? [] : {};
-        currentArray = currentSection === 'fields' ? result[currentSection] : null;
-      } else if (line.startsWith('  - ')) {
-        if (currentArray) {
-          const fieldLine = line.slice(4);
-          if (fieldLine.includes(':')) {
-            const [name, rest] = fieldLine.split(':').map(s => s.trim());
-            const parts = rest.split(' ');
-            currentArray.push({
-              name,
-              type: parts[0],
-              required: rest.includes('(required)')
-            });
-          }
-        }
-      } else if (line.startsWith('  ') && line.includes(':')) {
+        inFieldsArray = false;
+        currentField = null;
+      }
+      // Module properties
+      else if (currentSection === 'module' && line.startsWith('  ') && !line.startsWith('    ') && line.includes(':')) {
         const [key, value] = line.slice(2).split(':').map(s => s.trim());
-        if (currentSection && typeof result[currentSection] === 'object' && !Array.isArray(result[currentSection])) {
-          result[currentSection][key] = value;
+        result.module[key] = value;
+      }
+      // Entity properties
+      else if (currentSection === 'entity') {
+        if (line === '  fields:') {
+          inFieldsArray = true;
+        } else if (line.startsWith('  ') && !line.startsWith('    ') && line.includes(':') && !inFieldsArray) {
+          const [key, value] = line.slice(2).split(':').map(s => s.trim());
+          result.entity[key] = value;
+        } else if (line.startsWith('    - name:')) {
+          // Start of a new field
+          currentField = {
+            name: line.split('name:')[1].trim()
+          };
+          result.entity.fields.push(currentField);
+        } else if (currentField && line.startsWith('      ')) {
+          // Field properties
+          const [key, ...valueParts] = line.trim().split(':');
+          const value = valueParts.join(':').trim();
+          if (key && value) {
+            currentField[key] = value === 'true' ? true : value === 'false' ? false : value;
+          }
         }
       }
     });
@@ -424,11 +445,11 @@ class PrototypeDatabaseGenerator {
   extractRelationships() {
     const relationships = [];
     
-    this.moduleConfig.fields.forEach(field => {
+    this.moduleConfig.entity.fields.forEach(field => {
       if (field.name.endsWith('Id') && field.name !== 'id') {
         const targetEntity = field.name.slice(0, -2);
         relationships.push({
-          from: this.moduleConfig.entity,
+          from: this.moduleConfig.entity.name,
           to: targetEntity,
           field: field.name,
           type: 'many-to-one'
