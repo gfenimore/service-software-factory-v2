@@ -1,0 +1,155 @@
+# Business Rules for Account Entity
+# Example v1 Configuration
+
+entity: Account
+version: 1.0.0
+created: 2025-01-23
+
+# Validation Rules
+validation:
+  required:
+    - accountName
+    - accountType
+  
+  unique:
+    - accountName
+  
+  patterns:
+    accountName: ^[A-Za-z0-9\s\-\.]+$
+    
+  messages:
+    accountName:
+      required: "Account name is required"
+      unique: "Account name already exists"
+      pattern: "Account name can only contain letters, numbers, spaces, hyphens, and periods"
+
+# State Transitions
+states:
+  initial: Draft
+  
+  transitions:
+    Draft:
+      to: [Active, Cancelled]
+      conditions:
+        Active: "accountName && accountType"  # Can only activate with required fields
+    
+    Active:
+      to: [Suspended, Closed]
+      conditions:
+        Suspended: "hasNoOpenOpportunities()"
+    
+    Suspended:
+      to: [Active]
+      conditions:
+        Active: "approvalReceived"
+    
+    Cancelled:
+      to: []  # Terminal state
+    
+    Closed:
+      to: []  # Terminal state
+
+# Conditional Requirements
+conditional:
+  - name: Enterprise Requirements
+    when: accountType == 'Enterprise'
+    require:
+      - annualRevenue
+      - taxId
+      - creditLimit
+    message: "Enterprise accounts require financial information"
+  
+  - name: International Requirements  
+    when: country != 'US'
+    require:
+      - vatNumber
+      - currency
+    message: "International accounts require VAT and currency"
+
+# Business Logic
+logic:
+  onCreate:
+    - action: setState
+      value: Draft
+    
+    - action: generateField
+      field: accountNumber
+      format: ACC-{YYYY}-{SEQUENCE:4}
+    
+    - action: setTimestamp
+      field: createdAt
+    
+    - action: log
+      message: "New account created: {accountName}"
+  
+  onUpdate:
+    - action: setTimestamp
+      field: updatedAt
+    
+    - action: validateState
+      message: "Cannot edit cancelled accounts"
+      condition: status != 'Cancelled'
+  
+  onDelete:
+    - action: preventIf
+      condition: hasRelated('Opportunity', 'status != Closed')
+      message: "Cannot delete account with open opportunities"
+    
+    - action: preventIf
+      condition: hasRelated('Invoice', 'status = Unpaid')
+      message: "Cannot delete account with unpaid invoices"
+    
+    - action: cascadeDelete
+      entities: [Contact, Note, Activity]
+      
+  onStateChange:
+    Draft_to_Active:
+      - action: sendNotification
+        template: welcome_email
+        to: primaryContact.email
+      
+      - action: createTask
+        title: "Initial account review"
+        assignTo: accountManager
+        dueIn: 7 # days
+    
+    Active_to_Suspended:
+      - action: blockTransactions
+      - action: notifyAccountManager
+      - action: log
+        level: warning
+        message: "Account suspended: {accountName}"
+
+# Calculations
+calculations:
+  - field: accountScore
+    formula: |
+      baseScore = 50
+      if (annualRevenue > 1000000) baseScore += 20
+      if (accountType == 'Enterprise') baseScore += 15
+      if (yearsSinceCreated() > 2) baseScore += 10
+      return baseScore
+    
+    triggers: [annualRevenue, accountType]
+  
+  - field: creditRemaining
+    formula: creditLimit - currentBalance
+    triggers: [creditLimit, currentBalance]
+
+# Display Hints for Concept Line
+display_hints:
+  list_view:
+    - show_state_indicator: true
+    - show_required_fields: true
+    - show_blocked_actions: true
+  
+  form_view:
+    - show_required_asterisk: true
+    - show_field_hints: true
+    - show_conditional_sections: true
+    - show_validation_messages: true
+  
+  detail_view:
+    - show_allowed_transitions: true
+    - show_calculated_fields: true
+    - show_audit_trail: false  # v2 feature
