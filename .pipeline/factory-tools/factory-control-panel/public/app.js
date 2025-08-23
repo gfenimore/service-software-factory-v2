@@ -43,6 +43,11 @@ function displayEntities() {
     const entityList = document.getElementById('entityList');
     entityList.innerHTML = '';
     
+    if (!entities || entities.length === 0) {
+        entityList.innerHTML = '<div class="entity-item">No entities loaded. Check server connection.</div>';
+        return;
+    }
+    
     entities.forEach(entity => {
         const div = document.createElement('div');
         div.className = 'entity-item';
@@ -317,9 +322,14 @@ async function loadModuleCount() {
     try {
         const response = await fetch('/api/modules');
         const data = await response.json();
-        document.getElementById('moduleCount').textContent = data.modules.length;
+        if (data && data.modules) {
+            document.getElementById('moduleCount').textContent = data.modules.length;
+        } else {
+            document.getElementById('moduleCount').textContent = '0';
+        }
     } catch (error) {
         console.error('Failed to load modules:', error);
+        document.getElementById('moduleCount').textContent = '0';
     }
 }
 

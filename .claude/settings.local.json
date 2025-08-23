@@ -63,7 +63,8 @@
       "Bash(npx -y typescript tsc:*)",
       "Bash(npx tsc:*)",
       "Bash(npm init:*)",
-      "Bash(git ls-tree:*)"
+      "Bash(git ls-tree:*)",
+      "Read(/c:\\Users\\GarryFenimore\\Downloads/**)"
     ],
     "deny": [],
     "additionalDirectories": [

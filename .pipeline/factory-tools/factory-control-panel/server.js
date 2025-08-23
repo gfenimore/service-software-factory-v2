@@ -10,6 +10,11 @@ const fs = require('fs').promises;
 const app = express();
 const PORT = 3000;
 
+// Get the absolute path to the factory-tools directory
+// Using forward slashes which work in Node on Windows
+const PROJECT_ROOT = 'C:/Users/GarryFenimore/Projects/service-software-factory-v2';
+const FACTORY_TOOLS_DIR = PROJECT_ROOT + '/.pipeline/factory-tools';
+
 // Middleware
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -29,7 +34,8 @@ let currentBuild = {
 // Get BUSM entities
 app.get('/api/busm/entities', async (req, res) => {
   try {
-    const busmPath = path.join(__dirname, '../busm-reader/busm-model.json');
+    const busmPath = path.join(FACTORY_TOOLS_DIR, 'busm-reader', 'busm-model.json');
+    console.log('Trying to load BUSM from:', busmPath);
     const busmData = await fs.readFile(busmPath, 'utf8');
     const busm = JSON.parse(busmData);
     
@@ -56,7 +62,7 @@ app.get('/api/busm/entities', async (req, res) => {
 // Get existing modules
 app.get('/api/modules', async (req, res) => {
   try {
-    const modulePath = path.join(__dirname, '../module-system');
+    const modulePath = path.join(FACTORY_TOOLS_DIR, 'module-system');
     const files = await fs.readdir(modulePath);
     const modules = files
       .filter(f => f.endsWith('.yaml'))
@@ -168,7 +174,7 @@ async function createModuleConfig(entity, fields, phase) {
   
   const yaml = generateYAML(moduleConfig);
   const fileName = `${entity.toLowerCase()}-module-phase${phase}-ui.yaml`;
-  const filePath = path.join(__dirname, '../module-system', fileName);
+  const filePath = path.join(FACTORY_TOOLS_DIR, 'module-system', fileName);
   
   await fs.writeFile(filePath, yaml);
   addLog(`Created module config: ${fileName}`);
@@ -177,7 +183,7 @@ async function createModuleConfig(entity, fields, phase) {
 // Generate database using our Database Generator
 async function generateDatabase(entity, phase) {
   return new Promise((resolve, reject) => {
-    const command = `node ${path.join(__dirname, '../database-generator/index.js')} ${entity.toLowerCase()} ${phase} 1`;
+    const command = `node ${path.join(FACTORY_TOOLS_DIR, 'database-generator', 'index.js')} ${entity.toLowerCase()} ${phase} 1`;
     
     exec(command, (error, stdout, stderr) => {
       if (error) {
