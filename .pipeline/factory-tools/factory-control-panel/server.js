@@ -11,9 +11,8 @@ const app = express();
 const PORT = 3000;
 
 // Get the absolute path to the factory-tools directory
-// Using forward slashes which work in Node on Windows
-const PROJECT_ROOT = 'C:/Users/GarryFenimore/Projects/service-software-factory-v2';
-const FACTORY_TOOLS_DIR = PROJECT_ROOT + '/.pipeline/factory-tools';
+// Use path.resolve for robust cross-platform resolution
+const FACTORY_TOOLS_DIR = path.resolve(__dirname, '..');
 
 // Middleware
 app.use(express.json());
@@ -31,11 +30,25 @@ let currentBuild = {
 
 // API Routes
 
+// Debug endpoint to check paths
+app.get('/api/debug', (req, res) => {
+  const testPath = path.join(FACTORY_TOOLS_DIR, 'busm-reader', 'busm-model.json');
+  res.json({
+    __dirname: __dirname,
+    FACTORY_TOOLS_DIR: FACTORY_TOOLS_DIR,
+    testPath: testPath,
+    exists: require('fs').existsSync(testPath),
+    cwd: process.cwd()
+  });
+});
+
 // Get BUSM entities
 app.get('/api/busm/entities', async (req, res) => {
   try {
-    const busmPath = FACTORY_TOOLS_DIR + '/busm-reader/busm-model.json';
+    const busmPath = path.join(FACTORY_TOOLS_DIR, 'busm-reader', 'busm-model.json');
     console.log('Trying to load BUSM from:', busmPath);
+    console.log('FACTORY_TOOLS_DIR:', FACTORY_TOOLS_DIR);
+    console.log('__dirname:', __dirname);
     const busmData = await fs.readFile(busmPath, 'utf8');
     const busm = JSON.parse(busmData);
     
@@ -62,7 +75,7 @@ app.get('/api/busm/entities', async (req, res) => {
 // Get existing modules
 app.get('/api/modules', async (req, res) => {
   try {
-    const modulePath = FACTORY_TOOLS_DIR + '/module-system';
+    const modulePath = path.join(FACTORY_TOOLS_DIR, 'module-system');
     const files = await fs.readdir(modulePath);
     const modules = files
       .filter(f => f.endsWith('.yaml'))
