@@ -1,0 +1,211 @@
+module:
+  id: account-management-phase1
+  name: Account Management Phase 1
+  version: 1.0.0
+  description: Core account management functionality - Phase 1
+  phase: 1
+  generatedFrom: BUSM
+  generatedAt: 2025-08-23T17:27:25.899Z
+entity:
+  name: Account
+  source: BUSM.Account
+  phase: 1
+  fields:
+    - name: id
+      type: uuid
+      required: true
+      source: BUSM.Account.id
+      description: Unique account identifier
+    - name: accountNumber
+      type: string
+      required: true
+      source: BUSM.Account.accountNumber
+      constraints:
+        pattern: ^ACC-[0-9]{6}$
+      description: System-generated account number
+    - name: accountName
+      type: string
+      required: true
+      source: BUSM.Account.accountName
+      constraints:
+        minLength: 3
+        maxLength: 100
+      description: Legal name of the account
+    - name: accountType
+      type: enum
+      required: true
+      source: BUSM.Account.accountType
+      enum: AccountType
+      description: Type of account
+    - name: status
+      type: enum
+      required: true
+      source: BUSM.Account.status
+      enum: AccountStatus
+      description: Current account status
+    - name: email
+      type: email
+      required: false
+      source: BUSM.Account.email
+      validation:
+        - pattern: ^[\w\.]+@[\w\.]+\.[a-z]{2,}$
+          message: Invalid email format
+      description: Primary email address
+    - name: phone
+      type: phone
+      required: false
+      source: BUSM.Account.phone
+      validation:
+        - pattern: ^\+?[1-9]\d{1,14}$
+          message: Invalid phone format
+      description: Primary phone number
+    - name: address
+      type: string
+      required: false
+      source: BUSM.Account.address
+      constraints:
+        maxLength: 500
+      description: Primary address
+    - name: city
+      type: string
+      required: false
+      source: BUSM.Account.city
+      constraints:
+        maxLength: 100
+    - name: state
+      type: string
+      required: false
+      source: BUSM.Account.state
+      constraints:
+        maxLength: 50
+    - name: zipCode
+      type: string
+      required: false
+      source: BUSM.Account.zipCode
+      constraints:
+        pattern: ^\d{5}(-\d{4})?$
+    - name: ownerId
+      type: uuid
+      required: true
+      source: BUSM.Account.ownerId
+      description: Account owner
+    - name: createdBy
+      type: uuid
+      required: true
+      source: BUSM.Account.createdBy
+    - name: createdAt
+      type: datetime
+      required: true
+      source: BUSM.Account.createdAt
+views:
+  - type: list
+    name: account-list
+    entity: Account
+    title: Account List
+    fields:
+      - accountName
+      - accountType
+      - status
+      - email
+  - type: detail
+    name: account-detail
+    entity: Account
+    title: Account Details
+    sections:
+      - title: Basic Information
+        fields:
+          - accountName
+          - accountType
+          - status
+      - title: Contact Information
+        fields:
+          - email
+          - phone
+          - address
+          - city
+          - state
+          - zipCode
+  - type: form
+    name: account-form
+    entity: Account
+    title: Account Form
+    fields:
+      - id
+      - accountNumber
+      - accountName
+      - accountType
+      - status
+      - email
+      - phone
+      - address
+      - city
+      - state
+      - zipCode
+      - ownerId
+  - type: table
+    name: account-table
+    entity: Account
+    title: Account Table
+    columns:
+      - field: accountName
+        label: Name
+        sortable: true
+      - field: accountType
+        label: Type
+        sortable: true
+      - field: status
+        label: Status
+        sortable: true
+      - field: email
+        label: Email
+      - field: phone
+        label: Phone
+businessRules:
+  validation:
+    required:
+      - id
+      - accountNumber
+      - accountName
+      - accountType
+      - status
+      - ownerId
+      - createdBy
+      - createdAt
+  enums:
+    accountType:
+      - Residential
+      - Commercial
+      - Industrial
+      - Government
+      - Non-Profit
+      - Other
+    status:
+      - Pending
+      - Active
+      - Inactive
+      - Suspended
+      - Archived
+  stateTransitions:
+    status:
+      Pending:
+        - Active
+        - Inactive
+      Active:
+        - Inactive
+        - Suspended
+      Inactive:
+        - Active
+        - Archived
+      Suspended:
+        - Active
+        - Inactive
+      Archived: []
+navigation:
+  mainMenu:
+    - label: Accounts
+      view: account-list
+      icon: building
+  dashboardWidgets:
+    - recent-accounts
+    - accounts-by-type
+    - accounts-by-status
