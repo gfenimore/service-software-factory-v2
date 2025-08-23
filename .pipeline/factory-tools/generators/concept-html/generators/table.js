@@ -25,7 +25,22 @@ function generateTable(config) {
     
     // Add header columns
     fields.forEach(field => {
-        const dataAttrs = `data-entity="${field.entity}" data-field="${field.field}" data-type="${field.type}"`;
+        let dataAttrs = `data-entity="${field.entity}" data-field="${field.field}" data-type="${field.type}"`;
+        
+        // Add integration attributes if present
+        if (field.integration) {
+            dataAttrs += ` data-integration="${field.integration.type}"`;
+            if (field.integration.required !== undefined) {
+                dataAttrs += ` data-integration-required="${field.integration.required}"`;
+            }
+            if (field.integration.capabilities && field.integration.capabilities.length > 0) {
+                dataAttrs += ` data-integration-capabilities="${field.integration.capabilities.join(',')}"`;
+            }
+            if (field.integration.dependsOn && field.integration.dependsOn.length > 0) {
+                dataAttrs += ` data-depends-on="${field.integration.dependsOn.join(',')}"`;
+            }
+        }
+        
         html += `
                     <th ${dataAttrs}>${field.label}</th>`;
     });

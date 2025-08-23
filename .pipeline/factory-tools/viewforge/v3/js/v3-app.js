@@ -301,7 +301,8 @@ function selectField(entityKey, fieldKey, field, isRelated = false) {
         field: fieldKey,
         label: isRelated ? `${entityKey}.${field.label}` : field.label,
         type: field.type,
-        isRelated: isRelated
+        isRelated: isRelated,
+        integration: null  // Will be set if integration is added
     };
     
     // Check if already selected
@@ -310,6 +311,14 @@ function selectField(entityKey, fieldKey, field, isRelated = false) {
     );
     
     if (!exists) {
+        // Check for suggested integrations
+        if (typeof IntegrationHelpers !== 'undefined') {
+            const suggestions = IntegrationHelpers.suggestIntegrations(fieldKey, field.type);
+            if (suggestions.length > 0 && suggestions[0].confidence === 'high') {
+                fieldObj.suggestedIntegration = suggestions[0].type;
+            }
+        }
+        
         AppState.configuration.selectedFields.push(fieldObj);
         updateSelectedFieldsDisplay();
         updateSummary();
@@ -323,12 +332,96 @@ function updateSelectedFieldsDisplay() {
     AppState.configuration.selectedFields.forEach((field, index) => {
         const fieldDiv = document.createElement('div');
         fieldDiv.className = 'field-item selected';
+        
+        // Build integration display
+        let integrationHtml = '';
+        if (field.integration) {
+            integrationHtml = `
+                <div style="margin-top: 5px; font-size: 12px; color: #666;">
+                    ⚡ Integration: ${field.integration.type}
+                    <button onclick="removeIntegration(${index})" style="margin-left: 5px; font-size: 10px;">Remove</button>
+                </div>
+            `;
+        } else if (field.suggestedIntegration) {
+            integrationHtml = `
+                <div style="margin-top: 5px; font-size: 12px; color: #999;">
+                    💡 Suggested: ${field.suggestedIntegration}
+                    <button onclick="addIntegration(${index}, '${field.suggestedIntegration}')" style="margin-left: 5px; font-size: 10px;">Add</button>
+                </div>
+            `;
+        } else {
+            integrationHtml = `
+                <div style="margin-top: 5px; font-size: 12px;">
+                    <button onclick="showIntegrationOptions(${index})" style="font-size: 10px;">+ Add Integration</button>
+                </div>
+            `;
+        }
+        
         fieldDiv.innerHTML = `
             <strong>${field.label}</strong>
             <button style="float: right;" onclick="removeField(${index})">Remove</button>
+            ${integrationHtml}
         `;
         selectedList.appendChild(fieldDiv);
     });
+}
+
+// New integration management functions
+function addIntegration(fieldIndex, integrationType) {
+    const field = AppState.configuration.selectedFields[fieldIndex];
+    field.integration = {
+        type: integrationType,
+        required: true,
+        capabilities: []
+    };
+    
+    // Get capabilities from integration type
+    if (typeof IntegrationHelpers !== 'undefined') {
+        const integrationDef = IntegrationHelpers.getIntegration(integrationType);
+        if (integrationDef) {
+            field.integration.capabilities = integrationDef.capabilities || [];
+        }
+    }
+    
+    delete field.suggestedIntegration;
+    updateSelectedFieldsDisplay();
+    updateSummary();
+}
+
+function removeIntegration(fieldIndex) {
+    const field = AppState.configuration.selectedFields[fieldIndex];
+    field.integration = null;
+    updateSelectedFieldsDisplay();
+    updateSummary();
+}
+
+function showIntegrationOptions(fieldIndex) {
+    const field = AppState.configuration.selectedFields[fieldIndex];
+    
+    // Create a simple dialog to select integration type
+    const integrationTypes = typeof IntegrationHelpers !== 'undefined' 
+        ? IntegrationHelpers.getAllTypes()
+        : ['address-validation', 'phone-validation', 'email-validation', 'geographic-display'];
+    
+    const selected = prompt(
+        `Select integration type for ${field.label}:\n\n` +
+        integrationTypes.map((t, i) => `${i+1}. ${t}`).join('\n') +
+        '\n\nEnter number or type name:'
+    );
+    
+    if (selected) {
+        let integrationType;
+        const num = parseInt(selected);
+        if (!isNaN(num) && num > 0 && num <= integrationTypes.length) {
+            integrationType = integrationTypes[num - 1];
+        } else if (integrationTypes.includes(selected)) {
+            integrationType = selected;
+        }
+        
+        if (integrationType) {
+            addIntegration(fieldIndex, integrationType);
+        }
+    }
 }
 
 function removeField(index) {

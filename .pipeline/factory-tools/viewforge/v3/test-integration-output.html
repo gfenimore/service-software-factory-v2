@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ViewForge Integration Test Output</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-case {
+            background: white;
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #000;
+            padding-bottom: 5px;
+        }
+        pre {
+            background: #f0f0f0;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        .integration-highlight {
+            background: yellow;
+            padding: 2px 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ViewForge Integration Support - Test Output</h1>
+    
+    <div class="test-case">
+        <h2>Test Case 1: Field with Address Validation</h2>
+        <p>This demonstrates a service address field with address-validation integration:</p>
+        <pre><code>&lt;div class="field-group" 
+     data-entity="serviceLocation" 
+     data-field="address" 
+     data-type="string"
+     <span class="integration-highlight">data-integration="address-validation"</span>
+     <span class="integration-highlight">data-integration-required="true"</span>
+     <span class="integration-highlight">data-integration-capabilities="autocomplete,validation,geocoding"</span>&gt;
+    &lt;label&gt;Service Address&lt;/label&gt;
+    &lt;input type="text" name="address" /&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+    
+    <div class="test-case">
+        <h2>Test Case 2: Map Display with Dependencies</h2>
+        <p>This shows a geographic display that depends on the address field:</p>
+        <pre><code>&lt;div class="section-map"
+     data-entity="serviceLocation"
+     data-section="territoryMap"
+     <span class="integration-highlight">data-integration="geographic-display"</span>
+     <span class="integration-highlight">data-depends-on="address"</span>
+     <span class="integration-highlight">data-integration-required="false"</span>
+     <span class="integration-highlight">data-integration-capabilities="markers,clustering,routing,territories"</span>&gt;
+    &lt;!-- Map display placeholder --&gt;
+    &lt;div class="map-placeholder"&gt;[Map Display]&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+    
+    <div class="test-case">
+        <h2>Test Case 3: Table with Multiple Integrations</h2>
+        <p>A table where different columns have different integrations:</p>
+        <pre><code>&lt;table&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th data-field="accountName"&gt;Account Name&lt;/th&gt;
+            &lt;th data-field="phoneNumber" 
+                <span class="integration-highlight">data-integration="phone-validation"</span>
+                <span class="integration-highlight">data-integration-required="true"</span>&gt;Phone&lt;/th&gt;
+            &lt;th data-field="email" 
+                <span class="integration-highlight">data-integration="email-validation"</span>
+                <span class="integration-highlight">data-integration-required="true"</span>&gt;Email&lt;/th&gt;
+            &lt;th data-field="serviceAddress" 
+                <span class="integration-highlight">data-integration="address-validation"</span>
+                <span class="integration-highlight">data-integration-required="true"</span>&gt;Address&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Acme Corp&lt;/td&gt;
+            &lt;td&gt;555-0100&lt;/td&gt;
+            &lt;td&gt;contact@acme.com&lt;/td&gt;
+            &lt;td&gt;123 Main St&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+    </div>
+    
+    <div class="test-case">
+        <h2>Test Case 4: Configuration Export with Integrations</h2>
+        <p>Example of exported configuration including integration data:</p>
+        <pre><code>{
+  "version": "3.0.0",
+  "fields": [
+    {
+      "entity": "serviceLocation",
+      "field": "address",
+      "label": "Service Address",
+      "type": "string",
+      <span class="integration-highlight">"integration": {
+        "type": "address-validation",
+        "required": true,
+        "capabilities": ["autocomplete", "validation", "geocoding"]
+      }</span>
+    },
+    {
+      "entity": "account",
+      "field": "phoneNumber",
+      "label": "Phone Number",
+      "type": "string",
+      <span class="integration-highlight">"integration": {
+        "type": "phone-validation",
+        "required": true,
+        "capabilities": ["format", "validation", "carrier-lookup"]
+      }</span>
+    }
+  ],
+  <span class="integration-highlight">"integrations": [
+    {
+      "fieldName": "address",
+      "integrationType": "address-validation",
+      "required": true
+    },
+    {
+      "fieldName": "phoneNumber",
+      "integrationType": "phone-validation",
+      "required": true
+    }
+  ]</span>
+}</code></pre>
+    </div>
+    
+    <div class="test-case">
+        <h2>✅ Integration Support Verification</h2>
+        <p>The ViewForge v3 now supports:</p>
+        <ul>
+            <li>✓ Integration declarations in configuration</li>
+            <li>✓ data-integration attributes in generated HTML</li>
+            <li>✓ Dependency declarations (data-depends-on)</li>
+            <li>✓ Capability specifications</li>
+            <li>✓ Required/optional flags</li>
+            <li>✓ Auto-suggestion based on field names</li>
+            <li>✓ Integration types registry</li>
+        </ul>
+        
+        <p><strong>Ready for Integration Discovery Scanner!</strong></p>
+    </div>
+    
+</body>
+</html>
