@@ -60,13 +60,13 @@ busm:
     
     accountType:
       type: enum
-      options: [Residential, Commercial, Industrial, Agricultural, Other]
+      options: [Residential, Commercial, Industrial, Other]
       required: true
-      default: Standard
+      default: Residential
     
     status:
       type: enum
-      options: [Prospect, Active, Suspended, Closed]
+      options: [Active, Suspended, Prospect, Closed]
       default: Prospect
     
     # Minimal additional fields

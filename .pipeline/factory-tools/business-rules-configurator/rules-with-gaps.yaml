@@ -1,0 +1,111 @@
+# Business Rules with "Needs Definition" Markers
+# This shows how to mark rules that need stakeholder input
+
+entity: Account
+version: 1.0.0
+
+validation:
+  required:
+    - accountName
+    - accountType
+    - serviceAddress    # NEEDS DEFINITION: Is this always required?
+    
+  unique:
+    - accountName
+    - accountNumber
+    - taxId            # NEEDS DEFINITION: Should tax ID be unique per account?
+
+  patterns:
+    accountName: "^[A-Za-z0-9\\s\\-\\.\\&]+$"
+    phone: "NEEDS_DEFINITION"  # Ask: What phone format? (555) 555-5555 or 555-555-5555?
+    contractNumber: "NEEDS_DEFINITION"  # Ask: What's your contract numbering scheme?
+
+states:
+  Prospect:
+    transitions: [Active, Declined]
+    
+  Active:
+    transitions: [Suspended, Closed, "NEEDS_DEFINITION: Renewal?"]
+    
+  Suspended:
+    transitions: [Active, Closed]
+    needs_definition:
+      - "Can suspended accounts be deleted?"
+      - "Auto-reactivate after payment?"
+      
+  # NEEDS DEFINITION: Missing states?
+  # - OnHold (temporary pause?)
+  # - Seasonal (for seasonal customers?)
+
+conditional:
+  - name: Commercial Requirements
+    when: accountType == 'Commercial'
+    require: [taxId, creditLimit]
+    
+  - name: "NEEDS DEFINITION: Industrial Requirements"
+    when: accountType == 'Industrial'
+    require: ["NEEDS_DEFINITION"]
+    questions:
+      - "Do industrial accounts need special permits?"
+      - "Require insurance certificates?"
+      - "Environmental compliance docs?"
+
+logic:
+  onCreate:
+    - action: setState
+      value: Prospect
+    
+    - action: generateField
+      field: accountNumber
+      format: "ACC-{YYYY}-{0000}"
+      
+    - action: "NEEDS_DEFINITION"
+      questions:
+        - "Send welcome email?"
+        - "Assign to sales rep automatically?"
+        - "Create initial service ticket?"
+  
+  onDelete:
+    - action: preventIf
+      condition: "hasOpenInvoices"
+      message: "Cannot delete account with open invoices"
+      
+    - action: "NEEDS_DEFINITION"
+      questions:
+        - "What about completed service history - archive?"
+        - "Regulatory retention period?"
+        - "Notify accounting department?"
+
+business_decisions_needed:
+  high_priority:
+    - "Credit check required for Commercial accounts?"
+    - "Automatic suspension for non-payment after X days?"
+    - "Can Residential customers have multiple service addresses?"
+    
+  medium_priority:
+    - "Seasonal billing for some customers?"
+    - "Preferred customer status/tiers?"
+    - "Service level agreements (SLA) by account type?"
+    
+  low_priority:
+    - "Anniversary notifications?"
+    - "Loyalty program rules?"
+    - "Referral tracking?"
+
+# This section helps capture what stakeholders need to decide
+stakeholder_questions:
+  for_sales:
+    - "What disqualifies a Prospect?"
+    - "When does a Lead become a Prospect?"
+    
+  for_service:
+    - "Can we service any account type at any location?"
+    - "Minimum service contract duration?"
+    
+  for_finance:
+    - "Payment terms by account type?"
+    - "Credit limits approval process?"
+    
+  for_operations:
+    - "Service capacity constraints?"
+    - "Geographic service boundaries?"
