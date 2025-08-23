@@ -60,7 +60,7 @@ busm:
     
     accountType:
       type: enum
-      options: [Standard, Premium, Enterprise]
+      options: [Residential, Commercial, Industrial, Agricultural, Other]
       required: true
       default: Standard
     

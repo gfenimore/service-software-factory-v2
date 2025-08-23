@@ -3,12 +3,16 @@
   "version": "1.0.0",
   "main": "business-rules-parser.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test-parser.js",
+    "cli": "node rules-cli.js",
+    "edit": "node rules-cli.js",
+    "validate": "node test-parser.js",
+    "generate:phase1": "cd ../generators/concept-html && node test-phase1-account.js"
   },
-  "keywords": [],
+  "keywords": ["business-rules", "yaml", "parser"],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Business Rules Configuration System for Factory",
   "dependencies": {
     "js-yaml": "^4.1.0"
   }

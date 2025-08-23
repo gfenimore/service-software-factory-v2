@@ -860,3 +860,110 @@ warning: in the working copy of '.pipeline/auto-commit.log', LF will be replaced
 Auto-commit completed at Sat, Aug 23, 2025  7:04:59 AM
 ========================================
 Auto-commit started at Sat, Aug 23, 2025  7:19:59 AM
+warning: in the working copy of '.pipeline/auto-commit.log', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/.bin/js-yaml', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/.bin/js-yaml.ps1', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/.package-lock.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/argparse/CHANGELOG.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/argparse/LICENSE', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/argparse/README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/argparse/argparse.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/argparse/lib/sub.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/argparse/lib/textwrap.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/argparse/package.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/CHANGELOG.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/LICENSE', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/bin/js-yaml.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/dist/js-yaml.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/dist/js-yaml.min.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/dist/js-yaml.mjs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/index.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/common.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/dumper.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/exception.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/loader.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/schema.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/schema/core.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/schema/default.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/schema/failsafe.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/schema/json.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/snippet.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/binary.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/bool.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/float.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/int.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/map.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/merge.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/null.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/omap.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/pairs.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/seq.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/set.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/str.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/timestamp.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/package.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/package-lock.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/factory-tools/business-rules-configurator/package.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.claude/settings.local.json', LF will be replaced by CRLF the next time Git touches it
+Also staging .claude/ changes
+→ No staged files match any configured task.
+[feature/viewforge-2.0 6bdc048] checkpoint(pipeline): Auto-save at 07:19 - Updated: tools  (54 files)
+ 55 files changed, 19418 insertions(+), 1 deletion(-)
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/business-rules-parser.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/.bin/js-yaml
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/.bin/js-yaml.cmd
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/.bin/js-yaml.ps1
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/.package-lock.json
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/argparse/CHANGELOG.md
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/argparse/LICENSE
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/argparse/README.md
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/argparse/argparse.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/argparse/lib/sub.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/argparse/lib/textwrap.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/argparse/package.json
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/CHANGELOG.md
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/LICENSE
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/README.md
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/bin/js-yaml.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/dist/js-yaml.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/dist/js-yaml.min.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/dist/js-yaml.mjs
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/index.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/common.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/dumper.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/exception.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/loader.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/schema.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/schema/core.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/schema/default.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/schema/failsafe.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/schema/json.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/snippet.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/binary.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/bool.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/float.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/int.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/map.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/merge.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/null.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/omap.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/pairs.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/seq.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/set.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/str.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/lib/type/timestamp.js
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/node_modules/js-yaml/package.json
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/package-lock.json
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/package.json
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/test-parser.js
+ create mode 100644 .pipeline/factory-tools/module-system/MODULE-SYSTEM-PRD.md
+ create mode 100644 .pipeline/factory-tools/module-system/module-account-core.yaml
+ create mode 100644 .pipeline/factory-tools/module-system/module-example-contacts.yaml
+ create mode 100644 .pipeline/factory-tools/module-system/phase1-account-basic.yaml
+✅ Successfully committed: checkpoint(pipeline): Auto-save at 07:19 - Updated: tools  (54 files)
+Auto-commit completed at Sat, Aug 23, 2025  7:20:01 AM
+========================================
+Auto-commit started at Sat, Aug 23, 2025  7:35:01 AM
