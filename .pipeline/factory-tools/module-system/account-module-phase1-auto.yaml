@@ -5,7 +5,7 @@ module:
   description: Core account management functionality - Phase 1
   phase: 1
   generatedFrom: BUSM
-  generatedAt: 2025-08-23T17:27:25.899Z
+  generatedAt: 2025-08-23T18:21:28.208Z
 entity:
   name: Account
   source: BUSM.Account
