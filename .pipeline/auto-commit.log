@@ -984,3 +984,15 @@ warning: in the working copy of '.pipeline/generated/phase1-account/account-list
 Auto-commit completed at Sat, Aug 23, 2025  7:35:02 AM
 ========================================
 Auto-commit started at Sat, Aug 23, 2025  7:50:02 AM
+warning: in the working copy of '.pipeline/auto-commit.log', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/generated/phase1-account/account-list-with-rules.html', LF will be replaced by CRLF the next time Git touches it
+→ No staged files match any configured task.
+[feature/viewforge-2.0 e05162f] checkpoint(pipeline): Auto-save at 07:50 - Updated: tools outputs  (6 files)
+ 6 files changed, 464 insertions(+), 7 deletions(-)
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/quick-start.md
+ create mode 100644 .pipeline/factory-tools/business-rules-configurator/rules-with-gaps.yaml
+ create mode 100644 .pipeline/factory-tools/generators/concept-html/show-gaps-in-concept.js
+✅ Successfully committed: checkpoint(pipeline): Auto-save at 07:50 - Updated: tools outputs  (6 files)
+Auto-commit completed at Sat, Aug 23, 2025  7:50:04 AM
+========================================
+Auto-commit started at Sat, Aug 23, 2025  8:05:04 AM

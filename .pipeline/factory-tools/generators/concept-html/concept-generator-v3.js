@@ -6,11 +6,100 @@
 
 const BusinessRulesParser = require('../../business-rules-configurator/business-rules-parser.js');
 
+// Enhanced Gap Logger with Visual Display
+class VisualGapLogger {
+  constructor(existingLogger) {
+    this.gaps = existingLogger?.gaps || [];
+    this.originalLogger = existingLogger;
+  }
+  
+  log(gap) {
+    if (this.originalLogger?.log) {
+      this.originalLogger.log(gap);
+    }
+    this.gaps.push({
+      ...gap,
+      id: this.gaps.length + 1,
+      timestamp: new Date()
+    });
+  }
+  
+  getCurrentGaps() {
+    return this.originalLogger?.getCurrentGaps?.() || this.gaps;
+  }
+  
+  generateHTMLReport() {
+    const currentGaps = this.getCurrentGaps();
+    if (!currentGaps || currentGaps.length === 0) return '';
+    
+    const criticalGaps = currentGaps.filter(g => g.impact === 'HIGH' || g.impact === 'CRITICAL');
+    const mediumGaps = currentGaps.filter(g => g.impact === 'MEDIUM');
+    const lowGaps = currentGaps.filter(g => g.impact === 'LOW' || !g.impact);
+    
+    return `
+    <div style="background: #fff3cd; border: 2px solid #ffc107; border-radius: 8px; padding: 20px; margin: 20px 0;">
+      <h2 style="color: #856404; margin-bottom: 15px;">
+        🔍 ${currentGaps.length} Business Rules Need Definition
+      </h2>
+      
+      ${criticalGaps.length > 0 ? `
+      <div style="margin-bottom: 15px;">
+        <h3 style="color: #d32f2f;">Critical Gaps (Must Define)</h3>
+        ${criticalGaps.map(gap => this.renderGap(gap, '#ffebee')).join('')}
+      </div>` : ''}
+      
+      ${mediumGaps.length > 0 ? `
+      <div style="margin-bottom: 15px;">
+        <h3 style="color: #f57c00;">Medium Priority</h3>
+        ${mediumGaps.map(gap => this.renderGap(gap, '#fff3e0')).join('')}
+      </div>` : ''}
+      
+      ${lowGaps.length > 0 ? `
+      <div style="margin-bottom: 15px;">
+        <h3 style="color: #388e3c;">Low Priority</h3>
+        ${lowGaps.map(gap => this.renderGap(gap, '#e8f5e9')).join('')}
+      </div>` : ''}
+      
+      <div style="margin-top: 20px; padding: 10px; background: white; border-radius: 4px;">
+        <strong>What This Means:</strong>
+        <ul style="margin: 10px 0 0 20px;">
+          <li>These rules were not found in the configuration</li>
+          <li>The system made assumptions to continue</li>
+          <li>You should define these with stakeholders</li>
+          <li>Update the YAML with real business rules</li>
+        </ul>
+      </div>
+    </div>`;
+  }
+  
+  renderGap(gap, bgColor) {
+    return `
+    <div style="background: ${bgColor}; padding: 10px; margin: 5px 0; border-radius: 4px; border-left: 4px solid currentColor;">
+      <div style="display: flex; justify-content: space-between; align-items: start;">
+        <div>
+          <strong>${gap.category}</strong>
+          ${gap.entity ? `<span style="color: #666;"> (${gap.entity}${gap.field ? '.' + gap.field : ''})</span>` : ''}
+          <div style="margin-top: 5px; color: #666;">
+            ${gap.expected ? `<div>❓ Expected: ${gap.expected}</div>` : ''}
+            ${gap.assumption ? `<div>💭 Assumed: ${gap.assumption}</div>` : ''}
+            ${gap.suggestedFix ? `<div>💡 Fix: ${gap.suggestedFix}</div>` : ''}
+          </div>
+        </div>
+        <button onclick="alert('In real app: Add ${gap.category} to requirements doc')" 
+                style="padding: 4px 12px; background: white; border: 1px solid #ccc; border-radius: 4px; cursor: pointer;">
+          Flag for Discussion
+        </button>
+      </div>
+    </div>`;
+  }
+}
+
 class ConceptGeneratorV3 {
   constructor(viewForgeConfig, busm, gapLogger, rulesPath) {
     this.config = viewForgeConfig;
     this.busm = busm;
     this.gapLogger = gapLogger;
+    this.visualGapLogger = new VisualGapLogger(gapLogger);
     
     // Initialize Business Rules Parser
     this.rulesParser = new BusinessRulesParser(gapLogger);
@@ -90,6 +179,9 @@ class ConceptGeneratorV3 {
     if (this.ruleHints.showRequired || this.ruleHints.showStates) {
       html += this.generateRuleLegend();
     }
+    
+    // Show gap report if there are any gaps
+    html += this.visualGapLogger.generateHTMLReport();
     
     html += `
       <table class="data-table">
@@ -241,6 +333,9 @@ class ConceptGeneratorV3 {
       <div class="header">
         <h1>${this.config.title || 'Edit ' + this.config.entity}</h1>
       </div>`;
+    
+    // Show gap report if there are any gaps
+    html += this.visualGapLogger.generateHTMLReport();
     
     // Show what will happen on save
     const onCreateLogic = this.rulesParser?.getBusinessLogic(this.config.entity, 'onCreate') || [];
@@ -452,6 +547,8 @@ class ConceptGeneratorV3 {
     html += `
         </div>
       </div>
+      
+      ${this.visualGapLogger.generateHTMLReport()}
       
       <div class="detail-view">`;
     
@@ -768,6 +865,30 @@ class ConceptGeneratorV3 {
       padding: 15px;
       background: white;
       border-radius: 8px;
+    }
+    
+    /* Gap detection styles */
+    .needs-definition {
+      display: inline-block;
+      background: #fff3cd;
+      color: #856404;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      margin-left: 8px;
+      cursor: help;
+      border: 1px dashed #ffc107;
+    }
+    
+    .undefined-field {
+      border: 2px dashed #ffc107 !important;
+      background: #fffbf0 !important;
+    }
+    
+    .needs-rule {
+      color: #ff6b6b;
+      font-size: 12px;
+      margin-left: 8px;
     }
   </style>
 </head>
