@@ -996,3 +996,14 @@ warning: in the working copy of '.pipeline/generated/phase1-account/account-list
 Auto-commit completed at Sat, Aug 23, 2025  7:50:04 AM
 ========================================
 Auto-commit started at Sat, Aug 23, 2025  8:05:04 AM
+warning: in the working copy of '.pipeline/auto-commit.log', LF will be replaced by CRLF the next time Git touches it
+→ No staged files match any configured task.
+[feature/viewforge-2.0 95b1f5e] checkpoint(pipeline): Auto-save at 08:05 - Updated: tools  (5 files)
+ 5 files changed, 614 insertions(+)
+ create mode 100644 .pipeline/HANDOFF-TO-NEXT-THREAD.md
+ create mode 100644 .pipeline/THREAD-PRESERVATION-GAP-DISCOVERY.md
+ create mode 100644 .pipeline/factory-tools/generators/concept-html/test-gap-discovery.js
+✅ Successfully committed: checkpoint(pipeline): Auto-save at 08:05 - Updated: tools  (5 files)
+Auto-commit completed at Sat, Aug 23, 2025  8:05:06 AM
+========================================
+Auto-commit started at Sat, Aug 23, 2025  8:20:06 AM
