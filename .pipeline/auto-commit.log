@@ -2273,3 +2273,16 @@ warning: in the working copy of '.pipeline/auto-commit.log', LF will be replaced
 Auto-commit completed at Sun, Aug 24, 2025  6:56:21 AM
 ========================================
 Auto-commit started at Sun, Aug 24, 2025  7:08:05 AM
+warning: in the working copy of '.pipeline/auto-commit.log', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.claude/settings.local.json', LF will be replaced by CRLF the next time Git touches it
+Also staging .claude/ changes
+→ No staged files match any configured task.
+[feature/viewforge-2.0 47e8941] checkpoint(pipeline): Auto-save at 07:08 - Updated: tools  (5 files)
+ 6 files changed, 13 insertions(+), 1235 deletions(-)
+ delete mode 100644 .pipeline/factory-tools/generators/concept-html/CONCEPT-GENERATOR-PRD.md
+ delete mode 100644 .pipeline/factory-tools/generators/prototype-react/PROTOTYPE-GENERATOR-PRD.md
+ delete mode 100644 .pipeline/factory-tools/viewforge/VIEWFORGE-PRD.md
+✅ Successfully committed: checkpoint(pipeline): Auto-save at 07:08 - Updated: tools  (5 files)
+Auto-commit completed at Sun, Aug 24, 2025  7:08:07 AM
+========================================
+Auto-commit started at Sun, Aug 24, 2025  7:11:21 AM
