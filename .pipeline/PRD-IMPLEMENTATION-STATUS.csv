@@ -1,14 +1,11 @@
 Line/Layer,Tool/PRD Name,Implemented,Location
-Concept Line,Concept Generator (Main),Y,documentation/prds
-Concept Line,Concept Generator (Duplicate),Y,factory-tools/generators/concept-html
+Concept Line,Concept Generator,Y,documentation/prds
 Concept Line,Sample Data Generator,N,factory-tools/sample-data-generator
-Prototype Line,Prototype Generator (Main),Y,documentation/prds
-Prototype Line,Prototype Generator (Duplicate),Y,factory-tools/generators/prototype-react
+Prototype Line,Prototype Generator,Y,documentation/prds
 Prototype Line,Prototype Runtime,N,factory-tools/prototype-runtime
 Prototype Line,Theme Engine,Partial,factory-tools/theme-engine
 Prototype Line,Database Generator,N,factory-tools/database-generator
-Configuration Layer,ViewForge 2.0 (Main),Partial,documentation/prds
-Configuration Layer,ViewForge (Duplicate),Partial,factory-tools/viewforge
+Configuration Layer,ViewForge 2.0,Partial,documentation/prds
 Configuration Layer,ViewForge Transformer,Y,factory-tools/viewforge
 Configuration Layer,ViewForge Integration Support,N,factory-tools/viewforge
 Foundation Layer,BUSM Reader,Y,factory-tools/busm-reader
