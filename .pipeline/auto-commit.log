@@ -4040,3 +4040,274 @@ warning: in the working copy of '.pipeline/12-operations/logs/2025-01-25/auto-co
 Auto-commit completed at Mon, Aug 25, 2025  9:29:53 AM
 ========================================
 Auto-commit started at Mon, Aug 25, 2025  9:41:37 AM
+warning: in the working copy of '.pipeline/auto-commit.log', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/01-concept-line/tools/concept-generator/concept-html/output/account-list-with-location.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/01-concept-line/tools/concept-generator/concept-html/output/account-list.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/02-prototype-line/tools/react-generator/prototype-react/output/account-list/components/AccountListView.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/02-prototype-line/tools/react-generator/prototype-react/output/account-list/data/AccountListMockData.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/02-prototype-line/tools/react-generator/prototype-react/output/account-list/index.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/02-prototype-line/tools/react-generator/prototype-react/output/account-list/types/AccountListTypes.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/02-prototype-line/tools/react-generator/prototype-react/output/components/AccountListView.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/02-prototype-line/tools/react-generator/prototype-react/output/data/AccountListMockData.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/02-prototype-line/tools/react-generator/prototype-react/output/index.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/02-prototype-line/tools/react-generator/prototype-react/output/preview-default.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/02-prototype-line/tools/react-generator/prototype-react/output/preview-healthcare.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/02-prototype-line/tools/react-generator/prototype-react/output/test-run/components/AccountListView.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/02-prototype-line/tools/react-generator/prototype-react/output/test-run/data/AccountListMockData.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/02-prototype-line/tools/react-generator/prototype-react/output/test-run/index.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/02-prototype-line/tools/react-generator/prototype-react/output/test-run/tsconfig.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/02-prototype-line/tools/react-generator/prototype-react/output/test-run/types/AccountListTypes.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/02-prototype-line/tools/react-generator/prototype-react/output/test-theme-default/AccountList.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/02-prototype-line/tools/react-generator/prototype-react/output/test-theme-healthcare/AccountList.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/02-prototype-line/tools/react-generator/prototype-react/output/test-theme-safe/AccountList.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/02-prototype-line/tools/react-generator/prototype-react/output/types/AccountListTypes.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/04-processing-tools/ast-generator/test-output/account-module-components.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/04-processing-tools/ast-generator/test-output/component-manifest.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/04-processing-tools/ast-generator/test-output/gap-report.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/04-processing-tools/ast-generator/test-output/generated-components.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/04-processing-tools/ast-generator/test-output/integration-gap-report.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/04-processing-tools/ast-generator/test-output/visual-gap-report.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/04-processing-tools/ast-generator/test-output/visual-gaps-for-wireframe.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/04-processing-tools/module-system/account-module-phase1-auto.yaml', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/.bin/js-yaml', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/.bin/js-yaml.ps1', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/.package-lock.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/argparse/CHANGELOG.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/argparse/LICENSE', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/argparse/README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/argparse/argparse.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/argparse/lib/sub.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/argparse/lib/textwrap.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/argparse/package.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/CHANGELOG.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/LICENSE', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/bin/js-yaml.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/dist/js-yaml.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/dist/js-yaml.min.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/dist/js-yaml.mjs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/index.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/common.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/dumper.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/exception.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/loader.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/schema.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/schema/core.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/schema/default.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/schema/failsafe.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/schema/json.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/snippet.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/type.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/type/binary.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/type/bool.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/type/float.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/type/int.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/type/map.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/type/merge.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/type/null.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/type/omap.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/type/pairs.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/type/seq.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/type/set.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/type/str.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/lib/type/timestamp.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/node_modules/js-yaml/package.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/package-lock.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/05-data-tools/business-rules-engine/business-rules-configurator/package.json', LF will be replaced by CRLF the next time Git touches it
+→ No staged files match any configured task.
+[feature/viewforge-2.0 7750dea] checkpoint(pipeline): Auto-save at 09:41 - Updated: tools  (191 files)
+ 191 files changed, 408 insertions(+)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/busm-reader/BUSM-READER-PRD.md (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/busm-reader/busm-model.json (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/busm-reader/busm-reader.js (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/CONCEPT-GENERATOR-LEARNINGS.md (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/CONCEPT-LINE-FLOW-MODEL.md (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/SPRINT-1-COMPLETE.md (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/concept-generator-v2.js (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/concept-generator-v3.js (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/generators/detail.js (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/generators/list.js (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/generators/table.js (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/index.js (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/metadata.js (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/output/account-list-with-location.html (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/output/account-list.html (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/package.json (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/parser.js (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/sample-data.js (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/show-gaps-in-concept.js (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/test-concept-v2.js (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/test-fixtures/account-list-config.json (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/test-fixtures/account-list-with-location.json (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/test-gap-discovery.js (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/test-generator.js (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/test-phase1-account.js (100%)
+ rename .pipeline/{factory-tools/generators => 01-concept-line/tools/concept-generator}/concept-html/validator.js (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/PHASE-1-COMPLETE.md (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/VIEWFORGE-INTEGRATION-SUPPORT-PRD.md (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/VIEWFORGE-LEARNINGS.md (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/VIEWFORGE-OUTPUT-SPEC.md (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/VIEWFORGE-SIMPLIFICATION-PLAN.md (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/VIEWFORGE-TRANSFORMATION-EXAMPLE.md (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/VIEWFORGE-TRANSFORMER-PRD.md (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/archive/v1/configurator-backup.html (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/archive/v2-archived-learning/css/base.css (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/archive/v2-archived-learning/css/components.css (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/archive/v2-archived-learning/css/concept-line.css (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/archive/v2-archived-learning/index.html (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/archive/v2-archived-learning/js/core/app.js (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/archive/v2-archived-learning/js/core/hierarchy.js (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/archive/v2-archived-learning/js/core/state.js (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/archive/v2-archived-learning/js/integrations/busm.js (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/archive/v2-archived-learning/js/modules/export.js (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/archive/v2-archived-learning/js/modules/field-config.js (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/test-transformer.js (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/v3/V3-APPROACH.md (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/v3/index.html (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/v3/js/integration-types.js (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/v3/js/v3-app.js (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/v3/test-integration-output.html (100%)
+ rename .pipeline/{factory-tools => 01-concept-line/tools}/viewforge/viewforge-transformer.js (100%)
+ create mode 100644 .pipeline/02-prototype-line/configs/components/account/field-config-account-list-view-1755720191672.json
+ create mode 100644 .pipeline/02-prototype-line/configs/components/service-location/field-config-location-list-view-1755803970337.json
+ rename .pipeline/{factory-tools => 02-prototype-line/tools}/prototype-runtime/PROTOTYPE-RUNTIME-PRD.md (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/CONFLICT-PREVENTION-STRATEGY.md (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/GENERATOR-ROOT-CAUSE-PRD.md (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/PROTOTYPE-MVP-COMPLETE.md (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/generators/mock-data.js (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/generators/table-view-themed.js (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/generators/table-view.js (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/generators/theme-engine.js (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/generators/types.js (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/index.js (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/output/account-list/components/AccountListView.tsx (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/output/account-list/data/AccountListMockData.ts (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/output/account-list/index.tsx (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/output/account-list/types/AccountListTypes.ts (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/output/components/AccountListView.tsx (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/output/data/AccountListMockData.ts (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/output/index.tsx (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/output/preview-default.html (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/output/preview-healthcare.html (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/output/test-run/components/AccountListView.tsx (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/output/test-run/data/AccountListMockData.ts (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/output/test-run/index.tsx (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/output/test-run/tsconfig.json (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/output/test-run/types/AccountListTypes.ts (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/output/test-theme-default/AccountList.tsx (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/output/test-theme-healthcare/AccountList.tsx (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/output/test-theme-safe/AccountList.tsx (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/output/types/AccountListTypes.ts (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/parser.js (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/test-theme.js (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/themes/default-theme.json (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/themes/healthcare-theme.json (100%)
+ rename .pipeline/{factory-tools/generators => 02-prototype-line/tools/react-generator}/prototype-react/validator.js (100%)
+ rename .pipeline/{factory-tools => 02-prototype-line/tools}/theme-engine/THEME-ENGINE-PRD.md (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/ast-generator/AST-GENERATOR-PRD.md (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/ast-generator/AST-INTEGRATION-PLAN.md (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/ast-generator/builders/component-builder.js (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/ast-generator/core/ast-builder-simple.js (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/ast-generator/core/ast-builder.js (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/ast-generator/integrations/viewforge-ast-adapter.js (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/ast-generator/test-ast-generator.js (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/ast-generator/test-complete-integration.js (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/ast-generator/test-output/account-module-components.tsx (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/ast-generator/test-output/component-manifest.json (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/ast-generator/test-output/gap-report.json (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/ast-generator/test-output/generated-components.tsx (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/ast-generator/test-output/integration-gap-report.json (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/ast-generator/test-output/visual-gap-report.json (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/ast-generator/test-output/visual-gaps-for-wireframe.json (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/ast-generator/test-simple-ast.js (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/gap-logger/GAP-LOGGER-PRD.md (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/gap-logger/HOW-GAP-LOGGER-WORKS.md (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/iteration-manager/ITERATION-MANAGER-GUIDE.md (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/iteration-manager/iteration-manager.js (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/manifest-manager/MANIFEST-MANAGER-PRD.md (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/module-system/ITERATIVE-SUB-MODULE-EXAMPLE.md (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/module-system/MODULE-SYSTEM-PRD.md (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/module-system/SUB-MODULE-DELIVERY-UNIT.md (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/module-system/account-module-phase1-auto.yaml (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/module-system/module-account-core.yaml (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/module-system/module-builder.js (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/module-system/module-example-contacts.yaml (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/module-system/phase1-account-basic.yaml (100%)
+ rename .pipeline/{factory-tools => 04-processing-tools}/module-system/test-busm-to-module.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/BR-CONFIGURATOR-V1-EXPERIENCE.md (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/BUSINESS-RULES-CONFIGURATOR-PRD.md (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/HOW-TO-EDIT-RULES.md (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/RULE-COLLECTION-UI-PRD.md (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/account-rules-example.yaml (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/business-rules-parser.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/concept-line-with-rules-mockup.html (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/.bin/js-yaml (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/.bin/js-yaml.cmd (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/.bin/js-yaml.ps1 (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/.package-lock.json (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/argparse/CHANGELOG.md (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/argparse/LICENSE (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/argparse/README.md (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/argparse/argparse.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/argparse/lib/sub.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/argparse/lib/textwrap.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/argparse/package.json (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/CHANGELOG.md (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/LICENSE (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/README.md (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/bin/js-yaml.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/dist/js-yaml.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/dist/js-yaml.min.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/dist/js-yaml.mjs (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/index.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/common.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/dumper.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/exception.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/loader.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/schema.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/schema/core.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/schema/default.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/schema/failsafe.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/schema/json.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/snippet.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/type.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/type/binary.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/type/bool.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/type/float.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/type/int.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/type/map.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/type/merge.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/type/null.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/type/omap.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/type/pairs.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/type/seq.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/type/set.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/type/str.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/lib/type/timestamp.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/node_modules/js-yaml/package.json (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/package-lock.json (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/package.json (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/quick-start.md (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/rules-cli.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/rules-with-gaps.yaml (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/business-rules-engine}/business-rules-configurator/test-parser.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools}/database-generator/DATABASE-GENERATION-STRATEGY.md (100%)
+ rename .pipeline/{factory-tools => 05-data-tools}/database-generator/DATABASE-GENERATOR-PRD.md (100%)
+ rename .pipeline/{factory-tools => 05-data-tools}/database-generator/DATABASE-LIFECYCLE-STRATEGY.md (100%)
+ rename .pipeline/{factory-tools => 05-data-tools}/database-generator/index.js (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/integration-discovery}/integration-discovery-scanner/INTEGRATION-DISCOVERY-SCANNER-PRD.md (100%)
+ rename .pipeline/{factory-tools => 05-data-tools/integration-resolver}/integration-version-resolver/INTEGRATION-VERSION-RESOLVER-PRD.md (100%)
+ rename .pipeline/{factory-tools => 05-data-tools}/sample-data-generator/SAMPLE-DATA-GENERATOR-PRD.md (100%)
+ rename .pipeline/{factory-tools/factory-control-panel => 06-control-center}/CONTROL-PANEL-ITERATION-DESIGN.md (100%)
+ rename .pipeline/{factory-tools/factory-control-panel => 06-control-center}/FACTORY-CONTROL-PANEL-PRD.md (100%)
+ rename .pipeline/{factory-tools/factory-control-panel => 06-control-center}/README.md (100%)
+ rename .pipeline/{factory-tools/factory-control-panel => 06-control-center}/public/app.js (100%)
+ rename .pipeline/{factory-tools/factory-control-panel => 06-control-center}/public/index.html (100%)
+ rename .pipeline/{factory-tools/factory-control-panel => 06-control-center}/public/styles.css (100%)
+ rename .pipeline/{factory-tools/factory-control-panel => 06-control-center}/server.js (100%)
+ rename .pipeline/{factory-tools/factory-control-panel => 06-control-center}/start.bat (100%)
+ create mode 100644 .pipeline/MIGRATION-NEXT-SESSION-CHECKLIST.md
+✅ Successfully committed: checkpoint(pipeline): Auto-save at 09:41 - Updated: tools  (191 files)
+Auto-commit completed at Mon, Aug 25, 2025  9:41:39 AM
+========================================
+Auto-commit started at Mon, Aug 25, 2025  9:44:53 AM
