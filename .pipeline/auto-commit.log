@@ -3974,3 +3974,69 @@ warning: in the working copy of '.pipeline/auto-commit.log', LF will be replaced
 Auto-commit completed at Mon, Aug 25, 2025  9:26:37 AM
 ========================================
 Auto-commit started at Mon, Aug 25, 2025  9:29:51 AM
+warning: in the working copy of '.pipeline/auto-commit.log', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/12-operations/logs/2025-01-25/auto-commit.log', LF will be replaced by CRLF the next time Git touches it
+→ No staged files match any configured task.
+[feature/viewforge-2.0 ac4257b] checkpoint(pipeline): Auto-save at 09:29 (58 files)
+ 58 files changed, 19415 insertions(+)
+ create mode 100644 .pipeline/00-requirements/1.1.1-master-view/1.1.1-master-view-spec.md
+ create mode 100644 .pipeline/00-requirements/BUSM.mmd
+ create mode 100644 .pipeline/00-requirements/busm-registry.js
+ create mode 100644 .pipeline/00-requirements/feedback-requirements/account-display-feedback-spec.md
+ create mode 100644 .pipeline/00-requirements/prds/active/AST-GENERATOR-PRD.md
+ create mode 100644 .pipeline/00-requirements/prds/active/BUSINESS-RULES-CONFIGURATOR-PRD.md
+ create mode 100644 .pipeline/00-requirements/prds/active/BUSM-READER-PRD.md
+ create mode 100644 .pipeline/00-requirements/prds/active/CONCEPT-GENERATOR-PRD.md
+ create mode 100644 .pipeline/00-requirements/prds/active/DATABASE-GENERATOR-PRD.md
+ create mode 100644 .pipeline/00-requirements/prds/active/FACTORY-CONTROL-PANEL-PRD.md
+ create mode 100644 .pipeline/00-requirements/prds/active/GAP-LOGGER-PRD.md
+ create mode 100644 .pipeline/00-requirements/prds/active/INTEGRATION-DISCOVERY-SCANNER-PRD.md
+ create mode 100644 .pipeline/00-requirements/prds/active/INTEGRATION-VERSION-RESOLVER-PRD.md
+ create mode 100644 .pipeline/00-requirements/prds/active/MANIFEST-MANAGER-PRD.md
+ create mode 100644 .pipeline/00-requirements/prds/active/MODULE-SYSTEM-PRD.md
+ create mode 100644 .pipeline/00-requirements/prds/active/PRD-SUMMARY.md
+ create mode 100644 .pipeline/00-requirements/prds/active/PROTOTYPE-GENERATOR-PRD.md
+ create mode 100644 .pipeline/00-requirements/prds/active/PROTOTYPE-RUNTIME-PRD.md
+ create mode 100644 .pipeline/00-requirements/prds/active/RULE-COLLECTION-UI-PRD.md
+ create mode 100644 .pipeline/00-requirements/prds/active/SAMPLE-DATA-GENERATOR-PRD.md
+ create mode 100644 .pipeline/00-requirements/prds/active/THEME-ENGINE-PRD.md
+ create mode 100644 .pipeline/00-requirements/prds/active/VIEWFORGE-INTEGRATION-SUPPORT-PRD.md
+ create mode 100644 .pipeline/00-requirements/prds/active/VIEWFORGE-PRD.md
+ create mode 100644 .pipeline/00-requirements/prds/active/VIEWFORGE-TRANSFORMER-PRD.md
+ create mode 100644 .pipeline/01-concept-line/configs/entities/account/field-config-account-list-view-1755720191672.json
+ create mode 100644 .pipeline/01-concept-line/configs/entities/service-location/field-config-location-list-view-1755803970337.json
+ create mode 100644 .pipeline/01-concept-line/configs/layouts/layout-config-sample.json
+ create mode 100644 .pipeline/01-concept-line/configs/navigation/nav-config-context-aware.json
+ create mode 100644 .pipeline/01-concept-line/configs/navigation/nav-config-pest-control-v1.json
+ create mode 100644 .pipeline/01-concept-line/configs/navigation/nav-config-sample.json
+ create mode 100644 .pipeline/09-documentation/architecture/AST-BREAKTHROUGH-DOCUMENTATION.md
+ create mode 100644 .pipeline/09-documentation/architecture/CONCEPT-LINE-ASCII-FLOW.md
+ create mode 100644 .pipeline/09-documentation/architecture/CONCEPT-LINE-FLOW-DIAGRAM.md
+ create mode 100644 .pipeline/09-documentation/architecture/HIERARCHY-VALIDATION.md
+ create mode 100644 .pipeline/09-documentation/architecture/PROCESSOR-ANALYSIS.md
+ create mode 100644 .pipeline/09-documentation/architecture/PROCESSOR-PROPOSAL.md
+ create mode 100644 .pipeline/09-documentation/architecture/README.md
+ create mode 100644 .pipeline/09-documentation/architecture/SPEC-STRUCTURE.md
+ create mode 100644 .pipeline/09-documentation/architecture/THREAD-PRESERVATION-GAP-DISCOVERY.md
+ create mode 100644 .pipeline/09-documentation/architecture/naming-conventions.md
+ create mode 100644 .pipeline/09-documentation/lessons-learned/CONCEPT-GENERATOR-LEARNINGS.md
+ create mode 100644 .pipeline/09-documentation/lessons-learned/FACTORY-SUCCESS-SUMMARY.md
+ create mode 100644 .pipeline/09-documentation/lessons-learned/ITERATION-2-LESSONS-LEARNED.md
+ create mode 100644 .pipeline/09-documentation/lessons-learned/SPRINT-1-LEARNINGS-SUMMARY.md
+ create mode 100644 .pipeline/09-documentation/lessons-learned/VIEWFORGE-LEARNINGS.md
+ create mode 100644 .pipeline/09-documentation/processes/STAGE-1-DETAILED-BREAKDOWN.md
+ create mode 100644 .pipeline/09-documentation/processes/STAGE-1-SEQUENCE-DIAGRAM.md
+ create mode 100644 .pipeline/09-documentation/processes/STAGE-1-TOOLS-AND-PROCESS.md
+ create mode 100644 .pipeline/10-handoffs/completed/2025-01/HANDOFF-2025-01-21.md
+ create mode 100644 .pipeline/10-handoffs/completed/2025-01/HANDOFF-2025-08-23-BREAKTHROUGH.md
+ create mode 100644 .pipeline/10-handoffs/completed/2025-01/HANDOFF-2025-08-23-CONTROL-PANEL.md
+ create mode 100644 .pipeline/10-handoffs/completed/2025-01/HANDOFF-SPRINT-1-COMPLETE.md
+ create mode 100644 .pipeline/10-handoffs/completed/2025-01/HANDOFF-TO-NEXT-THREAD.md
+ create mode 100644 .pipeline/12-operations/logs/2025-01-25/auto-commit.log
+ create mode 100644 .pipeline/12-operations/scripts/auto-commit.sh
+ create mode 100644 .pipeline/12-operations/scripts/start-auto-commit.sh
+ create mode 100644 .pipeline/MIGRATION-PHASE-1-2-REPORT.md
+✅ Successfully committed: checkpoint(pipeline): Auto-save at 09:29 (58 files)
+Auto-commit completed at Mon, Aug 25, 2025  9:29:53 AM
+========================================
+Auto-commit started at Mon, Aug 25, 2025  9:41:37 AM
