@@ -80,7 +80,7 @@ Tests Passing: N/A (planning phase)
 ### Immediate Priorities (Next Session - FRESH START)
 1. **Create Stage 0 App Shell Template** - 2 hours
    - Context: Foundation for all components
-   - Location: `.pipeline/06-control-center/app-shell/`
+   - Location: `.pipeline/06-control-panel/app-shell/`
    - Dependencies: React, React Router, Material UI
 
 2. **Build Pipeline Orchestrator** - 3 hours
@@ -147,7 +147,7 @@ Tests Passing: N/A (planning phase)
 ## ⚠️ Warnings/Caveats
 
 ### Don't Touch
-- Control Panel was in old structure (`.pipeline/factory-tools/`) - no longer exists in new structure
+- `.pipeline/06-control-panel/` - Working Control Panel, serves on port 3000
 
 ### For Fresh Start
 - DO NOT reuse any generated artifacts from this session
@@ -182,6 +182,7 @@ Tests Passing: N/A (planning phase)
 
 ### Environment Setup
 - [ ] Current directory: `C:\Users\GarryFenimore\Projects\service-software-factory-v2`
+- [ ] Control Panel can run: `npm run control-panel` (port 3000)
 - [ ] Node/npm available
 - [ ] TypeScript installed
 
