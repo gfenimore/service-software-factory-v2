@@ -1,0 +1,498 @@
+========================================
+Auto-commit started at Mon, Aug 25, 2025 10:56:48 AM
+warning: in the working copy of '.pipeline/auto-commit.log', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/07-database/migrations/prototype/2025-08-23_iter1_account.sql', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/07-database/schemas/database-types-iter1.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/07-database/seeds/prototype/iteration-1-schema.json', LF will be replaced by CRLF the next time Git touches it
+error: open(".pipeline/08-iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/1-inputs/requirements/feedback-sessions/completed/demo-2025-08-19-mej0t8zj/FB-demo-2025-08-19-mej0t8zj-1.json"): Filename too long
+error: unable to index file '.pipeline/08-iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/1-inputs/requirements/feedback-sessions/completed/demo-2025-08-19-mej0t8zj/FB-demo-2025-08-19-mej0t8zj-1.json'
+fatal: adding files failed
+→ No staged files found.
+On branch feature/viewforge-2.0
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	deleted:    .pipeline/00-requirements/BUSM.mmd
+	modified:   .pipeline/05-data-tools/database-generator/index.js
+	modified:   .pipeline/06-control-center/server.js
+	modified:   .pipeline/12-operations/scripts/auto-commit.sh
+	deleted:    .pipeline/AST-BREAKTHROUGH-DOCUMENTATION.md
+	deleted:    .pipeline/CONCEPT-LINE-ASCII-FLOW.md
+	deleted:    .pipeline/CONCEPT-LINE-FLOW-DIAGRAM.md
+	deleted:    .pipeline/HANDOFF-2025-01-21.md
+	deleted:    .pipeline/HANDOFF-2025-08-23-BREAKTHROUGH.md
+	deleted:    .pipeline/HANDOFF-2025-08-23-CONTROL-PANEL.md
+	deleted:    .pipeline/HANDOFF-SPRINT-1-COMPLETE.md
+	deleted:    .pipeline/HANDOFF-TO-NEXT-THREAD.md
+	deleted:    .pipeline/MIGRATION-NEXT-SESSION-CHECKLIST.md
+	deleted:    .pipeline/MIGRATION-PHASE-1-2-REPORT.md
+	deleted:    .pipeline/MIGRATION-PLAN-THREE-LINE-REORGANIZATION-V2.md
+	deleted:    .pipeline/PRD-IMPLEMENTATION-STATUS.csv
+	deleted:    .pipeline/PRD-IMPLEMENTATION-STATUS.md
+	deleted:    .pipeline/PRD-INVENTORY-REPORT.md
+	deleted:    .pipeline/PROPOSED-REORGANIZATION.md
+	modified:   .pipeline/README.md
+	deleted:    .pipeline/REORGANIZATION-EXAMPLES.md
+	deleted:    .pipeline/REORGANIZATION-PLAN.md
+	deleted:    .pipeline/SPRINT-1-LEARNINGS-SUMMARY.md
+	deleted:    .pipeline/STAGE-1-DETAILED-BREAKDOWN.md
+	deleted:    .pipeline/STAGE-1-SEQUENCE-DIAGRAM.md
+	deleted:    .pipeline/STAGE-1-TOOLS-AND-PROCESS.md
+	deleted:    .pipeline/THREAD-PRESERVATION-GAP-DISCOVERY.md
+	modified:   .pipeline/auto-commit.log
+	deleted:    .pipeline/auto-commit.sh
+	deleted:    .pipeline/configurations/entities/account/field-config-account-list-view-1755720191672.json
+	deleted:    .pipeline/configurations/entities/service-location/field-config-location-list-view-1755803970337.json
+	deleted:    .pipeline/configurations/layouts/layout-config-sample.json
+	deleted:    .pipeline/configurations/navigation/nav-config-context-aware.json
+	deleted:    .pipeline/configurations/navigation/nav-config-pest-control-v1.json
+	deleted:    .pipeline/configurations/navigation/nav-config-sample.json
+	deleted:    .pipeline/configurations/test-fixtures/account-list-config.json
+	deleted:    .pipeline/configurations/test-fixtures/account-list-with-location.json
+	deleted:    .pipeline/docs/END-TO-END-PROCESS-FLOW.md
+	deleted:    .pipeline/docs/MIGRATION-LOG.md
+	deleted:    .pipeline/docs/PROCESS-FLOW-SIMPLE.md
+	deleted:    .pipeline/docs/READY-FOR-REVIEW.md
+	deleted:    .pipeline/docs/architecture/HIERARCHY-VALIDATION.md
+	deleted:    .pipeline/docs/architecture/PROCESSOR-ANALYSIS.md
+	deleted:    .pipeline/docs/architecture/PROCESSOR-PROPOSAL.md
+	deleted:    .pipeline/docs/architecture/README.md
+	deleted:    .pipeline/docs/architecture/SPEC-STRUCTURE.md
+	deleted:    .pipeline/docs/architecture/naming-conventions.md
+	deleted:    .pipeline/docs/architecture/review/REVIEW-TEMPLATE.md
+	deleted:    .pipeline/docs/feedback-implementation-report.md
+	deleted:    .pipeline/docs/lessons/FACTORY-SUCCESS-SUMMARY.md
+	deleted:    .pipeline/docs/lessons/ITERATION-2-LESSONS-LEARNED.md
+	deleted:    .pipeline/documentation/handoffs/HANDOFF-2025-01-21.md
+	deleted:    .pipeline/documentation/handoffs/HANDOFF-SPRINT-1-COMPLETE.md
+	deleted:    .pipeline/documentation/learnings/CONCEPT-GENERATOR-LEARNINGS.md
+	deleted:    .pipeline/documentation/learnings/SPRINT-1-LEARNINGS-SUMMARY.md
+	deleted:    .pipeline/documentation/learnings/VIEWFORGE-LEARNINGS.md
+	deleted:    .pipeline/documentation/prds/CONCEPT-GENERATOR-PRD.md
+	deleted:    .pipeline/documentation/prds/PROTOTYPE-GENERATOR-PRD.md
+	deleted:    .pipeline/documentation/prds/VIEWFORGE-PRD.md
+	deleted:    .pipeline/factory-tools/FACTORY-PRINCIPLES.md
+	deleted:    .pipeline/factory-tools/FACTORY-TOOLS-INVENTORY.md
+	deleted:    .pipeline/factory-tools/IDEAS-MUST-HAVE.md
+	deleted:    .pipeline/factory-tools/INTEGRATION-ARCHITECTURE-SPECIFICATION.md
+	deleted:    .pipeline/factory-tools/INTEGRATION-PIPELINE-FLOW-MODEL.md
+	deleted:    .pipeline/factory-tools/INTEGRATION-TOOLS-ROADMAP.md
+	deleted:    .pipeline/factory-tools/PRD-SUMMARY.md
+	deleted:    .pipeline/generated/concept-line/account-list-with-location.html
+	deleted:    .pipeline/generated/concept-line/account-list.html
+	deleted:    .pipeline/generated/concept-line/complete-apps/complete-app.html
+	deleted:    .pipeline/generated/concept-line/complete-apps/iteration-2-app.html
+	deleted:    .pipeline/generated/concept-line/navigation/navigation.html
+	deleted:    .pipeline/generated/concept-line/views/service-location-list.html
+	deleted:    .pipeline/generated/concept/account-detail.html
+	deleted:    .pipeline/generated/concept/account-form.html
+	deleted:    .pipeline/generated/concept/account-table.html
+	deleted:    .pipeline/generated/phase1-account/account-form-with-rules.html
+	deleted:    .pipeline/generated/phase1-account/account-list-with-rules.html
+	deleted:    .pipeline/generated/prototype-line/account-list/components/AccountListView.tsx
+	deleted:    .pipeline/generated/prototype-line/account-list/data/AccountListMockData.ts
+	deleted:    .pipeline/generated/prototype-line/account-list/index.tsx
+	deleted:    .pipeline/generated/prototype-line/account-list/types/AccountListTypes.ts
+	deleted:    .pipeline/start-auto-commit.sh
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	.pipeline-backup-2025-01-25-092719/
+	.pipeline-backup-2025-08-22-165751/
+	.pipeline/00-requirements/models/
+	.pipeline/00-requirements/prds/tracking/
+	.pipeline/01-concept-line/configs/test-fixtures/
+	.pipeline/01-concept-line/models/
+	.pipeline/01-concept-line/outputs/v1.0.0-2025-08-25-1025-initial/manifest.json
+	.pipeline/02-prototype-line/outputs/v2.0.0-2025-08-25-1025-initial/manifest.json
+	.pipeline/03-production-line/
+	.pipeline/07-database/
+	.pipeline/08-iterations/
+	.pipeline/09-documentation/architecture/FACTORY-PRINCIPLES.md
+	.pipeline/09-documentation/architecture/FACTORY-TOOLS-INVENTORY.md
+	.pipeline/09-documentation/architecture/IDEAS-MUST-HAVE.md
+	.pipeline/09-documentation/architecture/INTEGRATION-ARCHITECTURE-SPECIFICATION.md
+	.pipeline/09-documentation/architecture/INTEGRATION-PIPELINE-FLOW-MODEL.md
+	.pipeline/09-documentation/architecture/INTEGRATION-TOOLS-ROADMAP.md
+	.pipeline/09-documentation/architecture/PRD-SUMMARY.md
+	.pipeline/09-documentation/lessons-learned/THREAD-PRESERVATION-GAP-DISCOVERY.md
+	.pipeline/10-handoffs/README.md
+	.pipeline/10-handoffs/completed/HANDOFF-2025-01-21.md
+	.pipeline/10-handoffs/completed/HANDOFF-2025-08-23-BREAKTHROUGH.md
+	.pipeline/10-handoffs/completed/HANDOFF-2025-08-23-CONTROL-PANEL.md
+	.pipeline/10-handoffs/completed/HANDOFF-SPRINT-1-COMPLETE.md
+	.pipeline/10-handoffs/completed/HANDOFF-TO-NEXT-THREAD.md
+	.pipeline/10-handoffs/templates/
+	.pipeline/12-operations/logs/auto-commit.log
+	.pipeline/12-operations/migrations/
+	.pipeline/12-operations/scripts/auto-commit-legacy.sh
+	NUL
+	package-lock.json
+	package.json
+
+no changes added to commit (use "git add" and/or "git commit -a")
+❌ Commit failed
+Auto-commit completed at Mon, Aug 25, 2025 10:56:49 AM
+========================================
+Auto-commit started at Mon, Aug 25, 2025 11:00:03 AM
+warning: in the working copy of '.pipeline/auto-commit.log', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/07-database/migrations/prototype/2025-08-23_iter1_account.sql', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/07-database/schemas/database-types-iter1.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.pipeline/07-database/seeds/prototype/iteration-1-schema.json', LF will be replaced by CRLF the next time Git touches it
+error: open(".pipeline/08-iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/1-inputs/requirements/feedback-sessions/completed/demo-2025-08-19-mej0t8zj/FB-demo-2025-08-19-mej0t8zj-1.json"): Filename too long
+error: unable to index file '.pipeline/08-iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/1-inputs/requirements/feedback-sessions/completed/demo-2025-08-19-mej0t8zj/FB-demo-2025-08-19-mej0t8zj-1.json'
+fatal: adding files failed
+→ No staged files found.
+On branch feature/viewforge-2.0
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	deleted:    .pipeline/00-requirements/BUSM.mmd
+	modified:   .pipeline/05-data-tools/database-generator/index.js
+	modified:   .pipeline/06-control-center/server.js
+	modified:   .pipeline/12-operations/scripts/auto-commit.sh
+	deleted:    .pipeline/AST-BREAKTHROUGH-DOCUMENTATION.md
+	deleted:    .pipeline/CONCEPT-LINE-ASCII-FLOW.md
+	deleted:    .pipeline/CONCEPT-LINE-FLOW-DIAGRAM.md
+	deleted:    .pipeline/HANDOFF-2025-01-21.md
+	deleted:    .pipeline/HANDOFF-2025-08-23-BREAKTHROUGH.md
+	deleted:    .pipeline/HANDOFF-2025-08-23-CONTROL-PANEL.md
+	deleted:    .pipeline/HANDOFF-SPRINT-1-COMPLETE.md
+	deleted:    .pipeline/HANDOFF-TO-NEXT-THREAD.md
+	deleted:    .pipeline/MIGRATION-NEXT-SESSION-CHECKLIST.md
+	deleted:    .pipeline/MIGRATION-PHASE-1-2-REPORT.md
+	deleted:    .pipeline/MIGRATION-PLAN-THREE-LINE-REORGANIZATION-V2.md
+	deleted:    .pipeline/PRD-IMPLEMENTATION-STATUS.csv
+	deleted:    .pipeline/PRD-IMPLEMENTATION-STATUS.md
+	deleted:    .pipeline/PRD-INVENTORY-REPORT.md
+	deleted:    .pipeline/PROPOSED-REORGANIZATION.md
+	modified:   .pipeline/README.md
+	deleted:    .pipeline/REORGANIZATION-EXAMPLES.md
+	deleted:    .pipeline/REORGANIZATION-PLAN.md
+	deleted:    .pipeline/SPRINT-1-LEARNINGS-SUMMARY.md
+	deleted:    .pipeline/STAGE-1-DETAILED-BREAKDOWN.md
+	deleted:    .pipeline/STAGE-1-SEQUENCE-DIAGRAM.md
+	deleted:    .pipeline/STAGE-1-TOOLS-AND-PROCESS.md
+	deleted:    .pipeline/THREAD-PRESERVATION-GAP-DISCOVERY.md
+	modified:   .pipeline/auto-commit.log
+	deleted:    .pipeline/auto-commit.sh
+	deleted:    .pipeline/concept-line/STAGE-1-REQUIREMENTS-CAPTURE.md
+	deleted:    .pipeline/configurations/entities/account/field-config-account-list-view-1755720191672.json
+	deleted:    .pipeline/configurations/entities/service-location/field-config-location-list-view-1755803970337.json
+	deleted:    .pipeline/configurations/layouts/layout-config-sample.json
+	deleted:    .pipeline/configurations/navigation/nav-config-context-aware.json
+	deleted:    .pipeline/configurations/navigation/nav-config-pest-control-v1.json
+	deleted:    .pipeline/configurations/navigation/nav-config-sample.json
+	deleted:    .pipeline/configurations/test-fixtures/account-list-config.json
+	deleted:    .pipeline/configurations/test-fixtures/account-list-with-location.json
+	deleted:    .pipeline/database/migrations/prototype/2025-08-23_iter1_account.sql
+	deleted:    .pipeline/database/state/prototype/iteration-1-schema.json
+	deleted:    .pipeline/database/types/database-types-iter1.ts
+	deleted:    .pipeline/docs/END-TO-END-PROCESS-FLOW.md
+	deleted:    .pipeline/docs/MIGRATION-LOG.md
+	deleted:    .pipeline/docs/PROCESS-FLOW-SIMPLE.md
+	deleted:    .pipeline/docs/READY-FOR-REVIEW.md
+	deleted:    .pipeline/docs/architecture/HIERARCHY-VALIDATION.md
+	deleted:    .pipeline/docs/architecture/PROCESSOR-ANALYSIS.md
+	deleted:    .pipeline/docs/architecture/PROCESSOR-PROPOSAL.md
+	deleted:    .pipeline/docs/architecture/README.md
+	deleted:    .pipeline/docs/architecture/SPEC-STRUCTURE.md
+	deleted:    .pipeline/docs/architecture/naming-conventions.md
+	deleted:    .pipeline/docs/architecture/review/REVIEW-TEMPLATE.md
+	deleted:    .pipeline/docs/feedback-implementation-report.md
+	deleted:    .pipeline/docs/lessons/FACTORY-SUCCESS-SUMMARY.md
+	deleted:    .pipeline/docs/lessons/ITERATION-2-LESSONS-LEARNED.md
+	deleted:    .pipeline/documentation/handoffs/HANDOFF-2025-01-21.md
+	deleted:    .pipeline/documentation/handoffs/HANDOFF-SPRINT-1-COMPLETE.md
+	deleted:    .pipeline/documentation/learnings/CONCEPT-GENERATOR-LEARNINGS.md
+	deleted:    .pipeline/documentation/learnings/SPRINT-1-LEARNINGS-SUMMARY.md
+	deleted:    .pipeline/documentation/learnings/VIEWFORGE-LEARNINGS.md
+	deleted:    .pipeline/documentation/prds/CONCEPT-GENERATOR-PRD.md
+	deleted:    .pipeline/documentation/prds/PROTOTYPE-GENERATOR-PRD.md
+	deleted:    .pipeline/documentation/prds/VIEWFORGE-PRD.md
+	deleted:    .pipeline/factory-tools/FACTORY-PRINCIPLES.md
+	deleted:    .pipeline/factory-tools/FACTORY-TOOLS-INVENTORY.md
+	deleted:    .pipeline/factory-tools/IDEAS-MUST-HAVE.md
+	deleted:    .pipeline/factory-tools/INTEGRATION-ARCHITECTURE-SPECIFICATION.md
+	deleted:    .pipeline/factory-tools/INTEGRATION-PIPELINE-FLOW-MODEL.md
+	deleted:    .pipeline/factory-tools/INTEGRATION-TOOLS-ROADMAP.md
+	deleted:    .pipeline/factory-tools/PRD-SUMMARY.md
+	deleted:    .pipeline/generated/concept-line/account-list-with-location.html
+	deleted:    .pipeline/generated/concept-line/account-list.html
+	deleted:    .pipeline/generated/concept-line/complete-apps/complete-app.html
+	deleted:    .pipeline/generated/concept-line/complete-apps/iteration-2-app.html
+	deleted:    .pipeline/generated/concept-line/navigation/navigation.html
+	deleted:    .pipeline/generated/concept-line/views/service-location-list.html
+	deleted:    .pipeline/generated/concept/account-detail.html
+	deleted:    .pipeline/generated/concept/account-form.html
+	deleted:    .pipeline/generated/concept/account-table.html
+	deleted:    .pipeline/generated/phase1-account/account-form-with-rules.html
+	deleted:    .pipeline/generated/phase1-account/account-list-with-rules.html
+	deleted:    .pipeline/generated/prototype-line/account-list/components/AccountListView.tsx
+	deleted:    .pipeline/generated/prototype-line/account-list/data/AccountListMockData.ts
+	deleted:    .pipeline/generated/prototype-line/account-list/index.tsx
+	deleted:    .pipeline/generated/prototype-line/account-list/types/AccountListTypes.ts
+	deleted:    .pipeline/iterations/GF-TEST-RUN-LEARNINGS.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.0-application/1.0-vision-pest-control.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1-modules/account-management/1.1-account-management.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1-modules/account-management/1.1.1-sub-modules/1.1.1-master-view.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/1.1.1-master-view-spec.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/artifacts-v1-backup/stories/US-111-001-accounts-column.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/artifacts-v1-backup/stories/US-111-002-service-locations-column.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/artifacts-v1-backup/stories/US-111-003-work-orders-column.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/artifacts-v1-backup/stories/US-111-004-integrated-actions.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/artifacts-v1-backup/tasks/US-111-001-tasks.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/artifacts-v1-backup/tasks/US-111-002-tasks.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/artifacts-v1-backup/tasks/US-111-003-tasks.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/artifacts-v1-backup/tasks/US-111-004-tasks.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/artifacts/stories/US--001-accounts-column.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/artifacts/stories/US--002-service-locations-column.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/artifacts/stories/US--003-work-orders-column.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/artifacts/stories/US--004-integrated-actions.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/artifacts/stories/US--005-performance-and-quality.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/artifacts/stories/requirements-traceability.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/artifacts/stories/stories-manifest.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/artifacts/tasks/US--001-tasks.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/artifacts/tasks/US--002-tasks.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/artifacts/tasks/US--003-tasks.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/artifacts/tasks/US--004-tasks.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/stories-v2/US--001-accounts-column.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/stories-v2/US--002-service-locations-column.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/stories-v2/US--003-work-orders-column.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/stories-v2/US--004-integrated-actions.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/stories-v2/US--005-performance-and-quality.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/stories-v2/requirements-traceability.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/1.1.1-master-view/stories-v2/stories-manifest.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/CURRENT-STATUS.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/README.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/naming-conventions.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/1-inputs/requirements/progressive-mapping.yaml
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/2-factory/validation/REQUIREMENTS-STATUS-REPORT.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/2-factory/validation/REQUIREMENTS-TRACEABILITY-MATRIX.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/2-factory/validation/requirements.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/2-factory/validation/validation-rules.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/1.1.1-master-view-v2/1.1.1-master-view-CONCEPT.html
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/1.1.1-master-view-v2/concept-manifest.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/1.1.1-master-view-v2/validation-report.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/1.1.1-master-view-validated/1.1.1-master-view-CONCEPT.html
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/1.1.1-master-view-validated/concept-manifest.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/1.1.1-master-view-validated/validation-report.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/1.1.1-master-view/1.1.1-master-view-CONCEPT.html
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/1.1.1-master-view/PROMOTION-CHECKLIST.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/1.1.1-master-view/concept-manifest.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/1.1.1-master-view/feedback-capture.js
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/CONTRACT-REGISTRY.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/communication-diagram.mmd
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/manifests/processor-manifest.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/modules/accounts/detail-view/DetailViewInterface.concept.ts
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/modules/accounts/master-view/MasterViewInterface.concept.ts
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/modules/integration-example.tsx
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/modules/interface-progression.ts
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/modules/work-orders/management/WorkOrderInterface.concept.ts
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/shared/contextual-feedback.js
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/shared/feedback-config.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/shared/feedback-dashboard.html
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/shared/feedback-framework.js
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/stories/US-006-service-locations-concept.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/stories/US-010-master-view-complete.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/tasks/US-006-tasks.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/3-workspace/concept/temp/TEMP-feedback-viewer.html
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-12-initial-baseline-archive-archived/iteration-metadata.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-30-test-iteration-with-content-archived/1-inputs/requirements/test-spec.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T09-16-30-test-iteration-with-content-archived/iteration-metadata.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.0-application/1.0-vision-pest-control.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1-modules/account-management/1.1-account-management.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1-modules/account-management/1.1.1-sub-modules/1.1.1-master-view.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/1.1.1-master-view-spec.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/artifacts-v1-backup/stories/US-111-001-accounts-column.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/artifacts-v1-backup/stories/US-111-002-service-locations-column.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/artifacts-v1-backup/stories/US-111-003-work-orders-column.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/artifacts-v1-backup/stories/US-111-004-integrated-actions.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/artifacts-v1-backup/tasks/US-111-001-tasks.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/artifacts-v1-backup/tasks/US-111-002-tasks.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/artifacts-v1-backup/tasks/US-111-003-tasks.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/artifacts-v1-backup/tasks/US-111-004-tasks.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/artifacts/stories/US--001-accounts-column.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/artifacts/stories/US--002-service-locations-column.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/artifacts/stories/US--003-work-orders-column.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/artifacts/stories/US--004-integrated-actions.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/artifacts/stories/US--005-performance-and-quality.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/artifacts/stories/requirements-traceability.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/artifacts/stories/stories-manifest.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/artifacts/tasks/US--001-tasks.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/artifacts/tasks/US--002-tasks.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/artifacts/tasks/US--003-tasks.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/artifacts/tasks/US--004-tasks.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/stories-v2/US--001-accounts-column.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/stories-v2/US--002-service-locations-column.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/stories-v2/US--003-work-orders-column.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/stories-v2/US--004-integrated-actions.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/stories-v2/US--005-performance-and-quality.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/stories-v2/requirements-traceability.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/1.1.1-master-view/stories-v2/stories-manifest.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/BUSM.mmd
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/CURRENT-STATUS.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/README.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/busm-registry.js
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/naming-conventions.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/1-inputs/requirements/progressive-mapping.yaml
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/2-factory/validation/REQUIREMENTS-STATUS-REPORT.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/2-factory/validation/REQUIREMENTS-TRACEABILITY-MATRIX.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/2-factory/validation/requirements.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/2-factory/validation/validation-rules.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/1.1.1-master-view-v2/1.1.1-master-view-CONCEPT.html
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/1.1.1-master-view-v2/concept-manifest.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/1.1.1-master-view-v2/validation-report.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/1.1.1-master-view-validated/1.1.1-master-view-CONCEPT.html
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/1.1.1-master-view-validated/concept-manifest.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/1.1.1-master-view-validated/validation-report.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/1.1.1-master-view/1.1.1-master-view-CONCEPT.html
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/1.1.1-master-view/PROMOTION-CHECKLIST.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/1.1.1-master-view/concept-manifest.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/1.1.1-master-view/feedback-capture.js
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/CONTRACT-REGISTRY.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/communication-diagram.mmd
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/manifests/processor-manifest.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/modules/accounts/detail-view/DetailViewInterface.concept.ts
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/modules/accounts/master-view/MasterViewInterface.concept.ts
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/modules/integration-example.tsx
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/modules/interface-progression.ts
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/modules/work-orders/management/WorkOrderInterface.concept.ts
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/shared/contextual-feedback.js
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/shared/feedback-config.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/shared/feedback-dashboard.html
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/shared/feedback-framework.js
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/stories/US-006-service-locations-concept.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/stories/US-010-master-view-complete.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/tasks/US-006-tasks.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/3-workspace/concept/temp/TEMP-feedback-viewer.html
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-01-48-test-clean-slate-with-sources-archived/iteration-metadata.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-12-12-gf-test-run-archived/1-inputs/requirements/1.1.1-master-view/1.1.1-master-view-spec.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-12-12-gf-test-run-archived/1-inputs/requirements/BUSM.mmd
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-12-12-gf-test-run-archived/1-inputs/requirements/busm-registry.js
+	deleted:    .pipeline/iterations/archive/2025-08-19T10-12-12-gf-test-run-archived/iteration-metadata.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T13-51-10-implementing-user-feedback-archived/1-inputs/requirements/1.1.1-master-view/1.1.1-master-view-spec.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T13-51-10-implementing-user-feedback-archived/1-inputs/requirements/1.1.1-master-view/artifacts/stories/US--001-accounts-column.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T13-51-10-implementing-user-feedback-archived/1-inputs/requirements/1.1.1-master-view/artifacts/stories/US--002-service-locations-column.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T13-51-10-implementing-user-feedback-archived/1-inputs/requirements/1.1.1-master-view/artifacts/stories/US--003-work-orders-column.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T13-51-10-implementing-user-feedback-archived/1-inputs/requirements/1.1.1-master-view/artifacts/stories/US--004-integrated-actions.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T13-51-10-implementing-user-feedback-archived/1-inputs/requirements/1.1.1-master-view/artifacts/stories/US--005-performance-and-quality.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T13-51-10-implementing-user-feedback-archived/1-inputs/requirements/1.1.1-master-view/artifacts/stories/requirements-traceability.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T13-51-10-implementing-user-feedback-archived/1-inputs/requirements/1.1.1-master-view/artifacts/stories/stories-manifest.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T13-51-10-implementing-user-feedback-archived/1-inputs/requirements/1.1.1-master-view/artifacts/tasks/US--001-tasks.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T13-51-10-implementing-user-feedback-archived/1-inputs/requirements/1.1.1-master-view/artifacts/tasks/US--002-tasks.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T13-51-10-implementing-user-feedback-archived/1-inputs/requirements/1.1.1-master-view/artifacts/tasks/US--003-tasks.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T13-51-10-implementing-user-feedback-archived/1-inputs/requirements/1.1.1-master-view/artifacts/tasks/US--004-tasks.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T13-51-10-implementing-user-feedback-archived/1-inputs/requirements/BUSM.mmd
+	deleted:    .pipeline/iterations/archive/2025-08-19T13-51-10-implementing-user-feedback-archived/1-inputs/requirements/busm-registry.js
+	deleted:    .pipeline/iterations/archive/2025-08-19T13-51-10-implementing-user-feedback-archived/2-factory/validation/requirements.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T13-51-10-implementing-user-feedback-archived/2-factory/validation/validation-rules.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T13-51-10-implementing-user-feedback-archived/3-workspace/concept/1.1.1-master-view/1.1.1-master-view-CONCEPT-WITH-FEEDBACK.html
+	deleted:    .pipeline/iterations/archive/2025-08-19T13-51-10-implementing-user-feedback-archived/3-workspace/concept/1.1.1-master-view/1.1.1-master-view-CONCEPT.html
+	deleted:    .pipeline/iterations/archive/2025-08-19T13-51-10-implementing-user-feedback-archived/3-workspace/concept/1.1.1-master-view/concept-manifest.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T13-51-10-implementing-user-feedback-archived/3-workspace/concept/1.1.1-master-view/validation-report.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T13-51-10-implementing-user-feedback-archived/iteration-metadata.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/1-inputs/requirements/1.1.1-master-view/1.1.1-master-view-spec.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/1-inputs/requirements/1.1.1-master-view/artifacts/tasks/feedback-tasks-2025-08-19T14-05-06.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/1-inputs/requirements/BUSM.mmd
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/1-inputs/requirements/busm-registry.js
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/1-inputs/requirements/feedback-requirements/FEEDBACK-REQUIREMENTS-MASTER.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/1-inputs/requirements/feedback-requirements/account-display-feedback-spec.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/1-inputs/requirements/feedback-sessions/active/current-session.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/1-inputs/requirements/feedback-sessions/completed/demo-2025-08-19-mej0t8zj/FB-demo-2025-08-19-mej0t8zj-1.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/1-inputs/requirements/feedback-sessions/completed/demo-2025-08-19-mej0t8zj/current-session.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/1-inputs/requirements/feedback-sessions/completed/demo-2025-08-19-mej0t8zj/session-report.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/1-inputs/requirements/feedback-tasks/FEEDBACK-SUMMARY.md
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/1-inputs/requirements/feedback-tasks/TASK-1737497123456.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/1-inputs/requirements/feedback-tasks/TASK-1737497223789.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/1-inputs/requirements/feedback-tasks/TASK-1755615537305.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/1-inputs/requirements/feedback-tasks/TASK-1755615983830.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/1-inputs/requirements/feedback-tasks/TASK-demo-2025-08-19-mej0t8zj-1.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/2-factory/validation/original-test/requirements.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/2-factory/validation/original-test/validation-rules.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/2-factory/validation/requirements.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/2-factory/validation/validation-rules.json
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/3-workspace/concept/test-page.html
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/3-workspace/concept/test-with-inline-feedback.html
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/3-workspace/concept/test-with-server.html
+	deleted:    .pipeline/iterations/archive/2025-08-19T21-00-42-iteration-2---add-contact-info-archived/iteration-metadata.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-21-007/changelog.md
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-21-007/configs/entities/account/field-config-account-list-view-1755720191672.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-21-007/configs/layouts/layout-config-sample.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-21-007/configs/navigation/nav-config-context-aware.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-21-007/configs/navigation/nav-config-pest-control-v1.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-21-007/configs/navigation/nav-config-sample.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-21-007/configs/snapshot-info.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-21-007/generated/concept-line/account-list-view.html
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-21-007/metadata.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-21-007/rules/extracted-rules.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-21-008/changelog.md
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-21-008/configs/entities/account/field-config-account-list-view-1755720191672.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-21-008/configs/layouts/layout-config-sample.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-21-008/configs/navigation/nav-config-context-aware.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-21-008/configs/navigation/nav-config-pest-control-v1.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-21-008/configs/navigation/nav-config-sample.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-21-008/configs/snapshot-info.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-21-008/metadata.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-22-009/changelog.md
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-22-009/configs/entities/account/field-config-account-list-view-1755720191672.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-22-009/configs/entities/service-location/field-config-location-list-view-1755803970337.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-22-009/configs/layouts/layout-config-sample.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-22-009/configs/navigation/nav-config-context-aware.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-22-009/configs/navigation/nav-config-pest-control-v1.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-22-009/configs/navigation/nav-config-sample.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-22-009/configs/snapshot-info.json
+	deleted:    .pipeline/iterations/archive/ITER-2025-08-22-009/metadata.json
+	deleted:    .pipeline/iterations/current/iteration-pointer.json
+	deleted:    .pipeline/iterations/feedback-implementation-1755615136347/concept-backup/test-page.html
+	deleted:    .pipeline/iterations/feedback-implementation-1755615136347/concept-backup/test-with-inline-feedback.html
+	deleted:    .pipeline/iterations/manifest.json
+	deleted:    .pipeline/iterations/source-materials/1-inputs/requirements/1.1.1-master-view/1.1.1-master-view-spec.md
+	deleted:    .pipeline/iterations/source-materials/1-inputs/requirements/BUSM.mmd
+	deleted:    .pipeline/iterations/source-materials/1-inputs/requirements/busm-registry.js
+	deleted:    .pipeline/iterations/source-materials/1-inputs/requirements/feedback-requirements/account-display-feedback-spec.md
+	deleted:    .pipeline/source-artifacts/BUSM.mmd
+	deleted:    .pipeline/source-artifacts/master-view-feature.md
+	deleted:    .pipeline/start-auto-commit.sh
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	.pipeline-backup-2025-01-25-092719/
+	.pipeline-backup-2025-08-22-165751/
+	.pipeline/00-requirements/models/
+	.pipeline/00-requirements/prds/tracking/
+	.pipeline/00-requirements/specs/
+	.pipeline/01-concept-line/configs/test-fixtures/
+	.pipeline/01-concept-line/models/
+	.pipeline/01-concept-line/outputs/v1.0.0-2025-08-25-1025-initial/manifest.json
+	.pipeline/02-prototype-line/outputs/v2.0.0-2025-08-25-1025-initial/manifest.json
+	.pipeline/03-production-line/
+	.pipeline/07-database/
+	.pipeline/08-iterations/
+	.pipeline/09-documentation/architecture/FACTORY-PRINCIPLES.md
+	.pipeline/09-documentation/architecture/FACTORY-TOOLS-INVENTORY.md
+	.pipeline/09-documentation/architecture/IDEAS-MUST-HAVE.md
+	.pipeline/09-documentation/architecture/INTEGRATION-ARCHITECTURE-SPECIFICATION.md
+	.pipeline/09-documentation/architecture/INTEGRATION-PIPELINE-FLOW-MODEL.md
+	.pipeline/09-documentation/architecture/INTEGRATION-TOOLS-ROADMAP.md
+	.pipeline/09-documentation/architecture/PRD-SUMMARY.md
+	.pipeline/09-documentation/lessons-learned/THREAD-PRESERVATION-GAP-DISCOVERY.md
+	.pipeline/09-documentation/processes/STAGE-1-REQUIREMENTS-CAPTURE.md
+	.pipeline/10-handoffs/README.md
+	.pipeline/10-handoffs/completed/HANDOFF-2025-01-21.md
+	.pipeline/10-handoffs/completed/HANDOFF-2025-08-23-BREAKTHROUGH.md
+	.pipeline/10-handoffs/completed/HANDOFF-2025-08-23-CONTROL-PANEL.md
+	.pipeline/10-handoffs/completed/HANDOFF-SPRINT-1-COMPLETE.md
+	.pipeline/10-handoffs/completed/HANDOFF-TO-NEXT-THREAD.md
+	.pipeline/10-handoffs/templates/
+	.pipeline/12-operations/logs/auto-commit-new.log
+	.pipeline/12-operations/logs/auto-commit.log
+	.pipeline/12-operations/migrations/
+	.pipeline/12-operations/scripts/auto-commit-legacy.sh
+	NUL
+	package-lock.json
+	package.json
+
+no changes added to commit (use "git add" and/or "git commit -a")
+❌ Commit failed
+Auto-commit completed at Mon, Aug 25, 2025 11:00:05 AM

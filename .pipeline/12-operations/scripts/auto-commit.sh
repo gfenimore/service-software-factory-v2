@@ -14,19 +14,19 @@ detect_changes() {
     local changes=""
     
     # Check each major area
-    if [ ! -z "$(git status --porcelain $PIPELINE_DIR/factory-tools/)" ]; then
+    if [ ! -z "$(git status --porcelain $PIPELINE_DIR/01-concept-line/ $PIPELINE_DIR/02-prototype-line/ $PIPELINE_DIR/03-production-line/ $PIPELINE_DIR/04-processing-tools/ $PIPELINE_DIR/05-data-tools/ $PIPELINE_DIR/06-control-center/)" ]; then
         changes="${changes}tools "
     fi
-    if [ ! -z "$(git status --porcelain $PIPELINE_DIR/configurations/)" ]; then
+    if [ ! -z "$(git status --porcelain $PIPELINE_DIR/00-requirements/)" ]; then
         changes="${changes}configs "
     fi
-    if [ ! -z "$(git status --porcelain $PIPELINE_DIR/generated/)" ]; then
+    if [ ! -z "$(git status --porcelain $PIPELINE_DIR/*/outputs/)" ]; then
         changes="${changes}outputs "
     fi
-    if [ ! -z "$(git status --porcelain $PIPELINE_DIR/documentation/)" ]; then
+    if [ ! -z "$(git status --porcelain $PIPELINE_DIR/09-documentation/)" ]; then
         changes="${changes}docs "
     fi
-    if [ ! -z "$(git status --porcelain $PIPELINE_DIR/iterations/)" ]; then
+    if [ ! -z "$(git status --porcelain $PIPELINE_DIR/08-iterations/)" ]; then
         changes="${changes}iterations "
     fi
     

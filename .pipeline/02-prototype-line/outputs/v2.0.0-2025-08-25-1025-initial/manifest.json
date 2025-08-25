@@ -1,0 +1,12 @@
+{
+  "version": "v2.0.0",
+  "line": "prototype",
+  "timestamp": "2025-08-25T10:25:00Z",
+  "description": "Initial migration from legacy structure",
+  "migration_from": "legacy-structure",
+  "tools": [
+    "react-generator",
+    "prototype-runtime",
+    "theme-engine"
+  ]
+}

@@ -11,11 +11,11 @@ class PrototypeDatabaseGenerator {
   constructor(config = {}) {
     this.config = {
       iteration: config.iteration || 1,
-      modulePath: config.modulePath || '.pipeline/factory-tools/module-system',
-      busmPath: config.busmPath || '.pipeline/factory-tools/busm-reader/busm-model.json',
-      outputPath: config.outputPath || '.pipeline/database/migrations/prototype',
-      statePath: config.statePath || '.pipeline/database/state/prototype',
-      typesPath: config.typesPath || '.pipeline/database/types',
+      modulePath: config.modulePath || '.pipeline/04-processing-tools/module-system',
+      busmPath: config.busmPath || '.pipeline/01-concept-line/tools/busm-reader/busm-model.json',
+      outputPath: config.outputPath || '.pipeline/07-database/migrations/prototype',
+      statePath: config.statePath || '.pipeline/07-database/seeds/prototype',
+      typesPath: config.typesPath || '.pipeline/07-database/schemas',
       ...config
     };
     

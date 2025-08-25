@@ -10,9 +10,9 @@ const fs = require('fs').promises;
 const app = express();
 const PORT = 3000;
 
-// Get the absolute path to the factory-tools directory
+// Get the absolute path to the pipeline directory
 // Use path.resolve for robust cross-platform resolution
-const FACTORY_TOOLS_DIR = path.resolve(__dirname, '..');
+const PIPELINE_DIR = path.resolve(__dirname, '..');
 
 // Middleware
 app.use(express.json());
@@ -32,10 +32,10 @@ let currentBuild = {
 
 // Debug endpoint to check paths
 app.get('/api/debug', (req, res) => {
-  const testPath = path.join(FACTORY_TOOLS_DIR, 'busm-reader', 'busm-model.json');
+  const testPath = path.join(PIPELINE_DIR, '01-concept-line', 'tools', 'busm-reader', 'busm-model.json');
   res.json({
     __dirname: __dirname,
-    FACTORY_TOOLS_DIR: FACTORY_TOOLS_DIR,
+    PIPELINE_DIR: PIPELINE_DIR,
     testPath: testPath,
     exists: require('fs').existsSync(testPath),
     cwd: process.cwd()
@@ -45,9 +45,9 @@ app.get('/api/debug', (req, res) => {
 // Get BUSM entities
 app.get('/api/busm/entities', async (req, res) => {
   try {
-    const busmPath = path.join(FACTORY_TOOLS_DIR, 'busm-reader', 'busm-model.json');
+    const busmPath = path.join(PIPELINE_DIR, '01-concept-line', 'tools', 'busm-reader', 'busm-model.json');
     console.log('Trying to load BUSM from:', busmPath);
-    console.log('FACTORY_TOOLS_DIR:', FACTORY_TOOLS_DIR);
+    console.log('PIPELINE_DIR:', PIPELINE_DIR);
     console.log('__dirname:', __dirname);
     const busmData = await fs.readFile(busmPath, 'utf8');
     const busm = JSON.parse(busmData);
@@ -75,7 +75,7 @@ app.get('/api/busm/entities', async (req, res) => {
 // Get existing modules
 app.get('/api/modules', async (req, res) => {
   try {
-    const modulePath = path.join(FACTORY_TOOLS_DIR, 'module-system');
+    const modulePath = path.join(PIPELINE_DIR, '04-processing-tools', 'module-system');
     const files = await fs.readdir(modulePath);
     const modules = files
       .filter(f => f.endsWith('.yaml'))
@@ -187,7 +187,7 @@ async function createModuleConfig(entity, fields, phase) {
   
   const yaml = generateYAML(moduleConfig);
   const fileName = `${entity.toLowerCase()}-module-phase${phase}-ui.yaml`;
-  const filePath = path.join(FACTORY_TOOLS_DIR, 'module-system', fileName);
+  const filePath = path.join(PIPELINE_DIR, '04-processing-tools', 'module-system', fileName);
   
   await fs.writeFile(filePath, yaml);
   addLog(`Created module config: ${fileName}`);
@@ -196,7 +196,7 @@ async function createModuleConfig(entity, fields, phase) {
 // Generate database using our Database Generator
 async function generateDatabase(entity, phase) {
   return new Promise((resolve, reject) => {
-    const command = `node ${path.join(FACTORY_TOOLS_DIR, 'database-generator', 'index.js')} ${entity.toLowerCase()} ${phase} 1`;
+    const command = `node ${path.join(PIPELINE_DIR, '05-data-tools', 'database-generator', 'index.js')} ${entity.toLowerCase()} ${phase} 1`;
     
     exec(command, (error, stdout, stderr) => {
       if (error) {

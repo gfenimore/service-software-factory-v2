@@ -1,51 +1,74 @@
 # 🏭 Three-Line Factory Pipeline
 
 ## Overview
-This is a Configuration-Driven UI Factory that generates user interfaces from JSON configurations through three progressive production lines. Sprint 1 successfully delivered all three lines operational.
+This is a Configuration-Driven UI Factory that generates user interfaces from JSON configurations through three progressive production lines. The pipeline has been reorganized for better scalability and maintainability.
 
 ## 📂 Directory Structure
 
 ```
 .pipeline/
-├── factory-tools/              # All generators and tools
-│   ├── viewforge/             # Visual configuration tool
-│   │   ├── v3/               # Current version (Sprint 1 success)
-│   │   │   └── index.html    # Main ViewForge UI
-│   │   └── archive/          # Previous versions (v1, v2)
-│   │
-│   ├── generators/            # Code generators by production line
-│   │   ├── concept-html/     # B&W HTML generator
-│   │   ├── prototype-react/  # React + Tailwind generator
-│   │   └── production-vue/   # Vue generator (future)
-│   │
-│   └── iteration-manager/     # Iteration management tools
+├── 00-requirements/           # Business requirements & specs
+│   ├── models/               # Global business models (BUSM)
+│   ├── prds/                 # Product requirement documents
+│   └── business-rules/       # Business logic definitions
 │
-├── configurations/            # All input configurations
-│   ├── entities/             # Entity field configurations
-│   ├── navigation/           # Navigation menus
-│   ├── layouts/              # Page layouts
-│   └── test-fixtures/        # Test configurations
+├── 01-concept-line/          # Concept/wireframe generation
+│   ├── tools/                # ViewForge, BUSM reader
+│   ├── configs/              # Entity configurations
+│   ├── models/               # Concept flow diagrams
+│   └── outputs/              # Generated HTML wireframes
 │
-├── generated/                 # All generated outputs
-│   ├── concept-line/         # HTML outputs
-│   ├── prototype-line/       # React outputs
-│   └── production-line/      # Vue outputs (future)
+├── 02-prototype-line/        # Interactive prototype generation
+│   ├── tools/                # React generator, theme engine
+│   ├── configs/              # Component configurations
+│   ├── models/               # Component architecture
+│   └── outputs/              # Generated React apps
 │
-├── iterations/               # Iteration tracking system
-│   ├── current/             # Active iteration pointer
-│   ├── archive/             # All 9 historical iterations
-│   └── manifest.json        # Iteration registry
+├── 03-production-line/       # Production-ready generation
+│   ├── tools/                # Vue generator (future)
+│   ├── configs/              # Production configurations
+│   ├── models/               # Deployment models
+│   └── outputs/              # Production builds
 │
-├── documentation/            # Consolidated documentation
-│   ├── prds/               # Product Requirement Documents
-│   ├── learnings/          # Sprint learnings
-│   ├── handoffs/           # Handoff documents
-│   └── jobs-to-be-done/    # JTBD format docs
+├── 04-processing-tools/      # Core processing utilities
+│   ├── ast-generator/        # AST code generation
+│   ├── module-system/        # Module management
+│   └── manifest-manager/     # Manifest tracking
 │
-└── legacy-archive/          # Historical structures preserved
-    ├── 1-inputs/           # Old input system
-    ├── 2-factory/          # Old factory structure
-    └── 3-workspace/        # Old workspace
+├── 05-data-tools/            # Data management tools
+│   ├── database-generator/   # SQL migration generator
+│   ├── sample-data-generator/# Test data creation
+│   └── business-rules-engine/# Business logic
+│
+├── 06-control-center/        # Factory control panel
+│   └── server.js            # Web-based control interface
+│
+├── 07-database/              # Database artifacts
+│   ├── migrations/          # SQL migrations by line
+│   ├── schemas/             # Type definitions
+│   └── seeds/               # Seed data
+│
+├── 08-iterations/            # Iteration tracking
+│   ├── current/             # Active iteration
+│   └── archive/             # Historical iterations
+│
+├── 09-documentation/         # Project documentation
+│   ├── architecture/        # System architecture
+│   ├── guides/              # User guides
+│   └── lessons-learned/     # Sprint learnings
+│
+├── 10-handoffs/              # Session handoffs
+│   ├── active/              # Current handoffs
+│   ├── completed/           # Historical handoffs
+│   └── templates/           # Handoff templates
+│
+├── 11-quality/               # Quality assurance
+│   └── tests/               # Test suites
+│
+└── 12-operations/            # Operational tools
+    ├── scripts/             # Automation scripts
+    ├── logs/                # Operation logs
+    └── migrations/          # Migration history
 ```
 
 ## 🚀 Quick Start
@@ -53,7 +76,7 @@ This is a Configuration-Driven UI Factory that generates user interfaces from JS
 ### 1. Configure a View (ViewForge)
 ```bash
 # Open ViewForge in browser
-open .pipeline/factory-tools/viewforge/v3/index.html
+open .pipeline/01-concept-line/tools/viewforge/v3/index.html
 
 # Configure your view visually
 # Export JSON configuration
@@ -61,7 +84,7 @@ open .pipeline/factory-tools/viewforge/v3/index.html
 
 ### 2. Generate B&W HTML (Concept Line)
 ```bash
-cd .pipeline/factory-tools/generators/concept-html
+cd .pipeline/01-concept-line/tools/concept-generator/concept-html
 node index.js <config-file> <output-file>
 
 # Example:
@@ -70,11 +93,11 @@ node index.js test-fixtures/account-list-config.json ../../generated/concept-lin
 
 ### 3. Generate React Components (Prototype Line)
 ```bash
-cd .pipeline/factory-tools/generators/prototype-react
+cd .pipeline/02-prototype-line/tools/react-generator/prototype-react
 node index.js <config-file> <output-dir>
 
 # Example:
-node index.js ../concept-html/test-fixtures/account-list-config.json ../../generated/prototype-line/account-list/
+node index.js ../../01-concept-line/configs/test-fixtures/account-list-config.json ../outputs/latest/account-list/
 ```
 
 ## 📋 Sprint 1 Accomplishments
@@ -101,18 +124,18 @@ Successfully tested with Account List + Service Location fields
 
 The pipeline maintains a sophisticated iteration tracking system with 9 iterations:
 - Current iteration: `ITER-2025-08-22-009`
-- Access via: `.pipeline/iterations/current/iteration-pointer.json`
-- Full history preserved in: `.pipeline/iterations/archive/`
+- Access via: `.pipeline/08-iterations/current/iteration-pointer.json`
+- Full history preserved in: `.pipeline/08-iterations/archive/`
 
 ## 📖 Key Documents
 
 | Document | Location | Purpose |
 |----------|----------|---------|
-| ViewForge PRD | `documentation/prds/VIEWFORGE-PRD.md` | ViewForge requirements |
-| Concept PRD | `documentation/prds/CONCEPT-GENERATOR-PRD.md` | HTML generator spec |
-| Prototype PRD | `documentation/prds/PROTOTYPE-GENERATOR-PRD.md` | React generator spec |
-| Sprint 1 Summary | `documentation/learnings/SPRINT-1-LEARNINGS-SUMMARY.md` | Key learnings |
-| Latest Handoff | `documentation/handoffs/HANDOFF-SPRINT-1-COMPLETE.md` | Sprint 1 completion |
+| ViewForge PRD | `00-requirements/prds/VIEWFORGE-PRD.md` | ViewForge requirements |
+| Concept PRD | `00-requirements/prds/CONCEPT-GENERATOR-PRD.md` | HTML generator spec |
+| Prototype PRD | `00-requirements/prds/PROTOTYPE-GENERATOR-PRD.md` | React generator spec |
+| Sprint 1 Summary | `09-documentation/lessons-learned/SPRINT-1-LEARNINGS-SUMMARY.md` | Key learnings |
+| Latest Handoff | `10-handoffs/completed/HANDOFF-SPRINT-1-COMPLETE.md` | Sprint 1 completion |
 
 ## 🎨 Design Principles
 
@@ -126,7 +149,7 @@ The pipeline maintains a sophisticated iteration tracking system with 9 iteratio
 
 ### Test Concept Generator
 ```bash
-cd .pipeline/factory-tools/generators/concept-html
+cd .pipeline/01-concept-line/tools/concept-generator/concept-html
 node test-generator.js
 ```
 
