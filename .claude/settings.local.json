@@ -66,7 +66,21 @@
       "Bash(git ls-tree:*)",
       "Read(/c:\\Users\\GarryFenimore\\Downloads/**)",
       "Bash(md5sum:*)",
-      "Bash(taskkill:*)"
+      "Bash(taskkill:*)",
+      "Bash(if [ -d \".pipeline/database/migrations/concept\" ])",
+      "Bash(then cp -r .pipeline/database/migrations/concept/* .pipeline/07-database/migrations/concept/)",
+      "Bash(if [ -d \".pipeline/database/migrations/prototype\" ])",
+      "Bash(then cp -r .pipeline/database/migrations/prototype/* .pipeline/07-database/migrations/prototype/)",
+      "Bash(if [ -d \".pipeline/database/migrations/production\" ])",
+      "Bash(then cp -r .pipeline/database/migrations/production/* .pipeline/07-database/migrations/production/)",
+      "Bash(if [ -d \".pipeline/database/types\" ])",
+      "Bash(then cp -r .pipeline/database/types/* .pipeline/07-database/schemas/)",
+      "Bash(if [ -d \".pipeline/database/state\" ])",
+      "Bash(then cp -r .pipeline/database/state/* .pipeline/07-database/seeds/)",
+      "Bash(if [ -d \".pipeline/iterations/current\" ])",
+      "Bash(then cp -r .pipeline/iterations/current/* .pipeline/08-iterations/current/)",
+      "Bash(if [ -d \".pipeline/iterations/archive\" ])",
+      "Bash(then cp -r .pipeline/iterations/archive/* .pipeline/08-iterations/archive/)"
     ],
     "deny": [],
     "additionalDirectories": [
