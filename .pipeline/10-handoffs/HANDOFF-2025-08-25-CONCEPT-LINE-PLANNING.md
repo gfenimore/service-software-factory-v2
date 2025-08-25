@@ -44,12 +44,12 @@ Tests Passing: N/A (planning phase)
 
 ### Tools/Systems Identified
 1. **Existing Tools Ready**
-   - BUSM Reader: `.pipeline/factory-tools/busm-reader/`
-   - Business Rules Configurator: `.pipeline/factory-tools/business-rules-configurator/`
-   - Module System: `.pipeline/factory-tools/module-system/`
-   - ViewForge: `.pipeline/factory-tools/viewforge/`
-   - AST Generator: `.pipeline/factory-tools/ast-generator/`
-   - Gap Logger: `.pipeline/factory-tools/gap-logger/`
+   - BUSM Reader: `.pipeline/01-concept-line/tools/busm-reader/`
+   - Business Rules Configurator: `.pipeline/01-concept-line/tools/business-rules-configurator/`
+   - Module System: `.pipeline/04-processing-tools/module-system/`
+   - ViewForge: `.pipeline/01-concept-line/tools/viewforge/`
+   - AST Generator: `.pipeline/04-processing-tools/ast-generator/`
+   - Gap Logger: `.pipeline/04-processing-tools/gap-logger/`
 
 2. **Tools Needing Creation**
    - Rule Collection UI (PRD complete)
@@ -57,7 +57,7 @@ Tests Passing: N/A (planning phase)
    - BUSM Mermaid Parser (currently using JSON)
 
 ### New Dependencies/Requirements
-- [x] BUSM in Mermaid format (`.pipeline/source-artifacts/BUSM.mmd`)
+- [x] BUSM in Mermaid format (`.pipeline/00-requirements/models/BUSM.mmd`)
 - [x] Feature specifications from Product Owner
 - [ ] Pre-built app shell template
 - [ ] Stage orchestration script
@@ -80,22 +80,22 @@ Tests Passing: N/A (planning phase)
 ### Immediate Priorities (Next Session - FRESH START)
 1. **Create Stage 0 App Shell Template** - 2 hours
    - Context: Foundation for all components
-   - Location: `.pipeline/app-shell-template/`
+   - Location: `.pipeline/06-control-center/app-shell/`
    - Dependencies: React, React Router, Material UI
 
 2. **Build Pipeline Orchestrator** - 3 hours
    - Context: Automate Stage 1-6 execution
-   - Location: `.pipeline/concept-line-orchestrator/`
+   - Location: `.pipeline/01-concept-line/orchestrator/`
    - Dependencies: All factory tools
 
 3. **Implement BUSM Mermaid Parser** - 1 hour
    - Context: Parse `.mmd` files instead of JSON
-   - Location: `.pipeline/factory-tools/busm-reader/`
+   - Location: `.pipeline/01-concept-line/tools/busm-reader/`
    - Dependencies: Mermaid parser library
 
 4. **Create Rule Collection UI** - 4 hours
    - Context: Web UI for business rule definition
-   - Location: `.pipeline/factory-tools/business-rules-configurator/rule-collection-ui/`
+   - Location: `.pipeline/01-concept-line/tools/business-rules-configurator/rule-collection-ui/`
    - Dependencies: Express, HTML/JS frontend
 
 ### Upcoming Milestones
@@ -133,21 +133,21 @@ Tests Passing: N/A (planning phase)
 ## 🔗 References
 
 ### Key Files Created
-- `.pipeline/concept-line/STAGE-1-REQUIREMENTS-CAPTURE.md` - Detailed Stage 1 process
-- `.pipeline/factory-tools/business-rules-configurator/RULE-COLLECTION-UI-PRD.md` - UI specification
+- `.pipeline/concept-line/STAGE-1-REQUIREMENTS-CAPTURE.md` - Detailed Stage 1 process (NOTE: Created in wrong location)
+- `.pipeline/factory-tools/business-rules-configurator/RULE-COLLECTION-UI-PRD.md` - UI specification (NOTE: Created in wrong location)
 
 ### Documentation Updated
 - Concept Line flow diagram reviewed and refined
 - Stage inputs/outputs clearly defined
 
 ### External Resources
-- BUSM source: `.pipeline/source-artifacts/BUSM.mmd`
-- Feature spec: `.product-specs/.../master-view-feature.md`
+- BUSM source: `.pipeline/00-requirements/models/BUSM.mmd`
+- Feature spec: `.product-specs/00-platform-core/epics/EP-001-accounts/features/FEA-001-master-view/master-view-feature.md`
 
 ## ⚠️ Warnings/Caveats
 
 ### Don't Touch
-- `.pipeline/factory-tools/factory-control-panel/` - Working, serves on port 3000
+- Control Panel was in old structure (`.pipeline/factory-tools/`) - no longer exists in new structure
 
 ### For Fresh Start
 - DO NOT reuse any generated artifacts from this session
@@ -176,27 +176,28 @@ Tests Passing: N/A (planning phase)
 
 ### Pre-Start Checks
 - [ ] Start FRESH - no artifact reuse
-- [ ] Clear all `.pipeline/stage*/` directories
+- [ ] Clear all `.pipeline/01-concept-line/outputs/` directories
 - [ ] Review this handoff document
 - [ ] Have BUSM.mmd and master-view-feature.md ready
 
 ### Environment Setup
 - [ ] Current directory: `C:\Users\GarryFenimore\Projects\service-software-factory-v2`
-- [ ] Control Panel can run: `npm run control-panel` (port 3000)
 - [ ] Node/npm available
 - [ ] TypeScript installed
 
 ### First Commands
 ```bash
 # Start fresh
-rm -rf .pipeline/stage*-output/
-mkdir -p .pipeline/stage{1..6}-output
+rm -rf .pipeline/01-concept-line/outputs/*
+mkdir -p .pipeline/01-concept-line/outputs/stage{1..6}
 
 # Verify tools exist
-ls .pipeline/factory-tools/
+ls .pipeline/01-concept-line/tools/
+ls .pipeline/04-processing-tools/
 
 # Check source artifacts
-ls .pipeline/source-artifacts/
+ls .pipeline/00-requirements/models/
+cat .product-specs/00-platform-core/epics/EP-001-accounts/features/FEA-001-master-view/master-view-feature.md
 ```
 
 ---
@@ -221,8 +222,8 @@ ls .pipeline/source-artifacts/
 **Goal**: Execute a COMPLETE Concept Line run from BUSM + Feature Spec → Clickable POC
 
 **Starting Point**:
-1. BUSM diagram: `.pipeline/source-artifacts/BUSM.mmd`
-2. Feature spec: `.product-specs/.../master-view-feature.md`
+1. BUSM diagram: `.pipeline/00-requirements/models/BUSM.mmd`
+2. Feature spec: `.product-specs/00-platform-core/epics/EP-001-accounts/features/FEA-001-master-view/master-view-feature.md`
 
 **Ending Point**:
 - Working Master View at `http://localhost:3000/accounts/master-view`
