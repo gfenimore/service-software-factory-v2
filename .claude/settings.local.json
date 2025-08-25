@@ -65,7 +65,8 @@
       "Bash(npm init:*)",
       "Bash(git ls-tree:*)",
       "Read(/c:\\Users\\GarryFenimore\\Downloads/**)",
-      "Bash(md5sum:*)"
+      "Bash(md5sum:*)",
+      "Bash(taskkill:*)"
     ],
     "deny": [],
     "additionalDirectories": [
