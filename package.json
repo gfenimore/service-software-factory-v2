@@ -1,0 +1,32 @@
+{
+  "name": "service-software-factory-v2",
+  "version": "2.0.0",
+  "description": "Service Software Factory - Automated code generation pipeline",
+  "scripts": {
+    "module:build": "node .pipeline/factory-tools/module-system/module-builder.js",
+    "module:test": "node .pipeline/factory-tools/module-system/test-busm-to-module.js",
+    "module:quick": "node .pipeline/factory-tools/module-system/module-builder.js --quick",
+    "busm:test": "node .pipeline/factory-tools/busm-reader/test-busm-reader.js",
+    "ast:test": "node .pipeline/factory-tools/ast-generator/test-simple-ast.js",
+    "ast:integration": "node .pipeline/factory-tools/ast-generator/test-complete-integration.js",
+    "concept:generate": "node .pipeline/factory-tools/generators/concept-html/concept-generator-v3.js",
+    "viewforge:transform": "node .pipeline/factory-tools/viewforge/viewforge-transformer.js",
+    "rules:edit": "node .pipeline/factory-tools/business-rules-configurator/rules-cli.js",
+    "db:generate": "node .pipeline/factory-tools/database-generator/index.js",
+    "db:test": "node .pipeline/factory-tools/database-generator/index.js account 1 1",
+    "db:preview": "node .pipeline/factory-tools/database-generator/index.js --preview",
+    "db:status": "ls -la .pipeline/database/migrations/prototype/ 2>/dev/null || echo 'No migrations yet'",
+    "pipeline:status": "echo 'Checking pipeline status...' && ls -la .pipeline/factory-tools/",
+    "control-panel": "node .pipeline/06-control-panel/server.js",
+    "ui": "node .pipeline/06-control-panel/server.js",
+    "help": "echo 'Available commands:' && npm run"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "inquirer": "^12.9.3",
+    "yaml": "^2.8.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

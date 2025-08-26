@@ -50,6 +50,10 @@ next-env.d.ts
 
 # Temporary backup folders
 .backup/
+.pipeline-backup-*/
+.sdlc-backup-phase1/
+
+# Windows specific
+NUL
 
 .vercel
-.sdlc-backup-phase1/
