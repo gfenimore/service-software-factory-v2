@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Rules Configurator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Business Rules Configurator</h1>
+            <p>Define and manage business rules for the Concept Line pipeline</p>
+        </header>
+
+        <div class="toolbar">
+            <button id="addRuleBtn" class="btn btn-primary">Add New Rule</button>
+            <button id="exportBtn" class="btn btn-success">Export to Pipeline</button>
+            <button id="refreshBtn" class="btn">Refresh</button>
+        </div>
+
+        <div class="rules-container">
+            <h2>Current Rules</h2>
+            <div id="rulesList" class="rules-list">
+                <!-- Rules will be populated here -->
+            </div>
+        </div>
+
+        <div id="ruleModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Business Rule Definition</h2>
+                <form id="ruleForm">
+                    <div class="form-group">
+                        <label for="ruleName">Rule Name *</label>
+                        <input type="text" id="ruleName" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ruleDescription">Description *</label>
+                        <textarea id="ruleDescription" name="description" rows="3" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ruleType">Type *</label>
+                        <select id="ruleType" name="type" required>
+                            <option value="">Select Type</option>
+                            <option value="validation">Validation</option>
+                            <option value="calculation">Calculation</option>
+                            <option value="authorization">Authorization</option>
+                            <option value="workflow">Workflow</option>
+                            <option value="display">Display Logic</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ruleAppliesTo">Applies To (Component/Entity) *</label>
+                        <input type="text" id="ruleAppliesTo" name="appliesTo" required placeholder="e.g., AccountListView, Account">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rulePriority">Priority</label>
+                        <select id="rulePriority" name="priority">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                            <option value="critical">Critical</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ruleConditions">Conditions (When does this rule apply?)</label>
+                        <textarea id="ruleConditions" name="conditions" rows="3" placeholder="e.g., When account.status = 'active'"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ruleActions">Actions (What happens when triggered?)</label>
+                        <textarea id="ruleActions" name="actions" rows="3" placeholder="e.g., Show warning message, Block action"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ruleIndicator">UI Indicator</label>
+                        <select id="ruleIndicator" name="indicator">
+                            <option value="📌">📌 Business Rule</option>
+                            <option value="🔗">🔗 Integration</option>
+                            <option value="⚠️">⚠️ Gap/Warning</option>
+                            <option value="✅">✅ Validation</option>
+                            <option value="🔒">🔒 Security</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Rule</button>
+                        <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="exportModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Export Status</h2>
+                <div id="exportStatus"></div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="closeExportBtn">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
