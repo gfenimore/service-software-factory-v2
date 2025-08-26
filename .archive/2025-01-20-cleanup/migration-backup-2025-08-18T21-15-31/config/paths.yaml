@@ -1,0 +1,85 @@
+# Pipeline Path Configuration
+# Version: 1.0
+# Purpose: Centralized path configuration for all agents and processors
+# Migration Date: 2025-08-18
+
+version: 1.0
+base_path: ".pipeline"
+
+# Agent input/output paths
+agents:
+  STORY_BUILDER:
+    input: "${base_path}/current/features"
+    output: "${base_path}/current/stories"
+    
+  PLANNER:
+    input: "${base_path}/current/stories"
+    output: "${base_path}/current/tasks"
+    
+  ARCHITECT:
+    input: "${base_path}/current/stories"
+    output: "${base_path}/current/architecture"
+    
+  PROCESSOR_SELECTOR:
+    input: "${base_path}/current/tasks"
+    output: "${base_path}/current/manifests"
+    
+  DEVELOPER:
+    input: "${base_path}/current/tasks"
+    output: "src"  # Various locations in src/
+    
+  TESTER:
+    input: "${base_path}/current/tasks"
+    output: "${base_path}/current/test-reports"
+    
+  DEVOPS:
+    orchestration_only: true
+    session_tracking: "${base_path}/current/session.json"
+
+# Processor output paths
+processors:
+  output_base: "src"
+  test_output: "${base_path}/staging/test-pages"
+  
+  TYPE_PROCESSOR:
+    output: "src/types"
+    
+  SCAFFOLD_PROCESSOR:
+    output: "src/components"
+    
+  REACT_PROCESSOR:
+    modifies: "src/components"
+    
+  HOOK_PROCESSOR:
+    output: "src/hooks"
+    
+  TEST_PROCESSOR:
+    output: "src/__tests__"
+    
+  MODIFY_PROCESSOR:
+    modifies: "various"
+
+# Session management
+session:
+  state_file: "${base_path}/current/session.json"
+  backup_dir: "${base_path}/archive/sessions"
+  
+# Archive configuration
+archive:
+  path: "${base_path}/archive"
+  retention_days: 90
+  completed_features: "${base_path}/archive/features"
+  
+# Staging area for validation
+staging:
+  test_pages: "${base_path}/staging/test-pages"
+  validation_reports: "${base_path}/staging/validation"
+  
+# Legacy path mappings (for migration reference)
+legacy_mappings:
+  ".cursor/artifacts/current/planning/": "${base_path}/current/tasks/"
+  ".sdlc/01-planning/user-stories/": "${base_path}/current/stories/"
+  ".sdlc/05-backlog/": "${base_path}/current/architecture/"
+  ".product-specs/": "${base_path}/current/features/"
+  "src/app/test/": "${base_path}/staging/test-pages/"
+  ".sdlc/10-project-tracking/config/session-state.json": "${base_path}/current/session.json"

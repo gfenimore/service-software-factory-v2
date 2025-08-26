@@ -1,0 +1,126 @@
+{
+  "account": {
+    "name": "account",
+    "fields": [
+      {
+        "name": "id",
+        "type": "UUID DEFAULT gen_random_uuid()",
+        "required": true,
+        "primaryKey": true,
+        "unique": false,
+        "defaultValue": "gen_random_uuid()"
+      },
+      {
+        "name": "account_number",
+        "type": "VARCHAR(255)",
+        "required": true,
+        "primaryKey": false,
+        "unique": false,
+        "defaultValue": null
+      },
+      {
+        "name": "account_name",
+        "type": "VARCHAR(255)",
+        "required": true,
+        "primaryKey": false,
+        "unique": false,
+        "defaultValue": null
+      },
+      {
+        "name": "account_type",
+        "type": "VARCHAR(255)",
+        "required": true,
+        "primaryKey": false,
+        "unique": false,
+        "defaultValue": null
+      },
+      {
+        "name": "status",
+        "type": "VARCHAR(255)",
+        "required": true,
+        "primaryKey": false,
+        "unique": false,
+        "defaultValue": "'Active'"
+      },
+      {
+        "name": "email",
+        "type": "VARCHAR(255)",
+        "required": false,
+        "primaryKey": false,
+        "unique": false,
+        "defaultValue": null
+      },
+      {
+        "name": "phone",
+        "type": "VARCHAR(20)",
+        "required": false,
+        "primaryKey": false,
+        "unique": false,
+        "defaultValue": null
+      },
+      {
+        "name": "address",
+        "type": "VARCHAR(255)",
+        "required": false,
+        "primaryKey": false,
+        "unique": false,
+        "defaultValue": null
+      },
+      {
+        "name": "city",
+        "type": "VARCHAR(255)",
+        "required": false,
+        "primaryKey": false,
+        "unique": false,
+        "defaultValue": null
+      },
+      {
+        "name": "state",
+        "type": "VARCHAR(255)",
+        "required": false,
+        "primaryKey": false,
+        "unique": false,
+        "defaultValue": null
+      },
+      {
+        "name": "zip_code",
+        "type": "VARCHAR(255)",
+        "required": false,
+        "primaryKey": false,
+        "unique": false,
+        "defaultValue": null
+      },
+      {
+        "name": "owner_id",
+        "type": "UUID DEFAULT gen_random_uuid()",
+        "required": true,
+        "primaryKey": false,
+        "unique": false,
+        "defaultValue": null
+      },
+      {
+        "name": "created_by",
+        "type": "UUID DEFAULT gen_random_uuid()",
+        "required": true,
+        "primaryKey": false,
+        "unique": false,
+        "defaultValue": null
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "required": true,
+        "primaryKey": false,
+        "unique": false,
+        "defaultValue": "NOW()"
+      }
+    ],
+    "indexes": [
+      {
+        "name": "idx_account_owner_id",
+        "column": "owner_id"
+      }
+    ],
+    "foreignKeys": []
+  }
+}

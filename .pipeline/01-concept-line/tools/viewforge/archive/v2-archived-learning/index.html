@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViewForge 2.0 - Configuration-Driven UI Factory</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/concept-line.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="app-header">
+            <h1>ViewForge 2.0</h1>
+            <div class="header-info">
+                <div id="hierarchy-context" class="hierarchy-display"></div>
+                <span id="current-entity">No Entity Selected</span>
+                <span id="save-status">Ready</span>
+            </div>
+        </header>
+        
+        <!-- Hierarchy Breadcrumb -->
+        <div class="breadcrumb-bar">
+            <div id="hierarchy-breadcrumb">Loading hierarchy...</div>
+        </div>
+
+        <!-- Main Container -->
+        <div class="main-container">
+            <!-- Sidebar - Entity Selection -->
+            <aside class="sidebar">
+                <h2>Entity</h2>
+                <div class="entity-tabs">
+                    <button class="entity-tab active" data-entity="account">Account</button>
+                    <button class="entity-tab" data-entity="serviceLocation">Service Location</button>
+                    <button class="entity-tab" data-entity="workOrder">Work Order</button>
+                    <button class="entity-tab" data-entity="technician">Technician</button>
+                    <button class="entity-tab" data-entity="customer">Customer</button>
+                </div>
+                
+                <div class="entity-info">
+                    <h3>Entity Details</h3>
+                    <div id="entity-details">
+                        <p>Select an entity to view details</p>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content - Field Configuration -->
+            <main class="main-content">
+                <div class="config-header">
+                    <h2>Field Configuration</h2>
+                    <div class="view-context">
+                        <label>Context:</label>
+                        <select id="view-context">
+                            <option value="list" selected>List View</option>
+                            <option value="detail" disabled>Detail View (Week 2)</option>
+                            <option value="edit" disabled>Edit View (Future)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Field Selector -->
+                <div class="field-selector">
+                    <div class="field-controls">
+                        <input type="text" id="field-search" placeholder="Search fields...">
+                        <button id="select-all">Select All</button>
+                        <button id="deselect-all">Deselect All</button>
+                    </div>
+
+                    <div class="field-list" id="field-list">
+                        <!-- Fields will be dynamically loaded here -->
+                        <div class="loading">Loading fields...</div>
+                    </div>
+                </div>
+
+                <!-- Selected Fields -->
+                <div class="selected-fields">
+                    <h3>Selected Fields (<span id="field-count">0</span>)</h3>
+                    <div class="selected-list" id="selected-list">
+                        <p class="empty-state">No fields selected</p>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Right Panel - Configuration Summary -->
+            <aside class="right-panel">
+                <h2>Configuration</h2>
+                
+                <div class="config-summary">
+                    <h3>Current Configuration</h3>
+                    <dl>
+                        <dt>Scope:</dt>
+                        <dd id="config-scope">Story</dd>
+                        <dt>Story:</dt>
+                        <dd id="config-story">US-001</dd>
+                        <dt>Entity:</dt>
+                        <dd id="config-entity">None</dd>
+                        <dt>View Type:</dt>
+                        <dd id="config-view">List View</dd>
+                        <dt>Fields Selected:</dt>
+                        <dd id="config-fields">0</dd>
+                    </dl>
+                </div>
+
+                <div class="actions">
+                    <button id="save-config" class="btn-primary">Save Configuration</button>
+                    <button id="export-json" class="btn-secondary">Export JSON</button>
+                    <button id="clear-config" class="btn-danger">Clear All</button>
+                </div>
+
+                <div class="export-result">
+                    <h3>Export</h3>
+                    <textarea id="json-output" readonly placeholder="JSON will appear here after export"></textarea>
+                    <button id="copy-json" disabled>Copy to Clipboard</button>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-info">
+                <span>ViewForge 2.0 - Week 1 MVP</span>
+                <span>|</span>
+                <span>Iteration: ITER-2025-08-22-009</span>
+                <span>|</span>
+                <span id="auto-save-status">Auto-save: Enabled</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/core/state.js"></script>
+    <script src="js/core/hierarchy.js"></script>
+    <script src="js/core/events.js"></script>
+    <script src="js/integrations/busm.js"></script>
+    <script src="js/modules/field-config.js"></script>
+    <script src="js/modules/export.js"></script>
+    <script src="js/core/app.js"></script>
+</body>
+</html>

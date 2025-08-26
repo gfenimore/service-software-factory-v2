@@ -1,0 +1,162 @@
+{
+  "root": {
+    "name": "MasterView",
+    "type": "container",
+    "props": {},
+    "children": [
+      {
+        "name": "accounts-column",
+        "type": "column",
+        "title": "Accounts",
+        "props": {
+          "searchable": true,
+          "hasCounter": true
+        },
+        "htmlSnippet": "<div class=\"column\" id=\"accounts-column\"><div class=\"column-header\"><span class=\"column-title\">Accounts</span><span class=\"column-count\" id=\"accounts-count\">0</span></div><div class=\"search-box\"><inpu..."
+      },
+      {
+        "name": "locations-column",
+        "type": "column",
+        "title": "Service Locations",
+        "props": {
+          "searchable": true,
+          "hasCounter": true
+        },
+        "htmlSnippet": "<div class=\"column\" id=\"locations-column\"><div class=\"column-header\"><span class=\"column-title\">Service Locations</span><span class=\"column-count\" id=\"locations-count\">0</span></div><div class=\"search..."
+      },
+      {
+        "name": "workorders-column",
+        "type": "column",
+        "title": "Work Orders",
+        "props": {
+          "searchable": true,
+          "hasCounter": true
+        },
+        "htmlSnippet": "<div class=\"column\" id=\"workorders-column\"><div class=\"column-header\"><span class=\"column-title\">Work Orders</span><span class=\"column-count\" id=\"workorders-count\">0</span></div><div class=\"search-box..."
+      }
+    ],
+    "htmlStructure": [
+      {
+        "type": "container",
+        "classes": [
+          "header"
+        ],
+        "position": 6
+      },
+      {
+        "type": "container",
+        "classes": [
+          "master-view"
+        ],
+        "position": 341
+      },
+      {
+        "type": "container",
+        "classes": [
+          "column"
+        ],
+        "position": 420
+      },
+      {
+        "type": "container",
+        "classes": [
+          "column-header"
+        ],
+        "position": 475
+      },
+      {
+        "type": "container",
+        "classes": [
+          "column-content"
+        ],
+        "position": 818
+      },
+      {
+        "type": "container",
+        "classes": [
+          "column"
+        ],
+        "position": 960
+      },
+      {
+        "type": "container",
+        "classes": [
+          "column-header"
+        ],
+        "position": 1016
+      },
+      {
+        "type": "container",
+        "classes": [
+          "column-content"
+        ],
+        "position": 1371
+      },
+      {
+        "type": "container",
+        "classes": [
+          "column"
+        ],
+        "position": 1606
+      },
+      {
+        "type": "container",
+        "classes": [
+          "column-header"
+        ],
+        "position": 1663
+      },
+      {
+        "type": "container",
+        "classes": [
+          "column-content"
+        ],
+        "position": 2016
+      }
+    ],
+    "subComponents": [
+      "column",
+      "searchBox"
+    ]
+  },
+  "inventory": {
+    "containers": [
+      "MasterView",
+      "accounts-column",
+      "locations-column",
+      "workorders-column"
+    ],
+    "inputs": [],
+    "displays": [],
+    "controls": []
+  },
+  "hierarchy": [
+    {
+      "level": 0,
+      "name": "MasterView",
+      "type": "container"
+    },
+    {
+      "level": 1,
+      "name": "accounts-column",
+      "type": "column"
+    },
+    {
+      "level": 1,
+      "name": "locations-column",
+      "type": "column"
+    },
+    {
+      "level": 1,
+      "name": "workorders-column",
+      "type": "column"
+    }
+  ],
+  "metadata": {
+    "totalComponents": 4,
+    "types": {
+      "container": 1,
+      "column": 3
+    }
+  }
+}

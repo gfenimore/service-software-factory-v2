@@ -1,0 +1,20 @@
+Line/Layer,Tool/PRD Name,Implemented,Location
+Concept Line,Concept Generator,Y,documentation/prds
+Concept Line,Sample Data Generator,N,factory-tools/sample-data-generator
+Prototype Line,Prototype Generator,Y,documentation/prds
+Prototype Line,Prototype Runtime,N,factory-tools/prototype-runtime
+Prototype Line,Theme Engine,Partial,factory-tools/theme-engine
+Prototype Line,Database Generator,N,factory-tools/database-generator
+Configuration Layer,ViewForge 2.0,Partial,documentation/prds
+Configuration Layer,ViewForge Transformer,Y,factory-tools/viewforge
+Configuration Layer,ViewForge Integration Support,N,factory-tools/viewforge
+Foundation Layer,BUSM Reader,Y,factory-tools/busm-reader
+Foundation Layer,AST Generator,Y,factory-tools/ast-generator
+Foundation Layer,Business Rules Configurator,Partial,factory-tools/business-rules-configurator
+Foundation Layer,Module System,Partial,factory-tools/module-system
+Integration Architecture,Integration Discovery Scanner,N,factory-tools/integration-discovery-scanner
+Integration Architecture,Integration Version Resolver,N,factory-tools/integration-version-resolver
+Integration Architecture,Manifest Manager,N,factory-tools/manifest-manager
+Management & Quality,Factory Control Panel,Partial,factory-tools/factory-control-panel
+Management & Quality,Gap Logger,N,factory-tools/gap-logger
+Management & Quality,Generator Root Cause Analysis,Doc Only,factory-tools/generators/prototype-react

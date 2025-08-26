@@ -1,0 +1,336 @@
+# Phase 1: Account Basic - Minimum Viable Module
+# Start here - just accounts, no relationships
+
+module:
+  id: account-basic
+  name: Basic Account Management
+  version: 0.1.0
+  description: Minimal account CRUD - our starting point
+  phase: 1
+  
+  # Just ONE entity to start
+  entities:
+    owned:
+      - Account
+    referenced: []  # No dependencies yet
+  
+  # No sub-modules for phase 1
+  sub_modules: []
+  
+  # Simple, focused scope
+  scope:
+    includes:
+      - Create accounts
+      - View account list
+      - View account details
+      - Edit accounts
+      - Change account status
+    
+    excludes:
+      - Contacts (Phase 3)
+      - Locations (Phase 2)
+      - Opportunities (Future module)
+      - Invoices (Future module)
+
+# ============================================
+# BUSM Definition (Minimal)
+# ============================================
+
+busm:
+  Account:
+    # Identity
+    accountId: 
+      type: uuid
+      primaryKey: true
+      generated: true
+    
+    accountNumber:
+      type: string
+      generated: ACC-{YYYY}-{0000}
+      unique: true
+      readonly: true
+    
+    # Core fields only
+    accountName:
+      type: string
+      required: true
+      unique: true
+      maxLength: 100
+      description: Legal business name
+    
+    accountType:
+      type: enum
+      options: [Residential, Commercial, Industrial, Other]
+      required: true
+      default: Residential
+    
+    status:
+      type: enum
+      options: [Active, Suspended, Prospect, Closed]
+      default: Prospect
+    
+    # Minimal additional fields
+    website:
+      type: url
+      maxLength: 255
+    
+    notes:
+      type: text
+      maxLength: 2000
+    
+    # System fields
+    createdAt:
+      type: datetime
+      generated: true
+      readonly: true
+    
+    updatedAt:
+      type: datetime
+      generated: true
+      readonly: true
+
+# ============================================
+# Business Rules (Minimal)
+# ============================================
+
+business_rules:
+  Account:
+    validation:
+      required: 
+        - accountName
+        - accountType
+      unique:
+        - accountName
+        - accountNumber
+      patterns:
+        accountName: ^[A-Za-z0-9\s\-\.\,]+$
+        website: ^https?://.*
+    
+    states:
+      Prospect:
+        transitions: [Active, Closed]
+        color: blue
+        icon: clock
+      
+      Active:
+        transitions: [Suspended, Closed]
+        color: green
+        icon: check
+      
+      Suspended:
+        transitions: [Active, Closed]
+        color: orange
+        icon: pause
+      
+      Closed:
+        transitions: []  # Terminal state
+        color: red
+        icon: lock
+    
+    logic:
+      onCreate:
+        - action: setState
+          value: Prospect
+        - action: generateField
+          field: accountNumber
+        - action: log
+          message: "Account created: {accountName}"
+      
+      onStateChange:
+        Prospect_to_Active:
+          - action: log
+            message: "Account activated: {accountName}"
+        
+        Active_to_Suspended:
+          - action: log
+            level: warning
+            message: "Account suspended: {accountName}"
+
+# ============================================
+# ViewForge Configs (3 Simple Views)
+# ============================================
+
+views:
+  # 1. List View
+  account-list:
+    id: account-list
+    type: list
+    entity: Account
+    title: Accounts
+    
+    display:
+      fields:
+        - path: accountNumber
+          label: Account #
+          sortable: true
+          width: 120
+        
+        - path: accountName
+          label: Account Name
+          sortable: true
+          clickable: true
+          width: 300
+        
+        - path: accountType
+          label: Type
+          sortable: true
+          width: 100
+        
+        - path: status
+          label: Status
+          sortable: true
+          width: 100
+          badge: true
+      
+      actions: [create, view, edit]
+    
+    navigation:
+      onRowClick:
+        target: account-detail
+        params: [accountId]
+      
+      onActionClick:
+        create:
+          target: account-form
+          mode: create
+    
+    dataSource:
+      entity: Account
+      orderBy: accountName
+      limit: 25
+  
+  # 2. Detail View
+  account-detail:
+    id: account-detail
+    type: detail
+    entity: Account
+    title: Account Details
+    
+    display:
+      sections:
+        - name: Basic Information
+          fields:
+            - accountNumber
+            - accountName
+            - accountType
+            - status
+        
+        - name: Additional Information
+          fields:
+            - website
+            - notes
+        
+        - name: System Information
+          fields:
+            - createdAt
+            - updatedAt
+      
+      actions: [edit, changeStatus]
+    
+    navigation:
+      onActionClick:
+        edit:
+          target: account-form
+          mode: edit
+          params: [accountId]
+        
+        changeStatus:
+          target: status-change-modal
+          params: [accountId, status]
+  
+  # 3. Form View
+  account-form:
+    id: account-form
+    type: form
+    entity: Account
+    title: "{mode === 'create' ? 'New Account' : 'Edit Account'}"
+    
+    display:
+      fields:
+        - path: accountName
+          label: Account Name
+          required: true
+          placeholder: Enter account name
+          help: Legal business name
+        
+        - path: accountType
+          label: Account Type
+          required: true
+          type: select
+        
+        - path: website
+          label: Website
+          placeholder: https://example.com
+        
+        - path: notes
+          label: Notes
+          type: textarea
+          rows: 4
+      
+      actions: [save, cancel]
+    
+    navigation:
+      onSave:
+        success:
+          target: account-detail
+          params: [accountId]
+      
+      onCancel:
+        target: _back  # Go back to previous view
+
+# ============================================
+# Test Data for Phase 1
+# ============================================
+
+sample_data:
+  accounts:
+    - accountNumber: ACC-2025-0001
+      accountName: Acme Corporation
+      accountType: Enterprise
+      status: Active
+      website: https://acme.com
+      notes: Our largest client
+    
+    - accountNumber: ACC-2025-0002
+      accountName: TechStart Inc
+      accountType: Standard
+      status: Active
+      website: https://techstart.io
+    
+    - accountNumber: ACC-2025-0003
+      accountName: Global Services Ltd
+      accountType: Premium
+      status: Prospect
+      notes: In negotiation
+
+# ============================================
+# Generation Commands
+# ============================================
+
+commands:
+  # Generate everything for Phase 1
+  generate: npm run module:generate account-basic
+  
+  # Test Phase 1
+  test: npm run module:test account-basic
+  
+  # Run Phase 1
+  serve: npm run module:serve account-basic
+
+# ============================================
+# Success Criteria for Phase 1
+# ============================================
+
+success_criteria:
+  - ✓ Can create new accounts
+  - ✓ Can view list of accounts
+  - ✓ Can view account details
+  - ✓ Can edit accounts
+  - ✓ Can change account status
+  - ✓ Account number auto-generates
+  - ✓ Validation works
+  - ✓ State transitions work
+  - ✓ No broken references
+  - ✓ All navigation works
+
+# Next: Phase 2 adds AccountLocation

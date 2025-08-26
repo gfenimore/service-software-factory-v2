@@ -1,0 +1,17 @@
+{
+  "name": "concept-line-orchestrator",
+  "version": "1.0.0",
+  "description": "Orchestrator for Concept Line pipeline stages 1-6",
+  "main": "pipeline-orchestrator.js",
+  "scripts": {
+    "start": "node pipeline-orchestrator.js",
+    "run-pipeline": "node pipeline-orchestrator.js"
+  },
+  "bin": {
+    "concept-line": "./pipeline-orchestrator.js"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

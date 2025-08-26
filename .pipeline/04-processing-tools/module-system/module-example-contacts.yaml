@@ -1,0 +1,143 @@
+# Contacts Module - Simplest Starting Point
+# This is the minimal module to build first
+
+module:
+  id: contacts-basic
+  name: Basic Contact Management
+  version: 1.0.0
+  description: Standalone contact management without account relationships
+  
+  # Start with just ONE entity
+  entities:
+    owned:
+      - Contact
+    referenced: []  # No dependencies yet!
+  
+  # No dependencies for v1
+  dependencies: []
+  
+  # Simple navigation
+  navigation:
+    main_menu:
+      - label: Contacts
+        view: contact-list
+        icon: users
+  
+  # Minimal views
+  views:
+    - contact-list
+    - contact-detail
+    - contact-form
+  
+  # Module-scoped business rules
+  business_rules:
+    Contact:
+      validation:
+        required: [firstName, lastName, email]
+        unique: [email]
+        patterns:
+          email: ^[^@]+@[^@]+\.[^@]+$
+      
+      states:
+        Active: [Inactive]
+        Inactive: [Active]
+      
+      logic:
+        onCreate:
+          - action: setState
+            value: Active
+          - action: generateField
+            field: contactNumber
+            format: CON-{YYYY}-{0000}
+
+# ViewForge configs for this module
+viewforge_configs:
+  contact-list:
+    entity: Contact
+    type: list
+    display:
+      fields:
+        - path: contactNumber
+          label: Contact #
+        - path: firstName
+          label: First Name
+        - path: lastName
+          label: Last Name  
+        - path: email
+          label: Email
+        - path: phone
+          label: Phone
+        - path: status
+          label: Status
+      actions: [view, edit, delete, create]
+    
+    navigation:
+      onRowClick:
+        target: contact-detail
+        params: [contactId]
+  
+  contact-detail:
+    entity: Contact
+    type: detail
+    display:
+      fields:
+        - path: contactNumber
+        - path: firstName
+        - path: lastName
+        - path: email
+        - path: phone
+        - path: address
+        - path: status
+      actions: [edit, delete]
+    
+    navigation:
+      onActionClick:
+        edit:
+          target: contact-form
+          mode: edit
+  
+  contact-form:
+    entity: Contact
+    type: form
+    display:
+      fields:
+        - path: firstName
+        - path: lastName
+        - path: email
+        - path: phone
+        - path: address
+
+# BUSM subset for this module
+busm_subset:
+  Contact:
+    contactId: 
+      type: uuid
+      primaryKey: true
+    contactNumber:
+      type: string
+      generated: true
+    firstName:
+      type: string
+      maxLength: 50
+    lastName:
+      type: string
+      maxLength: 50
+    email:
+      type: email
+      maxLength: 100
+    phone:
+      type: string
+      maxLength: 20
+    address:
+      type: string
+      maxLength: 255
+    status:
+      type: enum
+      options: [Active, Inactive]
+      default: Active
+    createdAt:
+      type: datetime
+      generated: true
+    updatedAt:
+      type: datetime
+      generated: true

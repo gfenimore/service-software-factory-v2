@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factory Control Panel - Service Software Factory</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🏭 SERVICE SOFTWARE FACTORY - CONTROL PANEL</h1>
+            <div class="header-info">
+                <span>Version: MVP 1.0</span>
+                <span id="currentTime"></span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Left Panel: Entity Selector -->
+            <div class="panel entity-panel">
+                <h2>📊 BUSM Entities</h2>
+                <div id="entityList" class="entity-list">
+                    <!-- Entities will be loaded here -->
+                </div>
+                <div class="phase-selector">
+                    <label>Phase:</label>
+                    <select id="phaseSelect">
+                        <option value="1">Phase 1 - Essential</option>
+                        <option value="2">Phase 2 - Extended</option>
+                        <option value="3">Phase 3 - Complete</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Center Panel: Field Selector -->
+            <div class="panel field-panel">
+                <h2>✏️ Field Selection</h2>
+                <div class="entity-header">
+                    <h3 id="selectedEntity">Select an entity...</h3>
+                    <span id="fieldCount">0 fields available</span>
+                </div>
+                <div id="fieldList" class="field-list">
+                    <!-- Fields will be loaded here -->
+                </div>
+                <div class="field-summary">
+                    <span id="selectedCount">0 fields selected</span>
+                </div>
+            </div>
+
+            <!-- Right Panel: Pipeline Control -->
+            <div class="panel control-panel">
+                <h2>🚀 Pipeline Control</h2>
+                
+                <!-- Build Button -->
+                <div class="build-section">
+                    <button id="buildButton" class="build-button" disabled>
+                        BUILD IT
+                    </button>
+                    <p class="build-hint">Select an entity and fields to enable</p>
+                </div>
+
+                <!-- Pipeline Status -->
+                <div class="pipeline-status">
+                    <h3>Pipeline Status</h3>
+                    <div id="pipelineStages">
+                        <div class="stage" data-stage="module">
+                            <span class="stage-icon">📋</span>
+                            <span class="stage-name">Module Config</span>
+                            <span class="stage-status">Ready</span>
+                        </div>
+                        <div class="stage" data-stage="database">
+                            <span class="stage-icon">🗄️</span>
+                            <span class="stage-name">Database</span>
+                            <span class="stage-status">Ready</span>
+                        </div>
+                        <div class="stage" data-stage="components">
+                            <span class="stage-icon">⚛️</span>
+                            <span class="stage-name">Components</span>
+                            <span class="stage-status">Ready</span>
+                        </div>
+                        <div class="stage" data-stage="validation">
+                            <span class="stage-icon">✅</span>
+                            <span class="stage-name">Validation</span>
+                            <span class="stage-status">Ready</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Build Logs -->
+                <div class="build-logs">
+                    <h3>Build Output</h3>
+                    <div id="logOutput" class="log-output">
+                        <div class="log-entry">Welcome to Factory Control Panel!</div>
+                        <div class="log-entry">Select an entity to begin...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-stats">
+                <span>Entities: <strong id="entityCount">0</strong></span>
+                <span>Modules Built: <strong id="moduleCount">0</strong></span>
+                <span>Status: <strong id="systemStatus">Ready</strong></span>
+            </div>
+            <div class="footer-actions">
+                <button onclick="viewHistory()">📜 History</button>
+                <button onclick="refreshData()">🔄 Refresh</button>
+                <button onclick="showHelp()">❓ Help</button>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modal for History -->
+    <div id="historyModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Build History</h2>
+            <div id="historyContent">
+                <!-- History will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

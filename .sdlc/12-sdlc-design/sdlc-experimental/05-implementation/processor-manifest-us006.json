@@ -1,0 +1,169 @@
+{
+  "story": "US-006",
+  "slice": 1,
+  "slice_name": "Core Location Display",
+  "architecture_doc": ".sdlc/12-sdlc-design/sdlc-experimental/02-design/specs/US-006-architecture.md",
+  "analysis_timestamp": "2025-08-14T22:00:00Z",
+  "processors": [
+    {
+      "sequence": 1,
+      "processor": "TYPE-PROCESSOR",
+      "purpose": "Create all TypeScript interfaces for service locations",
+      "task": "T-001",
+      "input": ".sdlc/12-sdlc-design/sdlc-experimental/02-design/specs/US-006-architecture.md",
+      "output": "src/types/serviceLocation.types.ts",
+      "interfaces": [
+        "ServiceLocation",
+        "ServiceLocationsResponse",
+        "ServiceLocationsListProps",
+        "ServiceLocationsListState",
+        "UseServiceLocationsResult",
+        "UseServiceLocationsOptions",
+        "ServiceLocationCardProps"
+      ],
+      "estimated_time_minutes": 5,
+      "validation": "npm run type-check"
+    },
+    {
+      "sequence": 2,
+      "processor": "SCAFFOLD-PROCESSOR",
+      "purpose": "Create ServiceLocationsList component shell",
+      "task": "T-002",
+      "component": "ServiceLocationsList",
+      "input": ".sdlc/12-sdlc-design/sdlc-experimental/02-design/specs/US-006-architecture.md",
+      "output": "src/components/master-view/ServiceLocationsList.tsx",
+      "needs_client": true,
+      "estimated_time_minutes": 5,
+      "validation": "npm run type-check"
+    },
+    {
+      "sequence": 3,
+      "processor": "SCAFFOLD-PROCESSOR",
+      "purpose": "Create ServiceLocationCard component shell",
+      "task": "T-004",
+      "component": "ServiceLocationCard",
+      "input": ".sdlc/12-sdlc-design/sdlc-experimental/02-design/specs/US-006-architecture.md",
+      "output": "src/components/master-view/ServiceLocationCard.tsx",
+      "needs_client": false,
+      "estimated_time_minutes": 5,
+      "validation": "npm run type-check"
+    },
+    {
+      "sequence": 4,
+      "processor": "HOOK-PROCESSOR",
+      "purpose": "Create useServiceLocations custom hook",
+      "task": "T-003",
+      "hook_name": "useServiceLocations",
+      "input": ".sdlc/12-sdlc-design/sdlc-experimental/02-design/specs/US-006-architecture.md",
+      "output": "src/hooks/useServiceLocations.ts",
+      "estimated_time_minutes": 8,
+      "validation": "npm run type-check"
+    },
+    {
+      "sequence": 5,
+      "processor": "REACT-PROCESSOR",
+      "purpose": "Add display logic to ServiceLocationsList",
+      "task": "T-002",
+      "component": "ServiceLocationsList",
+      "input": "src/components/master-view/ServiceLocationsList.tsx",
+      "output": "src/components/master-view/ServiceLocationsList.tsx",
+      "logic_type": "conditional_rendering",
+      "features": [
+        "Loading state with skeleton",
+        "Error state with retry",
+        "Empty state message",
+        "Map locations to cards"
+      ],
+      "estimated_time_minutes": 10,
+      "validation": "npm run dev && verify states render"
+    },
+    {
+      "sequence": 6,
+      "processor": "REACT-PROCESSOR",
+      "purpose": "Add display logic to ServiceLocationCard",
+      "task": "T-004",
+      "component": "ServiceLocationCard",
+      "input": "src/components/master-view/ServiceLocationCard.tsx",
+      "output": "src/components/master-view/ServiceLocationCard.tsx",
+      "logic_type": "display",
+      "features": [
+        "Display location name prominently",
+        "Show address fields",
+        "Conditional PRIMARY badge",
+        "Conditional access info icon"
+      ],
+      "estimated_time_minutes": 8,
+      "validation": "npm run dev && verify card displays"
+    }
+  ],
+  "developer_tasks": {
+    "description": "Tasks requiring DEVELOPER agent after processors complete",
+    "tasks": [
+      {
+        "task": "T-003-complete",
+        "description": "Complete useServiceLocations hook with real Supabase queries",
+        "file": "src/hooks/useServiceLocations.ts",
+        "todos": [
+          "Implement Supabase query for SERVICE_LOCATION table",
+          "Filter by account_id and status='Active'",
+          "Handle error cases",
+          "Implement refetch functionality"
+        ]
+      },
+      {
+        "task": "Integration",
+        "description": "Connect to MasterViewContext",
+        "file": "src/components/master-view/ServiceLocationsList.tsx",
+        "todos": [
+          "Import and use MasterViewContext",
+          "Read selectedAccountId from context",
+          "Handle account changes"
+        ]
+      }
+    ]
+  },
+  "summary": {
+    "total_processors": 6,
+    "unique_processors": 4,
+    "processor_types": ["TYPE", "SCAFFOLD", "HOOK", "REACT"],
+    "total_estimated_minutes": 41,
+    "components_to_create": 2,
+    "hooks_to_create": 1,
+    "files_to_modify": 2,
+    "validation_gates": 6,
+    "developer_work_required": true
+  },
+  "execution_script": {
+    "filename": "run-us006-slice1.sh",
+    "commands": [
+      "echo '🚀 Starting US-006 Value Slice 1 Processing'",
+      "",
+      "# Step 1: Create all TypeScript types",
+      "echo '📝 Creating TypeScript interfaces...'",
+      "invoke-processor type-processor T-001",
+      "npm run type-check || exit 1",
+      "",
+      "# Step 2: Scaffold components",
+      "echo '🏗️ Creating component shells...'",
+      "invoke-processor scaffold-processor T-002",
+      "invoke-processor scaffold-processor T-004",
+      "npm run type-check || exit 1",
+      "",
+      "# Step 3: Create custom hook",
+      "echo '🪝 Creating useServiceLocations hook...'",
+      "invoke-processor hook-processor T-003",
+      "npm run type-check || exit 1",
+      "",
+      "# Step 4: Add React logic",
+      "echo '⚛️ Adding React logic to components...'",
+      "invoke-processor react-processor T-002",
+      "invoke-processor react-processor T-004",
+      "",
+      "# Step 5: Validation",
+      "echo '✅ Running final validation...'",
+      "npm run type-check && npm run dev",
+      "",
+      "echo '🎯 Processors complete! Ready for DEVELOPER agent.'"
+    ]
+  }
+}

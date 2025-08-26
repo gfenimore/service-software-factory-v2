@@ -1,0 +1,37 @@
+{
+  "name": "software-factory-pipeline",
+  "version": "1.0.0",
+  "description": "Configuration-Driven UI Factory Pipeline Tools",
+  "private": true,
+  "scripts": {
+    "dev": "node 01-factory-tools/viewer/simple-server.js",
+    "start": "node 01-factory-tools/viewer/simple-server.js",
+    "view": "node 01-factory-tools/viewer/simple-server.js",
+    
+    "ims:new": "node 01-factory-tools/ims/iteration-manager.js new",
+    "ims:list": "node 01-factory-tools/ims/iteration-manager.js list",
+    "ims:switch": "node 01-factory-tools/ims/iteration-manager.js switch",
+    "ims:golden": "node 01-factory-tools/ims/iteration-manager.js golden",
+    "ims:tag-golden": "node 01-factory-tools/ims/iteration-manager.js golden",
+    "ims:compare": "node 01-factory-tools/ims/iteration-manager.js compare",
+    "ims:fix": "node 01-factory-tools/ims/iteration-manager.js new --type=fix",
+    "ims:experiment": "node 01-factory-tools/ims/iteration-manager.js new --type=experiment",
+    "ims:demo": "node 01-factory-tools/ims/iteration-manager.js new --type=demo",
+    
+    "concept:new-iteration": "node scripts/concept-iteration.js new",
+    "concept:list-iterations": "node scripts/concept-iteration.js list",
+    "concept:tag-golden": "node scripts/concept-iteration.js tag-golden",
+    "concept:switch-iteration": "node scripts/concept-iteration.js switch",
+    
+    "generate:html": "node 01-factory-tools/ims/ims-generator-bridge.js generate",
+    "generate:nav": "node 01-factory-tools/ims/ims-generator-bridge.js navigation",
+    "generate:layout": "node 01-factory-tools/ims/ims-generator-bridge.js layout",
+    "generate:all": "node 01-factory-tools/ims/ims-generator-bridge.js all",
+    "generate:status": "node 01-factory-tools/ims/ims-generator-bridge.js status",
+    
+    "viewforge": "start 01-factory-tools/viewforge/configurator.html",
+    "viewforge:open": "open 01-factory-tools/viewforge/configurator.html"
+  },
+  "author": "",
+  "license": "ISC"
+}

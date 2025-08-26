@@ -1,0 +1,189 @@
+{
+  "entity": "account",
+  "extractedAt": "2025-08-21T15:36:04.546Z",
+  "sources": {
+    "busm": null,
+    "story": null,
+    "viewForge": "C:\\Users\\GarryFenimore\\Projects\\service-software-factory-v2\\.pipeline\\iterations\\archive\\ITER-2025-08-21-007\\configs\\entities\\account\\field-config-account-list-view-1755720191672.json"
+  },
+  "ruleCount": 9,
+  "rules": [
+    {
+      "id": "RULE-001",
+      "source": "viewforge",
+      "entity": "account",
+      "field": "account.status",
+      "name": "Status must be valid status",
+      "category": "validation",
+      "type": "format",
+      "priority": 3,
+      "expressions": {
+        "concept": "Show as dropdown",
+        "prototype": "Validate against enum values",
+        "production": "State machine validation"
+      },
+      "enabled": true,
+      "parameters": {
+        "fieldPath": "account.status",
+        "fieldType": "status",
+        "validation": "enum"
+      }
+    },
+    {
+      "id": "RULE-002",
+      "source": "viewforge",
+      "entity": "account",
+      "field": "account.balance",
+      "name": "Balance must be valid currency",
+      "category": "validation",
+      "type": "format",
+      "priority": 3,
+      "expressions": {
+        "concept": "Show $ symbol",
+        "prototype": "Validate numeric with 2 decimals",
+        "production": "Currency validation with conversion"
+      },
+      "enabled": true,
+      "parameters": {
+        "fieldPath": "account.balance",
+        "fieldType": "currency",
+        "validation": "number"
+      }
+    },
+    {
+      "id": "RULE-003",
+      "source": "viewforge",
+      "entity": "account",
+      "field": "primaryContact.phone",
+      "name": "Phone must be valid phone",
+      "category": "validation",
+      "type": "format",
+      "priority": 3,
+      "expressions": {
+        "concept": "Show phone format hint",
+        "prototype": "Validate phone format",
+        "production": "Validate with carrier lookup"
+      },
+      "enabled": true,
+      "parameters": {
+        "fieldPath": "primaryContact.phone",
+        "fieldType": "phone",
+        "validation": "phone"
+      }
+    },
+    {
+      "id": "RULE-004",
+      "source": "template",
+      "entity": "account",
+      "name": "Default Sort Order",
+      "category": "display",
+      "type": "LIST-001",
+      "priority": 4,
+      "expressions": {
+        "concept": "Display in order specified",
+        "prototype": "Client-side sorting with click headers",
+        "production": "Server-side sorting with index optimization"
+      },
+      "enabled": true,
+      "parameters": {
+        "sortField": "createdDate",
+        "sortDirection": "desc"
+      }
+    },
+    {
+      "id": "RULE-005",
+      "source": "template",
+      "entity": "account",
+      "name": "Pagination",
+      "category": "performance",
+      "type": "LIST-002",
+      "priority": 4,
+      "expressions": {
+        "concept": "Show first 20 items only",
+        "prototype": "Basic pagination with page numbers",
+        "production": "Virtual scrolling with lazy loading"
+      },
+      "enabled": true,
+      "parameters": {
+        "pageSize": 20,
+        "maxPageSize": 100
+      }
+    },
+    {
+      "id": "RULE-006",
+      "source": "template",
+      "entity": "account",
+      "name": "Empty State",
+      "category": "display",
+      "type": "LIST-003",
+      "priority": 4,
+      "expressions": {
+        "concept": "Show text message",
+        "prototype": "Styled empty state component",
+        "production": "Empty state with action suggestions"
+      },
+      "enabled": true,
+      "parameters": {
+        "emptyMessage": "No items found"
+      }
+    },
+    {
+      "id": "RULE-007",
+      "source": "template",
+      "entity": "account",
+      "name": "Loading State",
+      "category": "display",
+      "type": "LIST-004",
+      "priority": 4,
+      "expressions": {
+        "concept": "No loading indicator needed (mock data)",
+        "prototype": "Simple spinner during fetch",
+        "production": "Skeleton screens with progressive loading"
+      },
+      "enabled": true,
+      "parameters": {
+        "loadingType": "spinner"
+      }
+    },
+    {
+      "id": "RULE-008",
+      "source": "template",
+      "entity": "account",
+      "name": "Selection Behavior",
+      "category": "interaction",
+      "type": "LIST-005",
+      "priority": 4,
+      "expressions": {
+        "concept": "Click to show details",
+        "prototype": "Single selection with visual feedback",
+        "production": "Selection with keyboard navigation support"
+      },
+      "enabled": true,
+      "parameters": {
+        "selectionMode": "single",
+        "highlightSelected": true
+      }
+    },
+    {
+      "id": "RULE-009",
+      "source": "template",
+      "entity": "account",
+      "name": "Search/Filter",
+      "category": "interaction",
+      "type": "LIST-006",
+      "priority": 4,
+      "expressions": {
+        "concept": "Simple text filter",
+        "prototype": "Client-side search with debounce",
+        "production": "Server-side search with caching"
+      },
+      "enabled": false,
+      "parameters": {
+        "searchFields": [
+          "name"
+        ],
+        "debounceMs": 300
+      }
+    }
+  ]
+}

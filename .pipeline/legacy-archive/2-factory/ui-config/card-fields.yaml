@@ -1,0 +1,73 @@
+# Card Field Configuration
+# Edit this file to control what appears on cards in the Master View
+# Just move fields up/down or comment/uncomment with #
+
+account-card:
+  # What to show on each account card (max 4 items)
+  display:
+    - field: AccountName
+      label: null  # No label, just show value
+      position: title
+    
+    - field: Status
+      label: null
+      position: badge
+    
+    - field: AccountType
+      label: "Type:"
+      position: line2
+    
+    - field: BillingCity
+      label: "City:"
+      position: line3
+    
+    # Uncomment to show instead:
+    # - field: PrimaryContact
+    #   label: "Contact:"
+    #   position: line3
+    
+    # - field: LocationCount
+    #   label: "Locations:"
+    #   position: line3
+
+location-card:
+  display:
+    - field: LocationName
+      label: null
+      position: title
+      
+    - field: ServiceStatus
+      label: null
+      position: badge
+      
+    - field: StreetAddress
+      label: null
+      position: line2
+      
+    - field: NextServiceDate
+      label: "Next:"
+      position: line3
+
+workorder-card:
+  display:
+    - field: WorkOrderTitle
+      label: null
+      position: title
+      
+    - field: Status
+      label: null
+      position: badge
+      
+    - field: TechnicianName
+      label: "Tech:"
+      position: line2
+      
+    - field: ScheduledDate
+      label: "Date:"
+      position: line3
+
+# Character limits (enforced by generator)
+constraints:
+  max-title-chars: 30
+  max-line-chars: 25
+  max-total-chars: 120

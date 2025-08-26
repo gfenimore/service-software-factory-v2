@@ -1,72 +1,32 @@
 {
   "name": "service-software-factory-v2",
-  "version": "0.1.0",
-  "private": true,
+  "version": "2.0.0",
+  "description": "Service Software Factory - Automated code generation pipeline",
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "lint:processor": "next lint --config .eslintrc.processor.js",
-    "type-check": "node scripts/type-check.js",
-    "type-check:watch": "node scripts/type-check.js --watch",
-    "verify-setup": "node scripts/verify-typescript-setup.js",
-    "test": "jest --watch",
-    "test:api": "jest --config config/jest/jest.config.api.mjs --watch",
-    "test:ci": "jest --ci --coverage --passWithNoTests && jest --config config/jest/jest.config.api.mjs --ci",
-    "test:coverage": "jest --coverage",
-    "test:api:coverage": "jest --config config/jest/jest.config.api.mjs --coverage",
-    "test:debug": "node --inspect-brk ./node_modules/.bin/jest --runInBand",
-    "prepare": "husky",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "validate": "npm run type-check && npm run lint:processor && npm run test:ci",
-    "validate:strict": "npm run type-check && npm run lint && npm run test:ci",
-    "quality-check": "node scripts/quality-check.js",
-    "sdlc:inventory": "node scripts/generate-sdlc-inventory.js",
-    "install:jq": "bash scripts/install-jq.sh"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "npm run type-check",
-      "eslint --fix --config .eslintrc.processor.js",
-      "jest --bail --findRelatedTests --passWithNoTests"
-    ],
-    "*.{json,md}": [
-      "prettier --write"
-    ]
+    "module:build": "node .pipeline/factory-tools/module-system/module-builder.js",
+    "module:test": "node .pipeline/factory-tools/module-system/test-busm-to-module.js",
+    "module:quick": "node .pipeline/factory-tools/module-system/module-builder.js --quick",
+    "busm:test": "node .pipeline/factory-tools/busm-reader/test-busm-reader.js",
+    "ast:test": "node .pipeline/factory-tools/ast-generator/test-simple-ast.js",
+    "ast:integration": "node .pipeline/factory-tools/ast-generator/test-complete-integration.js",
+    "concept:generate": "node .pipeline/factory-tools/generators/concept-html/concept-generator-v3.js",
+    "viewforge:transform": "node .pipeline/factory-tools/viewforge/viewforge-transformer.js",
+    "rules:edit": "node .pipeline/factory-tools/business-rules-configurator/rules-cli.js",
+    "db:generate": "node .pipeline/factory-tools/database-generator/index.js",
+    "db:test": "node .pipeline/factory-tools/database-generator/index.js account 1 1",
+    "db:preview": "node .pipeline/factory-tools/database-generator/index.js --preview",
+    "db:status": "ls -la .pipeline/database/migrations/prototype/ 2>/dev/null || echo 'No migrations yet'",
+    "pipeline:status": "echo 'Checking pipeline status...' && ls -la .pipeline/factory-tools/",
+    "control-panel": "node .pipeline/06-control-panel/server.js",
+    "ui": "node .pipeline/06-control-panel/server.js",
+    "help": "echo 'Available commands:' && npm run"
   },
   "dependencies": {
-    "@supabase/ssr": "^0.6.1",
-    "@supabase/supabase-js": "^2.51.0",
-    "clsx": "^2.1.1",
-    "next": "15.4.1",
-    "pino": "^9.7.0",
-    "pino-pretty": "^13.0.0",
-    "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "express": "^5.1.0",
+    "inquirer": "^12.9.3",
+    "yaml": "^2.8.1"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.3.0",
-    "@testing-library/user-event": "^14.6.1",
-    "@types/jest": "^30.0.0",
-    "@types/node": "^20",
-    "@types/pino": "^7.0.4",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "15.4.1",
-    "husky": "^9.1.7",
-    "jest": "^30.0.4",
-    "jest-environment-jsdom": "^30.0.4",
-    "lint-staged": "^16.1.2",
-    "msw": "^2.10.4",
-    "prettier": "^3.6.2",
-    "tailwindcss": "^4",
-    "typescript": "^5",
-    "undici": "^7.11.0"
+    "typescript": "^5.0.0"
   }
 }

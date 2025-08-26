@@ -1,0 +1,41 @@
+{
+  "timestamp": "2025-08-23T12:30:14.840Z",
+  "module": "account-module-phase1",
+  "components": [
+    {
+      "name": "AccountListView",
+      "type": "component",
+      "hasProps": true,
+      "hasState": true,
+      "hasEffects": false
+    },
+    {
+      "name": "AccountTable",
+      "type": "component",
+      "hasProps": true,
+      "hasState": true,
+      "hasEffects": false
+    },
+    {
+      "name": "AccountForm",
+      "type": "component",
+      "hasProps": true,
+      "hasState": true,
+      "hasEffects": true
+    },
+    {
+      "name": "AccountDetail",
+      "type": "component",
+      "hasProps": true,
+      "hasState": true,
+      "hasEffects": false
+    }
+  ],
+  "statistics": {
+    "totalComponents": 4,
+    "linesOfCode": 207,
+    "gaps": 0,
+    "interfaces": 1,
+    "enums": 2
+  }
+}

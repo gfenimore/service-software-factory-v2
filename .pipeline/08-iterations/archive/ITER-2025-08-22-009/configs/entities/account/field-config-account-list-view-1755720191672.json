@@ -1,0 +1,84 @@
+{
+  "entityType": "account",
+  "contextType": "list-view",
+  "header": {
+    "rowId": "header",
+    "rowLabel": "Header",
+    "fields": [
+      {
+        "path": "account.accountName",
+        "source": "account",
+        "type": "text",
+        "label": "Account Name"
+      }
+    ]
+  },
+  "body": [
+    {
+      "rowId": "row1",
+      "rowLabel": "Row 1",
+      "fields": [
+        {
+          "path": "account.status",
+          "source": "account",
+          "type": "status",
+          "label": "Status"
+        },
+        {
+          "path": "account.accountType",
+          "source": "account",
+          "type": "text",
+          "label": "Account Type"
+        },
+        {
+          "path": "account.balance",
+          "source": "account",
+          "type": "currency",
+          "label": "Balance"
+        }
+      ]
+    },
+    {
+      "rowId": "row2",
+      "rowLabel": "Row 2",
+      "fields": [
+        {
+          "path": "primaryContact.name",
+          "source": "primaryContact",
+          "type": "text",
+          "label": "Contact Name"
+        },
+        {
+          "path": "primaryContact.title",
+          "source": "primaryContact",
+          "type": "text",
+          "label": "Title"
+        },
+        {
+          "path": "primaryContact.phone",
+          "source": "primaryContact",
+          "type": "phone",
+          "label": "Phone"
+        }
+      ]
+    },
+    {
+      "rowId": "row3",
+      "rowLabel": "Row 3",
+      "fields": []
+    }
+  ],
+  "metadata": {
+    "version": "1.0.4",
+    "createdAt": "2025-08-20T20:03:11.671Z",
+    "modifiedAt": "2025-08-20T20:03:11.671Z",
+    "previousVersion": "1.0.4",
+    "changeNotes": "",
+    "joinCount": 1,
+    "joinSources": [
+      "primaryContact"
+    ],
+    "totalFields": 7,
+    "performanceImpact": "low"
+  }
+}

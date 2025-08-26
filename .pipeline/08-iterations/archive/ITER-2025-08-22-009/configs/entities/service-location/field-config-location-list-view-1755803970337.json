@@ -1,0 +1,59 @@
+{
+  "entityType": "location",
+  "contextType": "list-view",
+  "header": {
+    "rowId": "header",
+    "rowLabel": "Header",
+    "fields": [
+      {
+        "path": "location.locationName",
+        "source": "location",
+        "type": "text",
+        "label": "Location Name"
+      },
+      {
+        "path": "serviceAddress.street",
+        "source": "serviceAddress",
+        "type": "text",
+        "label": "Street"
+      }
+    ]
+  },
+  "body": [
+    {
+      "rowId": "row1",
+      "rowLabel": "Row 1",
+      "fields": [
+        {
+          "path": "location.locationType",
+          "source": "location",
+          "type": "text",
+          "label": "Location Type"
+        }
+      ]
+    },
+    {
+      "rowId": "row2",
+      "rowLabel": "Row 2",
+      "fields": []
+    },
+    {
+      "rowId": "row3",
+      "rowLabel": "Row 3",
+      "fields": []
+    }
+  ],
+  "metadata": {
+    "version": "1.0.3",
+    "createdAt": "2025-08-21T19:19:30.335Z",
+    "modifiedAt": "2025-08-21T19:19:30.335Z",
+    "previousVersion": "1.0.3",
+    "changeNotes": "",
+    "joinCount": 1,
+    "joinSources": [
+      "serviceAddress"
+    ],
+    "totalFields": 3,
+    "performanceImpact": "low"
+  }
+}

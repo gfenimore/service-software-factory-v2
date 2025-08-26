@@ -1,0 +1,74 @@
+{
+  "version": "1.0",
+  "line": "concept",
+  "story": "US-006-service-locations-concept",
+  "timestamp": "2024-08-18T05:15:00Z",
+  "standards": {
+    "typescript": "loose",
+    "allows_any": true,
+    "allows_console": true,
+    "testing_required": false,
+    "coverage_target": 0
+  },
+  "processors": [
+    {
+      "name": "MOCK-DATA-PROCESSOR",
+      "mode": "concept",
+      "tasks": ["T-001"],
+      "outputs": [
+        "src/concept/data/mockLocations.js"
+      ],
+      "config": {
+        "generate_types": false,
+        "validation": "none",
+        "data_source": "hardcoded"
+      }
+    },
+    {
+      "name": "UI-COMPONENT-PROCESSOR",
+      "mode": "concept",
+      "tasks": ["T-002", "T-003", "T-004", "T-005"],
+      "outputs": [
+        "src/concept/components/LocationList.tsx",
+        "src/concept/components/ServiceLocations.tsx",
+        "src/concept/components/LocationForm.tsx"
+      ],
+      "config": {
+        "styling": "inline",
+        "state_management": "useState",
+        "error_handling": false,
+        "accessibility": "basic"
+      }
+    },
+    {
+      "name": "PAGE-PROCESSOR",
+      "mode": "concept",
+      "tasks": ["T-006"],
+      "outputs": [
+        "src/app/test/concept-locations/page.tsx"
+      ],
+      "config": {
+        "route_type": "test",
+        "client_component": true
+      }
+    }
+  ],
+  "skip_processors": [
+    "TYPE-PROCESSOR",
+    "TEST-PROCESSOR",
+    "API-PROCESSOR",
+    "VALIDATION-PROCESSOR",
+    "SECURITY-PROCESSOR"
+  ],
+  "execution_order": [
+    "MOCK-DATA-PROCESSOR",
+    "UI-COMPONENT-PROCESSOR",
+    "PAGE-PROCESSOR"
+  ],
+  "notes": {
+    "purpose": "Rapid validation of business logic",
+    "constraints": "No production code patterns required",
+    "timeline": "2 hours maximum",
+    "validation": "Visual inspection only"
+  }
+}

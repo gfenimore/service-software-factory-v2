@@ -1,0 +1,83 @@
+<!-- COMPACT CARD TEMPLATE -->
+<!-- Best for: High-density lists, 10+ items visible -->
+<div class="card-compact">
+  <div class="card-header">
+    <h3 class="card-title">{{title}}</h3>
+    <span class="card-badge {{badge-class}}">{{badge}}</span>
+  </div>
+  <div class="card-metadata">
+    {{#each metadata}}
+    <span>{{this}}</span>
+    {{/each}}
+  </div>
+</div>
+
+<style>
+.card-compact {
+  background: white;
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  padding: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.card-compact:hover {
+  box-shadow: var(--card-shadow-hover);
+}
+
+.card-compact.selected {
+  border: 2px solid var(--color-primary);
+  background: var(--gray-50);
+}
+
+.card-compact .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-1);
+}
+
+.card-compact .card-title {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--gray-900);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
+}
+
+.card-compact .card-badge {
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.card-compact .card-badge.active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.card-compact .card-badge.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.card-compact .card-metadata {
+  display: flex;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--gray-600);
+}
+
+.card-compact .card-metadata > span:not(:first-child)::before {
+  content: "•";
+  margin-right: var(--space-2);
+  color: var(--gray-300);
+}
+</style>

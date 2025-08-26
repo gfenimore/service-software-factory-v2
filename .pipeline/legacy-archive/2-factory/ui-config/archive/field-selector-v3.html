@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Field Selector v3 - Context-Aware Configurations</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: -apple-system, sans-serif; 
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    
+    .header {
+      max-width: 1400px;
+      margin: 0 auto 20px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .context-bar {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 15px;
+      padding: 15px;
+      background: #e7f5ff;
+      border-radius: 6px;
+      border: 1px solid #339af0;
+    }
+    
+    .context-selector {
+      flex: 1;
+    }
+    
+    .context-selector label {
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #495057;
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    .context-select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    
+    .context-actions {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .btn-new {
+      background: #2563eb;
+      color: white;
+    }
+    
+    .btn-save {
+      background: #10b981;
+      color: white;
+    }
+    
+    .btn-delete {
+      background: #ef4444;
+      color: white;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+    
+    .entity-config {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    h2 {
+      margin-bottom: 15px;
+      color: #333;
+      border-bottom: 2px solid #2563eb;
+      padding-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .saved-indicator {
+      font-size: 12px;
+      padding: 4px 8px;
+      background: #dcfce7;
+      color: #166534;
+      border-radius: 4px;
+      display: none;
+    }
+    
+    .saved-indicator.visible {
+      display: inline-block;
+    }
+    
+    .pattern-select {
+      margin-bottom: 15px;
+      padding: 8px;
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    
+    .row-section {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 6px;
+      border: 1px solid #dee2e6;
+    }
+    
+    .row-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .row-title {
+      font-weight: 600;
+      color: #495057;
+      font-size: 14px;
+    }
+    
+    .row-limit {
+      font-size: 12px;
+      color: #6c757d;
+      background: white;
+      padding: 2px 8px;
+      border-radius: 3px;
+    }
+    
+    .field-list {
+      list-style: none;
+      min-height: 40px;
+      padding: 8px;
+      background: white;
+      border-radius: 4px;
+      border: 2px dashed #dee2e6;
+    }
+    
+    .field-list.has-items {
+      border-style: solid;
+      border-color: #2563eb;
+    }
+    
+    .field-item {
+      padding: 6px 10px;
+      margin: 3px 0;
+      background: #e7f5ff;
+      border: 1px solid #339af0;
+      border-radius: 3px;
+      cursor: move;
+      display: inline-block;
+      margin-right: 5px;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+    
+    .field-item:hover {
+      background: #d0ebff;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .field-item.dragging {
+      opacity: 0.5;
+      background: #ffe066;
+    }
+    
+    .field-item .remove {
+      margin-left: 8px;
+      color: #ff6b6b;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    
+    .drag-handle {
+      margin-right: 8px;
+      color: #999;
+      cursor: grab;
+      font-size: 16px;
+      user-select: none;
+    }
+    
+    .dragging .drag-handle {
+      cursor: grabbing;
+    }
+    
+    .available-fields {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 6px;
+    }
+    
+    .available-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #6c757d;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+    
+    .field-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    
+    .field-option {
+      padding: 6px 10px;
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+    
+    .field-option:hover {
+      background: #e7f5ff;
+      border-color: #339af0;
+      transform: translateY(-1px);
+    }
+    
+    .field-option.used {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    
+    .preview {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 6px;
+    }
+    
+    .preview h3 {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    
+    .card-preview {
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 12px;
+    }
+    
+    .card-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .card-title { 
+      font-weight: 600; 
+      font-size: 15px;
+    }
+    
+    .card-badge { 
+      padding: 2px 8px; 
+      background: #dcfce7; 
+      border-radius: 3px;
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    
+    .card-row {
+      font-size: 13px;
+      color: #666;
+      margin: 4px 0;
+      min-height: 18px;
+    }
+    
+    .card-row-1 {
+      color: #333;
+      font-weight: 500;
+    }
+    
+    .field-separator {
+      margin: 0 8px;
+      color: #ccc;
+    }
+    
+    .actions {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 100;
+    }
+    
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
+    
+    .btn-secondary {
+      background: white;
+      border: 1px solid #ddd;
+    }
+    
+    .quick-select {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 15px;
+    }
+    
+    .quick-btn {
+      padding: 4px 8px;
+      font-size: 12px;
+      background: #f0f0f0;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    
+    .quick-btn:hover {
+      background: #e0e0e0;
+    }
+    
+    .info-box {
+      background: #e7f5ff;
+      border: 1px solid #339af0;
+      border-radius: 4px;
+      padding: 8px 12px;
+      margin-bottom: 15px;
+      font-size: 12px;
+      color: #0c5460;
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    
+    .modal.show {
+      display: flex;
+    }
+    
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      max-width: 400px;
+      width: 90%;
+    }
+    
+    .modal-title {
+      margin-bottom: 20px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    
+    .modal-input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+    
+    .status-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #333;
+      color: white;
+      padding: 10px 20px;
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .status-text {
+      display: flex;
+      gap: 20px;
+    }
+    
+    .status-item {
+      display: flex;
+      gap: 5px;
+    }
+    
+    .status-label {
+      color: #999;
+    }
+    
+    .status-value {
+      color: #fff;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Field Configuration Studio</h1>
+    <div class="info-box">
+      💡 Create different configurations for different contexts (roles, workflows, scenarios). Each entity can have multiple saved configurations.
+    </div>
+    
+    <div class="context-bar">
+      <div class="context-selector">
+        <label>Active Context</label>
+        <select id="context-select" class="context-select" onchange="loadContext()">
+          <option value="default">Default View</option>
+          <option value="dispatcher-morning">Dispatcher - Morning Planning</option>
+          <option value="dispatcher-emergency">Dispatcher - Emergency</option>
+          <option value="tech-field">Technician - Field Work</option>
+          <option value="billing-review">Billing - Review</option>
+          <option value="sales-opportunity">Sales - Opportunities</option>
+          <option value="manager-dashboard">Manager - Dashboard</option>
+        </select>
+      </div>
+      
+      <div class="context-actions">
+        <button class="btn-sm btn-new" onclick="newContext()">+ New Context</button>
+        <button class="btn-sm btn-save" onclick="saveContext()">Save Context</button>
+        <button class="btn-sm btn-delete" onclick="deleteContext()">Delete</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container">
+    <!-- ACCOUNTS -->
+    <div class="entity-config">
+      <h2>
+        Account Cards
+        <span class="saved-indicator" id="account-saved">Saved</span>
+      </h2>
+      
+      <select class="pattern-select" id="account-pattern" onchange="updatePreview('account')">
+        <option value="compact">Compact (10+ visible)</option>
+        <option value="list" selected>List (8-12 visible)</option>
+        <option value="data">Data (3-5 visible)</option>
+      </select>
+      
+      <div class="quick-select">
+        <button class="quick-btn" onclick="loadPreset('account', 'minimal')">Minimal</button>
+        <button class="quick-btn" onclick="loadPreset('account', 'standard')">Standard</button>
+        <button class="quick-btn" onclick="loadPreset('account', 'detailed')">Detailed</button>
+        <button class="quick-btn" onclick="clearAll('account')">Clear</button>
+      </div>
+      
+      <!-- HEADER ROW -->
+      <div class="row-section">
+        <div class="row-header">
+          <span class="row-title">📌 Header Row</span>
+          <span class="row-limit">Fixed</span>
+        </div>
+        <div style="padding: 8px; background: white; border-radius: 4px;">
+          <span style="font-weight: 600;">AccountName</span>
+          <span style="float: right; padding: 2px 6px; background: #dcfce7; border-radius: 3px; font-size: 11px;">Status</span>
+        </div>
+      </div>
+      
+      <!-- ROW 1 -->
+      <div class="row-section">
+        <div class="row-header">
+          <span class="row-title">🎯 Row 1 - Primary Info</span>
+          <span class="row-limit">Max 4 fields</span>
+        </div>
+        <ul class="field-list" id="account-row-1" data-entity="account" data-row="1"></ul>
+      </div>
+      
+      <!-- ROW 2 -->
+      <div class="row-section">
+        <div class="row-header">
+          <span class="row-title">📊 Row 2 - Supporting Info</span>
+          <span class="row-limit">Max 4 fields</span>
+        </div>
+        <ul class="field-list" id="account-row-2" data-entity="account" data-row="2"></ul>
+      </div>
+      
+      <!-- AVAILABLE FIELDS -->
+      <div class="available-fields">
+        <div class="available-title">Available Fields</div>
+        <div class="field-bank" id="account-bank">
+          <div class="field-option" data-field="AccountType">Account Type</div>
+          <div class="field-option" data-field="BillingCity">City</div>
+          <div class="field-option" data-field="PrimaryContact.FullName">Contact Name</div>
+          <div class="field-option" data-field="PrimaryContact.Phone">Contact Phone</div>
+          <div class="field-option" data-field="PrimaryContact.Email">Contact Email</div>
+          <div class="field-option" data-field="PrimaryContact.PreferredContact">Pref. Contact</div>
+          <div class="field-option" data-field="ServiceLocations.count">Locations</div>
+          <div class="field-option" data-field="NextServiceDate">Next Service</div>
+          <div class="field-option" data-field="LastServiceDate">Last Service</div>
+          <div class="field-option" data-field="AccountValue">Account Value</div>
+          <div class="field-option" data-field="CreatedDate">Created</div>
+          <div class="field-option" data-field="Notes">Notes Flag</div>
+        </div>
+      </div>
+      
+      <!-- PREVIEW -->
+      <div class="preview">
+        <h3>Live Preview:</h3>
+        <div class="card-preview" id="account-preview">
+          <div class="card-header-row">
+            <span class="card-title">Martinez Residence</span>
+            <span class="card-badge">Active</span>
+          </div>
+          <div class="card-row card-row-1" id="account-preview-row-1">Click fields to add...</div>
+          <div class="card-row card-row-2" id="account-preview-row-2"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- LOCATIONS -->
+    <div class="entity-config">
+      <h2>
+        Location Cards
+        <span class="saved-indicator" id="location-saved">Saved</span>
+      </h2>
+      
+      <select class="pattern-select" id="location-pattern" onchange="updatePreview('location')">
+        <option value="compact">Compact (10+ visible)</option>
+        <option value="list" selected>List (8-12 visible)</option>
+        <option value="data">Data (3-5 visible)</option>
+      </select>
+      
+      <div class="quick-select">
+        <button class="quick-btn" onclick="loadPreset('location', 'minimal')">Minimal</button>
+        <button class="quick-btn" onclick="loadPreset('location', 'standard')">Standard</button>
+        <button class="quick-btn" onclick="loadPreset('location', 'detailed')">Detailed</button>
+        <button class="quick-btn" onclick="clearAll('location')">Clear</button>
+      </div>
+      
+      <!-- HEADER ROW -->
+      <div class="row-section">
+        <div class="row-header">
+          <span class="row-title">📌 Header Row</span>
+          <span class="row-limit">Fixed</span>
+        </div>
+        <div style="padding: 8px; background: white; border-radius: 4px;">
+          <span style="font-weight: 600;">LocationName</span>
+          <span style="float: right; padding: 2px 6px; background: #dcfce7; border-radius: 3px; font-size: 11px;">Status</span>
+        </div>
+      </div>
+      
+      <!-- ROW 1 -->
+      <div class="row-section">
+        <div class="row-header">
+          <span class="row-title">🎯 Row 1 - Primary Info</span>
+          <span class="row-limit">Max 4 fields</span>
+        </div>
+        <ul class="field-list" id="location-row-1" data-entity="location" data-row="1"></ul>
+      </div>
+      
+      <!-- ROW 2 -->
+      <div class="row-section">
+        <div class="row-header">
+          <span class="row-title">📊 Row 2 - Supporting Info</span>
+          <span class="row-limit">Max 4 fields</span>
+        </div>
+        <ul class="field-list" id="location-row-2" data-entity="location" data-row="2"></ul>
+      </div>
+      
+      <!-- AVAILABLE FIELDS -->
+      <div class="available-fields">
+        <div class="available-title">Available Fields</div>
+        <div class="field-bank" id="location-bank">
+          <div class="field-option" data-field="LocationType">Location Type</div>
+          <div class="field-option" data-field="ServiceAddress">Address</div>
+          <div class="field-option" data-field="ServiceCity">City</div>
+          <div class="field-option" data-field="AccessNotes">Access Notes</div>
+          <div class="field-option" data-field="WorkOrders.count">Work Orders</div>
+          <div class="field-option" data-field="Equipment.count">Equipment</div>
+          <div class="field-option" data-field="NextServiceDate">Next Service</div>
+          <div class="field-option" data-field="ServiceFrequency">Frequency</div>
+          <div class="field-option" data-field="Account.AccountName">Account</div>
+          <div class="field-option" data-field="Account.PrimaryContact.FullName">Account Contact</div>
+          <div class="field-option" data-field="Account.AccountValue">Account Value</div>
+        </div>
+      </div>
+      
+      <!-- PREVIEW -->
+      <div class="preview">
+        <h3>Live Preview:</h3>
+        <div class="card-preview" id="location-preview">
+          <div class="card-header-row">
+            <span class="card-title">Main Office</span>
+            <span class="card-badge">Active</span>
+          </div>
+          <div class="card-row card-row-1" id="location-preview-row-1">Click fields to add...</div>
+          <div class="card-row card-row-2" id="location-preview-row-2"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- WORK ORDERS -->
+    <div class="entity-config">
+      <h2>
+        Work Order Cards
+        <span class="saved-indicator" id="workorder-saved">Saved</span>
+      </h2>
+      
+      <select class="pattern-select" id="workorder-pattern" onchange="updatePreview('workorder')">
+        <option value="compact">Compact (10+ visible)</option>
+        <option value="list">List (8-12 visible)</option>
+        <option value="data" selected>Data (3-5 visible)</option>
+      </select>
+      
+      <div class="quick-select">
+        <button class="quick-btn" onclick="loadPreset('workorder', 'minimal')">Minimal</button>
+        <button class="quick-btn" onclick="loadPreset('workorder', 'standard')">Standard</button>
+        <button class="quick-btn" onclick="loadPreset('workorder', 'detailed')">Detailed</button>
+        <button class="quick-btn" onclick="clearAll('workorder')">Clear</button>
+      </div>
+      
+      <!-- HEADER ROW -->
+      <div class="row-section">
+        <div class="row-header">
+          <span class="row-title">📌 Header Row</span>
+          <span class="row-limit">Fixed</span>
+        </div>
+        <div style="padding: 8px; background: white; border-radius: 4px;">
+          <span style="font-weight: 600;">WO-001 - Title</span>
+          <span style="float: right; padding: 2px 6px; background: #fef3c7; border-radius: 3px; font-size: 11px;">Scheduled</span>
+        </div>
+      </div>
+      
+      <!-- ROW 1 -->
+      <div class="row-section">
+        <div class="row-header">
+          <span class="row-title">🎯 Row 1 - Primary Info</span>
+          <span class="row-limit">Max 4 fields</span>
+        </div>
+        <ul class="field-list" id="workorder-row-1" data-entity="workorder" data-row="1"></ul>
+      </div>
+      
+      <!-- ROW 2 -->
+      <div class="row-section">
+        <div class="row-header">
+          <span class="row-title">📊 Row 2 - Supporting Info</span>
+          <span class="row-limit">Max 4 fields</span>
+        </div>
+        <ul class="field-list" id="workorder-row-2" data-entity="workorder" data-row="2"></ul>
+      </div>
+      
+      <!-- AVAILABLE FIELDS -->
+      <div class="available-fields">
+        <div class="available-title">Available Fields</div>
+        <div class="field-bank" id="workorder-bank">
+          <div class="field-option" data-field="Priority">Priority</div>
+          <div class="field-option" data-field="WorkOrderType">Type</div>
+          <div class="field-option" data-field="ScheduledDate">Scheduled</div>
+          <div class="field-option" data-field="DueDate">Due Date</div>
+          <div class="field-option" data-field="AssignedTo">Assigned To</div>
+          <div class="field-option" data-field="EstimatedHours">Est. Hours</div>
+          <div class="field-option" data-field="Location.LocationName">Location</div>
+          <div class="field-option" data-field="Location.AccessNotes">Access Notes</div>
+          <div class="field-option" data-field="Account.AccountName">Account</div>
+          <div class="field-option" data-field="Account.PrimaryContact.FullName">Contact Name</div>
+          <div class="field-option" data-field="Account.PrimaryContact.Phone">Contact Phone</div>
+          <div class="field-option" data-field="CreatedDate">Created</div>
+        </div>
+      </div>
+      
+      <!-- PREVIEW -->
+      <div class="preview">
+        <h3>Live Preview:</h3>
+        <div class="card-preview" id="workorder-preview">
+          <div class="card-header-row">
+            <span class="card-title">WO-001 - HVAC Maintenance</span>
+            <span class="card-badge" style="background: #fef3c7;">Scheduled</span>
+          </div>
+          <div class="card-row card-row-1" id="workorder-preview-row-1">Click fields to add...</div>
+          <div class="card-row card-row-2" id="workorder-preview-row-2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- NEW CONTEXT MODAL -->
+  <div class="modal" id="newContextModal">
+    <div class="modal-content">
+      <h3 class="modal-title">Create New Context</h3>
+      <input type="text" id="contextName" class="modal-input" placeholder="Context name (e.g., 'tech-morning')">
+      <input type="text" id="contextLabel" class="modal-input" placeholder="Display label (e.g., 'Technician - Morning')">
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+        <button class="btn-primary" onclick="createContext()">Create</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="status-bar">
+    <div class="status-text">
+      <div class="status-item">
+        <span class="status-label">Context:</span>
+        <span class="status-value" id="status-context">Default</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">Changes:</span>
+        <span class="status-value" id="status-changes">0 unsaved</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">Configs:</span>
+        <span class="status-value" id="status-configs">7 saved</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn-secondary" onclick="exportAll()">Export All</button>
+      <button class="btn-primary" onclick="saveAll()">Save All Changes</button>
+    </div>
+  </div>
+  
+  <script>
+    // Configuration storage (persists in localStorage)
+    const storage = {
+      contexts: JSON.parse(localStorage.getItem('fieldConfigs') || '{}'),
+      currentContext: localStorage.getItem('currentContext') || 'default',
+      unsavedChanges: 0
+    };
+    
+    // Initialize default contexts if empty
+    if (Object.keys(storage.contexts).length === 0) {
+      storage.contexts = {
+        'default': {
+          label: 'Default View',
+          account: { pattern: 'list', row1: [], row2: [] },
+          location: { pattern: 'list', row1: [], row2: [] },
+          workorder: { pattern: 'data', row1: [], row2: [] }
+        },
+        'dispatcher-morning': {
+          label: 'Dispatcher - Morning Planning',
+          account: { 
+            pattern: 'compact', 
+            row1: ['AccountType', 'BillingCity', 'ServiceLocations.count'],
+            row2: ['NextServiceDate']
+          },
+          location: { 
+            pattern: 'compact',
+            row1: ['LocationType', 'ServiceAddress'],
+            row2: ['WorkOrders.count', 'NextServiceDate']
+          },
+          workorder: { 
+            pattern: 'compact',
+            row1: ['Priority', 'DueDate', 'AssignedTo'],
+            row2: ['Location.LocationName']
+          }
+        },
+        'dispatcher-emergency': {
+          label: 'Dispatcher - Emergency',
+          account: { 
+            pattern: 'compact',
+            row1: ['PrimaryContact.Phone', 'BillingCity'],
+            row2: []
+          },
+          location: { 
+            pattern: 'compact',
+            row1: ['ServiceAddress', 'AccessNotes'],
+            row2: []
+          },
+          workorder: { 
+            pattern: 'compact',
+            row1: ['Priority', 'Location.LocationName'],
+            row2: ['Account.PrimaryContact.Phone']
+          }
+        },
+        'tech-field': {
+          label: 'Technician - Field Work',
+          account: { 
+            pattern: 'list',
+            row1: ['AccountType', 'PrimaryContact.FullName'],
+            row2: ['Notes']
+          },
+          location: { 
+            pattern: 'list',
+            row1: ['ServiceAddress', 'AccessNotes'],
+            row2: ['Equipment.count']
+          },
+          workorder: { 
+            pattern: 'data',
+            row1: ['WorkOrderType', 'EstimatedHours'],
+            row2: ['Location.AccessNotes', 'Account.PrimaryContact.Phone']
+          }
+        },
+        'billing-review': {
+          label: 'Billing - Review',
+          account: { 
+            pattern: 'list',
+            row1: ['AccountValue', 'AccountType'],
+            row2: ['LastServiceDate', 'NextServiceDate']
+          },
+          location: { 
+            pattern: 'compact',
+            row1: ['Account.AccountValue'],
+            row2: ['ServiceFrequency']
+          },
+          workorder: { 
+            pattern: 'compact',
+            row1: ['WorkOrderType', 'EstimatedHours'],
+            row2: ['Account.AccountName']
+          }
+        },
+        'sales-opportunity': {
+          label: 'Sales - Opportunities',
+          account: { 
+            pattern: 'data',
+            row1: ['AccountType', 'AccountValue', 'CreatedDate'],
+            row2: ['ServiceLocations.count', 'LastServiceDate']
+          },
+          location: { 
+            pattern: 'list',
+            row1: ['LocationType', 'ServiceFrequency'],
+            row2: ['Equipment.count', 'NextServiceDate']
+          },
+          workorder: { 
+            pattern: 'compact',
+            row1: ['WorkOrderType', 'CreatedDate'],
+            row2: []
+          }
+        },
+        'manager-dashboard': {
+          label: 'Manager - Dashboard',
+          account: { 
+            pattern: 'metric',
+            row1: ['AccountValue', 'ServiceLocations.count'],
+            row2: ['AccountType', 'NextServiceDate']
+          },
+          location: { 
+            pattern: 'metric',
+            row1: ['WorkOrders.count', 'Equipment.count'],
+            row2: ['ServiceFrequency']
+          },
+          workorder: { 
+            pattern: 'list',
+            row1: ['Priority', 'AssignedTo', 'DueDate'],
+            row2: ['EstimatedHours', 'Account.AccountName']
+          }
+        }
+      };
+      localStorage.setItem('fieldConfigs', JSON.stringify(storage.contexts));
+    }
+    
+    // Current state (working copy)
+    const state = {
+      account: { row1: [], row2: [] },
+      location: { row1: [], row2: [] },
+      workorder: { row1: [], row2: [] }
+    };
+    
+    // Initialize
+    function init() {
+      loadContext();
+      updateStatusBar();
+    }
+    
+    // Load context
+    function loadContext() {
+      const contextId = document.getElementById('context-select').value;
+      const context = storage.contexts[contextId];
+      
+      if (!context) return;
+      
+      storage.currentContext = contextId;
+      localStorage.setItem('currentContext', contextId);
+      
+      // Clear current state
+      ['account', 'location', 'workorder'].forEach(entity => {
+        clearAll(entity);
+      });
+      
+      // Load configuration for each entity
+      ['account', 'location', 'workorder'].forEach(entity => {
+        // Set pattern
+        document.getElementById(`${entity}-pattern`).value = context[entity].pattern;
+        
+        // Load fields
+        context[entity].row1.forEach(field => {
+          const option = document.querySelector(`#${entity}-bank [data-field="${field}"]`);
+          if (option) {
+            addField(entity, 1, field, option.textContent);
+          }
+        });
+        
+        context[entity].row2.forEach(field => {
+          const option = document.querySelector(`#${entity}-bank [data-field="${field}"]`);
+          if (option) {
+            addField(entity, 2, field, option.textContent);
+          }
+        });
+      });
+      
+      updateStatusBar();
+      storage.unsavedChanges = 0;
+    }
+    
+    // Save current context
+    function saveContext() {
+      const contextId = storage.currentContext;
+      
+      storage.contexts[contextId] = {
+        label: storage.contexts[contextId].label,
+        account: {
+          pattern: document.getElementById('account-pattern').value,
+          row1: state.account.row1,
+          row2: state.account.row2
+        },
+        location: {
+          pattern: document.getElementById('location-pattern').value,
+          row1: state.location.row1,
+          row2: state.location.row2
+        },
+        workorder: {
+          pattern: document.getElementById('workorder-pattern').value,
+          row1: state.workorder.row1,
+          row2: state.workorder.row2
+        }
+      };
+      
+      localStorage.setItem('fieldConfigs', JSON.stringify(storage.contexts));
+      storage.unsavedChanges = 0;
+      
+      // Show saved indicators
+      ['account', 'location', 'workorder'].forEach(entity => {
+        const indicator = document.getElementById(`${entity}-saved`);
+        indicator.classList.add('visible');
+        setTimeout(() => indicator.classList.remove('visible'), 2000);
+      });
+      
+      updateStatusBar();
+      alert(`Context "${storage.contexts[contextId].label}" saved!`);
+    }
+    
+    // New context modal
+    function newContext() {
+      document.getElementById('newContextModal').classList.add('show');
+    }
+    
+    function closeModal() {
+      document.getElementById('newContextModal').classList.remove('show');
+    }
+    
+    function createContext() {
+      const name = document.getElementById('contextName').value;
+      const label = document.getElementById('contextLabel').value;
+      
+      if (!name || !label) {
+        alert('Please provide both name and label');
+        return;
+      }
+      
+      storage.contexts[name] = {
+        label: label,
+        account: { pattern: 'list', row1: [], row2: [] },
+        location: { pattern: 'list', row1: [], row2: [] },
+        workorder: { pattern: 'data', row1: [], row2: [] }
+      };
+      
+      // Add to select
+      const select = document.getElementById('context-select');
+      const option = document.createElement('option');
+      option.value = name;
+      option.textContent = label;
+      select.appendChild(option);
+      
+      // Switch to new context
+      select.value = name;
+      loadContext();
+      
+      closeModal();
+      document.getElementById('contextName').value = '';
+      document.getElementById('contextLabel').value = '';
+    }
+    
+    // Delete context
+    function deleteContext() {
+      const contextId = storage.currentContext;
+      
+      if (contextId === 'default') {
+        alert('Cannot delete default context');
+        return;
+      }
+      
+      if (confirm(`Delete context "${storage.contexts[contextId].label}"?`)) {
+        delete storage.contexts[contextId];
+        localStorage.setItem('fieldConfigs', JSON.stringify(storage.contexts));
+        
+        // Remove from select
+        const select = document.getElementById('context-select');
+        const option = select.querySelector(`[value="${contextId}"]`);
+        if (option) option.remove();
+        
+        // Switch to default
+        select.value = 'default';
+        loadContext();
+      }
+    }
+    
+    // Export all configurations
+    function exportAll() {
+      const exportData = {
+        version: '1.0',
+        exported: new Date().toISOString(),
+        contexts: storage.contexts
+      };
+      
+      const json = JSON.stringify(exportData, null, 2);
+      navigator.clipboard.writeText(json).then(() => {
+        alert('All configurations exported to clipboard!');
+      });
+      
+      console.log('Exported configurations:', exportData);
+    }
+    
+    // Save all changes
+    function saveAll() {
+      saveContext();
+    }
+    
+    // Track changes
+    function trackChange() {
+      storage.unsavedChanges++;
+      updateStatusBar();
+    }
+    
+    // Update status bar
+    function updateStatusBar() {
+      document.getElementById('status-context').textContent = 
+        storage.contexts[storage.currentContext]?.label || 'Unknown';
+      document.getElementById('status-changes').textContent = 
+        storage.unsavedChanges + ' unsaved';
+      document.getElementById('status-configs').textContent = 
+        Object.keys(storage.contexts).length + ' saved';
+    }
+    
+    // Add field to row - WITH DRAG SUPPORT
+    function addField(entity, row, field, label) {
+      if (state[entity].row1.includes(field) || state[entity].row2.includes(field)) {
+        return;
+      }
+      
+      if (state[entity][`row${row}`].length >= 4) {
+        alert(`Row ${row} is full (max 4 fields)`);
+        return;
+      }
+      
+      state[entity][`row${row}`].push(field);
+      
+      const fieldEl = document.createElement('li');
+      fieldEl.className = 'field-item';
+      fieldEl.draggable = true;  // IMPORTANT: Make draggable
+      fieldEl.dataset.field = field;
+      fieldEl.dataset.entity = entity;  // Add entity data
+      fieldEl.innerHTML = `<span class="drag-handle">≡</span> ${label} <span class="remove" onclick="removeField('${entity}', ${row}, '${field}')">×</span>`;
+      
+      // Add drag event listeners directly to the new element
+      fieldEl.addEventListener('dragstart', function(e) {
+        draggedItem = this;
+        draggedFrom = this.parentElement;
+        this.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+      });
+      
+      fieldEl.addEventListener('dragend', function(e) {
+        this.classList.remove('dragging');
+      });
+      
+      document.getElementById(`${entity}-row-${row}`).appendChild(fieldEl);
+      
+      markFieldUsed(entity, field, true);
+      updatePreview(entity);
+      updateRowState(entity, row);
+      trackChange();
+    }
+    
+    // Remove field
+    function removeField(entity, row, field) {
+      state[entity][`row${row}`] = state[entity][`row${row}`].filter(f => f !== field);
+      
+      const rowEl = document.getElementById(`${entity}-row-${row}`);
+      const fieldEl = rowEl.querySelector(`[data-field="${field}"]`);
+      if (fieldEl) fieldEl.remove();
+      
+      markFieldUsed(entity, field, false);
+      updatePreview(entity);
+      updateRowState(entity, row);
+      trackChange();
+    }
+    
+    // Mark field as used/available
+    function markFieldUsed(entity, field, used) {
+      const bank = document.getElementById(`${entity}-bank`);
+      const option = bank.querySelector(`[data-field="${field}"]`);
+      if (option) {
+        if (used) {
+          option.classList.add('used');
+        } else {
+          option.classList.remove('used');
+        }
+      }
+    }
+    
+    // Update row visual state
+    function updateRowState(entity, row) {
+      const rowEl = document.getElementById(`${entity}-row-${row}`);
+      if (state[entity][`row${row}`].length > 0) {
+        rowEl.classList.add('has-items');
+      } else {
+        rowEl.classList.remove('has-items');
+      }
+    }
+    
+    // Update preview
+    function updatePreview(entity) {
+      const row1Fields = state[entity].row1;
+      const row2Fields = state[entity].row2;
+      
+      const row1El = document.getElementById(`${entity}-preview-row-1`);
+      const row2El = document.getElementById(`${entity}-preview-row-2`);
+      
+      if (row1Fields.length > 0) {
+        const labels = row1Fields.map(f => {
+          const option = document.querySelector(`#${entity}-bank [data-field="${f}"]`);
+          return option ? option.textContent : f;
+        });
+        row1El.innerHTML = labels.join('<span class="field-separator">•</span>');
+      } else {
+        row1El.innerHTML = 'Row 1: Click fields to add...';
+      }
+      
+      if (row2Fields.length > 0) {
+        const labels = row2Fields.map(f => {
+          const option = document.querySelector(`#${entity}-bank [data-field="${f}"]`);
+          return option ? option.textContent : f;
+        });
+        row2El.innerHTML = labels.join('<span class="field-separator">•</span>');
+      } else {
+        row2El.innerHTML = '';
+      }
+    }
+    
+    // Field bank click handlers
+    document.querySelectorAll('.field-option').forEach(option => {
+      option.addEventListener('click', function() {
+        if (this.classList.contains('used')) return;
+        
+        const field = this.dataset.field;
+        const label = this.textContent;
+        const entity = this.closest('.entity-config').querySelector('h2').textContent.toLowerCase().replace(' cards', '').trim();
+        
+        if (state[entity].row1.length < 4) {
+          addField(entity, 1, field, label);
+        } else if (state[entity].row2.length < 4) {
+          addField(entity, 2, field, label);
+        } else {
+          alert('Both rows are full!');
+        }
+      });
+    });
+    
+    // Drag and drop - Fixed version
+    let draggedItem = null;
+    let draggedFrom = null;
+    
+    // Use event delegation for dynamically added items
+    document.addEventListener('dragstart', e => {
+      if (e.target.classList.contains('field-item')) {
+        draggedItem = e.target;
+        draggedFrom = e.target.parentElement;
+        e.target.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', e.target.innerHTML);
+      }
+    });
+    
+    document.addEventListener('dragend', e => {
+      if (e.target.classList.contains('field-item')) {
+        e.target.classList.remove('dragging');
+        draggedItem = null;
+        draggedFrom = null;
+      }
+    });
+    
+    document.addEventListener('dragover', e => {
+      if (e.target.closest('.field-list')) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+      }
+    });
+    
+    document.addEventListener('drop', e => {
+      const list = e.target.closest('.field-list');
+      if (!list || !draggedItem) return;
+      
+      e.preventDefault();
+      
+      // Check if same entity
+      const fromEntity = draggedFrom.dataset.entity;
+      const toEntity = list.dataset.entity;
+      if (fromEntity !== toEntity) return;
+      
+      // Check row limit
+      const toRow = list.dataset.row;
+      if (list.children.length >= 4 && !list.contains(draggedItem)) {
+        alert('Row is full (max 4 fields)');
+        return;
+      }
+      
+      // Find insertion point
+      const afterElement = getDragAfterElement(list, e.clientX);
+      if (afterElement == null) {
+        list.appendChild(draggedItem);
+      } else {
+        list.insertBefore(draggedItem, afterElement);
+      }
+      
+      // Update state after drop
+      updateStateFromDOM();
+    });
+    
+    function getDragAfterElement(list, x) {
+      const draggableElements = [...list.querySelectorAll('.field-item:not(.dragging)')];
+      
+      return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = x - box.left - box.width / 2;
+        
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child };
+        } else {
+          return closest;
+        }
+      }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+    
+    // Update state from DOM
+    function updateStateFromDOM() {
+      ['account', 'location', 'workorder'].forEach(entity => {
+        [1, 2].forEach(row => {
+          const rowEl = document.getElementById(`${entity}-row-${row}`);
+          const fields = Array.from(rowEl.querySelectorAll('.field-item')).map(el => el.dataset.field);
+          state[entity][`row${row}`] = fields;
+        });
+        updatePreview(entity);
+      });
+      trackChange();
+    }
+    
+    // Presets
+    function loadPreset(entity, preset) {
+      clearAll(entity);
+      
+      const presets = {
+        account: {
+          minimal: {
+            row1: ['AccountType', 'BillingCity'],
+            row2: []
+          },
+          standard: {
+            row1: ['AccountType', 'BillingCity', 'PrimaryContact.FullName'],
+            row2: ['ServiceLocations.count', 'NextServiceDate']
+          },
+          detailed: {
+            row1: ['AccountType', 'BillingCity', 'PrimaryContact.FullName', 'PrimaryContact.Phone'],
+            row2: ['ServiceLocations.count', 'NextServiceDate', 'AccountValue']
+          }
+        },
+        location: {
+          minimal: {
+            row1: ['LocationType', 'ServiceAddress'],
+            row2: []
+          },
+          standard: {
+            row1: ['LocationType', 'ServiceAddress'],
+            row2: ['WorkOrders.count', 'NextServiceDate']
+          },
+          detailed: {
+            row1: ['LocationType', 'ServiceAddress', 'ServiceCity'],
+            row2: ['WorkOrders.count', 'Equipment.count', 'NextServiceDate', 'AccessNotes']
+          }
+        },
+        workorder: {
+          minimal: {
+            row1: ['Priority', 'DueDate'],
+            row2: []
+          },
+          standard: {
+            row1: ['Priority', 'WorkOrderType', 'DueDate'],
+            row2: ['AssignedTo', 'Location.LocationName']
+          },
+          detailed: {
+            row1: ['Priority', 'WorkOrderType', 'ScheduledDate', 'DueDate'],
+            row2: ['AssignedTo', 'Location.LocationName', 'Account.AccountName']
+          }
+        }
+      };
+      
+      const config = presets[entity][preset];
+      
+      config.row1.forEach(field => {
+        const option = document.querySelector(`#${entity}-bank [data-field="${field}"]`);
+        if (option) {
+          addField(entity, 1, field, option.textContent);
+        }
+      });
+      
+      config.row2.forEach(field => {
+        const option = document.querySelector(`#${entity}-bank [data-field="${field}"]`);
+        if (option) {
+          addField(entity, 2, field, option.textContent);
+        }
+      });
+    }
+    
+    // Clear all fields for an entity
+    function clearAll(entity) {
+      [1, 2].forEach(row => {
+        const fields = [...state[entity][`row${row}`]];
+        fields.forEach(field => {
+          removeField(entity, row, field);
+        });
+      });
+    }
+    
+    // Initialize on load
+    window.onload = init;
+  </script>
+</body>
+</html>

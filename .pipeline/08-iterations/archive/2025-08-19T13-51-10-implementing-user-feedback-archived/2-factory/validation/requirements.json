@@ -1,0 +1,964 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generated": "2025-08-19T10:14:42.666Z",
+    "source": "1.1.1-master-view-spec.md",
+    "parser": "REQUIREMENTS-PARSER v1.0",
+    "stats": {
+      "total": 35,
+      "mandatory": 33,
+      "progressive": 2,
+      "optional": 0,
+      "extracted": 35
+    }
+  },
+  "requirements": [
+    {
+      "id": "LAY-001",
+      "text": "System must provide a three-column browser interface",
+      "priority": "mandatory",
+      "category": "layout",
+      "source": "Feature Purpose",
+      "lineNumber": 15,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "System must provide a three-column browser interface",
+      "hash": "1f3127e7"
+    },
+    {
+      "id": "NAV-001",
+      "text": "System must enable rapid navigation through accounts, locations, and work orders",
+      "priority": "mandatory",
+      "category": "navigation",
+      "source": "Feature Purpose",
+      "lineNumber": 15,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "System must enable rapid navigation through accounts, locations, and work orders",
+      "hash": "cc15d33a"
+    },
+    {
+      "id": "NAV-002",
+      "text": "System must preserve context when navigating between entities",
+      "priority": "mandatory",
+      "category": "navigation",
+      "source": "Feature Purpose",
+      "lineNumber": 16,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "System must preserve context when navigating between entities",
+      "hash": "aa46ad8c"
+    },
+    {
+      "id": "PERF-001",
+      "text": "Navigation must be 10x faster than page loads",
+      "priority": "mandatory",
+      "category": "performance",
+      "source": "Business Value",
+      "lineNumber": 11,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "Navigation must be 10x faster than page loads",
+      "hash": "ac9b20d0"
+    },
+    {
+      "id": "NAV-003",
+      "text": "Common tasks must be completed in 1-2 clicks (reduced from 5-7)",
+      "priority": "mandatory",
+      "category": "navigation",
+      "source": "Business Value",
+      "lineNumber": 14,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "Common tasks must be completed in 1-2 clicks (reduced from 5-7)",
+      "hash": "e6022658"
+    },
+    {
+      "id": "DAT-001",
+      "text": "Accounts column must display all accounts with search/filter",
+      "priority": "mandatory",
+      "category": "data",
+      "source": "User Stories",
+      "lineNumber": 37,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "Accounts column must display all accounts with search/filter",
+      "hash": "c188bb27"
+    },
+    {
+      "id": "VIS-001",
+      "text": "Account type indicators (C/R/I) must be displayed",
+      "priority": "mandatory",
+      "category": "visual",
+      "source": "User Stories",
+      "lineNumber": 38,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "Account type indicators (C/R/I) must be displayed",
+      "hash": "da4651ea"
+    },
+    {
+      "id": "VIS-002",
+      "text": "Visual status indicators (active/inactive) must be shown",
+      "priority": "mandatory",
+      "category": "visual",
+      "source": "User Stories",
+      "lineNumber": 39,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "Visual status indicators (active/inactive) must be shown",
+      "hash": "e4edcda8"
+    },
+    {
+      "id": "VIS-003",
+      "text": "Work order status must use color coding",
+      "priority": "mandatory",
+      "category": "visual",
+      "source": "User Stories",
+      "lineNumber": 50,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "Work order status must use color coding",
+      "hash": "c26ab36a"
+    },
+    {
+      "id": "INT-001",
+      "text": "Quick status update actions must be available",
+      "priority": "mandatory",
+      "category": "interaction",
+      "source": "User Stories",
+      "lineNumber": 52,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "Quick status update actions must be available",
+      "hash": "d69af65a"
+    },
+    {
+      "id": "EVT-001",
+      "text": "System must emit account:selected event when account is selected",
+      "priority": "mandatory",
+      "category": "event",
+      "source": "Interface Contract",
+      "lineNumber": 63,
+      "phase": "concept",
+      "testable": true,
+      "validationRule": "check_account_selected_event",
+      "acceptance": "System must emit account:selected event when account is selected",
+      "hash": "b0f21e83"
+    },
+    {
+      "id": "EVT-002",
+      "text": "System must emit location:selected event when location is selected",
+      "priority": "mandatory",
+      "category": "event",
+      "source": "Interface Contract",
+      "lineNumber": 64,
+      "phase": "concept",
+      "testable": true,
+      "validationRule": "check_location_selected_event",
+      "acceptance": "System must emit location:selected event when location is selected",
+      "hash": "ad397878"
+    },
+    {
+      "id": "EVT-003",
+      "text": "System must emit workOrder:selected event when work order is selected",
+      "priority": "mandatory",
+      "category": "event",
+      "source": "Interface Contract",
+      "lineNumber": 65,
+      "phase": "concept",
+      "testable": true,
+      "validationRule": "check_workorder_selected_event",
+      "acceptance": "System must emit workOrder:selected event when work order is selected",
+      "hash": "6d78249f"
+    },
+    {
+      "id": "STATE-001",
+      "text": "System must maintain selectedAccount state",
+      "priority": "mandatory",
+      "category": "state",
+      "source": "Interface Contract",
+      "lineNumber": 83,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "System must maintain selectedAccount state",
+      "hash": "afc0ddf5"
+    },
+    {
+      "id": "TECH-001",
+      "text": "Concept Line must use simple HTML/CSS layout",
+      "priority": "mandatory",
+      "category": "technical",
+      "source": "Progressive Development Plan",
+      "lineNumber": 98,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "Concept Line must use simple HTML/CSS layout",
+      "hash": "189ea1b9"
+    },
+    {
+      "id": "DAT-002",
+      "text": "Concept Line must use mock data (50 accounts, 200 locations, 500 work orders)",
+      "priority": "mandatory",
+      "category": "data",
+      "source": "Progressive Development Plan",
+      "lineNumber": 99,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "Concept Line must use mock data (50 accounts, 200 locations, 500 work orders)",
+      "hash": "c45d3797"
+    },
+    {
+      "id": "TECH-002",
+      "text": "All interactions must use console.log for debugging",
+      "priority": "mandatory",
+      "category": "technical",
+      "source": "Progressive Development Plan",
+      "lineNumber": 100,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "All interactions must use console.log for debugging",
+      "hash": "25649b5f"
+    },
+    {
+      "id": "DAT-003",
+      "text": "System must load minimum 50 accounts",
+      "priority": "mandatory",
+      "category": "data",
+      "source": "Technical Specifications",
+      "lineNumber": 144,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "System must load minimum 50 accounts",
+      "hash": "093d64df"
+    },
+    {
+      "id": "PERF-002",
+      "text": "System must handle displaying up to 1000 accounts",
+      "priority": "progressive",
+      "category": "performance",
+      "source": "Technical Specifications",
+      "lineNumber": 145,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "System must handle displaying up to 1000 accounts",
+      "hash": "7186a93d"
+    },
+    {
+      "id": "DAT-004",
+      "text": "System must handle 3-5 locations per account on average",
+      "priority": "mandatory",
+      "category": "data",
+      "source": "Technical Specifications",
+      "lineNumber": 149,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "System must handle 3-5 locations per account on average",
+      "hash": "44b737b8"
+    },
+    {
+      "id": "DAT-005",
+      "text": "System must handle 5-10 work orders per location on average",
+      "priority": "mandatory",
+      "category": "data",
+      "source": "Technical Specifications",
+      "lineNumber": 153,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "System must handle 5-10 work orders per location on average",
+      "hash": "e1e8fb81"
+    },
+    {
+      "id": "PERF-003",
+      "text": "Initial render must complete in less than 1 second",
+      "priority": "mandatory",
+      "category": "performance",
+      "source": "Performance Targets",
+      "lineNumber": 159,
+      "phase": "concept",
+      "testable": true,
+      "validationRule": "measure_initial_render",
+      "acceptance": "Initial render time < 1000ms",
+      "hash": "56f5586c"
+    },
+    {
+      "id": "PERF-004",
+      "text": "Column updates must complete in less than 200ms",
+      "priority": "mandatory",
+      "category": "performance",
+      "source": "Performance Targets",
+      "lineNumber": 160,
+      "phase": "concept",
+      "testable": true,
+      "validationRule": "measure_column_update",
+      "acceptance": "Column update time < 200ms",
+      "hash": "d305293f"
+    },
+    {
+      "id": "PERF-005",
+      "text": "Search response must complete in less than 100ms",
+      "priority": "mandatory",
+      "category": "performance",
+      "source": "Performance Targets",
+      "lineNumber": 161,
+      "phase": "concept",
+      "testable": true,
+      "validationRule": "measure_search_response",
+      "acceptance": "Search response time < 100ms",
+      "hash": "001165b5"
+    },
+    {
+      "id": "PERF-006",
+      "text": "Scroll performance must maintain 60 fps",
+      "priority": "progressive",
+      "category": "performance",
+      "source": "Performance Targets",
+      "lineNumber": 162,
+      "phase": "concept",
+      "testable": true,
+      "validationRule": "measure_scroll_fps",
+      "acceptance": "Scroll maintains 60 fps",
+      "hash": "79793a9f"
+    },
+    {
+      "id": "NAV-004",
+      "text": "Users MUST be able to navigate to any work order in less than 3 clicks",
+      "priority": "mandatory",
+      "category": "navigation",
+      "source": "Validation Criteria",
+      "lineNumber": 106,
+      "phase": "concept",
+      "testable": true,
+      "validationRule": "count_clicks_to_work_order",
+      "acceptance": "Maximum 3 clicks from page load to any work order",
+      "hash": "ae548b6c"
+    },
+    {
+      "id": "UX-001",
+      "text": "Column relationships must be intuitive",
+      "priority": "mandatory",
+      "category": "ux",
+      "source": "Validation Criteria",
+      "lineNumber": 107,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "Column relationships must be intuitive",
+      "hash": "a27580c4"
+    },
+    {
+      "id": "PERF-007",
+      "text": "Performance must be acceptable with mock data",
+      "priority": "mandatory",
+      "category": "performance",
+      "source": "Validation Criteria",
+      "lineNumber": 108,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "Performance must be acceptable with mock data",
+      "hash": "2abb6308"
+    },
+    {
+      "id": "COMP-001",
+      "text": "All three columns must be implemented before promotion",
+      "priority": "mandatory",
+      "category": "completion",
+      "source": "Promotion Criteria",
+      "lineNumber": 190,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "All three columns must be implemented before promotion",
+      "hash": "81ab1e27"
+    },
+    {
+      "id": "PROC-001",
+      "text": "User feedback must be incorporated",
+      "priority": "mandatory",
+      "category": "process",
+      "source": "Promotion Criteria",
+      "lineNumber": 191,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "User feedback must be incorporated",
+      "hash": "2bdf1de7"
+    },
+    {
+      "id": "QUAL-001",
+      "text": "No blocking UX issues allowed",
+      "priority": "mandatory",
+      "category": "quality",
+      "source": "Promotion Criteria",
+      "lineNumber": 193,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "No blocking UX issues allowed",
+      "hash": "2bcb5a6c"
+    },
+    {
+      "id": "COMPAT-001",
+      "text": "System must support Chrome/Edge 90+, Firefox 88+, Safari 14+",
+      "priority": "mandatory",
+      "category": "compatibility",
+      "source": "Browser Support",
+      "lineNumber": 165,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "System must support Chrome/Edge 90+, Firefox 88+, Safari 14+",
+      "hash": "eb8dcb11"
+    },
+    {
+      "id": "RESP-001",
+      "text": "System must be mobile responsive for tablet and larger",
+      "priority": "mandatory",
+      "category": "responsive",
+      "source": "Browser Support",
+      "lineNumber": 168,
+      "phase": "concept",
+      "testable": false,
+      "validationRule": null,
+      "acceptance": "System must be mobile responsive for tablet and larger",
+      "hash": "20f41a39"
+    },
+    {
+      "id": "PERF-008",
+      "text": "50% reduction in navigation time",
+      "priority": "mandatory",
+      "category": "performance",
+      "source": "Success Metrics",
+      "lineNumber": 183,
+      "phase": "concept",
+      "testable": true,
+      "validationRule": "measure_navigation_time",
+      "acceptance": "50% reduction in navigation time",
+      "hash": "d6308e47"
+    },
+    {
+      "id": "PERF-009",
+      "text": "All interactions must complete in less than 200ms",
+      "priority": "mandatory",
+      "category": "performance",
+      "source": "Success Metrics",
+      "lineNumber": 185,
+      "phase": "concept",
+      "testable": true,
+      "validationRule": "measure_interaction_time",
+      "acceptance": "All interactions must complete in less than 200ms",
+      "hash": "28e8d4a2"
+    }
+  ],
+  "requirementsByCategory": {
+    "layout": [
+      {
+        "text": "System must provide a three-column browser interface",
+        "source": "Feature Purpose",
+        "lineNumber": 15,
+        "priority": "mandatory",
+        "category": "layout",
+        "extracted": "2025-08-19T10:14:42.664Z",
+        "id": "LAY-001",
+        "hash": "1f3127e7"
+      }
+    ],
+    "navigation": [
+      {
+        "text": "System must enable rapid navigation through accounts, locations, and work orders",
+        "source": "Feature Purpose",
+        "lineNumber": 15,
+        "priority": "mandatory",
+        "category": "navigation",
+        "extracted": "2025-08-19T10:14:42.664Z",
+        "id": "NAV-001",
+        "hash": "cc15d33a"
+      },
+      {
+        "text": "System must preserve context when navigating between entities",
+        "source": "Feature Purpose",
+        "lineNumber": 16,
+        "priority": "mandatory",
+        "category": "navigation",
+        "extracted": "2025-08-19T10:14:42.664Z",
+        "id": "NAV-002",
+        "hash": "aa46ad8c"
+      },
+      {
+        "text": "Common tasks must be completed in 1-2 clicks (reduced from 5-7)",
+        "source": "Business Value",
+        "lineNumber": 14,
+        "priority": "mandatory",
+        "category": "navigation",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "NAV-003",
+        "hash": "e6022658"
+      },
+      {
+        "text": "Users MUST be able to navigate to any work order in less than 3 clicks",
+        "source": "Validation Criteria",
+        "lineNumber": 106,
+        "priority": "mandatory",
+        "category": "navigation",
+        "validationRule": "count_clicks_to_work_order",
+        "testable": true,
+        "acceptance": "Maximum 3 clicks from page load to any work order",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "NAV-004",
+        "hash": "ae548b6c"
+      }
+    ],
+    "performance": [
+      {
+        "text": "Navigation must be 10x faster than page loads",
+        "source": "Business Value",
+        "lineNumber": 11,
+        "priority": "mandatory",
+        "category": "performance",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "PERF-001",
+        "hash": "ac9b20d0"
+      },
+      {
+        "text": "System must handle displaying up to 1000 accounts",
+        "source": "Technical Specifications",
+        "lineNumber": 145,
+        "priority": "progressive",
+        "category": "performance",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "PERF-002",
+        "hash": "7186a93d"
+      },
+      {
+        "text": "Initial render must complete in less than 1 second",
+        "source": "Performance Targets",
+        "lineNumber": 159,
+        "priority": "mandatory",
+        "category": "performance",
+        "validationRule": "measure_initial_render",
+        "testable": true,
+        "acceptance": "Initial render time < 1000ms",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "PERF-003",
+        "hash": "56f5586c"
+      },
+      {
+        "text": "Column updates must complete in less than 200ms",
+        "source": "Performance Targets",
+        "lineNumber": 160,
+        "priority": "mandatory",
+        "category": "performance",
+        "validationRule": "measure_column_update",
+        "testable": true,
+        "acceptance": "Column update time < 200ms",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "PERF-004",
+        "hash": "d305293f"
+      },
+      {
+        "text": "Search response must complete in less than 100ms",
+        "source": "Performance Targets",
+        "lineNumber": 161,
+        "priority": "mandatory",
+        "category": "performance",
+        "validationRule": "measure_search_response",
+        "testable": true,
+        "acceptance": "Search response time < 100ms",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "PERF-005",
+        "hash": "001165b5"
+      },
+      {
+        "text": "Scroll performance must maintain 60 fps",
+        "source": "Performance Targets",
+        "lineNumber": 162,
+        "priority": "progressive",
+        "category": "performance",
+        "validationRule": "measure_scroll_fps",
+        "testable": true,
+        "acceptance": "Scroll maintains 60 fps",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "PERF-006",
+        "hash": "79793a9f"
+      },
+      {
+        "text": "Performance must be acceptable with mock data",
+        "source": "Validation Criteria",
+        "lineNumber": 108,
+        "priority": "mandatory",
+        "category": "performance",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "PERF-007",
+        "hash": "2abb6308"
+      },
+      {
+        "text": "50% reduction in navigation time",
+        "source": "Success Metrics",
+        "lineNumber": 183,
+        "priority": "mandatory",
+        "category": "performance",
+        "validationRule": "measure_navigation_time",
+        "testable": true,
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "PERF-008",
+        "hash": "d6308e47"
+      },
+      {
+        "text": "All interactions must complete in less than 200ms",
+        "source": "Success Metrics",
+        "lineNumber": 185,
+        "priority": "mandatory",
+        "category": "performance",
+        "validationRule": "measure_interaction_time",
+        "testable": true,
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "PERF-009",
+        "hash": "28e8d4a2"
+      }
+    ],
+    "data": [
+      {
+        "text": "Accounts column must display all accounts with search/filter",
+        "source": "User Stories",
+        "lineNumber": 37,
+        "priority": "mandatory",
+        "category": "data",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "DAT-001",
+        "hash": "c188bb27"
+      },
+      {
+        "text": "Concept Line must use mock data (50 accounts, 200 locations, 500 work orders)",
+        "source": "Progressive Development Plan",
+        "lineNumber": 99,
+        "priority": "mandatory",
+        "category": "data",
+        "phase": "concept",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "DAT-002",
+        "hash": "c45d3797"
+      },
+      {
+        "text": "System must load minimum 50 accounts",
+        "source": "Technical Specifications",
+        "lineNumber": 144,
+        "priority": "mandatory",
+        "category": "data",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "DAT-003",
+        "hash": "093d64df"
+      },
+      {
+        "text": "System must handle 3-5 locations per account on average",
+        "source": "Technical Specifications",
+        "lineNumber": 149,
+        "priority": "mandatory",
+        "category": "data",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "DAT-004",
+        "hash": "44b737b8"
+      },
+      {
+        "text": "System must handle 5-10 work orders per location on average",
+        "source": "Technical Specifications",
+        "lineNumber": 153,
+        "priority": "mandatory",
+        "category": "data",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "DAT-005",
+        "hash": "e1e8fb81"
+      }
+    ],
+    "visual": [
+      {
+        "text": "Account type indicators (C/R/I) must be displayed",
+        "source": "User Stories",
+        "lineNumber": 38,
+        "priority": "mandatory",
+        "category": "visual",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "VIS-001",
+        "hash": "da4651ea"
+      },
+      {
+        "text": "Visual status indicators (active/inactive) must be shown",
+        "source": "User Stories",
+        "lineNumber": 39,
+        "priority": "mandatory",
+        "category": "visual",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "VIS-002",
+        "hash": "e4edcda8"
+      },
+      {
+        "text": "Work order status must use color coding",
+        "source": "User Stories",
+        "lineNumber": 50,
+        "priority": "mandatory",
+        "category": "visual",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "VIS-003",
+        "hash": "c26ab36a"
+      }
+    ],
+    "interaction": [
+      {
+        "text": "Quick status update actions must be available",
+        "source": "User Stories",
+        "lineNumber": 52,
+        "priority": "mandatory",
+        "category": "interaction",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "INT-001",
+        "hash": "d69af65a"
+      }
+    ],
+    "event": [
+      {
+        "text": "System must emit account:selected event when account is selected",
+        "source": "Interface Contract",
+        "lineNumber": 63,
+        "priority": "mandatory",
+        "category": "event",
+        "validationRule": "check_account_selected_event",
+        "testable": true,
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "EVT-001",
+        "hash": "b0f21e83"
+      },
+      {
+        "text": "System must emit location:selected event when location is selected",
+        "source": "Interface Contract",
+        "lineNumber": 64,
+        "priority": "mandatory",
+        "category": "event",
+        "validationRule": "check_location_selected_event",
+        "testable": true,
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "EVT-002",
+        "hash": "ad397878"
+      },
+      {
+        "text": "System must emit workOrder:selected event when work order is selected",
+        "source": "Interface Contract",
+        "lineNumber": 65,
+        "priority": "mandatory",
+        "category": "event",
+        "validationRule": "check_workorder_selected_event",
+        "testable": true,
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "EVT-003",
+        "hash": "6d78249f"
+      }
+    ],
+    "state": [
+      {
+        "text": "System must maintain selectedAccount state",
+        "source": "Interface Contract",
+        "lineNumber": 83,
+        "priority": "mandatory",
+        "category": "state",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "STATE-001",
+        "hash": "afc0ddf5"
+      }
+    ],
+    "technical": [
+      {
+        "text": "Concept Line must use simple HTML/CSS layout",
+        "source": "Progressive Development Plan",
+        "lineNumber": 98,
+        "priority": "mandatory",
+        "category": "technical",
+        "phase": "concept",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "TECH-001",
+        "hash": "189ea1b9"
+      },
+      {
+        "text": "All interactions must use console.log for debugging",
+        "source": "Progressive Development Plan",
+        "lineNumber": 100,
+        "priority": "mandatory",
+        "category": "technical",
+        "phase": "concept",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "TECH-002",
+        "hash": "25649b5f"
+      }
+    ],
+    "ux": [
+      {
+        "text": "Column relationships must be intuitive",
+        "source": "Validation Criteria",
+        "lineNumber": 107,
+        "priority": "mandatory",
+        "category": "ux",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "UX-001",
+        "hash": "a27580c4"
+      }
+    ],
+    "completion": [
+      {
+        "text": "All three columns must be implemented before promotion",
+        "source": "Promotion Criteria",
+        "lineNumber": 190,
+        "priority": "mandatory",
+        "category": "completion",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "COMP-001",
+        "hash": "81ab1e27"
+      }
+    ],
+    "process": [
+      {
+        "text": "User feedback must be incorporated",
+        "source": "Promotion Criteria",
+        "lineNumber": 191,
+        "priority": "mandatory",
+        "category": "process",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "PROC-001",
+        "hash": "2bdf1de7"
+      }
+    ],
+    "quality": [
+      {
+        "text": "No blocking UX issues allowed",
+        "source": "Promotion Criteria",
+        "lineNumber": 193,
+        "priority": "mandatory",
+        "category": "quality",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "QUAL-001",
+        "hash": "2bcb5a6c"
+      }
+    ],
+    "compatibility": [
+      {
+        "text": "System must support Chrome/Edge 90+, Firefox 88+, Safari 14+",
+        "source": "Browser Support",
+        "lineNumber": 165,
+        "priority": "mandatory",
+        "category": "compatibility",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "COMPAT-001",
+        "hash": "eb8dcb11"
+      }
+    ],
+    "responsive": [
+      {
+        "text": "System must be mobile responsive for tablet and larger",
+        "source": "Browser Support",
+        "lineNumber": 168,
+        "priority": "mandatory",
+        "category": "responsive",
+        "extracted": "2025-08-19T10:14:42.665Z",
+        "id": "RESP-001",
+        "hash": "20f41a39"
+      }
+    ]
+  },
+  "mandatoryRequirements": [
+    "LAY-001",
+    "NAV-001",
+    "NAV-002",
+    "PERF-001",
+    "NAV-003",
+    "DAT-001",
+    "VIS-001",
+    "VIS-002",
+    "VIS-003",
+    "INT-001",
+    "EVT-001",
+    "EVT-002",
+    "EVT-003",
+    "STATE-001",
+    "TECH-001",
+    "DAT-002",
+    "TECH-002",
+    "DAT-003",
+    "DAT-004",
+    "DAT-005",
+    "PERF-003",
+    "PERF-004",
+    "PERF-005",
+    "NAV-004",
+    "UX-001",
+    "PERF-007",
+    "COMP-001",
+    "PROC-001",
+    "QUAL-001",
+    "COMPAT-001",
+    "RESP-001",
+    "PERF-008",
+    "PERF-009"
+  ],
+  "testableRequirements": [
+    {
+      "id": "EVT-001",
+      "validationRule": "check_account_selected_event"
+    },
+    {
+      "id": "EVT-002",
+      "validationRule": "check_location_selected_event"
+    },
+    {
+      "id": "EVT-003",
+      "validationRule": "check_workorder_selected_event"
+    },
+    {
+      "id": "PERF-003",
+      "validationRule": "measure_initial_render",
+      "acceptance": "Initial render time < 1000ms"
+    },
+    {
+      "id": "PERF-004",
+      "validationRule": "measure_column_update",
+      "acceptance": "Column update time < 200ms"
+    },
+    {
+      "id": "PERF-005",
+      "validationRule": "measure_search_response",
+      "acceptance": "Search response time < 100ms"
+    },
+    {
+      "id": "PERF-006",
+      "validationRule": "measure_scroll_fps",
+      "acceptance": "Scroll maintains 60 fps"
+    },
+    {
+      "id": "NAV-004",
+      "validationRule": "count_clicks_to_work_order",
+      "acceptance": "Maximum 3 clicks from page load to any work order"
+    },
+    {
+      "id": "PERF-008",
+      "validationRule": "measure_navigation_time"
+    },
+    {
+      "id": "PERF-009",
+      "validationRule": "measure_interaction_time"
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "version": "3.0.0",
+  "hierarchy": {
+    "application": {
+      "id": "fsm",
+      "name": "Field Service Management"
+    },
+    "module": {
+      "id": "accounts",
+      "name": "Account Management"
+    },
+    "subModule": {
+      "id": "accounts",
+      "name": "Accounts"
+    },
+    "userStory": {
+      "id": "US-001",
+      "code": "US-001",
+      "title": "As an Admin, I want to view a list of accounts"
+    }
+  },
+  "scope": {
+    "level": "story",
+    "path": "fsm/accounts/accounts/[object Object]"
+  },
+  "entity": {
+    "primary": "account",
+    "related": [
+      "serviceLocation"
+    ]
+  },
+  "fields": [
+    {
+      "entity": "account",
+      "field": "accountName",
+      "label": "Account Name",
+      "type": "string",
+      "isRelated": false
+    },
+    {
+      "entity": "account",
+      "field": "accountNumber",
+      "label": "Account Number",
+      "type": "string",
+      "isRelated": false
+    },
+    {
+      "entity": "account",
+      "field": "accountType",
+      "label": "Account Type",
+      "type": "enum",
+      "isRelated": false
+    },
+    {
+      "entity": "account",
+      "field": "status",
+      "label": "Status",
+      "type": "enum",
+      "isRelated": false
+    },
+    {
+      "entity": "serviceLocation",
+      "field": "locationName",
+      "label": "serviceLocation.Location Name",
+      "type": "string",
+      "isRelated": true
+    }
+  ],
+  "layout": {
+    "type": "table",
+    "features": {
+      "sorting": true,
+      "pagination": true,
+      "filtering": false
+    }
+  },
+  "metadata": {
+    "createdAt": "2025-08-22T12:52:35.086Z",
+    "createdBy": "ViewForge v3",
+    "iteration": "Sprint-1-Spike"
+  }
+}

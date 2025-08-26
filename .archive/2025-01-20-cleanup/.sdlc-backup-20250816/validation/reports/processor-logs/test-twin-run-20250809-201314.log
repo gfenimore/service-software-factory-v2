@@ -1,0 +1,28 @@
+=========================================
+[0;36m🧪 Running Test Twin: HOOK-PROCESSOR-TEST[0m
+Testing output: src/hooks/useAccountSelection.ts
+Generating test: src/hooks/useAccountSelection.hook.test.ts
+[0;32m✓ Test twin completed: src/hooks/useAccountSelection.hook.test.ts[0m
+  Generated 80 lines of tests
+[0;32m  ✓ Business logic tests generated[0m
+=========================================
+=========================================
+[0;36m🧪 Running Test Twin: MODIFY-PROCESSOR-TEST[0m
+Testing output: src/components/accounts/AccountCard.tsx
+Generating test: src/components/accounts/AccountCard.test.tsx
+[0;32m✓ Test twin completed: src/components/accounts/AccountCard.test.tsx[0m
+  Generated 59 lines of tests
+[0;32m  ✓ Business logic tests generated[0m
+  Quality Score: 4/5
+[0;32m  ✓ Test quality: PASS[0m
+=========================================
+=========================================
+[0;36m🧪 Running Test Twin: MODIFY-PROCESSOR-TEST[0m
+Testing output: src/components/accounts/AccountCard.tsx
+Generating test: src/components/accounts/AccountCard.test.tsx
+[0;32m✓ Test twin completed: src/components/accounts/AccountCard.test.tsx[0m
+  Generated 59 lines of tests
+[0;32m  ✓ Business logic tests generated[0m
+  Quality Score: 4/5
+[0;32m  ✓ Test quality: PASS[0m
+=========================================

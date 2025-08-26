@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept Line with Business Rule Hints - Mockup</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      color: #7f8c8d;
+      margin-bottom: 30px;
+      font-style: italic;
+    }
+    
+    /* Rule Hint Styles */
+    .required {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+    
+    .rule-hint {
+      display: inline-block;
+      background: #fff3cd;
+      color: #856404;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-left: 8px;
+    }
+    
+    .state-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .state-draft {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+    
+    .state-active {
+      background: #e8f5e9;
+      color: #388e3c;
+    }
+    
+    .state-transition {
+      color: #9e9e9e;
+      margin-left: 8px;
+      font-size: 12px;
+    }
+    
+    .state-transition::before {
+      content: "→ Can transition to: ";
+    }
+    
+    .blocked-action {
+      opacity: 0.5;
+      cursor: not-allowed;
+      position: relative;
+    }
+    
+    .blocked-reason {
+      position: absolute;
+      background: #333;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      white-space: nowrap;
+      top: -30px;
+      left: 0;
+      display: none;
+    }
+    
+    .blocked-action:hover .blocked-reason {
+      display: block;
+    }
+    
+    .conditional-notice {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 12px;
+      margin: 15px 0;
+      font-size: 14px;
+    }
+    
+    .validation-hint {
+      color: #6c757d;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+    
+    /* Table Styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    
+    th {
+      background: #f8f9fa;
+      padding: 12px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 2px solid #dee2e6;
+    }
+    
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #e9ecef;
+    }
+    
+    tr:hover {
+      background: #f8f9fa;
+    }
+    
+    /* Form Styles */
+    .form-section {
+      margin-top: 40px;
+      padding-top: 40px;
+      border-top: 2px solid #e9ecef;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: #495057;
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    
+    input:focus, select:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+    }
+    
+    button {
+      padding: 8px 16px;
+      border: 1px solid #ddd;
+      background: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-right: 8px;
+    }
+    
+    button:hover:not(:disabled) {
+      background: #f8f9fa;
+    }
+    
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .btn-primary {
+      background: #007bff;
+      color: white;
+      border-color: #007bff;
+    }
+    
+    .btn-primary:hover {
+      background: #0056b3;
+    }
+    
+    /* Rule indicator legend */
+    .legend {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 30px;
+    }
+    
+    .legend h3 {
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: #495057;
+    }
+    
+    .legend-item {
+      display: inline-block;
+      margin-right: 20px;
+      font-size: 13px;
+      color: #6c757d;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Account Management</h1>
+    <p class="subtitle">Concept Wireframe with Business Rule Hints</p>
+    
+    <div class="legend">
+      <h3>Business Rule Indicators:</h3>
+      <span class="legend-item"><span class="required">*</span> Required field</span>
+      <span class="legend-item">🔒 Unique constraint</span>
+      <span class="legend-item">→ State transition</span>
+      <span class="legend-item">⚠️ Conditional rule</span>
+      <span class="legend-item">🚫 Blocked action</span>
+    </div>
+    
+    <!-- List View with Rule Hints -->
+    <h2>Account List</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Account Name <span class="required">*</span> 🔒</th>
+          <th>Type <span class="required">*</span></th>
+          <th>Status</th>
+          <th>Annual Revenue</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Acme Corporation</td>
+          <td>Enterprise <span class="rule-hint">Requires revenue</span></td>
+          <td>
+            <span class="state-badge state-draft">Draft</span>
+            <span class="state-transition">Active, Cancelled</span>
+          </td>
+          <td>$2,500,000</td>
+          <td>
+            <button>View</button>
+            <button>Edit</button>
+            <button class="blocked-action" disabled>
+              Delete 🚫
+              <span class="blocked-reason">Has 3 open opportunities</span>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td>TechStart Inc</td>
+          <td>Standard</td>
+          <td>
+            <span class="state-badge state-active">Active</span>
+            <span class="state-transition">Suspended, Closed</span>
+          </td>
+          <td>$450,000</td>
+          <td>
+            <button>View</button>
+            <button>Edit</button>
+            <button class="blocked-action" disabled>
+              Delete 🚫
+              <span class="blocked-reason">Has unpaid invoices</span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <!-- Form View with Rule Hints -->
+    <div class="form-section">
+      <h2>Create/Edit Account</h2>
+      
+      <form>
+        <div class="form-group">
+          <label>
+            Account Name 
+            <span class="required">*</span>
+            <span class="rule-hint">Unique</span>
+          </label>
+          <input type="text" placeholder="Required, must be unique, letters/numbers/spaces only">
+          <div class="validation-hint">This name will be checked for uniqueness</div>
+        </div>
+        
+        <div class="form-group">
+          <label>
+            Account Type
+            <span class="required">*</span>
+          </label>
+          <select onchange="showConditionalRules(this.value)">
+            <option>Standard</option>
+            <option>Premium</option>
+            <option>Enterprise</option>
+          </select>
+        </div>
+        
+        <div id="enterprise-notice" class="conditional-notice" style="display: none;">
+          ⚠️ Enterprise accounts require: Annual Revenue, Tax ID, and Credit Limit
+        </div>
+        
+        <div class="form-group">
+          <label>
+            Status
+            <span class="rule-hint">Auto-set to Draft</span>
+          </label>
+          <select disabled>
+            <option>Draft (Initial state)</option>
+          </select>
+          <div class="validation-hint">Will be set to "Draft" on creation</div>
+        </div>
+        
+        <div class="form-group">
+          <label>
+            Annual Revenue
+            <span id="revenue-required" style="display: none;" class="required">*</span>
+          </label>
+          <input type="number" placeholder="Required for Enterprise accounts">
+        </div>
+        
+        <div class="form-group">
+          <label>Account Number</label>
+          <input type="text" disabled placeholder="Auto-generated: ACC-2025-0001">
+          <div class="validation-hint">Will be generated automatically on save</div>
+        </div>
+        
+        <div style="margin-top: 30px;">
+          <button type="submit" class="btn-primary">
+            Save Account
+          </button>
+          <button type="button">
+            Cancel
+          </button>
+          
+          <div style="margin-top: 15px; padding: 10px; background: #e8f5e9; border-radius: 4px;">
+            <strong>On Save:</strong>
+            <ul style="margin-top: 5px; margin-left: 20px; font-size: 14px;">
+              <li>Status will be set to "Draft"</li>
+              <li>Account Number will be generated</li>
+              <li>Created timestamp will be set</li>
+              <li>Account creation will be logged</li>
+            </ul>
+          </div>
+        </div>
+      </form>
+    </div>
+    
+    <!-- State Transition Diagram -->
+    <div class="form-section">
+      <h2>Account State Transitions</h2>
+      <div style="padding: 20px; background: #f8f9fa; border-radius: 4px; text-align: center;">
+        <div style="display: inline-block; margin: 10px;">
+          <span class="state-badge state-draft">Draft</span>
+          <span style="margin: 0 10px;">→</span>
+          <span class="state-badge state-active">Active</span>
+          <span style="margin-left: 10px; font-size: 12px; color: #6c757d;">
+            (requires: name, type)
+          </span>
+        </div>
+        <br>
+        <div style="display: inline-block; margin: 10px;">
+          <span class="state-badge state-draft">Draft</span>
+          <span style="margin: 0 10px;">→</span>
+          <span class="state-badge" style="background: #ffebee; color: #c62828;">Cancelled</span>
+        </div>
+        <br>
+        <div style="display: inline-block; margin: 10px;">
+          <span class="state-badge state-active">Active</span>
+          <span style="margin: 0 10px;">↔</span>
+          <span class="state-badge" style="background: #fff3e0; color: #e65100;">Suspended</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function showConditionalRules(value) {
+      const notice = document.getElementById('enterprise-notice');
+      const revenueRequired = document.getElementById('revenue-required');
+      
+      if (value === 'Enterprise') {
+        notice.style.display = 'block';
+        revenueRequired.style.display = 'inline';
+      } else {
+        notice.style.display = 'none';
+        revenueRequired.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>

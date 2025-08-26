@@ -1,0 +1,178 @@
+{
+  "story": "US-007",
+  "feature": "Work Orders for Selected Service Location",
+  "version": "1.0",
+  "generated": "2025-01-16",
+  "generator": "PROCESSOR-SELECTOR v2.0",
+  "processors": [
+    {
+      "id": "P1",
+      "name": "TYPE-PROCESSOR",
+      "task": "T-002",
+      "description": "Create WorkOrder TypeScript types",
+      "input": {
+        "architecture": "02-design/specs/US-007-architecture.md#type-definitions"
+      },
+      "output": {
+        "file": "src/types/workOrder.types.ts",
+        "exports": [
+          "WorkOrder",
+          "WorkOrderStatus",
+          "WorkOrderPriority",
+          "WorkOrderType",
+          "WorkOrdersListProps",
+          "WorkOrderCardProps",
+          "UseWorkOrdersReturn"
+        ]
+      },
+      "validation": {
+        "no_any_types": true,
+        "all_fields_typed": true,
+        "enums_defined": true
+      }
+    },
+    {
+      "id": "P2",
+      "name": "MOCK-PROCESSOR",
+      "task": "Support for T-001 deferral",
+      "description": "Create mock data generator for work orders",
+      "input": {
+        "types": "src/types/workOrder.types.ts",
+        "architecture": "02-design/specs/US-007-architecture.md#mock-data-generator"
+      },
+      "output": {
+        "file": "src/lib/mock/workOrderMocks.ts",
+        "exports": ["generateMockWorkOrders"]
+      },
+      "validation": {
+        "returns_typed_array": true,
+        "all_fields_populated": true,
+        "realistic_data": true
+      }
+    },
+    {
+      "id": "P3",
+      "name": "HOOK-PROCESSOR",
+      "task": "T-003",
+      "description": "Create useWorkOrders hook with mock data",
+      "input": {
+        "types": "src/types/workOrder.types.ts",
+        "mock_generator": "src/lib/mock/workOrderMocks.ts",
+        "architecture": "02-design/specs/US-007-architecture.md#useWorkOrders-hook"
+      },
+      "output": {
+        "file": "src/hooks/useWorkOrders.ts",
+        "exports": ["useWorkOrders"],
+        "returns": "UseWorkOrdersReturn"
+      },
+      "validation": {
+        "handles_empty_location": true,
+        "uses_mock_data": true,
+        "typed_return": true
+      }
+    },
+    {
+      "id": "P4",
+      "name": "SCAFFOLD-PROCESSOR",
+      "task": "T-004, T-005, T-008",
+      "description": "Create component shells for work orders UI",
+      "input": {
+        "types": "src/types/workOrder.types.ts",
+        "architecture": "02-design/specs/US-007-architecture.md#component-specifications"
+      },
+      "output": {
+        "files": [
+          "src/components/work-orders/WorkOrderCard.tsx",
+          "src/components/work-orders/WorkOrdersList.tsx",
+          "src/components/work-orders/WorkOrderDetailModal.tsx"
+        ],
+        "structure": "functional_components_with_props"
+      },
+      "validation": {
+        "imports_types": true,
+        "exports_default": true,
+        "jsx_structure": true
+      }
+    },
+    {
+      "id": "P5",
+      "name": "REACT-PROCESSOR",
+      "task": "T-004, T-005, T-006, T-007, T-008",
+      "description": "Add React logic, state management, and interactivity",
+      "input": {
+        "scaffolds": ["WorkOrderCard.tsx", "WorkOrdersList.tsx", "WorkOrderDetailModal.tsx"],
+        "hook": "src/hooks/useWorkOrders.ts",
+        "architecture": "02-design/specs/US-007-architecture.md#component-specifications"
+      },
+      "output": {
+        "enhanced_components": true,
+        "state_management": ["filterStatus", "searchQuery", "selectedWorkOrder", "modalOpen"],
+        "event_handlers": ["onClick", "onFilterChange", "onSearchChange", "onModalClose"]
+      },
+      "validation": {
+        "hooks_integrated": true,
+        "state_managed": true,
+        "events_handled": true,
+        "loading_states": true,
+        "empty_states": true
+      }
+    },
+    {
+      "id": "P6",
+      "name": "STYLE-PROCESSOR",
+      "task": "Visual design from requirements",
+      "description": "Add Tailwind classes for status colors and priority indicators",
+      "input": {
+        "components": ["WorkOrderCard.tsx", "WorkOrdersList.tsx"],
+        "architecture": "02-design/specs/US-007-architecture.md#styling-specifications"
+      },
+      "output": {
+        "status_colors": {
+          "Scheduled": "bg-gray-100 text-gray-700",
+          "Assigned": "bg-blue-100 text-blue-700",
+          "In-Progress": "bg-yellow-100 text-yellow-700",
+          "Completed": "bg-green-100 text-green-700",
+          "Invoiced": "bg-purple-100 text-purple-700"
+        },
+        "priority_indicators": {
+          "Emergency": "border-l-4 border-red-500",
+          "High": "border-l-4 border-orange-500",
+          "Medium": "border-l-4 border-blue-500",
+          "Low": "border-l-4 border-gray-300"
+        }
+      },
+      "validation": {
+        "semantic_colors": true,
+        "consistent_with_columns_1_2": true,
+        "responsive_design": true
+      }
+    }
+  ],
+  "execution_sequence": ["P1", "P2", "P3", "P4", "P5", "P6"],
+  "dependencies": {
+    "P2": ["P1"],
+    "P3": ["P1", "P2"],
+    "P4": ["P1"],
+    "P5": ["P3", "P4"],
+    "P6": ["P4", "P5"]
+  },
+  "notes": {
+    "deferred_tasks": ["T-001: Database table creation deferred, using mock data"],
+    "integration_tasks": [
+      "T-012, T-013, T-014, T-015 will be handled in Stage 7 with INTEGRATION-SPECIALIST"
+    ],
+    "performance_tasks": ["T-009, T-010, T-011 deferred to post-MVP"]
+  },
+  "validation_gates": {
+    "after_P1": "npm run type-check should pass",
+    "after_P3": "Hook should return mock data",
+    "after_P5": "Components should render without errors",
+    "after_P6": "Visual design matches Columns 1 & 2"
+  },
+  "output_structure": {
+    "components": "src/components/work-orders/",
+    "types": "src/types/workOrder.types.ts",
+    "hooks": "src/hooks/useWorkOrders.ts",
+    "mocks": "src/lib/mock/workOrderMocks.ts"
+  }
+}

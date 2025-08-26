@@ -1,0 +1,113 @@
+# Progressive Pipeline Path Configuration
+# Version: 2.0
+# Purpose: Line-aware path configuration for progressive factory
+# Migration Date: 2025-08-18
+
+version: 2.0
+base_path: ".pipeline"
+
+# Line context (set by pipeline executor)
+current_line: "${LINE:-prototype}"  # Default to prototype if not specified
+
+# Line-specific paths
+lines:
+  concept:
+    features: "${base_path}/concept/features"
+    stories: "${base_path}/concept/stories"
+    tasks: "${base_path}/concept/tasks"
+    architecture: "${base_path}/concept/architecture"
+    manifests: "${base_path}/concept/manifests"
+    session: "${base_path}/concept/session.json"
+    
+  prototype:
+    features: "${base_path}/prototype/features"
+    stories: "${base_path}/prototype/stories"
+    tasks: "${base_path}/prototype/tasks"
+    architecture: "${base_path}/prototype/architecture"
+    manifests: "${base_path}/prototype/manifests"
+    session: "${base_path}/prototype/session.json"
+    
+  production:
+    features: "${base_path}/production/features"
+    stories: "${base_path}/production/stories"
+    tasks: "${base_path}/production/tasks"
+    architecture: "${base_path}/production/architecture"
+    manifests: "${base_path}/production/manifests"
+    session: "${base_path}/production/session.json"
+
+# Agent configurations (line-aware)
+agents:
+  STORY_BUILDER:
+    input: "${lines.${current_line}.features}"
+    output: "${lines.${current_line}.stories}"
+    line_config: "${base_path}/config/agent-line-config.yaml"
+    
+  PLANNER:
+    input: "${lines.${current_line}.stories}"
+    output: "${lines.${current_line}.tasks}"
+    line_config: "${base_path}/config/agent-line-config.yaml"
+    
+  ARCHITECT:
+    input: "${lines.${current_line}.stories}"
+    output: "${lines.${current_line}.architecture}"
+    line_config: "${base_path}/config/agent-line-config.yaml"
+    skip_for_line: ["concept"]  # No architecture for concept line
+    
+  PROCESSOR_SELECTOR:
+    input: "${lines.${current_line}.tasks}"
+    output: "${lines.${current_line}.manifests}"
+    line_config: "${base_path}/config/processor-line-config.yaml"
+
+# Processor configurations (line-aware)
+processors:
+  # Concept line outputs
+  concept:
+    output_base: "src/concept"
+    test_output: "${base_path}/staging/concept-tests"
+    allows_any: true
+    allows_console: true
+    
+  # Prototype line outputs  
+  prototype:
+    output_base: "src/prototype"
+    test_output: "${base_path}/staging/prototype-tests"
+    allows_any: false
+    allows_console: "warn"
+    
+  # Production line outputs
+  production:
+    output_base: "src/production"
+    test_output: "${base_path}/staging/production-tests"
+    allows_any: "error"
+    allows_console: "error"
+
+# Standards enforcement
+standards:
+  config: "${base_path}/config/factory-standards.yaml"
+  eslint: "${base_path}/config/.eslintrc.progressive.js"
+  
+# Line promotion paths
+promotion:
+  concept_to_prototype:
+    source: "${base_path}/concept"
+    target: "${base_path}/prototype"
+    validation: "npm run validate:concept"
+    
+  prototype_to_production:
+    source: "${base_path}/prototype"
+    target: "${base_path}/production"
+    validation: "npm run validate:prototype"
+    
+  production_to_graduated:
+    source: "${base_path}/production"
+    target: "${base_path}/graduated"
+    validation: "npm run validate:production"
+
+# Archive configuration
+archive:
+  path: "${base_path}/archive"
+  by_line:
+    concept: "${base_path}/archive/concept"
+    prototype: "${base_path}/archive/prototype"
+    production: "${base_path}/archive/production"
+  retention_days: 90

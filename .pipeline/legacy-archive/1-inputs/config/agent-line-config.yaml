@@ -1,0 +1,487 @@
+# Progressive Agent Configuration
+# Version: 1.0
+# Purpose: Define how each agent adapts its behavior based on the target line
+# Note: Single agent set with progressive behavior, not separate agents per line
+
+agents:
+  # ============================================
+  # STORY-BUILDER Agent
+  # ============================================
+  STORY-BUILDER:
+    version: 3.0
+    description: "Transforms features into user stories with line-appropriate detail"
+    
+    line_behaviors:
+      concept:
+        focus: "Business workflow and UX validation"
+        skip:
+          - "Technical specifications"
+          - "API contracts"
+          - "Database schemas"
+          - "Performance requirements"
+          - "Security requirements"
+        include:
+          - "User journey"
+          - "Mock data requirements"
+          - "UI/UX flow"
+          - "Business rules"
+        output:
+          format: "simplified-story"
+          sections:
+            - "user_story"
+            - "background"
+            - "business_rules"
+            - "acceptance_criteria"
+            - "mock_scenarios"
+        validation:
+          - "Can be demonstrated with mocks"
+          - "Business value is clear"
+          - "User journey is complete"
+        
+      prototype:
+        focus: "Technical feasibility and basic integration"
+        skip:
+          - "Performance optimization"
+          - "Multi-tenant considerations"
+          - "Advanced security"
+        include:
+          - "Basic API contracts"
+          - "Simple schemas"
+          - "Component interfaces"
+          - "State management"
+          - "Error handling basics"
+        output:
+          format: "technical-story"
+          sections:
+            - "user_story"
+            - "business_rules"
+            - "data_structure"
+            - "component_interface"
+            - "api_contract"
+            - "acceptance_criteria"
+        validation:
+          - "Technical approach defined"
+          - "Integration points identified"
+          - "Single-tenant scope clear"
+        
+      production:
+        focus: "Complete implementation with all edge cases"
+        skip: []  # Nothing skipped - full detail
+        include:
+          - "Full technical specifications"
+          - "Security requirements"
+          - "Performance targets"
+          - "Multi-tenant isolation"
+          - "Monitoring requirements"
+          - "Error recovery"
+          - "Audit logging"
+        output:
+          format: "production-story"
+          sections:
+            - "user_story"
+            - "business_rules"
+            - "data_structure"
+            - "component_interface"
+            - "state_management"
+            - "api_contract"
+            - "security_requirements"
+            - "performance_targets"
+            - "monitoring_plan"
+            - "test_scenarios"
+            - "deployment_considerations"
+        validation:
+          - "Production-ready specifications"
+          - "All edge cases covered"
+          - "Security reviewed"
+          - "Performance targets defined"
+
+  # ============================================
+  # PLANNER Agent
+  # ============================================
+  PLANNER:
+    version: 5.2
+    description: "Decomposes stories into tasks with line-appropriate granularity"
+    
+    line_behaviors:
+      concept:
+        focus: "Rapid prototyping tasks"
+        task_types:
+          - "mock-ui"
+          - "mock-data"
+          - "user-flow"
+          - "validation"
+        task_granularity: "coarse"
+        time_estimates: "hours"
+        value_slices:
+          size: "large"
+          focus: "user-visible"
+        skip:
+          - "Technical architecture tasks"
+          - "Database migration tasks"
+          - "Security implementation"
+        output:
+          - "concept-tasks.md"
+          - "mock-requirements.md"
+        
+      prototype:
+        focus: "Technical implementation tasks"
+        task_types:
+          - "create-types"
+          - "build-components"
+          - "connect-api"
+          - "add-validation"
+          - "basic-tests"
+        task_granularity: "medium"
+        time_estimates: "half-days"
+        value_slices:
+          size: "medium"
+          focus: "functional-complete"
+        include:
+          - "Integration tasks"
+          - "Basic error handling"
+          - "Simple state management"
+        output:
+          - "prototype-tasks.md"
+          - "integration-plan.md"
+        
+      production:
+        focus: "Enterprise-ready tasks"
+        task_types:
+          - "security-hardening"
+          - "performance-optimization"
+          - "monitoring-setup"
+          - "documentation"
+          - "load-testing"
+          - "accessibility"
+        task_granularity: "fine"
+        time_estimates: "precise"
+        value_slices:
+          size: "small"
+          focus: "production-quality"
+        include:
+          - "Security audit tasks"
+          - "Performance testing"
+          - "Multi-tenant setup"
+          - "Monitoring configuration"
+          - "Documentation tasks"
+        output:
+          - "production-tasks.md"
+          - "deployment-checklist.md"
+          - "monitoring-setup.md"
+
+  # ============================================
+  # ARCHITECT Agent
+  # ============================================
+  ARCHITECT:
+    version: 5.0
+    description: "Creates technical architecture with line-appropriate depth"
+    
+    line_behaviors:
+      concept:
+        enabled: false  # No architecture needed for pure mocks
+        reason: "Concept line focuses on business validation, not technical design"
+        
+      prototype:
+        enabled: true
+        focus: "Basic component architecture"
+        include:
+          - "Component hierarchy"
+          - "Simple state management"
+          - "Basic data flow"
+          - "API structure"
+        skip:
+          - "Performance optimization"
+          - "Caching strategies"
+          - "Security architecture"
+          - "Scalability patterns"
+        depth: "shallow"
+        output:
+          - "prototype-architecture.md"
+          - "component-diagram.md"
+        patterns:
+          - "mvc"
+          - "container-presentational"
+          - "basic-hooks"
+        
+      production:
+        enabled: true
+        focus: "Enterprise architecture"
+        include:
+          - "Scalability patterns"
+          - "Caching layers"
+          - "Error boundaries"
+          - "Security layers"
+          - "Performance optimization"
+          - "Monitoring hooks"
+          - "Multi-tenant isolation"
+        skip: []  # Full architecture
+        depth: "comprehensive"
+        output:
+          - "production-architecture.md"
+          - "system-diagram.md"
+          - "security-architecture.md"
+          - "deployment-architecture.md"
+        patterns:
+          - "clean-architecture"
+          - "domain-driven-design"
+          - "event-sourcing"
+          - "cqrs"
+          - "microservices"
+
+  # ============================================
+  # DEVELOPER Agent
+  # ============================================
+  DEVELOPER:
+    version: 4.3
+    description: "Implements business logic with line-appropriate complexity"
+    
+    line_behaviors:
+      concept:
+        focus: "Mock implementations"
+        techniques:
+          - "Hardcoded responses"
+          - "Local state only"
+          - "Fake delays"
+          - "Mock errors"
+        quality_bar:
+          - "Works for demo"
+          - "Shows business flow"
+        skip:
+          - "Real API calls"
+          - "Database connections"
+          - "Error recovery"
+          - "Performance"
+        
+      prototype:
+        focus: "Working implementation"
+        techniques:
+          - "Real API connections"
+          - "Database queries"
+          - "Basic error handling"
+          - "Loading states"
+          - "Form validation"
+        quality_bar:
+          - "Handles happy path"
+          - "Basic error recovery"
+          - "Acceptable performance"
+        include:
+          - "API integration"
+          - "State management"
+          - "Data persistence"
+        
+      production:
+        focus: "Bulletproof implementation"
+        techniques:
+          - "Comprehensive error handling"
+          - "Retry logic"
+          - "Circuit breakers"
+          - "Optimistic updates"
+          - "Cache management"
+          - "Performance optimization"
+        quality_bar:
+          - "Handles all edge cases"
+          - "Graceful degradation"
+          - "Sub-second response"
+          - "Zero data loss"
+        include:
+          - "Full error recovery"
+          - "Monitoring instrumentation"
+          - "Security implementation"
+          - "Performance tuning"
+
+  # ============================================
+  # TESTER Agent
+  # ============================================
+  TESTER:
+    version: 3.0
+    description: "Creates tests with line-appropriate coverage and depth"
+    
+    line_behaviors:
+      concept:
+        focus: "Smoke tests only"
+        test_types:
+          - "render-tests"
+          - "interaction-tests"
+          - "mock-validation"
+        coverage_target: 0  # No coverage requirement
+        test_depth: "shallow"
+        skip:
+          - "Integration tests"
+          - "Performance tests"
+          - "Security tests"
+        
+      prototype:
+        focus: "Functional testing"
+        test_types:
+          - "unit-tests"
+          - "integration-tests"
+          - "api-tests"
+          - "basic-e2e"
+        coverage_target: 60
+        test_depth: "moderate"
+        include:
+          - "Happy path tests"
+          - "Basic error cases"
+          - "Form validation"
+        
+      production:
+        focus: "Comprehensive testing"
+        test_types:
+          - "unit-tests"
+          - "integration-tests"
+          - "e2e-tests"
+          - "performance-tests"
+          - "security-tests"
+          - "load-tests"
+          - "accessibility-tests"
+        coverage_target: 80
+        critical_path_coverage: 95
+        test_depth: "exhaustive"
+        include:
+          - "All edge cases"
+          - "Error recovery"
+          - "Performance benchmarks"
+          - "Security scenarios"
+          - "Multi-tenant isolation"
+
+  # ============================================
+  # DEVOPS Agent
+  # ============================================
+  DEVOPS:
+    version: 6.0
+    description: "Orchestrates deployment with line-appropriate processes"
+    
+    line_behaviors:
+      concept:
+        deployment_target: "local-only"
+        processes:
+          - "npm run dev"
+          - "Local mock server"
+        monitoring: "console.log"
+        rollback: "git reset"
+        
+      prototype:
+        deployment_target: "staging"
+        processes:
+          - "CI/CD pipeline"
+          - "Staging deployment"
+          - "Basic health checks"
+        monitoring: "error-tracking"
+        rollback: "previous-version"
+        include:
+          - "Database migrations"
+          - "Environment variables"
+          - "Basic monitoring"
+        
+      production:
+        deployment_target: "production"
+        processes:
+          - "Blue-green deployment"
+          - "Canary releases"
+          - "Health checks"
+          - "Smoke tests"
+          - "Performance tests"
+        monitoring: "full-observability"
+        rollback: "instant-rollback"
+        include:
+          - "Zero-downtime deployment"
+          - "Database backup"
+          - "Performance monitoring"
+          - "Security scanning"
+          - "Audit logging"
+
+  # ============================================
+  # PROCESSOR-SELECTOR Agent
+  # ============================================
+  PROCESSOR-SELECTOR:
+    version: 2.0
+    description: "Selects processors based on line requirements"
+    
+    line_behaviors:
+      concept:
+        available_processors:
+          - "MOCK-PROCESSOR"
+          - "UI-PROCESSOR"
+        selection_criteria:
+          - "Speed over quality"
+          - "Visual over functional"
+        skip_processors:
+          - "TYPE-PROCESSOR"
+          - "TEST-PROCESSOR"
+        
+      prototype:
+        available_processors:
+          - "TYPE-PROCESSOR"
+          - "SCAFFOLD-PROCESSOR"
+          - "REACT-PROCESSOR"
+          - "HOOK-PROCESSOR"
+        selection_criteria:
+          - "Functionality over optimization"
+          - "Working over perfect"
+        processor_modes:
+          all: "prototype"
+        
+      production:
+        available_processors:
+          - "TYPE-PROCESSOR"
+          - "SCAFFOLD-PROCESSOR"
+          - "REACT-PROCESSOR"
+          - "HOOK-PROCESSOR"
+          - "TEST-PROCESSOR"
+          - "SECURITY-PROCESSOR"
+          - "PERFORMANCE-PROCESSOR"
+        selection_criteria:
+          - "Quality over speed"
+          - "Complete over partial"
+        processor_modes:
+          all: "production"
+
+# ============================================
+# Agent Communication Rules
+# ============================================
+communication:
+  handoff_format:
+    concept_to_prototype:
+      required_artifacts:
+        - "Validated mock UI"
+        - "User feedback"
+        - "Business rules"
+      transformation_notes: true
+      
+    prototype_to_production:
+      required_artifacts:
+        - "Working code"
+        - "Test results"
+        - "Integration points"
+      enhancement_list: true
+      
+  feedback_loops:
+    enabled: true
+    channels:
+      - "validation-results"
+      - "performance-metrics"
+      - "error-reports"
+    frequency: "per-value-slice"
+
+# ============================================
+# Agent Adaptation Rules
+# ============================================
+adaptation:
+  learning_enabled: true
+  pattern_detection:
+    - "Common mock patterns → Concept templates"
+    - "Integration patterns → Prototype templates"
+    - "Security patterns → Production templates"
+  
+  template_evolution:
+    concept:
+      source: "successful_prototypes"
+      extraction: "ui_patterns"
+      
+    prototype:
+      source: "production_patterns"
+      extraction: "simplified_architecture"
+      
+    production:
+      source: "incident_reports"
+      extraction: "prevention_patterns"

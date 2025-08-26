@@ -1,0 +1,237 @@
+# Progressive Mapping Configuration
+# Maps requirements hierarchy to factory lines
+# Version: 1.0
+# Updated: 2025-08-18
+
+# CRITICAL RULE: Sub-modules are the atomic unit of promotion
+# You promote entire sub-modules, not individual stories
+
+promotion_rules:
+  concept_to_prototype:
+    criteria:
+      - all_stories_complete: true
+      - user_validation: passed
+      - workflow_approved: true
+      - no_blocking_issues: true
+    approval_required: Product Owner
+    
+  prototype_to_production:
+    criteria:
+      - integration_complete: true
+      - test_coverage: ">= 70%"
+      - performance_targets_met: true
+      - security_review: passed
+    approval_required: Tech Lead + Product Owner
+
+# Current State of Sub-Modules
+sub_modules:
+  # Account Management Module (1.1)
+  1.1.1_master_view:
+    current_line: concept
+    status: in_development
+    stories:
+      - id: US-004
+        title: Accounts Column
+        line: concept
+        status: in_progress
+      - id: US-006  
+        title: Service Locations Column
+        line: concept
+        status: in_progress
+      - id: US-008
+        title: Work Orders Column
+        line: concept
+        status: planned
+      - id: US-010
+        title: Integrated Actions
+        line: concept
+        status: planned
+    next_promotion: "2025-09-01"  # Target date
+    blockers: []
+    
+  1.1.2_detail_view:
+    current_line: concept
+    status: planned
+    stories:
+      - id: US-012
+        title: Account Details Form
+        line: concept
+        status: planned
+      - id: US-014
+        title: Location Management
+        line: concept
+        status: planned
+      - id: US-016
+        title: Contact Management
+        line: concept
+        status: planned
+    next_promotion: "2025-09-15"
+    blockers:
+      - "Depends on Master View completion"
+      
+  1.1.3_reports:
+    current_line: not_started
+    status: backlog
+    stories: []
+    next_promotion: "2025-10-01"
+    blockers:
+      - "Phase 2 priority"
+
+# Line-specific Configurations
+lines:
+  concept:
+    directory: .pipeline/concept/
+    standards:
+      typing: any_allowed
+      testing: optional
+      linting: relaxed
+      documentation: minimal
+    focus:
+      - user_experience
+      - workflow_validation
+      - rapid_iteration
+    tools:
+      - mock_data_generator
+      - console_logger
+      - inline_styles
+      
+  prototype:
+    directory: .pipeline/prototype/
+    standards:
+      typing: typescript_strict
+      testing: 60_percent_coverage
+      linting: standard
+      documentation: jsdoc_required
+    focus:
+      - system_integration
+      - state_management
+      - error_handling
+    tools:
+      - real_apis
+      - react_query
+      - css_modules
+      
+  production:
+    directory: .pipeline/production/
+    standards:
+      typing: typescript_strict_with_runtime_validation
+      testing: 80_percent_coverage
+      linting: strict
+      documentation: comprehensive
+    focus:
+      - performance
+      - security
+      - monitoring
+    tools:
+      - zod_validation
+      - error_tracking
+      - performance_monitoring
+
+# Story Flow Tracking
+story_transitions:
+  - story_id: US-004
+    transitions:
+      - from: backlog
+        to: concept
+        date: "2025-08-15"
+        trigger: "Sprint planning"
+      - from: concept
+        to: prototype
+        date: "TBD"
+        trigger: "Sub-module promotion"
+        
+  - story_id: US-006
+    transitions:
+      - from: backlog
+        to: concept
+        date: "2025-08-16"
+        trigger: "Sprint planning"
+
+# Artifact Mapping
+artifacts:
+  concept:
+    - type: story
+      location: .pipeline/concept/stories/
+      naming: "US-XXX-{title}.md"
+    - type: mockup
+      location: .pipeline/concept/mockups/
+      naming: "{sub_module}-{component}.html"
+    - type: validation
+      location: .pipeline/concept/validation/
+      naming: "{sub_module}-feedback.md"
+      
+  prototype:
+    - type: component
+      location: src/prototype/components/
+      naming: "{ComponentName}.tsx"
+    - type: api_contract
+      location: .pipeline/prototype/api/
+      naming: "{entity}-api.ts"
+    - type: test
+      location: src/prototype/__tests__/
+      naming: "{Component}.test.tsx"
+      
+  production:
+    - type: component
+      location: src/production/components/
+      naming: "{ComponentName}.tsx"
+    - type: schema
+      location: src/production/schemas/
+      naming: "{entity}.schema.ts"
+    - type: monitoring
+      location: src/production/monitoring/
+      naming: "{component}.metrics.ts"
+
+# Dependency Graph
+dependencies:
+  1.1.1_master_view:
+    requires: []
+    blocks: [1.1.2_detail_view, 1.1.4_bulk_operations]
+    
+  1.1.2_detail_view:
+    requires: [1.1.1_master_view]
+    blocks: []
+    
+  1.2.1_work_order_management:
+    requires: [1.1.1_master_view]
+    blocks: []
+
+# Metrics and Reporting
+metrics:
+  velocity:
+    concept_cycle_time: 3_days
+    prototype_cycle_time: 5_days
+    production_cycle_time: 10_days
+    
+  quality:
+    concept_defect_rate: not_measured
+    prototype_defect_rate: 10_percent_max
+    production_defect_rate: 2_percent_max
+    
+  promotion_success_rate:
+    concept_to_prototype: 85_percent
+    prototype_to_production: 95_percent
+
+# Automation Hooks
+automation:
+  on_story_complete:
+    - update_progress_dashboard
+    - notify_stakeholders
+    - check_promotion_readiness
+    
+  on_sub_module_promotion:
+    - run_promotion_tests
+    - migrate_artifacts
+    - update_documentation
+    - create_promotion_pr
+    
+  on_line_entry:
+    concept:
+      - generate_mock_data
+      - create_feedback_forms
+    prototype:
+      - setup_api_mocks
+      - initialize_state_management
+    production:
+      - setup_monitoring
+      - configure_security_policies

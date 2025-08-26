@@ -1,0 +1,126 @@
+/* Concept Line Enforcement - PURE BLACK AND WHITE ONLY */
+
+/* Enforce B&W - No colors allowed */
+* {
+    /* Remove any color properties that might leak in */
+    filter: grayscale(100%) !important;
+}
+
+/* Ensure all backgrounds are white or patterns */
+body,
+input,
+select,
+textarea,
+button {
+    background-color: #fff !important;
+}
+
+/* Borders must be black */
+*[class*="border"],
+input,
+select,
+textarea,
+button,
+table,
+th,
+td {
+    border-color: #000 !important;
+}
+
+/* Text must be black or gray */
+body,
+input,
+select,
+textarea,
+button {
+    color: #000 !important;
+}
+
+/* Disabled states use gray */
+:disabled,
+.disabled {
+    color: #666 !important;
+}
+
+/* Remove all shadows - B&W only */
+* {
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+
+/* Remove all gradients */
+* {
+    background-image: none !important;
+}
+
+/* Selection highlight */
+::selection {
+    background: #000 !important;
+    color: #fff !important;
+}
+
+/* Focus states - use black outline */
+:focus {
+    outline: 2px solid #000 !important;
+    outline-offset: 2px;
+}
+
+/* Hover states - use gray background */
+button:hover,
+.clickable:hover {
+    background-color: #f0f0f0 !important;
+}
+
+/* Active states - use darker gray */
+button:active,
+.clickable:active {
+    background-color: #e0e0e0 !important;
+}
+
+/* Tables must have visible borders */
+table {
+    border: 1px solid #000 !important;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #000 !important;
+    padding: 0.5rem;
+}
+
+/* No rounded corners - sharp edges only for concept line */
+* {
+    border-radius: 0 !important;
+}
+
+/* Pattern fills for differentiation (instead of colors) */
+.pattern-dots {
+    background-image: radial-gradient(circle, #000 1px, transparent 1px) !important;
+    background-size: 10px 10px !important;
+}
+
+.pattern-lines {
+    background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        #000 10px,
+        #000 11px
+    ) !important;
+}
+
+.pattern-grid {
+    background-image: 
+        linear-gradient(#000 1px, transparent 1px),
+        linear-gradient(90deg, #000 1px, transparent 1px) !important;
+    background-size: 20px 20px !important;
+}
+
+/* High contrast mode for critical elements */
+.critical {
+    border: 3px solid #000 !important;
+    font-weight: bold !important;
+}
+
+/* Warning: This CSS enforces Concept Line principles */
+/* If you need color, you're in the wrong line (Prototype or Production) */

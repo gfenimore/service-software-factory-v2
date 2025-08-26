@@ -1,0 +1,54 @@
+[
+  {
+    "id": "TASK-1737497123456",
+    "title": "Make selected cards stand out more with darker blue",
+    "description": "Make selected cards stand out more with darker blue background and stronger shadow",
+    "type": "ui",
+    "priority": "medium",
+    "estimate": "30 minutes",
+    "complexity": "low",
+    "context": {
+      "url": "file:///test-with-inline-feedback.html",
+      "timestamp": "2025-01-21T19:45:23.456Z",
+      "viewport": "1920x1080",
+      "selectedAccount": "Acme Corp",
+      "selectedLocation": "Main Office",
+      "selectedWorkOrder": null
+    },
+    "createdAt": "2025-01-21T19:45:23.456Z",
+    "status": "pending",
+    "implementation": [
+      "Locate the UI component",
+      "Update CSS/HTML",
+      "Test responsive design",
+      "Verify cross-browser"
+    ]
+  },
+  {
+    "id": "TASK-1737497223789",
+    "title": "Add search functionality to filter accounts",
+    "description": "Add search functionality to filter accounts by name or type",
+    "type": "feature",
+    "priority": "high",
+    "estimate": "4-8 hours",
+    "complexity": "high",
+    "context": {
+      "url": "file:///test-with-inline-feedback.html",
+      "timestamp": "2025-01-21T19:47:03.789Z",
+      "viewport": "1920x1080",
+      "selectedAccount": "Global Services",
+      "selectedLocation": null,
+      "selectedWorkOrder": null
+    },
+    "createdAt": "2025-01-21T19:47:03.789Z",
+    "status": "pending",
+    "implementation": [
+      "Design feature specification",
+      "Create UI mockup",
+      "Implement backend logic",
+      "Build frontend components",
+      "Add tests",
+      "Update documentation"
+    ]
+  }
+]

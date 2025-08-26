@@ -1,0 +1,18 @@
+{
+  "id": "2025-08-19T09-16-12-initial-baseline-archive-archived",
+  "description": "Auto-archived before new iteration",
+  "created": "2025-08-19T09:16:12.681Z",
+  "directories": [
+    "1-inputs/requirements",
+    "2-factory/validation",
+    "3-workspace/concept"
+  ],
+  "stats": {
+    "requirements": 5,
+    "stories": 22,
+    "tasks": 8,
+    "concepts": 3,
+    "validationsPassed": 0,
+    "validationsFailed": 0
+  }
+}

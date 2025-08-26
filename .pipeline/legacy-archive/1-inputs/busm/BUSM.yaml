@@ -1,0 +1,265 @@
+# Business Unit Structure Model (BUSM)
+# Service Software Factory v2
+# Version: 1.0
+
+Account:
+  AccountId:
+    type: string
+    required: true
+    description: Unique account identifier
+  AccountName:
+    type: string
+    required: true
+    description: Business or residential account name
+  AccountStatus:
+    type: enum
+    values: [Active, Inactive, Pending, Hold]
+    required: true
+    description: Current account status
+  AccountType:
+    type: enum
+    values: [Residential, Commercial, Industrial]
+    required: true
+    description: Type of account
+  BillingAddress:
+    type: string
+    description: Street address for billing
+  BillingCity:
+    type: string
+    description: City for billing address
+  BillingState:
+    type: string
+    description: State for billing address
+  BillingZip:
+    type: string
+    description: Zip code for billing
+  PrimaryContact:
+    type: object
+    properties:
+      FullName:
+        type: string
+        description: Primary contact full name
+      Phone:
+        type: string
+        description: Primary phone number
+      Email:
+        type: string
+        description: Primary email address
+      PreferredContact:
+        type: enum
+        values: [Phone, Email, Text]
+        description: Preferred contact method
+  ServiceLocations:
+    type: array
+    items: ServiceLocation
+    description: Associated service locations
+  CreatedDate:
+    type: date
+    description: Account creation date
+  LastServiceDate:
+    type: date
+    description: Date of last service
+  NextServiceDate:
+    type: date
+    description: Next scheduled service
+  AccountValue:
+    type: currency
+    description: Monthly or annual contract value
+  Notes:
+    type: text
+    description: Account notes and special instructions
+
+ServiceLocation:
+  LocationId:
+    type: string
+    required: true
+    description: Unique location identifier
+  AccountId:
+    type: string
+    required: true
+    description: Parent account reference
+  LocationName:
+    type: string
+    required: true
+    description: Location name or description
+  LocationStatus:
+    type: enum
+    values: [Active, Inactive, Seasonal]
+    required: true
+    description: Location service status
+  LocationType:
+    type: enum
+    values: [Residential, Commercial, Industrial, Property]
+    description: Type of location
+  ServiceAddress:
+    type: string
+    required: true
+    description: Physical service address
+  ServiceCity:
+    type: string
+    description: Service address city
+  ServiceState:
+    type: string
+    description: Service address state
+  ServiceZip:
+    type: string
+    description: Service address zip
+  AccessNotes:
+    type: text
+    description: Gate codes, special access instructions
+  WorkOrders:
+    type: array
+    items: WorkOrder
+    description: Associated work orders
+  Equipment:
+    type: array
+    items: Equipment
+    description: Equipment at this location
+  ServiceFrequency:
+    type: enum
+    values: [Weekly, BiWeekly, Monthly, Quarterly, Annual, OnDemand]
+    description: Service frequency
+  LastServiceDate:
+    type: date
+    description: Last service performed
+  NextServiceDate:
+    type: date
+    description: Next scheduled service
+
+WorkOrder:
+  WorkOrderId:
+    type: string
+    required: true
+    description: Unique work order identifier
+  WorkOrderNumber:
+    type: string
+    required: true
+    description: Human-readable work order number
+  LocationId:
+    type: string
+    required: true
+    description: Service location reference
+  AccountId:
+    type: string
+    required: true
+    description: Account reference
+  Title:
+    type: string
+    required: true
+    description: Work order title/description
+  Status:
+    type: enum
+    values: [Scheduled, InProgress, Completed, Cancelled, OnHold]
+    required: true
+    description: Current work order status
+  Priority:
+    type: enum
+    values: [Low, Medium, High, Emergency]
+    description: Work order priority
+  WorkOrderType:
+    type: enum
+    values: [Maintenance, Repair, Installation, Inspection, Emergency]
+    description: Type of work
+  ScheduledDate:
+    type: date
+    description: Scheduled service date
+  ScheduledTime:
+    type: time
+    description: Scheduled time window
+  DueDate:
+    type: date
+    description: Due date for completion
+  AssignedTo:
+    type: string
+    description: Assigned technician or team
+  EstimatedHours:
+    type: number
+    description: Estimated hours to complete
+  ActualHours:
+    type: number
+    description: Actual hours spent
+  Description:
+    type: text
+    description: Detailed work description
+  CompletionNotes:
+    type: text
+    description: Notes from completed work
+  CreatedDate:
+    type: datetime
+    description: Work order creation timestamp
+  CompletedDate:
+    type: datetime
+    description: Completion timestamp
+
+Contact:
+  ContactId:
+    type: string
+    required: true
+    description: Unique contact identifier
+  AccountId:
+    type: string
+    description: Associated account
+  FirstName:
+    type: string
+    required: true
+    description: Contact first name
+  LastName:
+    type: string
+    required: true
+    description: Contact last name
+  Title:
+    type: string
+    description: Job title or role
+  Phone:
+    type: string
+    description: Primary phone
+  Mobile:
+    type: string
+    description: Mobile phone
+  Email:
+    type: string
+    description: Email address
+  PreferredContact:
+    type: enum
+    values: [Phone, Mobile, Email, Text]
+    description: Preferred contact method
+  IsPrimary:
+    type: boolean
+    description: Is primary contact for account
+  CanAuthorizeWork:
+    type: boolean
+    description: Can authorize work orders
+
+Equipment:
+  EquipmentId:
+    type: string
+    required: true
+    description: Unique equipment identifier
+  LocationId:
+    type: string
+    required: true
+    description: Location where installed
+  EquipmentType:
+    type: string
+    description: Type of equipment
+  Manufacturer:
+    type: string
+    description: Equipment manufacturer
+  Model:
+    type: string
+    description: Model number
+  SerialNumber:
+    type: string
+    description: Serial number
+  InstallDate:
+    type: date
+    description: Installation date
+  WarrantyExpiration:
+    type: date
+    description: Warranty expiration date
+  LastServiceDate:
+    type: date
+    description: Last service date
+  NextServiceDate:
+    type: date
+    description: Next scheduled service

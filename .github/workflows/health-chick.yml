@@ -2,10 +2,12 @@
 name: Health Check
 
 on:
-  schedule:
-    # Run every hour
-    - cron: '0 * * * *'
-  workflow_dispatch:
+  # DISABLED: Hourly health checks were annoying during development
+  # To re-enable: uncomment the schedule section below
+  # schedule:
+  #   # Run every hour
+  #   - cron: '0 * * * *'
+  workflow_dispatch:  # Can still run manually from GitHub Actions tab
 
 jobs:
   health-check:

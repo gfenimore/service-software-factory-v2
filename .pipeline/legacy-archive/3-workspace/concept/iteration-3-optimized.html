@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master View - Optimized Layout</title>
+  <style>
+    /* Design Tokens */
+    /**
+ * MINIMAL DESIGN TOKENS
+ * Just enough for consistency and better layouts
+ * Can grow into full Tailwind v4 later
+ */
+
+:root {
+  /* Colors - Semantic only */
+  --color-primary: #2563eb;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-muted: #6b7280;
+  
+  /* Grays - For text and borders */
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-900: #111827;
+  
+  /* Spacing - Consistent scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  
+  /* Card specific */
+  --card-padding: var(--space-3);
+  --card-gap: var(--space-2);
+  --card-radius: 6px;
+  --card-border: 1px solid var(--gray-200);
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --card-shadow-hover: 0 4px 6px rgba(0, 0, 0, 0.1);
+  
+  /* Typography */
+  --text-xs: 11px;
+  --text-sm: 13px;
+  --text-base: 14px;
+  --text-lg: 16px;
+  --text-xl: 18px;
+  
+  /* Font weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  
+  /* Layout - For the 3-column view */
+  --nav-width: 200px;
+  --column-min: 300px;
+  --column-max: 500px;
+  --column-gap: var(--space-4);
+}
+    
+    /* Base Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: var(--text-base);
+      color: var(--gray-900);
+      background: var(--gray-50);
+    }
+    
+    /* Optimized 3-Column Layout */
+    .app-container {
+      display: grid;
+      grid-template-columns: var(--nav-width) 1fr 1fr 1fr;
+      gap: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+    
+    /* Navigation */
+    .nav-sidebar {
+      background: white;
+      border-right: 1px solid var(--gray-200);
+      padding: var(--space-4);
+      overflow-y: auto;
+    }
+    
+    .nav-section {
+      margin-bottom: var(--space-6);
+    }
+    
+    .nav-section h3 {
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--gray-500);
+      margin-bottom: var(--space-2);
+    }
+    
+    .nav-item {
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--card-radius);
+      cursor: pointer;
+      transition: background 0.15s;
+      font-size: var(--text-sm);
+      color: var(--gray-700);
+    }
+    
+    .nav-item:hover {
+      background: var(--gray-100);
+    }
+    
+    .nav-item.active {
+      background: var(--color-primary);
+      color: white;
+      font-weight: var(--font-medium);
+    }
+    
+    /* Column Container */
+    .column {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background: white;
+      border-right: 1px solid var(--gray-200);
+    }
+    
+    .column:last-child {
+      border-right: none;
+    }
+    
+    /* Column Header */
+    .column-header {
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 2px solid var(--gray-200);
+      background: white;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    
+    .column-title {
+      font-size: var(--text-lg);
+      font-weight: var(--font-semibold);
+      color: var(--gray-900);
+      margin-bottom: var(--space-1);
+    }
+    
+    .column-subtitle {
+      font-size: var(--text-sm);
+      color: var(--gray-500);
+    }
+    
+    /* Column Content */
+    .column-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--space-3);
+    }
+    
+    /* Empty State */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: var(--space-6);
+      text-align: center;
+    }
+    
+    .empty-icon {
+      font-size: 48px;
+      color: var(--gray-300);
+      margin-bottom: var(--space-4);
+    }
+    
+    .empty-text {
+      font-size: var(--text-base);
+      color: var(--gray-500);
+      margin-bottom: var(--space-2);
+    }
+    
+    .empty-subtext {
+      font-size: var(--text-sm);
+      color: var(--gray-400);
+    }
+    
+    /* Card Template Styles */
+    
+.card-compact {
+  background: white;
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  padding: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.card-compact:hover {
+  box-shadow: var(--card-shadow-hover);
+}
+
+.card-compact.selected {
+  border: 2px solid var(--color-primary);
+  background: var(--gray-50);
+}
+
+.card-compact .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-1);
+}
+
+.card-compact .card-title {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--gray-900);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
+}
+
+.card-compact .card-badge {
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.card-compact .card-badge.active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.card-compact .card-badge.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.card-compact .card-metadata {
+  display: flex;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--gray-600);
+}
+
+.card-compact .card-metadata > span:not(:first-child)::before {
+  content: "•";
+  margin-right: var(--space-2);
+  color: var(--gray-300);
+}
+
+
+.card-list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: white;
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  padding: var(--space-3);
+  margin-bottom: var(--space-2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.card-list:hover {
+  box-shadow: var(--card-shadow-hover);
+}
+
+.card-list.selected {
+  border: 2px solid var(--color-primary);
+  background: var(--gray-50);
+}
+
+.card-list .card-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-semibold);
+  font-size: var(--text-base);
+  color: var(--gray-600);
+  flex-shrink: 0;
+}
+
+.card-list .card-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-list .card-primary {
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  color: var(--gray-900);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 2px;
+}
+
+.card-list .card-secondary {
+  font-size: var(--text-sm);
+  color: var(--gray-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-list .card-action {
+  flex-shrink: 0;
+}
+
+.card-list .card-action .badge {
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.card-list .card-action button {
+  padding: var(--space-1) var(--space-2);
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: 4px;
+  font-size: var(--text-sm);
+  color: var(--gray-700);
+  cursor: pointer;
+}
+
+.card-list .card-action button:hover {
+  background: var(--gray-200);
+}
+
+
+.card-data {
+  background: white;
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  padding: var(--space-4);
+  margin-bottom: var(--space-3);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.card-data:hover {
+  box-shadow: var(--card-shadow-hover);
+}
+
+.card-data.selected {
+  border: 2px solid var(--color-primary);
+  background: var(--gray-50);
+}
+
+.card-data-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.card-data-title {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--gray-900);
+}
+
+.card-data-badge {
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.card-data-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+.card-data-field {
+  min-width: 0;
+}
+
+.field-label {
+  font-size: var(--text-xs);
+  color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  margin-bottom: 2px;
+}
+
+.field-value {
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  color: var(--gray-900);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Special field types */
+.field-value.currency::before {
+  content: "$";
+}
+
+.field-value.phone {
+  font-family: monospace;
+}
+
+.field-value.email {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.field-value.url {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+/* Responsive - single column on narrow containers */
+@media (max-width: 400px) {
+  .card-data-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+.card-metric {
+  background: white;
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.card-metric:hover {
+  box-shadow: var(--card-shadow-hover);
+}
+
+.card-metric.selected {
+  border: 2px solid var(--color-primary);
+  background: var(--gray-50);
+}
+
+.card-metric-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-1);
+}
+
+.metric-label {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  color: var(--gray-500);
+  letter-spacing: 0.05em;
+}
+
+.metric-badge {
+  font-size: 10px;
+  font-weight: var(--font-semibold);
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.metric-badge.up {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.metric-badge.down {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.metric-value {
+  font-size: 24px;
+  font-weight: var(--font-bold);
+  color: var(--gray-900);
+  line-height: 1.2;
+  margin-bottom: var(--space-2);
+}
+
+.metric-supplemental {
+  display: flex;
+  gap: var(--space-4);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--gray-100);
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.metric-item-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  letter-spacing: 0.025em;
+}
+
+.metric-item-value {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--gray-700);
+}
+
+/* Special metric formatting */
+.metric-value.currency::before {
+  content: "$";
+  font-size: 18px;
+  vertical-align: top;
+}
+
+.metric-value.percentage::after {
+  content: "%";
+  font-size: 18px;
+  margin-left: 2px;
+}
+
+.metric-value.trend-up {
+  color: var(--color-success);
+}
+
+.metric-value.trend-down {
+  color: var(--color-error);
+}
+
+
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Navigation Sidebar -->
+    <nav class="nav-sidebar">
+      <div class="nav-section">
+        <h3>ACCOUNTS</h3>
+        <div class="nav-item active">Master View</div>
+        <div class="nav-item">Reports</div>
+      </div>
+      <div class="nav-section">
+        <h3>OPERATIONS</h3>
+        <div class="nav-item">Work Orders</div>
+        <div class="nav-item">Scheduling</div>
+      </div>
+      <div class="nav-section">
+        <h3>ADMINISTRATION</h3>
+        <div class="nav-item">User Management</div>
+        <div class="nav-item">System Settings</div>
+      </div>
+    </nav>
+    
+    <!-- Accounts Column -->
+    <div class="column">
+      <div class="column-header">
+        <div class="column-title">Accounts</div>
+        <div class="column-subtitle" id="account-count">3 accounts</div>
+        <input type="text" id="accountSearch" placeholder="Search by name, city, type..." style="
+          width: 100%;
+          padding: 8px;
+          margin-top: 8px;
+          border: 1px solid var(--gray-200);
+          border-radius: var(--card-radius);
+          font-size: var(--text-sm);
+          background: white;
+        " onkeyup="searchAccounts(this.value)">
+      </div>
+      <div class="column-content" id="accounts-list">
+        <!-- LIST CARD TEMPLATE -->
+<!-- Best for: Scannable lists with avatars, 8-12 items -->
+<div onclick="selectAccount('ACC001')" class="card-list">
+  <div class="card-avatar">MR</div>
+  <div class="card-content">
+    <div class="card-primary">Martinez Residence</div>
+    <div class="card-secondary">John Martinez • Phone</div>
+  </div>
+  <div class="card-action"><span class="badge active">Active</span></div>
+</div>
+
+<style>
+.card-list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: white;
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  padding: var(--space-3);
+  margin-bottom: var(--space-2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.card-list:hover {
+  box-shadow: var(--card-shadow-hover);
+}
+
+.card-list.selected {
+  border: 2px solid var(--color-primary);
+  background: var(--gray-50);
+}
+
+.card-list .card-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-semibold);
+  font-size: var(--text-base);
+  color: var(--gray-600);
+  flex-shrink: 0;
+}
+
+.card-list .card-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-list .card-primary {
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  color: var(--gray-900);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 2px;
+}
+
+.card-list .card-secondary {
+  font-size: var(--text-sm);
+  color: var(--gray-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-list .card-action {
+  flex-shrink: 0;
+}
+
+.card-list .card-action .badge {
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.card-list .card-action button {
+  padding: var(--space-1) var(--space-2);
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: 4px;
+  font-size: var(--text-sm);
+  color: var(--gray-700);
+  cursor: pointer;
+}
+
+.card-list .card-action button:hover {
+  background: var(--gray-200);
+}
+</style><!-- LIST CARD TEMPLATE -->
+<!-- Best for: Scannable lists with avatars, 8-12 items -->
+<div onclick="selectAccount('ACC002')" class="card-list">
+  <div class="card-avatar">JR</div>
+  <div class="card-content">
+    <div class="card-primary">Johnson Residence</div>
+    <div class="card-secondary">Sarah Johnson • Email</div>
+  </div>
+  <div class="card-action"><span class="badge active">Active</span></div>
+</div>
+
+<style>
+.card-list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: white;
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  padding: var(--space-3);
+  margin-bottom: var(--space-2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.card-list:hover {
+  box-shadow: var(--card-shadow-hover);
+}
+
+.card-list.selected {
+  border: 2px solid var(--color-primary);
+  background: var(--gray-50);
+}
+
+.card-list .card-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-semibold);
+  font-size: var(--text-base);
+  color: var(--gray-600);
+  flex-shrink: 0;
+}
+
+.card-list .card-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-list .card-primary {
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  color: var(--gray-900);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 2px;
+}
+
+.card-list .card-secondary {
+  font-size: var(--text-sm);
+  color: var(--gray-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-list .card-action {
+  flex-shrink: 0;
+}
+
+.card-list .card-action .badge {
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.card-list .card-action button {
+  padding: var(--space-1) var(--space-2);
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: 4px;
+  font-size: var(--text-sm);
+  color: var(--gray-700);
+  cursor: pointer;
+}
+
+.card-list .card-action button:hover {
+  background: var(--gray-200);
+}
+</style><!-- LIST CARD TEMPLATE -->
+<!-- Best for: Scannable lists with avatars, 8-12 items -->
+<div onclick="selectAccount('ACC003')" class="card-list">
+  <div class="card-avatar">SR</div>
+  <div class="card-content">
+    <div class="card-primary">Smith Residence</div>
+    <div class="card-secondary">Bob Smith • Phone</div>
+  </div>
+  <div class="card-action"><span class="badge pending">Pending</span></div>
+</div>
+
+<style>
+.card-list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: white;
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  padding: var(--space-3);
+  margin-bottom: var(--space-2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.card-list:hover {
+  box-shadow: var(--card-shadow-hover);
+}
+
+.card-list.selected {
+  border: 2px solid var(--color-primary);
+  background: var(--gray-50);
+}
+
+.card-list .card-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-semibold);
+  font-size: var(--text-base);
+  color: var(--gray-600);
+  flex-shrink: 0;
+}
+
+.card-list .card-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-list .card-primary {
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  color: var(--gray-900);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 2px;
+}
+
+.card-list .card-secondary {
+  font-size: var(--text-sm);
+  color: var(--gray-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-list .card-action {
+  flex-shrink: 0;
+}
+
+.card-list .card-action .badge {
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.card-list .card-action button {
+  padding: var(--space-1) var(--space-2);
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: 4px;
+  font-size: var(--text-sm);
+  color: var(--gray-700);
+  cursor: pointer;
+}
+
+.card-list .card-action button:hover {
+  background: var(--gray-200);
+}
+</style>
+      </div>
+    </div>
+    
+    <!-- Service Locations Column -->
+    <div class="column">
+      <div class="column-header">
+        <div class="column-title">Service Locations</div>
+        <div class="column-subtitle" id="location-count">No account selected</div>
+      </div>
+      <div class="column-content" id="locations-list">
+        
+      <div class="empty-state">
+        <div class="empty-icon">🏢</div>
+        <div class="empty-text">No service locations found</div>
+        <div class="empty-subtext">Select an account to view its locations</div>
+      </div>
+    
+      </div>
+    </div>
+    
+    <!-- Work Orders Column -->
+    <div class="column">
+      <div class="column-header">
+        <div class="column-title">Work Orders</div>
+        <div class="column-subtitle" id="workorder-count">No location selected</div>
+      </div>
+      <div class="column-content" id="workorders-list">
+        
+      <div class="empty-state">
+        <div class="empty-icon">📋</div>
+        <div class="empty-text">No work orders found</div>
+        <div class="empty-subtext">Select a service location to view work orders</div>
+      </div>
+    
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Selection handling
+    let selectedAccount = null;
+    let selectedLocation = null;
+    let allAccounts = []; // Store all accounts for filtering
+    
+    function searchAccounts(searchTerm) {
+      const term = searchTerm.toLowerCase();
+      const filtered = allAccounts.filter(account => {
+        return account.AccountName.toLowerCase().includes(term) ||
+               account.BillingCity.toLowerCase().includes(term) ||
+               account.AccountType.toLowerCase().includes(term) ||
+               (account.AccountId && account.AccountId.toLowerCase().includes(term)) ||
+               (account.PrimaryContact?.FullName && account.PrimaryContact.FullName.toLowerCase().includes(term));
+      });
+      
+      // Update the display
+      const accountsHtml = generateAccountCards(filtered);
+      document.getElementById('accounts-list').innerHTML = accountsHtml;
+      document.getElementById('account-count').textContent = `${filtered.length} accounts${searchTerm ? ' (filtered)' : ''}`;
+    }
+    
+    function generateAccountCards(accounts) {
+      if (!accounts || accounts.length === 0) {
+        return `
+          <div class="empty-state">
+            <div class="empty-icon">🔍</div>
+            <div class="empty-text">No accounts found</div>
+            <div class="empty-subtext">Try a different search term</div>
+          </div>
+        `;
+      }
+      return accounts.map(account => `
+        <div onclick="selectAccount('${account.AccountId}')" class="card-list">
+          <div class="card-avatar">${account.AccountName.split(' ').map(w => w[0]).join('').toUpperCase().substring(0, 2)}</div>
+          <div class="card-content">
+            <div class="card-primary">${account.AccountName}</div>
+            <div class="card-secondary">${account.PrimaryContact?.FullName || 'No contact'} • ${account.PrimaryContact?.PreferredContact === 'Phone' ? account.PrimaryContact.Phone : account.PrimaryContact?.Email || ''}</div>
+          </div>
+          <div class="card-action">
+            <span class="badge ${account.AccountStatus?.toLowerCase()}">${account.AccountStatus}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function selectAccount(accountId) {
+      // Update selection
+      document.querySelectorAll('.card-compact, .card-list').forEach(card => {
+        card.classList.remove('selected');
+      });
+      event.currentTarget.classList.add('selected');
+      
+      selectedAccount = accountId;
+      
+      // Load locations for this account
+      const account = mockData.accounts.find(a => a.AccountId === accountId);
+      if (account) {
+        const locationsHtml = generateLocationCards(account.ServiceLocations || []);
+        document.getElementById('locations-list').innerHTML = locationsHtml;
+        document.getElementById('location-count').textContent = 
+          `${account.ServiceLocations?.length || 0} locations`;
+      }
+      
+      // Clear work orders
+      document.getElementById('workorders-list').innerHTML = getEmptyState('workorder');
+      document.getElementById('workorder-count').textContent = 'No location selected';
+    }
+    
+    function selectLocation(locationId) {
+      // Update selection
+      document.querySelectorAll('#locations-list .card-list').forEach(card => {
+        card.classList.remove('selected');
+      });
+      event.currentTarget.classList.add('selected');
+      
+      selectedLocation = locationId;
+      
+      // Load work orders for this location
+      const location = mockData.locations.find(l => l.LocationId === locationId);
+      if (location) {
+        const workOrdersHtml = generateWorkOrderCards(location.WorkOrders || []);
+        document.getElementById('workorders-list').innerHTML = workOrdersHtml;
+        document.getElementById('workorder-count').textContent = 
+          `${location.WorkOrders?.length || 0} work orders`;
+      }
+    }
+    
+    // Mock data for demo
+    const mockData = {
+  "accounts": [
+    {
+      "AccountId": "ACC001",
+      "AccountName": "Martinez Residence",
+      "AccountStatus": "Active",
+      "AccountType": "Residential",
+      "BillingCity": "Brandon",
+      "BillingAddress": "123 Main St",
+      "BillingState": "FL",
+      "BillingZip": "33510",
+      "PrimaryContact": {
+        "FullName": "John Martinez",
+        "Phone": "8135551234",
+        "Email": "john@example.com",
+        "PreferredContact": "Phone"
+      },
+      "ServiceLocations": [
+        {
+          "LocationId": "LOC001",
+          "LocationName": "Main House",
+          "LocationStatus": "Active",
+          "ServiceAddress": "123 Main St, Brandon",
+          "LocationType": "Residential",
+          "WorkOrders": [
+            {
+              "WorkOrderNumber": "WO001",
+              "Title": "AC Maintenance",
+              "Status": "Scheduled",
+              "Priority": "Medium",
+              "DueDate": "2025-08-25",
+              "AssignedTo": "Tech Team A",
+              "WorkOrderType": "Maintenance"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "AccountId": "ACC002",
+      "AccountName": "Johnson Residence",
+      "AccountStatus": "Active",
+      "AccountType": "Residential",
+      "BillingCity": "Brandon",
+      "PrimaryContact": {
+        "FullName": "Sarah Johnson",
+        "Phone": "8135555678",
+        "Email": "sarah@example.com",
+        "PreferredContact": "Email"
+      },
+      "ServiceLocations": []
+    },
+    {
+      "AccountId": "ACC003",
+      "AccountName": "Smith Residence",
+      "AccountStatus": "Pending",
+      "AccountType": "Residential",
+      "BillingCity": "Sarasota",
+      "PrimaryContact": {
+        "FullName": "Bob Smith",
+        "Phone": "9415551234",
+        "Email": "bob@example.com",
+        "PreferredContact": "Phone"
+      },
+      "ServiceLocations": []
+    }
+  ],
+  "locations": [],
+  "workOrders": []
+};
+    
+    // Initialize allAccounts for search
+    allAccounts = mockData.accounts;
+    
+    // Card generation functions
+    function generateLocationCards(locations) {
+      if (!locations || locations.length === 0) {
+        return getEmptyState('location');
+      }
+      return locations.map(loc => `
+        <div class="card-list" onclick="selectLocation('${loc.LocationId}')">
+          <div class="card-avatar">📍</div>
+          <div class="card-content">
+            <div class="card-primary">${loc.LocationName}</div>
+            <div class="card-secondary">${loc.ServiceAddress || 'No address'}</div>
+          </div>
+          <div class="card-action">
+            <span class="badge ${loc.LocationStatus?.toLowerCase()}">${loc.LocationStatus}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function generateWorkOrderCards(workOrders) {
+      if (!workOrders || workOrders.length === 0) {
+        return getEmptyState('workorder');
+      }
+      return workOrders.map(wo => `
+        <div class="card-data">
+          <div class="card-data-header">
+            <h3 class="card-data-title">#${wo.WorkOrderNumber} - ${wo.Title}</h3>
+            <span class="card-data-badge ${wo.Status?.toLowerCase()}">${wo.Status}</span>
+          </div>
+          <div class="card-data-grid">
+            <div class="card-data-field">
+              <div class="field-label">Priority</div>
+              <div class="field-value">${wo.Priority}</div>
+            </div>
+            <div class="card-data-field">
+              <div class="field-label">Due Date</div>
+              <div class="field-value">${wo.DueDate || 'Not set'}</div>
+            </div>
+            <div class="card-data-field">
+              <div class="field-label">Assigned To</div>
+              <div class="field-value">${wo.AssignedTo || 'Unassigned'}</div>
+            </div>
+            <div class="card-data-field">
+              <div class="field-label">Type</div>
+              <div class="field-value">${wo.WorkOrderType || 'General'}</div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function getEmptyState(type) {
+      const states = {
+        location: {
+          icon: '🏢',
+          text: 'No service locations found',
+          subtext: 'Select an account to view its locations'
+        },
+        workorder: {
+          icon: '📋',
+          text: 'No work orders found',
+          subtext: 'Select a service location to view work orders'
+        }
+      };
+      
+      const state = states[type];
+      return `
+        <div class="empty-state">
+          <div class="empty-icon">${state.icon}</div>
+          <div class="empty-text">${state.text}</div>
+          <div class="empty-subtext">${state.subtext}</div>
+        </div>
+      `;
+    }
+  </script>
+  
+  <!-- Feedback Button -->
+  <button id="feedbackBtn" onclick="openFeedback()" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: transform 0.2s, box-shadow 0.2s;
+    z-index: 1000;
+  " onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 6px 16px rgba(0,0,0,0.2)'" 
+     onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'">
+    💡
+  </button>
+
+  <!-- Feedback Modal -->
+  <div id="feedbackModal" style="
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+  ">
+    <div style="
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    ">
+      <h2 style="margin: 0 0 16px 0; color: #333;">Share Your Feedback</h2>
+      <select id="feedbackType" style="
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+      ">
+        <option value="ui">UI/Visual</option>
+        <option value="functionality">Functionality</option>
+        <option value="data">Data/Fields</option>
+        <option value="performance">Performance</option>
+        <option value="other">Other</option>
+      </select>
+      
+      <textarea id="feedbackText" placeholder="Describe your feedback..." style="
+        width: 100%;
+        height: 120px;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        resize: vertical;
+      "></textarea>
+      
+      <div style="margin-top: 16px; display: flex; gap: 8px; justify-content: flex-end;">
+        <button onclick="closeFeedback()" style="
+          padding: 8px 16px;
+          border: 1px solid #ddd;
+          background: white;
+          border-radius: 4px;
+          cursor: pointer;
+        ">Cancel</button>
+        <button onclick="submitFeedback()" style="
+          padding: 8px 16px;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        ">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Feedback Functions
+    function openFeedback() {
+      document.getElementById('feedbackModal').style.display = 'flex';
+    }
+    
+    function closeFeedback() {
+      document.getElementById('feedbackModal').style.display = 'none';
+      document.getElementById('feedbackText').value = '';
+    }
+    
+    function submitFeedback() {
+      const feedback = {
+        type: document.getElementById('feedbackType').value,
+        description: document.getElementById('feedbackText').value,
+        page: 'Master View - Optimized',
+        url: window.location.href,
+        timestamp: new Date().toISOString(),
+        sessionId: localStorage.getItem('feedbackSessionId') || generateSessionId()
+      };
+      
+      // Send to server
+      fetch('http://localhost:3456/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(feedback)
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('✅ Feedback submitted:', data);
+        alert('Thank you for your feedback!');
+        closeFeedback();
+      })
+      .catch(error => {
+        console.error('Error submitting feedback:', error);
+        // Fallback to localStorage
+        const stored = JSON.parse(localStorage.getItem('feedbackItems') || '[]');
+        stored.push(feedback);
+        localStorage.setItem('feedbackItems', JSON.stringify(stored));
+        alert('Feedback saved locally. Make sure feedback server is running: npm run feedback:server');
+        closeFeedback();
+      });
+    }
+    
+    function generateSessionId() {
+      const id = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('feedbackSessionId', id);
+      return id;
+    }
+  </script>
+</body>
+</html>

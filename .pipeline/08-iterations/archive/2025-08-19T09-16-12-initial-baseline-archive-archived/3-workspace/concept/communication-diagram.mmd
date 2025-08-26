@@ -1,0 +1,25 @@
+graph TB
+    %% Sub-Module Communication Architecture
+    %% Generated: 2025-08-18T11:20:06.370Z
+    
+    accounts_detail_view["Detail View
+ <br/>Accounts"]
+    accounts_master_view["Master View
+ <br/>Accounts"]
+    work_orders_management["Work Order Management
+ <br/>Work"]
+
+    unknown -->|account:selected| accounts_detail_view
+    unknown -.->|reads currentSelections| accounts_detail_view
+    unknown ==>|calls selectAccount| accounts_detail_view
+    unknown -->|detail-view:closed| accounts_master_view
+    unknown -.->|reads user:preferences| accounts_master_view
+    unknown -->|location:selected| work_orders_management
+    unknown -.->|reads currentSelections| work_orders_management
+    unknown ==>|calls selectWorkOrder| work_orders_management
+
+    %% Styling
+    classDef conceptModule fill:#fef3c7,stroke:#f59e0b,stroke-width:2px
+    classDef prototypeModule fill:#dbeafe,stroke:#3b82f6,stroke-width:2px
+    classDef productionModule fill:#dcfce7,stroke:#22c55e,stroke-width:2px
+    

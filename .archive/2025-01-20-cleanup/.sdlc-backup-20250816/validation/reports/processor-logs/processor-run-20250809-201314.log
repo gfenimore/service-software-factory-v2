@@ -1,0 +1,44 @@
+[0;32m🚀 Starting Pipeline with Test Twins[0m
+Test Mode: auto
+Manifest: .sdlc/05-backlog/A-accounts/master-view/processor-manifest.json
+----------------------------------------
+Total processors to run: 3
+
+[1;33m[1/3] Running HOOK-PROCESSOR[0m
+Purpose: Create selection state management hook
+[0;34mExecuting processor...[0m
+[0;32m✓ Processor completed[0m
+
+
+[1;33m[2/3] Running MODIFY-PROCESSOR[0m
+Purpose: Add click handlers to AccountCard for selection
+[0;34mExecuting processor...[0m
+[0;32m✓ Processor completed[0m
+
+
+[1;33m[3/3] Running MODIFY-PROCESSOR[0m
+Purpose: Add visual selection indicators to AccountCard
+[0;34mExecuting processor...[0m
+[0;32m✓ Processor completed[0m
+
+
+==========================================
+[0;34mPipeline Execution Summary[0m
+==========================================
+
+[0;35mPrimary Processors:[0m
+  Successful: [0;32m3[0m/3
+  Failed: [0;31m0[0m/3
+
+[0;36mTest Twins:[0m
+  Generated: [0;32m3[0m
+  Failed: [0;31m0[0m
+  Skipped: [1;33m0[0m
+
+Logs:
+  Processor Log: processor-run-20250809-201314.log
+  Test Log: test-twin-run-20250809-201314.log
+
+[0;36mRunning generated tests...[0m
+
+[0;32m✅ Pipeline with Test Twins complete![0m

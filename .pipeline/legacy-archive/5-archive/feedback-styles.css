@@ -1,0 +1,7 @@
+
+/* Feedback Implementation: TASK-001 - Make selected items more visible */
+.card.selected {
+    background-color: #0066cc;
+    border: 2px solid #0052a3;
+    box-shadow: 0 4px 8px rgba(0,102,204,0.3);
+}

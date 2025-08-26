@@ -1,0 +1,39 @@
+{
+  "id": "ITER-2025-08-21-007",
+  "type": "feature",
+  "line": "concept",
+  "status": "active",
+  "created": "2025-08-21T14:55:40.877Z",
+  "creator": "user",
+  "parent": "2025-08-19T21-00-42-iteration-2---add-contact-info",
+  "description": "Initial IMS setup - Testing service location configurations",
+  "scope": {
+    "feature": null,
+    "stories": [],
+    "entities": []
+  },
+  "configurations": {
+    "viewforge": null,
+    "rules": null,
+    "navigation": null
+  },
+  "results": {
+    "artifacts_generated": 1,
+    "tests_passed": 0,
+    "tests_failed": 0,
+    "validation_status": "pending"
+  },
+  "promotion": {
+    "eligible": false,
+    "target_line": null,
+    "blockers": []
+  },
+  "learnings": [],
+  "artifacts": [
+    {
+      "name": "account-list-view.html",
+      "line": "concept-line",
+      "generated": "2025-08-21T15:36:04.609Z"
+    }
+  ]
+}
