@@ -80,7 +80,8 @@
       "Bash(if [ -d \".pipeline/iterations/current\" ])",
       "Bash(then cp -r .pipeline/iterations/current/* .pipeline/08-iterations/current/)",
       "Bash(if [ -d \".pipeline/iterations/archive\" ])",
-      "Bash(then cp -r .pipeline/iterations/archive/* .pipeline/08-iterations/archive/)"
+      "Bash(then cp -r .pipeline/iterations/archive/* .pipeline/08-iterations/archive/)",
+      "Bash(git rm:*)"
     ],
     "deny": [],
     "additionalDirectories": [
