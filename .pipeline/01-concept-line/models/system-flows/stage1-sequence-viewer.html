@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stage 1: Requirements Capture - Sequence Diagram</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            background: #f5f5f5; 
+        }
+        .container { 
+            max-width: 1600px; 
+            margin: 0 auto; 
+            padding: 20px; 
+        }
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header h1 {
+            margin: 0 0 15px 0;
+            color: #2c3e50;
+        }
+        .header p {
+            margin: 0;
+            color: #666;
+            font-size: 16px;
+        }
+        .content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .mermaid {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+        }
+        .key-points {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 4px solid #1976d2;
+            margin-bottom: 30px;
+        }
+        .key-points h3 {
+            color: #1976d2;
+            margin-top: 0;
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .metric-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #4caf50;
+            margin-bottom: 5px;
+        }
+        .metric-label {
+            color: #666;
+            font-size: 14px;
+        }
+        .automation-breakdown {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .automation-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        .automated-list, .manual-list {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border: 2px solid #e0e0e0;
+        }
+        .automated-list {
+            border-color: #4caf50;
+        }
+        .manual-list {
+            border-color: #ff9800;
+        }
+        .automated-list h4 {
+            color: #4caf50;
+            margin: 0 0 10px 0;
+        }
+        .manual-list h4 {
+            color: #ff9800;
+            margin: 0 0 10px 0;
+        }
+        .automated-list ul, .manual-list ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .automated-list li {
+            margin-bottom: 5px;
+        }
+        .manual-list li {
+            margin-bottom: 5px;
+        }
+        .test-section {
+            background: #fff3e0;
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 4px solid #ff9800;
+            margin-bottom: 30px;
+        }
+        .test-section h3 {
+            color: #f57c00;
+            margin-top: 0;
+        }
+        .command-line {
+            background: #263238;
+            color: #4caf50;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            margin: 5px 0;
+            white-space: pre;
+        }
+        .artifacts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .artifact-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .artifact-header {
+            background: #f5f5f5;
+            padding: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .artifact-header h4 {
+            margin: 0;
+            color: #333;
+        }
+        .artifact-content {
+            padding: 15px;
+        }
+        .artifact-list {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .artifact-list li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔄 Stage 1: Requirements Capture</h1>
+            <p>Service Software Factory Template-Based Requirements Capture - UI Form to Structured Artifacts</p>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">90%</div>
+                <div class="metric-label">Automation Level</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">5-10 min</div>
+                <div class="metric-label">Processing Time</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">5</div>
+                <div class="metric-label">Output Artifacts</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">100%</div>
+                <div class="metric-label">Consistency</div>
+            </div>
+        </div>
+
+        <div class="key-points">
+            <h3>🎯 Stage 1 Overview - Service Software Factory Template-Based</h3>
+            <p><strong>Purpose:</strong> Stage 1 captures scope via UI form, selects entities directly from BUSM, auto-generates components for 3-column layout, and creates business rules through 3-layer inheritance (Base → Service → Client), with template save/load for rapid service delivery.</p>
+            <ul>
+                <li><strong>Input:</strong> UI form (Service + Client + Module) + Direct entity selection from BUSM.mmd</li>
+                <li><strong>Processing:</strong> Auto-generate 3-column Master View + 3-layer business rules + template creation</li>
+                <li><strong>Output:</strong> scope-definition.json, selected-entities.json, component-specifications.json, business-rules.json, template-config.json</li>
+                <li><strong>Result:</strong> Service Software Factory template created - 90% standardization + 10% customization</li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <div class="mermaid">
+sequenceDiagram
+    participant PO as Product Owner
+    participant UI as Concept Line UI<br/>(Stage 1 Form)
+    participant Orch as Pipeline Orchestrator
+    participant BUSM as BUSM.mmd<br/>(Single Source of Truth)
+    participant RuleGen as Rule Generator
+    participant CompGen as Component Generator
+    participant Template as Template Manager
+    participant Output as Stage 1 Outputs
+
+    Note over PO,Output: STAGE 1: SERVICE SOFTWARE FACTORY - Template-Based Requirements Capture
+
+    %% Step 1: UI Form Access
+    PO->>UI: Access Concept Line UI Form
+    activate UI
+    UI->>PO: Display scope definition form
+    
+    %% Step 2: Scope Definition
+    PO->>UI: Define scope:<br/>- Service Type: Pest Control<br/>- Client: ABC Pest Control<br/>- Module: Accounts<br/>- Sub-Module: Master View
+    UI->>UI: Load service-specific templates
+    UI->>PO: Show available entities from BUSM
+    
+    %% Step 3: Entity Selection
+    PO->>UI: Select entities:<br/>☑ ACCOUNT<br/>☑ CONTACT<br/>☑ SERVICE_LOCATION<br/>☑ WORK_ORDER
+    UI->>BUSM: Read selected entity definitions
+    activate BUSM
+    BUSM-->>UI: Entity structures:<br/>- ACCOUNT (8 fields)<br/>- CONTACT (7 fields)<br/>- SERVICE_LOCATION (14 fields)<br/>- WORK_ORDER (10 fields)
+    deactivate BUSM
+    
+    %% Step 4: Component Auto-Generation
+    UI->>CompGen: Generate 3-column components
+    activate CompGen
+    CompGen->>CompGen: Map entities to Master View layout:<br/>Column 1: Account Hub<br/>Column 2: Service Locations<br/>Column 3: Work Orders
+    CompGen-->>UI: Component specifications:<br/>- AccountListView, AccountDetailView<br/>- ServiceLocationListView<br/>- WorkOrderListView, WorkOrderDetailView
+    deactivate CompGen
+    
+    %% Step 5: Business Rules Auto-Generation
+    UI->>RuleGen: Auto-generate business rules
+    activate RuleGen
+    RuleGen->>BUSM: Read entity field types & constraints
+    RuleGen->>RuleGen: Apply 3-layer inheritance:<br/>Layer 1: Base rules from BUSM (67 rules)<br/>Layer 2: Pest Control variations (12 rules)<br/>Layer 3: Client customizations (optional)
+    RuleGen-->>UI: Generated rules summary:<br/>Total: 79 business rules ready
+    deactivate RuleGen
+    
+    %% Step 6: Preview & Confirmation
+    UI->>PO: Show component preview &<br/>business rules summary
+    PO->>UI: Confirm configuration or<br/>add client customizations
+    
+    %% Step 7: Template Save (Optional)
+    alt Save as Template
+        PO->>UI: Save as "Pest Control Base Template"
+        UI->>Template: Store template configuration
+        activate Template
+        Template-->>UI: Template saved for future use
+        deactivate Template
+    end
+    
+    %% Step 8: Pipeline Execution
+    PO->>UI: Run Concept Line Pipeline
+    UI->>Orch: Execute Stage 1 with configuration
+    activate Orch
+    
+    %% Step 9: Artifact Generation
+    Orch->>Output: Write scope-definition.json
+    Orch->>Output: Write selected-entities.json
+    Orch->>Output: Write component-specifications.json
+    Orch->>Output: Write business-rules.json
+    Orch->>Output: Write template-config.json (if saved)
+    
+    %% Step 10: Stage Complete
+    Orch->>PO: Stage 1 Complete!<br/>Service: Pest Control<br/>Entities: 4 selected<br/>Components: 7 generated<br/>Rules: 79 ready<br/>Template: Saved<br/>Ready for Stage 2
+    deactivate UI
+    deactivate Orch
+    
+    Note over PO,Output: Stage 1 Complete: Service Software Factory Template Created & Ready
+            </div>
+        </div>
+
+        <div class="artifacts-grid">
+            <div class="artifact-card">
+                <div class="artifact-header">
+                    <h4>📥 Input Artifacts</h4>
+                </div>
+                <div class="artifact-content">
+                    <ul class="artifact-list">
+                        <li>UI Form - Service type, client, module selection</li>
+                        <li>Direct entity selection from <code>BUSM.mmd</code></li>
+                        <li>Optional template loading (existing service configurations)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="artifact-card">
+                <div class="artifact-header">
+                    <h4>📤 Output Artifacts</h4>
+                </div>
+                <div class="artifact-content">
+                    <ul class="artifact-list">
+                        <li><code>scope-definition.json</code> - Service type, client, module scope</li>
+                        <li><code>selected-entities.json</code> - Direct entity selection from BUSM</li>
+                        <li><code>component-specifications.json</code> - Auto-generated 3-column layout</li>
+                        <li><code>business-rules.json</code> - 3-layer inheritance rules (79 total)</li>
+                        <li><code>template-config.json</code> - Reusable service template</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="artifact-card">
+                <div class="artifact-header">
+                    <h4>⚙️ Tools Involved</h4>
+                </div>
+                <div class="artifact-content">
+                    <ul class="artifact-list">
+                        <li>Concept Line UI Form (Stage 1)</li>
+                        <li>Component Generator (3-column layout)</li>
+                        <li>Rule Generator (3-layer inheritance)</li>
+                        <li>Template Manager (save/load)</li>
+                        <li>Pipeline Orchestrator</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="automation-breakdown">
+            <h3>🤖 Automation Breakdown</h3>
+            <div class="automation-section">
+                <div class="automated-list">
+                    <h4>✅ Automated (90%)</h4>
+                    <ul>
+                        <li>Entity structure reading from BUSM</li>
+                        <li>3-column component auto-generation</li>
+                        <li>3-layer business rules inheritance</li>
+                        <li>Template configuration management</li>
+                        <li>Service-specific customizations</li>
+                        <li>Artifact generation (5 JSON files)</li>
+                        <li>Component specifications creation</li>
+                        <li>Rule validation and formatting</li>
+                        <li>Template save/load system</li>
+                        <li>Pipeline orchestration</li>
+                    </ul>
+                </div>
+                <div class="manual-list">
+                    <h4>⚡ Manual (10%)</h4>
+                    <ul>
+                        <li>Scope definition via UI form</li>
+                        <li>Entity selection from BUSM</li>
+                        <li>Optional client customizations</li>
+                        <li>Template save/naming decision</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>🧪 How to Test Stage 1 - Service Software Factory</h3>
+            <p><strong>Step 1:</strong> Access Concept Line UI Form</p>
+            <div class="command-line"># Launch Stage 1 UI Form (when implemented)
+# URL: localhost:3000/concept-line/stage1</div>
+            <p><strong>Step 2:</strong> Test template-based flow</p>
+            <div class="command-line"># Define scope: Pest Control → ABC Client → Accounts Module
+# Select entities: ACCOUNT, CONTACT, SERVICE_LOCATION, WORK_ORDER</div>
+            <p><strong>Step 3:</strong> Verify 5 output artifacts</p>
+            <div class="command-line">ls -la .pipeline/01-concept-line/outputs/stage1/
+# Expected: scope-definition.json, selected-entities.json, 
+# component-specifications.json, business-rules.json, template-config.json</div>
+            <p><strong>Expected Results:</strong></p>
+            <ul>
+                <li>Service Software Factory template created</li>
+                <li>5 JSON artifacts generated automatically</li>
+                <li>79 business rules auto-generated via 3-layer inheritance</li>
+                <li>3-column component layout specified</li>
+                <li>Template saved for "Pest Control Base" reuse</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            sequence: {
+                useMaxWidth: true,
+                showSequenceNumbers: true,
+                wrap: true
+            }
+        });
+    </script>
+</body>
+</html>

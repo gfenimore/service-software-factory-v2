@@ -1,0 +1,28 @@
+{
+  "name": "stage2-processing",
+  "version": "1.0.0",
+  "description": "Stage 2 Configuration Enrichment Components for Concept Line Pipeline",
+  "main": "configuration-enricher.js",
+  "scripts": {
+    "start": "node configuration-enricher.js",
+    "enrich": "node configuration-enricher.js",
+    "test-data": "node data-processor.js",
+    "test-config": "node config-generator.js",
+    "help": "node configuration-enricher.js --help"
+  },
+  "keywords": [
+    "concept-line",
+    "stage2",
+    "configuration",
+    "enrichment",
+    "viewforge",
+    "pipeline"
+  ],
+  "author": "Factory Development Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

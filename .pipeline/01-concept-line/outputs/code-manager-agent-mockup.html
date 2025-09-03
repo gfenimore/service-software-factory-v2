@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Manager Agent - Output Mockup</title>
+    <style>
+        body {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        
+        .terminal {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 1000px;
+        }
+        
+        .command {
+            color: #7dd3fc;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .output-section {
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            color: #fbbf24;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .bullet {
+            color: #10b981;
+            margin-left: 10px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .file-path {
+            color: #8b5cf6;
+        }
+        
+        .timestamp {
+            color: #6b7280;
+        }
+        
+        .change-type {
+            color: #f59e0b;
+            font-weight: bold;
+        }
+        
+        .separator {
+            border-top: 1px solid #374151;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="command">$ @code-manager status</div>
+        
+        <div class="output-section">
+            <div class="section-title">## Recent Changes</div>
+            <span class="bullet">• <span class="change-type">Modified:</span> <span class="file-path">src/components/AccountView.tsx:45</span> (authentication logic)</span>
+            <span class="bullet">• <span class="change-type">Added:</span> <span class="file-path">.pipeline/tools/simple-card-mockups.html</span></span>
+            <span class="bullet">• <span class="change-type">Modified:</span> <span class="file-path">.pipeline/00-requirements/specs/master-view-feature-PRD.md:50</span> (entity list)</span>
+            <span class="bullet">• <span class="change-type">Deleted:</span> <span class="file-path">old-entity-scanner.js</span></span>
+        </div>
+        
+        <div class="output-section">
+            <div class="section-title">## Active Features</div>
+            <span class="bullet">• master-view-feature (branch: conceptLine)</span>
+            <span class="bullet">• Last commit: <span class="timestamp">2 hours ago</span> - "fix: eliminate entity scanning step"</span>
+        </div>
+        
+        <div class="output-section">
+            <div class="section-title">## Key Files Modified Today</div>
+            <span class="bullet">• <span class="file-path">.pipeline/01-concept-line/models/system-flows/stage1-sequence.mmd:25</span> (sequence flow)</span>
+            <span class="bullet">• <span class="file-path">.pipeline/01-concept-line/outputs/stage1-real/entities.json:1</span> (entity definitions)</span>
+            <span class="bullet">• <span class="file-path">.sdlc/01-core/A-agents/sub-agents/code-manager-agent-PRD.md</span> (new file)</span>
+        </div>
+        
+        <div class="separator"></div>
+        
+        <div class="command">$ @code-manager summary .pipeline/01-concept-line/tools</div>
+        
+        <div class="output-section">
+            <div class="section-title">## Summary: .pipeline/01-concept-line/tools/</div>
+            <span class="bullet">• <span class="file-path">simple-prd-to-viewforge.js</span> - Converts PRD entities to ViewForge config (50 lines)</span>
+            <span class="bullet">• <span class="file-path">simple-card-mockups.html</span> - 3-column master view mockup with sample data</span>
+            <span class="bullet">• <span class="file-path">viewforge/</span> - Complex ViewForge system (archived approaches v1-v3)</span>
+            <span class="bullet">• <span class="file-path">business-rules-configurator/</span> - Rule authoring workbench</span>
+        </div>
+        
+        <div class="separator"></div>
+        
+        <div class="command">$ @code-manager changes yesterday</div>
+        
+        <div class="output-section">
+            <div class="section-title">## Changes Since Yesterday</div>
+        </div>
+        
+        <div class="output-section">
+            <div class="section-title">### New Files (4)</div>
+            <span class="bullet">• <span class="file-path">simple-prd-to-viewforge.js</span> - PRD to ViewForge converter</span>
+            <span class="bullet">• <span class="file-path">simple-card-mockups.html</span> - Master view mockup</span>
+            <span class="bullet">• <span class="file-path">code-manager-agent-PRD.md</span> - Agent requirements</span>
+            <span class="bullet">• <span class="file-path">master-view-feature-PRD.md</span> - Feature specification</span>
+        </div>
+        
+        <div class="output-section">
+            <div class="section-title">### Modified Files (6)</div>
+            <span class="bullet">• <span class="file-path">stage1-sequence.mmd:25-33</span> - Eliminated entity scanning logic</span>
+            <span class="bullet">• <span class="file-path">entities.json:1-10</span> - Updated entity list with 7 required entities</span>
+            <span class="bullet">• <span class="file-path">master-view-feature.md</span> - Added ViewForge entity requirements</span>
+            <span class="bullet">• <span class="file-path">.claude/settings.local.json</span> - Updated permissions</span>
+            <span class="bullet">• <span class="file-path">CLAUDE.md</span> - Project configuration updates</span>
+            <span class="bullet">• <span class="file-path">README.md</span> - Documentation refresh</span>
+        </div>
+        
+        <div class="output-section">
+            <div class="section-title">### Deleted Files (2)</div>
+            <span class="bullet">• <span class="file-path">complex-entity-scanner.js</span> - Replaced with simple approach</span>
+            <span class="bullet">• <span class="file-path">old-viewforge-config.json</span> - Obsolete configuration</span>
+        </div>
+    </div>
+</body>
+</html>

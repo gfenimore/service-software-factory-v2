@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Concept Line UI - Stage 1 Requirements Capture</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            background: #f5f5f5; 
+            padding: 20px;
+        }
+        .container { 
+            max-width: 900px; 
+            margin: 0 auto; 
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { color: #2c3e50; margin-bottom: 30px; }
+        .form-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            background: #fafafa;
+        }
+        .form-section h3 {
+            margin-top: 0;
+            color: #34495e;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .entity-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .entity-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 15px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .entity-card:hover {
+            border-color: #3498db;
+            background: #f8f9fa;
+        }
+        .entity-card.selected {
+            border-color: #27ae60;
+            background: #e8f5e8;
+        }
+        .entity-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .entity-fields {
+            color: #666;
+            font-size: 12px;
+        }
+        .rules-section {
+            border-left: 4px solid #f39c12;
+            background: #fefefe;
+        }
+        .rules-preview {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            margin-top: 10px;
+        }
+        .submit-button {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .submit-button:hover {
+            background: #219a52;
+        }
+        .progress-indicator {
+            display: none;
+            background: #3498db;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Stage 1: Requirements Capture</h1>
+        
+        <div class="progress-indicator" id="progress">
+            Processing configuration...
+        </div>
+
+        <form id="conceptForm">
+            <!-- Service Scope Definition -->
+            <div class="form-section">
+                <h3>Service Scope Definition</h3>
+                
+                <div class="form-group">
+                    <label for="serviceType">Service Type</label>
+                    <select id="serviceType" name="serviceType" required>
+                        <option value="">Select service type...</option>
+                        <option value="Pest Control">Pest Control</option>
+                        <option value="HVAC">HVAC</option>
+                        <option value="Plumbing">Plumbing</option>
+                        <option value="Electrical">Electrical</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="clientName">Client Name</label>
+                    <input type="text" id="clientName" name="clientName" placeholder="ABC Pest Control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="module">Module</label>
+                    <select id="module" name="module" required>
+                        <option value="">Select module...</option>
+                        <option value="Accounts">Accounts</option>
+                        <option value="Scheduling">Scheduling</option>
+                        <option value="Inventory">Inventory</option>
+                        <option value="Reporting">Reporting</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="subModule">Sub-Module</label>
+                    <select id="subModule" name="subModule" required>
+                        <option value="">Select sub-module...</option>
+                        <option value="Master View">Master View</option>
+                        <option value="Detail View">Detail View</option>
+                        <option value="List View">List View</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="feature">Feature (Optional Customization)</label>
+                    <input type="text" id="feature" name="feature" placeholder="Customer Management">
+                </div>
+
+                <div class="form-group">
+                    <label for="userStory">User Story (Optional)</label>
+                    <textarea id="userStory" name="userStory" rows="3" placeholder="As an admin, I want to..."></textarea>
+                </div>
+            </div>
+
+            <!-- Entity Selection -->
+            <div class="form-section">
+                <h3>Entity Selection</h3>
+                <p>Select entities from the Business Model (BUSM) to include in this configuration:</p>
+                
+                <div class="entity-selector" id="entitySelector">
+                    <!-- Entities will be loaded dynamically -->
+                </div>
+                
+                <input type="hidden" id="selectedEntities" name="selectedEntities">
+            </div>
+
+            <!-- Business Rules Customization -->
+            <div class="form-section rules-section">
+                <h3>Business Rules Customization (Optional)</h3>
+                
+                <div class="form-group">
+                    <label for="customRules">Layer 3 Client Customizations</label>
+                    <textarea id="customRules" name="customRules" rows="4" 
+                        placeholder="Enter custom business rules (JSON format) or leave blank for defaults..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Rules Preview</label>
+                    <div class="rules-preview" id="rulesPreview">
+                        Layer 1: Base BUSM rules (67 rules)<br>
+                        Layer 2: Service-specific rules (12 rules)<br>
+                        Layer 3: Client customizations (0 rules)<br>
+                        <strong>Total: 79 business rules</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Template Options -->
+            <div class="form-section">
+                <h3>Template Options</h3>
+                
+                <div class="form-group">
+                    <input type="checkbox" id="saveTemplate" name="saveTemplate">
+                    <label for="saveTemplate" style="display: inline; margin-left: 10px;">Save as reusable template</label>
+                </div>
+
+                <div class="form-group" id="templateNameGroup" style="display: none;">
+                    <label for="templateName">Template Name (auto-generated)</label>
+                    <input type="text" id="templateName" name="templateName" readonly>
+                </div>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="submit-button">
+                🚀 Run Stage 1 Pipeline
+            </button>
+        </form>
+    </div>
+
+    <script>
+        // Mock BUSM entities for rough sketch
+        const mockEntities = [
+            { name: 'ACCOUNT', fields: 8, description: 'Customer account information' },
+            { name: 'CONTACT', fields: 7, description: 'Contact person details' },
+            { name: 'SERVICE_LOCATION', fields: 14, description: 'Service addresses' },
+            { name: 'WORK_ORDER', fields: 10, description: 'Service work orders' },
+            { name: 'INVOICE', fields: 12, description: 'Billing and invoicing' },
+            { name: 'PAYMENT', fields: 8, description: 'Payment transactions' }
+        ];
+
+        let selectedEntities = new Set();
+
+        // Load entities into selector
+        function loadEntities() {
+            const selector = document.getElementById('entitySelector');
+            selector.innerHTML = '';
+
+            mockEntities.forEach(entity => {
+                const card = document.createElement('div');
+                card.className = 'entity-card';
+                card.innerHTML = `
+                    <div class="entity-name">${entity.name}</div>
+                    <div class="entity-fields">${entity.fields} fields</div>
+                    <div style="font-size: 11px; color: #888; margin-top: 5px;">${entity.description}</div>
+                `;
+                
+                card.addEventListener('click', () => toggleEntity(entity.name, card));
+                selector.appendChild(card);
+            });
+        }
+
+        // Toggle entity selection
+        function toggleEntity(entityName, card) {
+            if (selectedEntities.has(entityName)) {
+                selectedEntities.delete(entityName);
+                card.classList.remove('selected');
+            } else {
+                selectedEntities.add(entityName);
+                card.classList.add('selected');
+            }
+            
+            // Update hidden field
+            document.getElementById('selectedEntities').value = Array.from(selectedEntities).join(',');
+        }
+
+        // Handle template name generation
+        document.getElementById('saveTemplate').addEventListener('change', function() {
+            const templateGroup = document.getElementById('templateNameGroup');
+            const templateName = document.getElementById('templateName');
+            
+            if (this.checked) {
+                templateGroup.style.display = 'block';
+                const serviceType = document.getElementById('serviceType').value || 'Unknown';
+                const date = new Date().toISOString().split('T')[0].replace(/-/g, '');
+                templateName.value = `${serviceType.replace(/\s+/g, '')}_${date}`;
+            } else {
+                templateGroup.style.display = 'none';
+            }
+        });
+
+        // Handle form submission
+        document.getElementById('conceptForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const progress = document.getElementById('progress');
+            progress.style.display = 'block';
+            progress.textContent = 'Processing Stage 1 configuration...';
+
+            // Collect form data
+            const formData = new FormData(this);
+            const config = {
+                serviceType: formData.get('serviceType'),
+                clientName: formData.get('clientName'),
+                module: formData.get('module'),
+                subModule: formData.get('subModule'),
+                feature: formData.get('feature'),
+                userStory: formData.get('userStory'),
+                selectedEntities: Array.from(selectedEntities),
+                customRules: formData.get('customRules'),
+                saveTemplate: formData.get('saveTemplate') === 'on',
+                templateName: formData.get('templateName')
+            };
+
+            // Simulate pipeline orchestrator call
+            setTimeout(() => {
+                progress.textContent = 'Stage 1 Complete! Configuration processed successfully.';
+                progress.style.background = '#27ae60';
+                
+                // Display results
+                console.log('Stage 1 Configuration:', config);
+                alert(`Stage 1 Complete!\n\nService: ${config.serviceType}\nEntities: ${config.selectedEntities.length} selected\nTemplate: ${config.saveTemplate ? 'Saved' : 'Not saved'}\n\nReady for Stage 2!`);
+            }, 2000);
+        });
+
+        // Initialize
+        loadEntities();
+    </script>
+</body>
+</html>

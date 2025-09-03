@@ -1,81 +1,98 @@
 # Stage 1: Requirements Capture - Sequence Diagram
 *The Automated Requirements Processing Pipeline*
 
-## Stage 1 Overview
-Stage 1 transforms BUSM diagrams and feature specifications into structured requirements artifacts, with optional business rule collection via web UI.
+## Stage 1 Overview (Base System + Domain Customization)
+Stage 1 uses predefined Universal Service Model (17 entities) with domain-specific customizations. Generates Master View (3-column) and Analysis View (spreadsheet-like) configurations, applies 3-layer business rules (Universal → Domain → Client), with template management for rapid deployment.
 
 ## Sequence Diagram
 
 ```mermaid
 sequenceDiagram
-    participant PO as Product Owner
-    participant UI as Rule Collection UI<br/>(Port 3001)
-    participant Orch as Pipeline Orchestrator
-    participant BUSM as BUSM Mermaid Parser
-    participant Model as BUSM.mmd<br/>(Mermaid)
-    participant Feature as Feature Spec<br/>(Markdown)
-    participant Output as Stage 1 Outputs
-    participant Gaps as Gap Logger
+  participant PO as Product Owner
+  participant UI as Concept Line UI
+  participant Orch as Pipeline Orchestrator  
+  participant BUSM as BUSM File
+  participant RuleGen as Rule Generator
+  participant CompGen as Component Generator
+  participant Template as Template Manager
+  participant Output as Stage 1 Outputs
 
-    Note over PO,Gaps: STAGE 1: REQUIREMENTS CAPTURE - From Business Docs to Structured Artifacts
+  Note over PO,Output: STAGE 1 SERVICE SOFTWARE FACTORY Template-Based Requirements Capture
 
-    %% Step 1: Business Rule Definition (Optional)
-    PO->>UI: Access localhost:3001
-    activate UI
-    UI->>PO: Display rule interface
-    PO->>UI: Define business rules:<br/>- Name & Description<br/>- Type (validation, etc.)<br/>- AppliesTo component<br/>- Priority level
-    UI->>UI: Validate and save rules
-    UI->>Output: Export business-rules.json
-    deactivate UI
-    
-    %% Step 2: Pipeline Initiation
-    PO->>Orch: node pipeline-orchestrator.js
-    activate Orch
-    Orch->>Orch: Initialize Stage 1
-    
-    %% Step 3: BUSM Processing
-    Orch->>BUSM: new MermaidBUSMParser()
-    activate BUSM
-    Orch->>Model: Read BUSM.mmd
-    Model-->>BUSM: Mermaid diagram content
-    BUSM->>BUSM: Parse entities & relationships:<br/>- Extract entity definitions<br/>- Parse attributes<br/>- Identify relationships
-    
-    %% Step 4: Feature Spec Analysis
-    Orch->>Feature: Read master-view-feature.md
-    Feature-->>Orch: Feature specification
-    Orch->>Orch: Extract entities from spec:<br/>- Account<br/>- User<br/>- Contact<br/>- Organization
-    
-    %% Step 5: BUSM Subset Extraction
-    Orch->>BUSM: extractSubset(['Account', 'User', 'Contact'])
-    BUSM->>BUSM: Filter BUSM to needed entities
-    BUSM-->>Orch: Filtered BUSM subset
-    
-    %% Step 6: Business Rules Collection
-    alt Rules via UI
-        Orch->>Output: Read exported business-rules.json
-        Output-->>Orch: User-defined rules
-    else Rules via Default
-        Orch->>Orch: Generate default rules:<br/>- BR-001: List Filtering<br/>- BR-002: Field Validation<br/>- BR-003: Action Authorization
-    end
-    
-    %% Step 7: Gap Discovery
-    Orch->>Gaps: Analyze requirements
-    activate Gaps
-    Gaps->>Gaps: Check for:<br/>✓ Entity definitions<br/>✓ Business rules<br/>✓ Integration points<br/>⚠️ Missing validations
-    Gaps-->>Orch: Gaps identified
-    deactivate Gaps
-    
-    %% Step 8: Artifact Generation
-    Orch->>Output: Write stage1/busm-subset.mmd
-    Orch->>Output: Write stage1/feature-spec.md
-    Orch->>Output: Write stage1/business-rules.json
-    
-    %% Step 9: Stage Summary
-    Orch->>PO: Stage 1 Complete!<br/>Entities: 3<br/>Rules: 3<br/>Gaps: 1<br/>Ready for Stage 2
-    deactivate BUSM
-    deactivate Orch
-    
-    Note over PO,Gaps: Stage 1 Complete: Requirements Captured & Structured
+  PO->>UI: Access Concept Line UI Form
+  activate UI
+  UI->>PO: Display scope definition form
+  
+  PO->>UI: Define service domain and customizations
+  Note right of UI: Domain: Pest Control<br/>Client: ABC Pest Control<br/>Target: Production
+  UI->>UI: Load base system (17 entities)
+  UI->>PO: Show domain customization options
+  
+  PO->>UI: Configure domain extensions
+  Note right of UI: Base: Universal Service Model<br/>Extensions: Pest Control fields<br/>Rules: Domain-specific
+  UI->>BUSM: Load base entity model
+  activate BUSM
+  BUSM-->>UI: Return entity structures
+  Note left of BUSM: ACCOUNT: 8 fields<br/>CONTACT: 7 fields<br/>SERVICE_LOCATION: 14 fields<br/>WORK_ORDER: 10 fields
+  deactivate BUSM
+  
+  UI->>CompGen: Generate base system views
+  activate CompGen
+  CompGen->>CompGen: Create Master View (3-column) and Analysis View (spreadsheet)
+  Note over CompGen: Master: Account Hub | Service Locations | Work Orders<br/>Analysis: List-based with filtering/sorting
+  CompGen-->>UI: Return view configurations
+  Note left of CompGen: Master View: 3-column layout<br/>Analysis View: 4 tabs (Accounts, Locations, Orders, Revenue)
+  deactivate CompGen
+  
+  UI->>RuleGen: Auto-generate business rules
+  activate RuleGen
+  RuleGen->>BUSM: Read entity field types and constraints
+  RuleGen->>RuleGen: Apply 3-layer inheritance
+  Note over RuleGen: Layer 1: Universal rules (17 entities)<br/>Layer 2: Pest Control domain rules<br/>Layer 3: Client customizations
+  RuleGen-->>UI: Return generated rules summary
+  Note left of RuleGen: Universal + Domain + Custom rules ready
+  deactivate RuleGen
+  
+  UI->>PO: Show base system configuration preview
+  Note over UI,PO: Base: 17 entities, 2 views<br/>Domain: Pest Control extensions<br/>Rules: Universal + Domain + Custom
+  
+  alt Layer 3 Customizations
+    PO->>UI: Add client customizations via UI input
+    UI->>UI: Merge custom rules with generated rules
+    UI->>UI: Auto-resolve conflicts with user override option
+  end
+  
+  PO->>UI: Confirm final configuration
+  
+  alt Save as Template
+    PO->>UI: Save as template
+    UI->>UI: Auto-generate template name
+    Note right of UI: Template: PestControl_20250901
+    UI->>Template: Store template configuration
+    activate Template
+    Template-->>UI: Template saved for future use
+    deactivate Template
+  end
+  
+  PO->>UI: Run Concept Line Pipeline
+  UI->>Orch: Execute Stage 1 with configuration
+  activate Orch
+  
+  Orch->>Output: Write scope-definition.json
+  Orch->>Output: Write selected-entities.json
+  Orch->>Output: Write component-specifications.json
+  Orch->>Output: Write business-rules.json
+  Orch->>Output: Write template-config.json if saved
+  
+  Orch->>Orch: Validate format and completeness
+  Note over Orch: Check JSON structure<br/>Verify required fields<br/>Confirm artifact completeness
+  
+  Orch->>PO: Stage 1 Complete
+  Note over Orch,PO: Service: Pest Control<br/>Entities: 4 selected<br/>Components: 7 generated<br/>Rules: 79 ready<br/>Template: Saved<br/>Status: Ready for Stage 2
+  deactivate UI
+  deactivate Orch
+  
+  Note over PO,Output: Stage 1 Complete - Service Software Factory Template Created and Ready
 ```
 
 ## Detailed Action Breakdown

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Concept Line - Detailed System Flows</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            background: #f5f5f5; 
+        }
+        .container { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            padding: 20px; 
+        }
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .stage-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+        .tab {
+            padding: 12px 24px;
+            background: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .tab:hover {
+            background: #e3f2fd;
+        }
+        .tab.active {
+            background: #1976d2;
+            color: white;
+        }
+        .stage-content {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .stage-content.active {
+            display: block;
+        }
+        .stage-description {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+            border-left: 4px solid #1976d2;
+        }
+        .mermaid {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+        }
+        .flow-legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .legend-item.input { background: #e1f5fe; border-left: 4px solid #01579b; }
+        .legend-item.processor { background: #f3e5f5; border-left: 4px solid #4a148c; }
+        .legend-item.output { background: #e8f5e8; border-left: 4px solid #1b5e20; }
+        .legend-item.consumer { background: #fff3e0; border-left: 4px solid #e65100; }
+        
+        .color-box {
+            width: 16px;
+            height: 16px;
+            border-radius: 2px;
+        }
+        .input .color-box { background: #e1f5fe; border: 1px solid #01579b; }
+        .processor .color-box { background: #f3e5f5; border: 1px solid #4a148c; }
+        .output .color-box { background: #e8f5e8; border: 1px solid #1b5e20; }
+        .consumer .color-box { background: #fff3e0; border: 1px solid #e65100; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏭 Concept Line - Detailed System Flows</h1>
+            <p>Deep architectural views showing data transformations, processing components, and system interactions</p>
+        </div>
+
+        <div class="stage-tabs">
+            <button class="tab active" onclick="showStage('stage1')">Stage 1: Requirements Capture</button>
+            <button class="tab" onclick="showStage('stage2')">Stage 2: Configuration</button>
+            <button class="tab" onclick="showStage('stage3')">Stage 3: ViewForge</button>
+            <button class="tab" onclick="showStage('overview')">Pipeline Overview</button>
+        </div>
+
+        <!-- Stage 1 -->
+        <div id="stage1" class="stage-content active">
+            <div class="stage-description">
+                <h2>🔍 Stage 1: Requirements Capture</h2>
+                <p><strong>Purpose:</strong> Transform business documents into structured artifacts</p>
+                <p><strong>What it reads:</strong> BUSM.mmd (business model), feature-spec.md (requirements), business-rules.json (logic)</p>
+                <p><strong>What it produces:</strong> entities.json (entity list), busm-subset.mmd (filtered model), validated rules</p>
+                <p><strong>Who consumes output:</strong> Stage 2 Configuration uses entities and rules for UI generation</p>
+            </div>
+            <div class="mermaid">
+graph TD
+    %% External Data Sources
+    BUSM_FILE[BUSM.mmd<br/>Business Model<br/>Mermaid Format]
+    FEATURE_SPEC[feature-spec.md<br/>User Requirements<br/>Markdown Format]
+    BUSINESS_RULES[business-rules.json<br/>Business Logic<br/>JSON Format]
+
+    %% Stage 1 Components
+    subgraph "Stage 1: Requirements Capture"
+        ORCHESTRATOR[Pipeline Orchestrator<br/>enhanced-pipeline-orchestrator.js]
+        BUSM_READER[BUSM Reader<br/>busm-reader.js]
+        MERMAID_PARSER[Mermaid Parser<br/>mermaid-parser.js]
+        ENTITY_EXTRACTOR[Entity Extractor<br/>extractSubset function]
+        RULES_GENERATOR[Default Rules Generator<br/>generateDefaultRules function]
+        
+        %% Processing Steps
+        PARSE_BUSM[Parse BUSM Content<br/>Read .mmd file<br/>Extract class definitions]
+        EXTRACT_ENTITIES[Extract Entity List<br/>Find class declarations<br/>Parse relationships]
+        FILTER_SUBSET[Filter BUSM Subset<br/>Keep only needed entities<br/>Maintain relationships]
+        GENERATE_RULES[Generate Default Rules<br/>Create validation rules<br/>Apply business logic]
+        ANALYZE_GAPS[Analyze Requirements<br/>Check completeness<br/>Identify missing data]
+    end
+
+    %% Stage 1 Outputs
+    subgraph "Stage 1 Outputs"
+        ENTITIES_JSON[entities.json<br/>Extracted entity list<br/>Array of entity names]
+        BUSM_SUBSET[busm-subset.mmd<br/>Filtered business model<br/>Mermaid format]
+        FEATURE_COPY[feature-spec.md<br/>Copy of requirements<br/>For reference]
+        RULES_OUTPUT[business-rules.json<br/>Generated/validated rules<br/>JSON format]
+        GAPS_REPORT[gaps-report.json<br/>Missing requirements<br/>Gap analysis]
+    end
+
+    %% Data Flow Connections
+    BUSM_FILE --> BUSM_READER
+    BUSM_READER --> MERMAID_PARSER
+    MERMAID_PARSER --> PARSE_BUSM
+    
+    FEATURE_SPEC --> ORCHESTRATOR
+    BUSINESS_RULES --> RULES_GENERATOR
+    
+    ORCHESTRATOR --> PARSE_BUSM
+    PARSE_BUSM --> EXTRACT_ENTITIES
+    EXTRACT_ENTITIES --> FILTER_SUBSET
+    FILTER_SUBSET --> ENTITY_EXTRACTOR
+    
+    ENTITY_EXTRACTOR --> GENERATE_RULES
+    RULES_GENERATOR --> GENERATE_RULES
+    GENERATE_RULES --> ANALYZE_GAPS
+    
+    %% Output Generation
+    EXTRACT_ENTITIES --> ENTITIES_JSON
+    FILTER_SUBSET --> BUSM_SUBSET
+    FEATURE_SPEC --> FEATURE_COPY
+    GENERATE_RULES --> RULES_OUTPUT
+    ANALYZE_GAPS --> GAPS_REPORT
+
+    %% Stage 2 Consumption (dotted lines)
+    ENTITIES_JSON -.-> STAGE2_INPUT[Stage 2: Configuration<br/>Consumes entities.json<br/>Uses for config generation]
+    BUSM_SUBSET -.-> STAGE2_INPUT
+    RULES_OUTPUT -.-> STAGE2_INPUT
+
+    %% Styling
+    classDef dataSource fill:#e1f5fe,stroke:#01579b,color:#000
+    classDef processor fill:#f3e5f5,stroke:#4a148c,color:#000
+    classDef output fill:#e8f5e8,stroke:#1b5e20,color:#000
+    classDef consumer fill:#fff3e0,stroke:#e65100,color:#000
+
+    class BUSM_FILE,FEATURE_SPEC,BUSINESS_RULES dataSource
+    class BUSM_READER,MERMAID_PARSER,ENTITY_EXTRACTOR,RULES_GENERATOR,PARSE_BUSM,EXTRACT_ENTITIES,FILTER_SUBSET,GENERATE_RULES,ANALYZE_GAPS processor
+    class ENTITIES_JSON,BUSM_SUBSET,FEATURE_COPY,RULES_OUTPUT,GAPS_REPORT output
+    class STAGE2_INPUT consumer
+            </div>
+        </div>
+
+        <!-- Stage 2 -->
+        <div id="stage2" class="stage-content">
+            <div class="stage-description">
+                <h2>⚙️ Stage 2: Configuration</h2>
+                <p><strong>Purpose:</strong> Enrich entity data with metadata and prepare for UI generation</p>
+                <p><strong>What it reads:</strong> entities.json, busm-subset.mmd, business-rules.json from Stage 1</p>
+                <p><strong>What it produces:</strong> enriched-config.json (complete config), entity-mappings.json (relationships)</p>
+                <p><strong>Who consumes output:</strong> Stage 3 ViewForge uses enriched config to generate React components</p>
+            </div>
+            <div class="mermaid">
+graph TD
+    %% Stage 1 Outputs (Inputs to Stage 2)
+    subgraph "Stage 1 Outputs"
+        ENTITIES_JSON[entities.json<br/>["Account", "User"]<br/>Entity list array]
+        BUSM_SUBSET[busm-subset.mmd<br/>Filtered business model<br/>Entity relationships]
+        RULES_JSON[business-rules.json<br/>Validation rules<br/>Business logic]
+    end
+
+    %% Stage 2 Components  
+    subgraph "Stage 2: Configuration"
+        CONFIG_ENRICHER[Configuration Enricher<br/>stage2_configuration function]
+        METADATA_GENERATOR[Metadata Generator<br/>Adds timestamps, versions]
+        ENTITY_MAPPER[Entity Mapper<br/>Maps entities to config structure]
+        RULE_VALIDATOR[Rule Validator<br/>Validates business rules]
+        CONFIG_BUILDER[Config Builder<br/>Assembles final config]
+        
+        %% Processing Steps
+        LOAD_ENTITIES[Load Entity List<br/>Parse entities.json<br/>Validate entity names]
+        LOAD_RULES[Load Business Rules<br/>Parse rules.json<br/>Validate rule syntax]
+        BUILD_METADATA[Build Metadata<br/>Add timestamp, version<br/>Set stage marker]
+        MAP_ENTITIES[Map Entity Structure<br/>Create entity mappings<br/>Define relationships]
+        ENRICH_CONFIG[Enrich Configuration<br/>Combine all data<br/>Create unified config]
+    end
+
+    %% Stage 2 Outputs
+    subgraph "Stage 2 Outputs"
+        ENRICHED_CONFIG[enriched-config.json<br/>Complete configuration<br/>Ready for ViewForge]
+        ENTITY_MAP[entity-mappings.json<br/>Entity relationship map<br/>Navigation structure]
+        CONFIG_METADATA[config-metadata.json<br/>Version, timestamp<br/>Build information]
+    end
+
+    %% Data Flow Connections
+    ENTITIES_JSON --> CONFIG_ENRICHER
+    BUSM_SUBSET --> CONFIG_ENRICHER  
+    RULES_JSON --> CONFIG_ENRICHER
+    
+    CONFIG_ENRICHER --> LOAD_ENTITIES
+    CONFIG_ENRICHER --> LOAD_RULES
+    CONFIG_ENRICHER --> BUILD_METADATA
+    
+    LOAD_ENTITIES --> MAP_ENTITIES
+    LOAD_RULES --> RULE_VALIDATOR
+    BUILD_METADATA --> METADATA_GENERATOR
+    
+    MAP_ENTITIES --> ENTITY_MAPPER
+    RULE_VALIDATOR --> CONFIG_BUILDER
+    METADATA_GENERATOR --> CONFIG_BUILDER
+    ENTITY_MAPPER --> CONFIG_BUILDER
+    
+    CONFIG_BUILDER --> ENRICH_CONFIG
+    
+    %% Output Generation
+    ENRICH_CONFIG --> ENRICHED_CONFIG
+    ENTITY_MAPPER --> ENTITY_MAP
+    METADATA_GENERATOR --> CONFIG_METADATA
+
+    %% Stage 3 Consumption (dotted lines)
+    ENRICHED_CONFIG -.-> STAGE3_INPUT[Stage 3: ViewForge<br/>Consumes enriched-config.json<br/>Transforms to UI components]
+    ENTITY_MAP -.-> STAGE3_INPUT
+
+    %% Styling
+    classDef input fill:#e1f5fe,stroke:#01579b,color:#000
+    classDef processor fill:#f3e5f5,stroke:#4a148c,color:#000
+    classDef output fill:#e8f5e8,stroke:#1b5e20,color:#000
+    classDef consumer fill:#fff3e0,stroke:#e65100,color:#000
+
+    class ENTITIES_JSON,BUSM_SUBSET,RULES_JSON input
+    class CONFIG_ENRICHER,METADATA_GENERATOR,ENTITY_MAPPER,RULE_VALIDATOR,CONFIG_BUILDER,LOAD_ENTITIES,LOAD_RULES,BUILD_METADATA,MAP_ENTITIES,ENRICH_CONFIG processor
+    class ENRICHED_CONFIG,ENTITY_MAP,CONFIG_METADATA output
+    class STAGE3_INPUT consumer
+            </div>
+        </div>
+
+        <!-- Stage 3 -->
+        <div id="stage3" class="stage-content">
+            <div class="stage-description">
+                <h2>🎨 Stage 3: ViewForge Transformation</h2>
+                <p><strong>Purpose:</strong> Transform configuration into React UI components</p>
+                <p><strong>What it reads:</strong> enriched-config.json, entity-mappings.json from Stage 2</p>
+                <p><strong>What it produces:</strong> React JSX components (AccountListView.jsx, UserListView.jsx), component metadata</p>
+                <p><strong>Who consumes output:</strong> Stage 4 AST Generation parses JSX to validate syntax and create ASTs</p>
+            </div>
+            <div class="mermaid">
+graph TD
+    %% Stage 2 Outputs (Inputs to Stage 3)
+    subgraph "Stage 2 Outputs"
+        ENRICHED_CONFIG[enriched-config.json<br/>Complete configuration<br/>Entities + Rules + Metadata]
+        ENTITY_MAP[entity-mappings.json<br/>Entity relationships<br/>Navigation structure]
+    end
+
+    %% Stage 3 Components
+    subgraph "Stage 3: ViewForge Transformation"
+        VIEWFORGE_TRANSFORMER[ViewForge Transformer<br/>viewforge-transformer.js]
+        COMPONENT_GENERATOR[Component Generator<br/>Creates JSX templates]
+        LAYOUT_BUILDER[Layout Builder<br/>Defines component structure]
+        FIELD_MAPPER[Field Mapper<br/>Maps entity fields to UI fields]
+        TEMPLATE_ENGINE[Template Engine<br/>Generates component code]
+        
+        %% Processing Steps
+        PARSE_CONFIG[Parse Configuration<br/>Load enriched config<br/>Validate structure]
+        EXTRACT_ENTITIES[Extract Entity Info<br/>Get entity definitions<br/>Parse field types]
+        BUILD_LAYOUTS[Build UI Layouts<br/>Create layout specifications<br/>Define component hierarchy]
+        GENERATE_COMPONENTS[Generate Components<br/>Create JSX templates<br/>Apply business rules]
+        APPLY_STYLING[Apply Styling<br/>Add CSS classes<br/>Theme integration]
+    end
+
+    %% ViewForge Specifications
+    subgraph "ViewForge Specs"
+        LIST_TEMPLATE[List View Template<br/>Table/Grid layout<br/>Sortable columns]
+        DETAIL_TEMPLATE[Detail View Template<br/>Form layout<br/>Field groups]
+        FORM_TEMPLATE[Form Template<br/>Input components<br/>Validation]
+    end
+
+    %% Stage 3 Outputs
+    subgraph "Stage 3 Outputs"
+        VIEWFORGE_SPEC[viewforge-spec.json<br/>UI component specifications<br/>Layout definitions]
+        ACCOUNT_LIST_JSX[AccountListView.jsx<br/>Generated React component<br/>Table with Account data]
+        USER_LIST_JSX[UserListView.jsx<br/>Generated React component<br/>User management interface]
+        COMPONENT_METADATA[component-metadata.json<br/>Component registry<br/>Dependencies & props]
+    end
+
+    %% Data Flow Connections
+    ENRICHED_CONFIG --> VIEWFORGE_TRANSFORMER
+    ENTITY_MAP --> VIEWFORGE_TRANSFORMER
+    
+    VIEWFORGE_TRANSFORMER --> PARSE_CONFIG
+    PARSE_CONFIG --> EXTRACT_ENTITIES
+    EXTRACT_ENTITIES --> FIELD_MAPPER
+    
+    FIELD_MAPPER --> BUILD_LAYOUTS
+    BUILD_LAYOUTS --> LAYOUT_BUILDER
+    LAYOUT_BUILDER --> GENERATE_COMPONENTS
+    
+    GENERATE_COMPONENTS --> COMPONENT_GENERATOR
+    COMPONENT_GENERATOR --> TEMPLATE_ENGINE
+    TEMPLATE_ENGINE --> APPLY_STYLING
+
+    %% Template Selection
+    BUILD_LAYOUTS --> LIST_TEMPLATE
+    BUILD_LAYOUTS --> DETAIL_TEMPLATE  
+    BUILD_LAYOUTS --> FORM_TEMPLATE
+    
+    LIST_TEMPLATE --> COMPONENT_GENERATOR
+    DETAIL_TEMPLATE --> COMPONENT_GENERATOR
+    FORM_TEMPLATE --> COMPONENT_GENERATOR
+
+    %% Output Generation
+    LAYOUT_BUILDER --> VIEWFORGE_SPEC
+    TEMPLATE_ENGINE --> ACCOUNT_LIST_JSX
+    TEMPLATE_ENGINE --> USER_LIST_JSX
+    COMPONENT_GENERATOR --> COMPONENT_METADATA
+
+    %% Stage 4 Consumption (dotted lines)
+    ACCOUNT_LIST_JSX -.-> STAGE4_INPUT[Stage 4: AST Generation<br/>Parses JSX components<br/>Creates Abstract Syntax Trees]
+    USER_LIST_JSX -.-> STAGE4_INPUT
+    COMPONENT_METADATA -.-> STAGE4_INPUT
+
+    %% Styling
+    classDef input fill:#e1f5fe,stroke:#01579b,color:#000
+    classDef processor fill:#f3e5f5,stroke:#4a148c,color:#000
+    classDef template fill:#f1f8e9,stroke:#33691e,color:#000
+    classDef output fill:#e8f5e8,stroke:#1b5e20,color:#000
+    classDef consumer fill:#fff3e0,stroke:#e65100,color:#000
+
+    class ENRICHED_CONFIG,ENTITY_MAP input
+    class VIEWFORGE_TRANSFORMER,COMPONENT_GENERATOR,LAYOUT_BUILDER,FIELD_MAPPER,TEMPLATE_ENGINE,PARSE_CONFIG,EXTRACT_ENTITIES,BUILD_LAYOUTS,GENERATE_COMPONENTS,APPLY_STYLING processor
+    class LIST_TEMPLATE,DETAIL_TEMPLATE,FORM_TEMPLATE template
+    class VIEWFORGE_SPEC,ACCOUNT_LIST_JSX,USER_LIST_JSX,COMPONENT_METADATA output
+    class STAGE4_INPUT consumer
+            </div>
+        </div>
+
+        <!-- Pipeline Overview -->
+        <div id="overview" class="stage-content">
+            <div class="stage-description">
+                <h2>🔄 Complete Pipeline Flow</h2>
+                <p><strong>End-to-End Transformation:</strong> Business documents → Structured data → UI configurations → React components → Production deployment</p>
+            </div>
+            <div class="mermaid">
+graph LR
+    %% Input Documents
+    BUSM[BUSM.mmd<br/>Business Model]
+    FEATURES[feature-spec.md<br/>Requirements]
+    RULES[business-rules.json<br/>Logic]
+    
+    %% Stage Processors
+    S1[Stage 1<br/>Requirements Capture<br/>📋 Parse & Extract]
+    S2[Stage 2<br/>Configuration<br/>⚙️ Enrich & Structure]
+    S3[Stage 3<br/>ViewForge<br/>🎨 Generate Components]
+    S4[Stage 4<br/>AST Generation<br/>🌳 Syntax Trees]
+    S5[Stage 5<br/>Validation<br/>✅ Quality Check]
+    S6[Stage 6<br/>Deployment<br/>🚀 Production Ready]
+    
+    %% Output Artifacts
+    ENTITIES[entities.json<br/>Entity List]
+    CONFIG[enriched-config.json<br/>Complete Config]
+    COMPONENTS[React Components<br/>JSX Files]
+    AST[AST Trees<br/>Syntax Validation]
+    VALIDATED[Validated Output<br/>Quality Reports]
+    DEPLOYED[Production Deployment<br/>Live Application]
+    
+    %% Flow Connections
+    BUSM --> S1
+    FEATURES --> S1
+    RULES --> S1
+    
+    S1 --> ENTITIES
+    ENTITIES --> S2
+    
+    S2 --> CONFIG
+    CONFIG --> S3
+    
+    S3 --> COMPONENTS
+    COMPONENTS --> S4
+    
+    S4 --> AST
+    AST --> S5
+    
+    S5 --> VALIDATED
+    VALIDATED --> S6
+    
+    S6 --> DEPLOYED
+    
+    %% Styling
+    classDef input fill:#e1f5fe,stroke:#01579b,color:#000
+    classDef stage fill:#f3e5f5,stroke:#4a148c,color:#000
+    classDef output fill:#e8f5e8,stroke:#1b5e20,color:#000
+
+    class BUSM,FEATURES,RULES input
+    class S1,S2,S3,S4,S5,S6 stage
+    class ENTITIES,CONFIG,COMPONENTS,AST,VALIDATED,DEPLOYED output
+            </div>
+        </div>
+
+        <div class="flow-legend">
+            <div class="legend-item input">
+                <div class="color-box"></div>
+                <span><strong>Input Data:</strong> Files and documents that feed the pipeline</span>
+            </div>
+            <div class="legend-item processor">
+                <div class="color-box"></div>
+                <span><strong>Processors:</strong> Components that transform and process data</span>
+            </div>
+            <div class="legend-item output">
+                <div class="color-box"></div>
+                <span><strong>Outputs:</strong> Generated artifacts and files</span>
+            </div>
+            <div class="legend-item consumer">
+                <div class="color-box"></div>
+                <span><strong>Consumers:</strong> Next stage components that use the outputs</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            }
+        });
+
+        function showStage(stageId) {
+            // Hide all stage contents
+            document.querySelectorAll('.stage-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Show selected stage
+            document.getElementById(stageId).classList.add('active');
+            
+            // Activate corresponding tab
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

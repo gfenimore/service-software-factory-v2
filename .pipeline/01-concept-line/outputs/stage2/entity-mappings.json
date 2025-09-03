@@ -1,0 +1,302 @@
+{
+  "mappings": {
+    "Account": {
+      "fields": [
+        "id",
+        "accountNumber",
+        "accountName",
+        "dbaName",
+        "accountType",
+        "status",
+        "email",
+        "phone",
+        "website",
+        "address",
+        "city",
+        "state",
+        "zipCode",
+        "country",
+        "taxId",
+        "dunsNumber",
+        "creditLimit",
+        "paymentTerms",
+        "industry",
+        "numberOfEmployees",
+        "annualRevenue",
+        "territoryId",
+        "ownerId",
+        "createdBy",
+        "createdAt",
+        "updatedBy",
+        "updatedAt"
+      ],
+      "relationships": {
+        "Contact": {
+          "type": "one-to-many",
+          "key": "accountId",
+          "field": "accountId"
+        },
+        "Territory": {
+          "type": "many-to-one",
+          "key": "territoryId",
+          "field": "territoryId"
+        }
+      },
+      "navigationPaths": [
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Territory.territoryId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId",
+        "Account → Contact.accountId"
+      ],
+      "metadata": {
+        "analyzedAt": "2025-08-27T21:19:40.567Z",
+        "busmReference": true
+      }
+    },
+    "Contact": {
+      "fields": [
+        "id",
+        "firstName",
+        "lastName",
+        "title",
+        "email",
+        "phone",
+        "mobile",
+        "accountId",
+        "isPrimary",
+        "department",
+        "notes",
+        "createdAt",
+        "updatedAt"
+      ],
+      "relationships": {
+        "Account": {
+          "type": "many-to-one",
+          "key": "accountId",
+          "field": "accountId"
+        }
+      },
+      "navigationPaths": [
+        "Contact → Account.accountId"
+      ],
+      "metadata": {
+        "analyzedAt": "2025-08-27T21:19:40.567Z",
+        "busmReference": true
+      }
+    },
+    "User": {
+      "fields": [
+        "id",
+        "username",
+        "email",
+        "firstName",
+        "lastName",
+        "role",
+        "isActive"
+      ],
+      "relationships": {},
+      "navigationPaths": [],
+      "metadata": {
+        "analyzedAt": "2025-08-27T21:19:40.567Z",
+        "busmReference": true
+      }
+    },
+    "Territory": {
+      "fields": [
+        "id",
+        "name",
+        "code",
+        "managerId"
+      ],
+      "relationships": {
+        "Account": {
+          "type": "one-to-many",
+          "key": "territoryId",
+          "field": "territoryId"
+        }
+      },
+      "navigationPaths": [
+        "Territory → Account.territoryId",
+        "Territory → Account.territoryId",
+        "Territory → Account.territoryId",
+        "Territory → Account.territoryId"
+      ],
+      "metadata": {
+        "analyzedAt": "2025-08-27T21:19:40.567Z",
+        "busmReference": true
+      }
+    },
+    "Service": {
+      "fields": [
+        "id",
+        "serviceName",
+        "serviceCode",
+        "description",
+        "category",
+        "price",
+        "unit",
+        "isActive"
+      ],
+      "relationships": {},
+      "navigationPaths": [],
+      "metadata": {
+        "analyzedAt": "2025-08-27T21:19:40.567Z",
+        "busmReference": true
+      }
+    }
+  },
+  "relationshipGraph": {
+    "nodes": [
+      {
+        "id": "Account",
+        "type": "entity",
+        "fields": [
+          "id",
+          "accountNumber",
+          "accountName",
+          "dbaName",
+          "accountType",
+          "status",
+          "email",
+          "phone",
+          "website",
+          "address",
+          "city",
+          "state",
+          "zipCode",
+          "country",
+          "taxId",
+          "dunsNumber",
+          "creditLimit",
+          "paymentTerms",
+          "industry",
+          "numberOfEmployees",
+          "annualRevenue",
+          "territoryId",
+          "ownerId",
+          "createdBy",
+          "createdAt",
+          "updatedBy",
+          "updatedAt"
+        ]
+      },
+      {
+        "id": "Contact",
+        "type": "entity",
+        "fields": [
+          "id",
+          "firstName",
+          "lastName",
+          "title",
+          "email",
+          "phone",
+          "mobile",
+          "accountId",
+          "isPrimary",
+          "department",
+          "notes",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      {
+        "id": "User",
+        "type": "entity",
+        "fields": [
+          "id",
+          "username",
+          "email",
+          "firstName",
+          "lastName",
+          "role",
+          "isActive"
+        ]
+      },
+      {
+        "id": "Territory",
+        "type": "entity",
+        "fields": [
+          "id",
+          "name",
+          "code",
+          "managerId"
+        ]
+      },
+      {
+        "id": "Service",
+        "type": "entity",
+        "fields": [
+          "id",
+          "serviceName",
+          "serviceCode",
+          "description",
+          "category",
+          "price",
+          "unit",
+          "isActive"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "Account",
+        "target": "Contact",
+        "type": "one-to-many",
+        "key": "accountId"
+      },
+      {
+        "source": "Account",
+        "target": "Territory",
+        "type": "many-to-one",
+        "key": "territoryId"
+      },
+      {
+        "source": "Contact",
+        "target": "Account",
+        "type": "many-to-one",
+        "key": "accountId"
+      },
+      {
+        "source": "Territory",
+        "target": "Account",
+        "type": "one-to-many",
+        "key": "territoryId"
+      }
+    ]
+  },
+  "navigationPaths": [
+    "Account → Contact.accountId",
+    "Account → Territory.territoryId",
+    "Contact → Account.accountId",
+    "Territory → Account.territoryId"
+  ],
+  "metadata": {
+    "totalMappings": 5,
+    "totalRelationships": 4,
+    "generatedAt": "2025-08-27T21:19:40.570Z"
+  }
+}

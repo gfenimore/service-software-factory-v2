@@ -1,0 +1,55 @@
+{
+  "layout": "three-column-master",
+  "columns": [
+    {
+      "id": "accounts",
+      "title": "Accounts",
+      "component": "AccountListView",
+      "entity": "Account",
+      "view": "list"
+    },
+    {
+      "id": "locations",
+      "title": "Service Locations",
+      "component": "ServiceLocationListView",
+      "entity": "ServiceLocation",
+      "view": "list",
+      "dependsOn": "accounts"
+    },
+    {
+      "id": "workorders",
+      "title": "Work Orders",
+      "component": "WorkOrderListView",
+      "entity": "WorkOrder",
+      "view": "list",
+      "dependsOn": "locations"
+    }
+  ],
+  "configuration": {
+    "entities": [
+      "Account",
+      "ServiceLocation",
+      "WorkOrder",
+      "Contact",
+      "CommunicationLog",
+      "ServiceAgreement",
+      "FinancialData"
+    ],
+    "navigation": {
+      "accounts": {
+        "onSelect": "loads locations for selected account"
+      },
+      "locations": {
+        "onSelect": "loads work orders for selected location"
+      }
+    },
+    "relationships": [
+      "Account → ServiceLocation (one-to-many)",
+      "ServiceLocation → WorkOrder (one-to-many)",
+      "Account → Contact (one-to-many)",
+      "Contact → CommunicationLog (one-to-many)",
+      "Account → ServiceAgreement (one-to-many)",
+      "Account → FinancialData (one-to-many)"
+    ]
+  }
+}

@@ -21,13 +21,21 @@ class BUSMReader {
   }
 
   /**
-   * Load BUSM from JSON file
+   * Load BUSM from Mermaid erDiagram file or JSON file
    */
   loadBUSM(busmPath) {
     try {
       const absolutePath = path.resolve(busmPath);
       const busmData = fs.readFileSync(absolutePath, 'utf8');
-      this.busm = JSON.parse(busmData);
+      
+      // Detect file type and parse accordingly
+      if (busmPath.endsWith('.mmd') || busmData.trim().startsWith('erDiagram')) {
+        console.log('📊 Parsing Mermaid erDiagram format...');
+        this.busm = this.parseErDiagram(busmData);
+      } else {
+        console.log('📄 Parsing JSON format...');
+        this.busm = JSON.parse(busmData);
+      }
       
       // Cache entities for quick access
       this.entities = this.busm.entities || {};
@@ -40,6 +48,131 @@ class BUSMReader {
       console.error(`❌ Failed to load BUSM: ${error.message}`);
       throw error;
     }
+  }
+
+  // ============================================
+  // erDiagram Parser
+  // ============================================
+
+  /**
+   * Parse Mermaid erDiagram format into BUSM JSON structure
+   */
+  parseErDiagram(content) {
+    const lines = content.split('\n').map(line => line.trim()).filter(line => line);
+    const entities = {};
+    const relationships = {};
+    
+    let currentEntity = null;
+    let parsingEntity = false;
+    
+    for (const line of lines) {
+      // Skip erDiagram declaration
+      if (line === 'erDiagram') {
+        continue;
+      }
+      
+      // Entity definition start
+      if (line.includes('{') && !line.includes('||') && !line.includes('}|')) {
+        const entityMatch = line.match(/^([A-Z_]+)\s*\{/);
+        if (entityMatch) {
+          currentEntity = entityMatch[1];
+          parsingEntity = true;
+          entities[currentEntity] = {
+            tableName: currentEntity.toLowerCase(),
+            primaryKey: 'id',
+            description: `${currentEntity} entity`,
+            fields: {}
+          };
+          continue;
+        }
+      }
+      
+      // Entity definition end
+      if (line === '}') {
+        parsingEntity = false;
+        currentEntity = null;
+        continue;
+      }
+      
+      // Parse entity fields
+      if (parsingEntity && currentEntity) {
+        const fieldMatch = line.match(/^(\w+)\s+(\w+)(?:\s+(PK|FK))?(?:\s+"([^"]+)")?/);
+        if (fieldMatch) {
+          const [, type, fieldName, constraint, description] = fieldMatch;
+          
+          const field = {
+            type: this.mapMermaidTypeToStandard(type),
+            required: constraint === 'PK' || false,
+            primaryKey: constraint === 'PK',
+            foreignKey: constraint === 'FK' ? true : undefined,
+            description: description || `${currentEntity} ${fieldName}`
+          };
+          
+          // Clean up undefined values
+          if (field.foreignKey === undefined) delete field.foreignKey;
+          
+          entities[currentEntity].fields[fieldName] = field;
+          
+          // Set primary key
+          if (constraint === 'PK') {
+            entities[currentEntity].primaryKey = fieldName;
+          }
+        }
+      }
+      
+      // Parse relationships
+      if (line.includes('||--') || line.includes('}|--')) {
+        const relMatch = line.match(/^([A-Z_]+)\s+(\|\|--[o{}]+\{?)\s+([A-Z_]+)(?:\s*:\s*"([^"]+)")?/);
+        if (relMatch) {
+          const [, fromEntity, relSymbol, toEntity, relName] = relMatch;
+          
+          // Determine relationship type
+          let relType = 'one-to-many';
+          if (relSymbol.includes('}|--||')) relType = 'many-to-one';
+          if (relSymbol.includes('||--||')) relType = 'one-to-one';
+          if (relSymbol.includes('}|--o{')) relType = 'many-to-many';
+          
+          const relationshipKey = `${fromEntity}.${relName || toEntity.toLowerCase()}`;
+          relationships[relationshipKey] = {
+            name: relName || toEntity.toLowerCase(),
+            type: relType,
+            from: fromEntity,
+            to: toEntity,
+            foreignKey: `${toEntity}ID` // Convention-based FK name
+          };
+        }
+      }
+    }
+    
+    return {
+      version: '1.0.0',
+      metadata: {
+        created: new Date().toISOString(),
+        description: 'Parsed from Mermaid erDiagram',
+        source: 'erDiagram-parser'
+      },
+      entities,
+      relationships,
+      enums: {} // erDiagram doesn't define enums directly
+    };
+  }
+  
+  /**
+   * Map Mermaid field types to standard types
+   */
+  mapMermaidTypeToStandard(mermaidType) {
+    const typeMap = {
+      'int': 'integer',
+      'string': 'string',
+      'bool': 'boolean',
+      'decimal': 'decimal',
+      'datetime': 'datetime',
+      'date': 'date',
+      'jsonb': 'json',
+      'timestamp': 'datetime'
+    };
+    
+    return typeMap[mermaidType.toLowerCase()] || 'string';
   }
 
   // ============================================
@@ -61,6 +194,13 @@ class BUSMReader {
    */
   getAllEntities() {
     return Object.values(this.entities);
+  }
+
+  /**
+   * Get all entity names
+   */
+  getAllEntityNames() {
+    return Object.keys(this.entities);
   }
 
   /**
@@ -546,6 +686,614 @@ class BUSMFactory {
         }
       }
     };
+  }
+}
+
+// ============================================
+// CLI Functionality
+// ============================================
+
+/**
+ * Generate Stage 1 outputs from BUSM with proper processor/agent separation
+ * 
+ * ARCHITECTURE: This function now properly separates concerns:
+ * - Entity filtering decisions (Agent responsibility) 
+ * - Data transformation (Processor responsibility)
+ */
+function generateStage1Outputs(busmPath, outputDir, featureSpec = null) {
+  const fs = require('fs');
+  const path = require('path');
+
+  console.log('🚀 Generating Stage 1 outputs from BUSM...');
+  
+  // Ensure output directory exists
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+    console.log(`📁 Created output directory: ${outputDir}`);
+  }
+
+  // STAGE 1: Load raw BUSM data (Processor)
+  const reader = new BUSMReader(busmPath);
+  const allAvailableEntities = reader.getAllEntityNames();
+  console.log(`📊 Loaded ${allAvailableEntities.length} entities from BUSM`);
+
+  // STAGE 2: Filter entities for business context (Agent Decision)
+  let entityNames;
+  if (featureSpec) {
+    console.log('🧠 Applying Entity Filter Agent logic...');
+    entityNames = applyEntityFilterAgent(allAvailableEntities, featureSpec, reader);
+    console.log(`🎯 Selected ${entityNames.length}/${allAvailableEntities.length} entities for feature: ${featureSpec.featureName || 'Unknown'}`);
+  } else {
+    console.log('⚠️  WARNING: No feature specification provided - using ALL entities (architectural violation)');
+    console.log('   This should only happen for testing/debugging purposes');
+    entityNames = allAvailableEntities;
+  }
+
+  // STAGE 3: Transform selected entities (Processor)
+  console.log('📋 Generating entities.json...');
+  const entities = [];
+  
+  for (const entityName of entityNames) {
+    const entity = reader.getEntity(entityName);
+    if (entity) {
+      const entityOutput = {
+        name: entityName,
+        id: entityName.toLowerCase(),
+        fields: reader.getFields(entityName).map(field => field.name || field.field),
+        properties: entity.fields || {},
+        relationships: reader.getRelationships(entityName) || {},
+        tableName: entity.tableName,
+        primaryKey: entity.primaryKey,
+        description: entity.description
+      };
+      entities.push(entityOutput);
+    }
+  }
+  
+  fs.writeFileSync(
+    path.join(outputDir, 'entities.json'), 
+    JSON.stringify(entities, null, 2)
+  );
+  console.log(`✓ Generated entities.json with ${entities.length} entities`);
+
+  // Generate business-rules.json
+  console.log('📜 Generating business-rules.json...');
+  const businessRules = [];
+  
+  // Extract validation rules from entity fields as business rules
+  for (const entityName of entityNames) {
+    const entity = reader.getEntity(entityName);
+    if (entity && entity.fields) {
+      for (const [fieldName, fieldDef] of Object.entries(entity.fields)) {
+        if (fieldDef.validation || fieldDef.required || fieldDef.constraints) {
+          const rule = {
+            id: `BR-${entityName}-${fieldName}`,
+            name: `${entityName} ${fieldName} Validation`,
+            entity: entityName,
+            conditions: [],
+            actions: [],
+            priority: fieldDef.required ? 'high' : 'medium'
+          };
+
+          // Add required field condition
+          if (fieldDef.required) {
+            rule.conditions.push({
+              field: fieldName,
+              operator: 'isRequired',
+              value: null
+            });
+            rule.actions.push({
+              type: 'validate',
+              message: `${entityName} ${fieldName} is required`
+            });
+          }
+
+          // Add constraint conditions
+          if (fieldDef.constraints) {
+            const constraints = fieldDef.constraints;
+            if (constraints.minLength) {
+              rule.conditions.push({
+                field: fieldName,
+                operator: 'minLength',
+                value: constraints.minLength
+              });
+            }
+            if (constraints.maxLength) {
+              rule.conditions.push({
+                field: fieldName,
+                operator: 'maxLength',
+                value: constraints.maxLength
+              });
+            }
+            if (constraints.pattern) {
+              rule.conditions.push({
+                field: fieldName,
+                operator: 'matches',
+                value: constraints.pattern
+              });
+            }
+          }
+
+          // Add validation rules
+          if (fieldDef.validation) {
+            for (const validation of fieldDef.validation) {
+              if (validation.pattern) {
+                rule.conditions.push({
+                  field: fieldName,
+                  operator: 'matches',
+                  value: validation.pattern
+                });
+              }
+            }
+          }
+
+          if (rule.conditions.length > 0) {
+            businessRules.push(rule);
+          }
+        }
+      }
+    }
+  }
+
+  fs.writeFileSync(
+    path.join(outputDir, 'business-rules.json'),
+    JSON.stringify(businessRules, null, 2)
+  );
+  console.log(`✓ Generated business-rules.json with ${businessRules.length} rules`);
+
+  // Generate busm-subset.mmd
+  console.log('🗺️ Generating busm-subset.mmd...');
+  let mermaidContent = 'erDiagram\n';
+  
+  for (const entityName of entityNames) {
+    const entity = reader.getEntity(entityName);
+    if (entity && entity.fields) {
+      mermaidContent += `    ${entityName} {\n`;
+      
+      for (const [fieldName, fieldDef] of Object.entries(entity.fields)) {
+        const type = fieldDef.type || 'string';
+        const pk = fieldDef.primaryKey ? 'PK' : '';
+        const fk = fieldDef.foreignKey ? 'FK' : '';
+        const desc = fieldDef.description || `${entityName} ${fieldName}`;
+        
+        mermaidContent += `        ${type} ${fieldName} ${pk}${fk} "${desc}"\n`;
+      }
+      
+      mermaidContent += '    }\n    \n';
+    }
+  }
+
+  // Add relationships
+  for (const entityName of entityNames) {
+    const relationships = reader.getRelationships(entityName);
+    for (const [relName, relDef] of Object.entries(relationships)) {
+      if (relDef.type === 'one-to-many') {
+        mermaidContent += `    ${entityName} ||--o{ ${relDef.to} : "${relName}"\n`;
+      } else if (relDef.type === 'many-to-one') {
+        mermaidContent += `    ${relDef.to} ||--o{ ${entityName} : "${relName}"\n`;
+      }
+    }
+  }
+
+  fs.writeFileSync(
+    path.join(outputDir, 'busm-subset.mmd'),
+    mermaidContent
+  );
+  console.log(`✓ Generated busm-subset.mmd with entity relationships`);
+
+  console.log('✅ Stage 1 output generation complete!');
+  return {
+    entities: entities.length,
+    rules: businessRules.length,
+    outputDir
+  };
+}
+
+/**
+ * List all entities in BUSM
+ */
+function listEntities(busmPath) {
+  const reader = new BUSMReader(busmPath);
+  const entityNames = reader.getAllEntityNames();
+  
+  console.log(`📋 BUSM Entities (${entityNames.length} total):`);
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  
+  for (const entityName of entityNames) {
+    const entity = reader.getEntity(entityName);
+    const fieldCount = entity.fields ? Object.keys(entity.fields).length : 0;
+    const relationships = reader.getRelationships(entityName);
+    const relCount = Object.keys(relationships).length;
+    
+    console.log(`${entityName.padEnd(20)} | ${fieldCount} fields | ${relCount} relationships`);
+    if (entity.description) {
+      console.log(`${''.padEnd(20)} | ${entity.description}`);
+    }
+  }
+  
+  return entityNames;
+}
+
+/**
+ * Validate BUSM model integrity
+ */
+function validateBUSM(busmPath) {
+  console.log('🔍 Validating BUSM model integrity...');
+  
+  try {
+    const reader = new BUSMReader(busmPath);
+    const issues = [];
+    const warnings = [];
+    
+    // Check entities
+    const entityNames = reader.getAllEntityNames();
+    console.log(`✓ Found ${entityNames.length} entities`);
+    
+    for (const entityName of entityNames) {
+      const entity = reader.getEntity(entityName);
+      
+      // Check for primary key
+      if (!entity.primaryKey) {
+        issues.push(`Entity '${entityName}' missing primary key`);
+      }
+      
+      // Check fields
+      if (!entity.fields || Object.keys(entity.fields).length === 0) {
+        issues.push(`Entity '${entityName}' has no fields defined`);
+      } else {
+        // Check for required fields without constraints
+        for (const [fieldName, fieldDef] of Object.entries(entity.fields)) {
+          if (fieldDef.required && !fieldDef.constraints && fieldDef.type === 'string') {
+            warnings.push(`Entity '${entityName}' field '${fieldName}' is required but has no constraints`);
+          }
+        }
+      }
+      
+      // Check relationships
+      const relationships = reader.getRelationships(entityName);
+      for (const [relName, relDef] of Object.entries(relationships)) {
+        if (relDef.to && !entityNames.includes(relDef.to)) {
+          issues.push(`Entity '${entityName}' relationship '${relName}' references non-existent entity '${relDef.to}'`);
+        }
+      }
+    }
+    
+    // Report results
+    if (issues.length === 0) {
+      console.log('✅ BUSM validation passed');
+    } else {
+      console.log(`❌ BUSM validation failed with ${issues.length} issues:`);
+      for (const issue of issues) {
+        console.log(`  - ${issue}`);
+      }
+    }
+    
+    if (warnings.length > 0) {
+      console.log(`⚠️ Found ${warnings.length} warnings:`);
+      for (const warning of warnings) {
+        console.log(`  - ${warning}`);
+      }
+    }
+    
+    return {
+      valid: issues.length === 0,
+      issues,
+      warnings,
+      entityCount: entityNames.length
+    };
+    
+  } catch (error) {
+    console.error('💥 BUSM validation failed:', error.message);
+    return {
+      valid: false,
+      issues: [error.message],
+      warnings: [],
+      entityCount: 0
+    };
+  }
+}
+
+/**
+ * Show BUSM summary
+ */
+function showSummary(busmPath) {
+  console.log('📊 BUSM Model Summary');
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  
+  try {
+    const reader = new BUSMReader(busmPath);
+    const summary = reader.getSummary();
+    
+    console.log(`Version: ${summary.version}`);
+    console.log(`Entities: ${summary.entityCount}`);
+    console.log(`Relationships: ${summary.relationshipCount}`);
+    console.log(`Enums: ${summary.enumCount}`);
+    
+    if (summary.entities.length > 0) {
+      console.log('\nEntities:');
+      for (const entityName of summary.entities) {
+        const entity = reader.getEntity(entityName);
+        const fieldCount = entity.fields ? Object.keys(entity.fields).length : 0;
+        console.log(`  - ${entityName} (${fieldCount} fields)`);
+      }
+    }
+    
+    if (summary.enums.length > 0) {
+      console.log('\nEnums:');
+      for (const enumName of summary.enums) {
+        const enumDef = reader.getEnum(enumName);
+        const valueCount = enumDef.values ? enumDef.values.length : 0;
+        console.log(`  - ${enumName} (${valueCount} values)`);
+      }
+    }
+    
+    return summary;
+    
+  } catch (error) {
+    console.error('💥 Failed to generate summary:', error.message);
+    return null;
+  }
+}
+
+// CLI Handler
+if (require.main === module) {
+  const args = process.argv.slice(2);
+  const defaultBusmPath = path.join(__dirname, '../../../00-requirements/models/BUSM.mmd');
+  
+  if (args.length === 0 || args.includes('--help') || args.includes('-h')) {
+    console.log(`
+BUSM Reader - Business Unified Schema Model Interface
+
+Usage:
+  node busm-reader.js <command> [options]
+
+Commands:
+  generate         Generate Stage 1 outputs from BUSM
+  list-entities    List all entities in BUSM  
+  validate         Validate BUSM model integrity
+  summary          Show BUSM model summary
+
+Options:
+  --busm <path>    Path to BUSM file (.mmd or .json) (default: ../../00-requirements/models/BUSM.mmd)
+  --output <dir>   Output directory for generated files (default: ./stage1-outputs)
+  --help, -h       Show this help message
+
+Examples:
+  node busm-reader.js generate --output ./stage1-outputs
+  node busm-reader.js generate --busm /path/to/custom-BUSM.mmd --output ./outputs
+  node busm-reader.js list-entities
+  node busm-reader.js validate --busm ./custom-busm.mmd
+  node busm-reader.js summary
+`);
+    process.exit(0);
+  }
+
+  const command = args[0];
+  let busmPath = defaultBusmPath;
+  let outputDir = './stage1-outputs';
+
+  // Parse options
+  const busmIndex = args.indexOf('--busm');
+  if (busmIndex !== -1 && args[busmIndex + 1]) {
+    busmPath = args[busmIndex + 1];
+  }
+
+  const outputIndex = args.indexOf('--output');
+  if (outputIndex !== -1 && args[outputIndex + 1]) {
+    outputDir = args[outputIndex + 1];
+  }
+
+  // Execute command
+  try {
+    switch (command) {
+      case 'generate':
+        generateStage1Outputs(busmPath, outputDir);
+        break;
+        
+      case 'list-entities':
+        listEntities(busmPath);
+        break;
+        
+      case 'validate':
+        const validation = validateBUSM(busmPath);
+        process.exit(validation.valid ? 0 : 1);
+        break;
+        
+      case 'summary':
+        showSummary(busmPath);
+        break;
+        
+      default:
+        console.error(`❌ Unknown command: ${command}`);
+        console.error('Run with --help to see available commands');
+        process.exit(1);
+    }
+  } catch (error) {
+    console.error('💥 Command failed:', error.message);
+    process.exit(1);
+  }
+}
+
+// ============================================
+// ENTITY FILTER AGENT - Non-Deterministic Business Decisions
+// ============================================
+
+/**
+ * Entity Filter Agent - Makes business decisions about which entities to include
+ * 
+ * This implements the non-deterministic business logic that processors cannot handle.
+ * It analyzes feature requirements and makes judgment calls about entity relevance.
+ */
+function applyEntityFilterAgent(availableEntities, featureSpec, reader) {
+  console.log('🤔 Entity Filter Agent analyzing feature requirements...');
+  
+  const startTime = Date.now();
+  const filterResult = {
+    primaryEntities: [],
+    secondaryEntities: [],
+    excludedEntities: [],
+    businessReason: ''
+  };
+
+  // BUSINESS DECISION LOGIC - Non-deterministic analysis
+  
+  // 1. Analyze feature context
+  const featureContext = analyzeFeatureContext(featureSpec);
+  
+  // 2. Apply business rules for entity selection
+  for (const entityName of availableEntities) {
+    const entityAnalysis = analyzeEntityRelevance(entityName, featureContext, reader);
+    
+    if (entityAnalysis.importance === 'CRITICAL') {
+      filterResult.primaryEntities.push(entityName);
+    } else if (entityAnalysis.importance === 'HIGH' || entityAnalysis.importance === 'MEDIUM') {
+      filterResult.secondaryEntities.push(entityName);
+    } else {
+      filterResult.excludedEntities.push({
+        name: entityName,
+        reason: entityAnalysis.businessReason
+      });
+    }
+  }
+  
+  // 3. Validate business logic consistency
+  validateEntityFilterDecision(filterResult, featureContext);
+  
+  const duration = Date.now() - startTime;
+  console.log(`🎯 Entity Filter Agent completed in ${duration}ms`);
+  console.log(`   Primary: ${filterResult.primaryEntities.length}, Secondary: ${filterResult.secondaryEntities.length}, Excluded: ${filterResult.excludedEntities.length}`);
+  
+  // Return combined selected entities
+  return [...filterResult.primaryEntities, ...filterResult.secondaryEntities];
+}
+
+/**
+ * Analyze feature context to understand business requirements
+ */
+function analyzeFeatureContext(featureSpec) {
+  // Default feature analysis if none provided
+  if (!featureSpec) {
+    return {
+      domain: 'GENERAL',
+      userRole: 'USER',
+      primaryWorkflow: 'CRUD',
+      complexity: 'MEDIUM'
+    };
+  }
+  
+  // Extract context clues from feature specification
+  const context = {
+    domain: 'GENERAL',
+    userRole: featureSpec.userRole || 'USER',
+    primaryWorkflow: featureSpec.primaryWorkflow || 'VIEW',
+    businessRules: featureSpec.businessRules || [],
+    useCases: featureSpec.useCases || [],
+    complexity: 'MEDIUM'
+  };
+  
+  // Infer domain from feature name patterns
+  if (featureSpec.featureName) {
+    const name = featureSpec.featureName.toLowerCase();
+    if (name.includes('account')) context.domain = 'ACCOUNT_MANAGEMENT';
+    else if (name.includes('contact')) context.domain = 'CONTACT_MANAGEMENT';  
+    else if (name.includes('service')) context.domain = 'SERVICE_MANAGEMENT';
+    else if (name.includes('invoice') || name.includes('billing')) context.domain = 'FINANCIAL';
+    else if (name.includes('report')) context.domain = 'REPORTING';
+  }
+  
+  return context;
+}
+
+/**
+ * Analyze individual entity relevance for the feature context
+ */
+function analyzeEntityRelevance(entityName, featureContext, reader) {
+  const entity = reader.getEntity(entityName);
+  
+  // Business decision matrix based on context
+  const analysis = {
+    importance: 'LOW',
+    businessReason: 'Default exclusion - not relevant to feature context'
+  };
+  
+  // DOMAIN-BASED DECISIONS (Business judgment calls)
+  
+  switch (featureContext.domain) {
+    case 'ACCOUNT_MANAGEMENT':
+      if (entityName === 'ACCOUNT') {
+        analysis.importance = 'CRITICAL';
+        analysis.businessReason = 'Core entity for account management features';
+      } else if (entityName === 'CONTACT') {
+        analysis.importance = 'HIGH'; 
+        analysis.businessReason = 'Account managers frequently need contact information';
+      } else if (entityName === 'SERVICE_LOCATION') {
+        analysis.importance = 'MEDIUM';
+        analysis.businessReason = 'Accounts may have multiple service locations';
+      }
+      break;
+      
+    case 'CONTACT_MANAGEMENT':
+      if (entityName === 'CONTACT') {
+        analysis.importance = 'CRITICAL';
+        analysis.businessReason = 'Core entity for contact management';
+      } else if (entityName === 'ACCOUNT') {
+        analysis.importance = 'HIGH';
+        analysis.businessReason = 'Contacts belong to accounts - important relationship';
+      }
+      break;
+      
+    case 'FINANCIAL': 
+      if (entityName === 'INVOICE') {
+        analysis.importance = 'CRITICAL';
+        analysis.businessReason = 'Primary financial data entity';
+      } else if (entityName === 'ACCOUNT') {
+        analysis.importance = 'HIGH';
+        analysis.businessReason = 'Financial reports grouped by account';
+      }
+      break;
+      
+    case 'GENERAL':
+      // For general features, include core business entities
+      if (['ACCOUNT', 'CONTACT', 'SERVICE_LOCATION'].includes(entityName)) {
+        analysis.importance = 'MEDIUM';
+        analysis.businessReason = 'Core business entity - generally useful';
+      }
+      break;
+  }
+  
+  // WORKFLOW-BASED DECISIONS
+  
+  if (featureContext.primaryWorkflow === 'REPORTING') {
+    // Reporting workflows need aggregation entities
+    if (['ACCOUNT', 'INVOICE', 'SERVICE_LOCATION'].includes(entityName)) {
+      analysis.importance = Math.max(analysis.importance, 'HIGH');
+      analysis.businessReason += ' - Important for reporting aggregation';
+    }
+  }
+  
+  return analysis;
+}
+
+/**
+ * Validate that entity filter decisions make business sense
+ */
+function validateEntityFilterDecision(filterResult, featureContext) {
+  const issues = [];
+  
+  // Must have at least one primary entity
+  if (filterResult.primaryEntities.length === 0) {
+    issues.push('No primary entities selected - feature will have no core functionality');
+  }
+  
+  // Shouldn't select too many entities for simple features  
+  const totalSelected = filterResult.primaryEntities.length + filterResult.secondaryEntities.length;
+  if (totalSelected > 10 && featureContext.complexity !== 'COMPLEX') {
+    issues.push(`Selected ${totalSelected} entities for ${featureContext.complexity} feature - may be too many`);
+  }
+  
+  if (issues.length > 0) {
+    console.log('⚠️  Entity Filter Agent validation warnings:');
+    issues.forEach(issue => console.log(`   - ${issue}`));
   }
 }
 

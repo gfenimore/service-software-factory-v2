@@ -1,0 +1,951 @@
+[
+  {
+    "name": "Account",
+    "id": "account",
+    "description": "Main customer accounts displayed in Column 1",
+    "type": "primary",
+    "fields": [
+      "id",
+      "accountNumber", 
+      "accountName",
+      "dbaName",
+      "accountType",
+      "status",
+      "email",
+      "phone",
+      "website",
+      "address",
+      "city",
+      "state",
+      "zipCode",
+      "country",
+      "taxId",
+      "dunsNumber",
+      "creditLimit",
+      "paymentTerms",
+      "industry",
+      "numberOfEmployees",
+      "annualRevenue",
+      "territoryId",
+      "ownerId",
+      "createdBy",
+      "createdAt",
+      "updatedBy",
+      "updatedAt"
+    ],
+    "properties": {
+      "id": {
+        "type": "uuid",
+        "required": true,
+        "primaryKey": true,
+        "description": "Unique account identifier"
+      },
+      "accountNumber": {
+        "type": "string",
+        "required": true,
+        "unique": true,
+        "constraints": {
+          "pattern": "^ACC-[0-9]{6}$"
+        },
+        "description": "System-generated account number"
+      },
+      "accountName": {
+        "type": "string",
+        "required": true,
+        "essential": true,
+        "phase": 1,
+        "constraints": {
+          "minLength": 3,
+          "maxLength": 100
+        },
+        "description": "Legal name of the account"
+      },
+      "dbaName": {
+        "type": "string",
+        "required": false,
+        "phase": 2,
+        "constraints": {
+          "maxLength": 100
+        },
+        "description": "Doing Business As name"
+      },
+      "accountType": {
+        "type": "enum",
+        "enum": "AccountType",
+        "required": true,
+        "essential": true,
+        "phase": 1,
+        "description": "Type of account"
+      },
+      "status": {
+        "type": "enum",
+        "enum": "AccountStatus",
+        "required": true,
+        "essential": true,
+        "phase": 1,
+        "default": "Pending",
+        "description": "Current account status"
+      },
+      "email": {
+        "type": "email",
+        "required": false,
+        "essential": true,
+        "phase": 1,
+        "validation": [
+          {
+            "pattern": "^[\\w\\.]+@[\\w\\.]+\\.[a-z]{2,}$",
+            "message": "Invalid email format"
+          }
+        ],
+        "description": "Primary email address"
+      },
+      "phone": {
+        "type": "phone",
+        "required": false,
+        "essential": true,
+        "phase": 1,
+        "validation": [
+          {
+            "pattern": "^\\+?[1-9]\\d{1,14}$",
+            "message": "Invalid phone format"
+          }
+        ],
+        "description": "Primary phone number"
+      },
+      "website": {
+        "type": "url",
+        "required": false,
+        "phase": 2,
+        "description": "Company website"
+      },
+      "address": {
+        "type": "string",
+        "required": false,
+        "essential": true,
+        "phase": 1,
+        "constraints": {
+          "maxLength": 500
+        },
+        "description": "Primary address"
+      },
+      "city": {
+        "type": "string",
+        "required": false,
+        "phase": 1,
+        "constraints": {
+          "maxLength": 100
+        }
+      },
+      "state": {
+        "type": "string",
+        "required": false,
+        "phase": 1,
+        "constraints": {
+          "maxLength": 50
+        }
+      },
+      "zipCode": {
+        "type": "string",
+        "required": false,
+        "phase": 1,
+        "constraints": {
+          "pattern": "^\\d{5}(-\\d{4})?$"
+        }
+      },
+      "country": {
+        "type": "string",
+        "required": false,
+        "phase": 2,
+        "default": "USA"
+      },
+      "taxId": {
+        "type": "string",
+        "required": false,
+        "phase": 2,
+        "complexity": "advanced",
+        "constraints": {
+          "pattern": "^\\d{2}-\\d{7}$"
+        },
+        "description": "Federal tax ID"
+      },
+      "dunsNumber": {
+        "type": "string",
+        "required": false,
+        "phase": 3,
+        "complexity": "advanced",
+        "constraints": {
+          "length": 9
+        },
+        "description": "Dun & Bradstreet number"
+      },
+      "creditLimit": {
+        "type": "decimal",
+        "required": false,
+        "phase": 2,
+        "complexity": "advanced",
+        "constraints": {
+          "min": 0,
+          "max": 1000000
+        },
+        "description": "Credit limit in dollars"
+      },
+      "paymentTerms": {
+        "type": "enum",
+        "enum": "PaymentTerms",
+        "required": false,
+        "phase": 2,
+        "default": "Net30",
+        "description": "Payment terms"
+      },
+      "industry": {
+        "type": "enum",
+        "enum": "Industry",
+        "required": false,
+        "phase": 2
+      },
+      "numberOfEmployees": {
+        "type": "integer",
+        "required": false,
+        "phase": 3,
+        "constraints": {
+          "min": 0
+        }
+      },
+      "annualRevenue": {
+        "type": "decimal",
+        "required": false,
+        "phase": 3,
+        "complexity": "advanced"
+      },
+      "territoryId": {
+        "type": "uuid",
+        "required": false,
+        "phase": 2,
+        "foreignKey": "Territory.id"
+      },
+      "ownerId": {
+        "type": "uuid",
+        "required": true,
+        "phase": 1,
+        "foreignKey": "User.id",
+        "description": "Account owner"
+      },
+      "createdBy": {
+        "type": "uuid",
+        "required": true,
+        "foreignKey": "User.id",
+        "system": true
+      },
+      "createdAt": {
+        "type": "datetime",
+        "required": true,
+        "system": true
+      },
+      "updatedBy": {
+        "type": "uuid",
+        "required": false,
+        "foreignKey": "User.id",
+        "system": true
+      },
+      "updatedAt": {
+        "type": "datetime",
+        "required": false,
+        "system": true
+      }
+    },
+    "relationships": [
+      {
+        "name": "contacts",
+        "type": "one-to-many",
+        "from": "Account",
+        "to": "Contact",
+        "foreignKey": "accountId",
+        "cascade": "delete"
+      },
+      {
+        "name": "owner",
+        "type": "many-to-one",
+        "from": "Account",
+        "to": "User",
+        "foreignKey": "ownerId"
+      },
+      {
+        "name": "territory",
+        "type": "many-to-one",
+        "from": "Account",
+        "to": "Territory",
+        "foreignKey": "territoryId"
+      }
+    ],
+    "tableName": "accounts",
+    "primaryKey": "id",
+    "description": "Customer account entity"
+  },
+  {
+    "name": "Contact",
+    "id": "contact",
+    "fields": [
+      "id",
+      "firstName",
+      "lastName",
+      "title",
+      "email",
+      "phone",
+      "mobile",
+      "accountId",
+      "isPrimary",
+      "department",
+      "notes",
+      "createdAt",
+      "updatedAt"
+    ],
+    "properties": {
+      "id": {
+        "type": "uuid",
+        "required": true,
+        "primaryKey": true
+      },
+      "firstName": {
+        "type": "string",
+        "required": true,
+        "phase": 1,
+        "constraints": {
+          "maxLength": 50
+        }
+      },
+      "lastName": {
+        "type": "string",
+        "required": true,
+        "phase": 1,
+        "constraints": {
+          "maxLength": 50
+        }
+      },
+      "title": {
+        "type": "string",
+        "required": false,
+        "phase": 1,
+        "constraints": {
+          "maxLength": 100
+        }
+      },
+      "email": {
+        "type": "email",
+        "required": true,
+        "phase": 1
+      },
+      "phone": {
+        "type": "phone",
+        "required": false,
+        "phase": 1
+      },
+      "mobile": {
+        "type": "phone",
+        "required": false,
+        "phase": 2
+      },
+      "accountId": {
+        "type": "uuid",
+        "required": true,
+        "phase": 1,
+        "foreignKey": "Account.id"
+      },
+      "isPrimary": {
+        "type": "boolean",
+        "required": false,
+        "phase": 1,
+        "default": false
+      },
+      "department": {
+        "type": "string",
+        "required": false,
+        "phase": 2
+      },
+      "notes": {
+        "type": "text",
+        "required": false,
+        "phase": 2
+      },
+      "createdAt": {
+        "type": "datetime",
+        "required": true,
+        "system": true
+      },
+      "updatedAt": {
+        "type": "datetime",
+        "required": false,
+        "system": true
+      }
+    },
+    "relationships": [
+      {
+        "name": "contacts",
+        "type": "one-to-many",
+        "from": "Account",
+        "to": "Contact",
+        "foreignKey": "accountId",
+        "cascade": "delete"
+      }
+    ],
+    "tableName": "contacts",
+    "primaryKey": "id",
+    "description": "Contact person for an account"
+  },
+  {
+    "name": "User",
+    "id": "user",
+    "fields": [
+      "id",
+      "username",
+      "email",
+      "firstName",
+      "lastName",
+      "role",
+      "isActive"
+    ],
+    "properties": {
+      "id": {
+        "type": "uuid",
+        "required": true,
+        "primaryKey": true
+      },
+      "username": {
+        "type": "string",
+        "required": true,
+        "unique": true,
+        "phase": 1
+      },
+      "email": {
+        "type": "email",
+        "required": true,
+        "unique": true,
+        "phase": 1
+      },
+      "firstName": {
+        "type": "string",
+        "required": true,
+        "phase": 1
+      },
+      "lastName": {
+        "type": "string",
+        "required": true,
+        "phase": 1
+      },
+      "role": {
+        "type": "enum",
+        "enum": "UserRole",
+        "required": true,
+        "phase": 1
+      },
+      "isActive": {
+        "type": "boolean",
+        "required": true,
+        "default": true,
+        "phase": 1
+      }
+    },
+    "relationships": [
+      {
+        "name": "owner",
+        "type": "many-to-one",
+        "from": "Account",
+        "to": "User",
+        "foreignKey": "ownerId"
+      },
+      {
+        "name": "manager",
+        "type": "many-to-one",
+        "from": "Territory",
+        "to": "User",
+        "foreignKey": "managerId"
+      }
+    ],
+    "tableName": "users",
+    "primaryKey": "id",
+    "description": "System user"
+  },
+  {
+    "name": "Territory",
+    "id": "territory",
+    "fields": [
+      "id",
+      "name",
+      "code",
+      "managerId"
+    ],
+    "properties": {
+      "id": {
+        "type": "uuid",
+        "required": true,
+        "primaryKey": true
+      },
+      "name": {
+        "type": "string",
+        "required": true,
+        "phase": 2
+      },
+      "code": {
+        "type": "string",
+        "required": true,
+        "unique": true,
+        "phase": 2
+      },
+      "managerId": {
+        "type": "uuid",
+        "required": false,
+        "phase": 2,
+        "foreignKey": "User.id"
+      }
+    },
+    "relationships": [
+      {
+        "name": "territory",
+        "type": "many-to-one",
+        "from": "Account",
+        "to": "Territory",
+        "foreignKey": "territoryId"
+      },
+      {
+        "name": "manager",
+        "type": "many-to-one",
+        "from": "Territory",
+        "to": "User",
+        "foreignKey": "managerId"
+      }
+    ],
+    "tableName": "territories",
+    "primaryKey": "id",
+    "description": "Sales territory"
+  },
+  {
+    "name": "ServiceLocation",
+    "id": "serviceLocation",
+    "description": "Physical locations tied to accounts (Column 2)",
+    "type": "primary",
+    "fields": [
+      "id",
+      "accountId",
+      "locationName",
+      "address",
+      "city", 
+      "state",
+      "zipCode",
+      "country",
+      "locationType",
+      "status",
+      "createdAt",
+      "updatedAt"
+    ],
+    "properties": {
+      "id": {
+        "type": "uuid",
+        "required": true,
+        "primaryKey": true
+      },
+      "accountId": {
+        "type": "uuid",
+        "required": true,
+        "foreignKey": "Account.id"
+      },
+      "locationName": {
+        "type": "string",
+        "required": true,
+        "essential": true
+      },
+      "address": {
+        "type": "string",
+        "required": true
+      },
+      "city": {
+        "type": "string",
+        "required": true
+      },
+      "state": {
+        "type": "string",
+        "required": true
+      },
+      "zipCode": {
+        "type": "string",
+        "required": true
+      },
+      "country": {
+        "type": "string",
+        "required": false,
+        "default": "USA"
+      },
+      "locationType": {
+        "type": "enum",
+        "enum": "LocationType",
+        "required": true
+      },
+      "status": {
+        "type": "enum",
+        "enum": "LocationStatus",
+        "required": true
+      }
+    },
+    "relationships": [
+      {
+        "name": "serviceLocation",
+        "type": "one-to-many", 
+        "from": "Account",
+        "to": "ServiceLocation",
+        "foreignKey": "accountId"
+      }
+    ],
+    "tableName": "service_locations",
+    "primaryKey": "id"
+  },
+  {
+    "name": "WorkOrder",
+    "id": "workOrder",
+    "description": "Service work orders tied to locations (Column 3)",
+    "type": "primary",
+    "fields": [
+      "id",
+      "workOrderNumber",
+      "serviceLocationId",
+      "serviceType",
+      "status",
+      "priority",
+      "scheduledDate",
+      "completedDate",
+      "technician",
+      "description",
+      "notes",
+      "createdAt",
+      "updatedAt"
+    ],
+    "properties": {
+      "id": {
+        "type": "uuid",
+        "required": true,
+        "primaryKey": true
+      },
+      "workOrderNumber": {
+        "type": "string",
+        "required": true,
+        "unique": true
+      },
+      "serviceLocationId": {
+        "type": "uuid",
+        "required": true,
+        "foreignKey": "ServiceLocation.id"
+      },
+      "serviceType": {
+        "type": "enum",
+        "enum": "ServiceType",
+        "required": true
+      },
+      "status": {
+        "type": "enum",
+        "enum": "WorkOrderStatus",
+        "required": true
+      },
+      "priority": {
+        "type": "enum",
+        "enum": "Priority",
+        "required": true
+      },
+      "scheduledDate": {
+        "type": "datetime",
+        "required": false
+      },
+      "completedDate": {
+        "type": "datetime",
+        "required": false
+      },
+      "technician": {
+        "type": "string",
+        "required": false
+      },
+      "description": {
+        "type": "text",
+        "required": true
+      },
+      "notes": {
+        "type": "text",
+        "required": false
+      }
+    },
+    "relationships": [
+      {
+        "name": "workOrder",
+        "type": "one-to-many",
+        "from": "ServiceLocation",
+        "to": "WorkOrder",
+        "foreignKey": "serviceLocationId"
+      }
+    ],
+    "tableName": "work_orders",
+    "primaryKey": "id"
+  },
+  {
+    "name": "CommunicationLog",
+    "id": "communicationLog",
+    "description": "Communication history tied to contacts",
+    "type": "supporting",
+    "fields": [
+      "id",
+      "contactId",
+      "type",
+      "direction",
+      "subject",
+      "message",
+      "timestamp",
+      "userId"
+    ],
+    "properties": {
+      "id": {
+        "type": "uuid",
+        "required": true,
+        "primaryKey": true
+      },
+      "contactId": {
+        "type": "uuid",
+        "required": true,
+        "foreignKey": "Contact.id"
+      },
+      "type": {
+        "type": "enum",
+        "enum": "CommunicationType",
+        "required": true
+      },
+      "direction": {
+        "type": "enum",
+        "enum": "CommunicationDirection",
+        "required": true
+      },
+      "subject": {
+        "type": "string",
+        "required": false
+      },
+      "message": {
+        "type": "text",
+        "required": true
+      },
+      "timestamp": {
+        "type": "datetime",
+        "required": true
+      },
+      "userId": {
+        "type": "uuid",
+        "required": true,
+        "foreignKey": "User.id"
+      }
+    },
+    "relationships": [
+      {
+        "name": "communicationLog",
+        "type": "one-to-many",
+        "from": "Contact",
+        "to": "CommunicationLog",
+        "foreignKey": "contactId"
+      }
+    ],
+    "tableName": "communication_logs",
+    "primaryKey": "id"
+  },
+  {
+    "name": "ServiceAgreement",
+    "id": "serviceAgreement",
+    "description": "Contractual agreements tied to accounts",
+    "type": "supporting",
+    "fields": [
+      "id",
+      "accountId",
+      "agreementNumber",
+      "agreementType",
+      "startDate",
+      "endDate",
+      "status",
+      "terms",
+      "value",
+      "createdAt",
+      "updatedAt"
+    ],
+    "properties": {
+      "id": {
+        "type": "uuid",
+        "required": true,
+        "primaryKey": true
+      },
+      "accountId": {
+        "type": "uuid",
+        "required": true,
+        "foreignKey": "Account.id"
+      },
+      "agreementNumber": {
+        "type": "string",
+        "required": true,
+        "unique": true
+      },
+      "agreementType": {
+        "type": "enum",
+        "enum": "AgreementType",
+        "required": true
+      },
+      "startDate": {
+        "type": "date",
+        "required": true
+      },
+      "endDate": {
+        "type": "date",
+        "required": false
+      },
+      "status": {
+        "type": "enum",
+        "enum": "AgreementStatus",
+        "required": true
+      },
+      "terms": {
+        "type": "text",
+        "required": false
+      },
+      "value": {
+        "type": "decimal",
+        "required": false
+      }
+    },
+    "relationships": [
+      {
+        "name": "serviceAgreement",
+        "type": "one-to-many",
+        "from": "Account",
+        "to": "ServiceAgreement",
+        "foreignKey": "accountId"
+      }
+    ],
+    "tableName": "service_agreements",
+    "primaryKey": "id"
+  },
+  {
+    "name": "FinancialData",
+    "id": "financialData",
+    "description": "Account financial information and history",
+    "type": "supporting",
+    "fields": [
+      "id",
+      "accountId",
+      "dataType",
+      "amount",
+      "currency",
+      "period",
+      "timestamp",
+      "notes"
+    ],
+    "properties": {
+      "id": {
+        "type": "uuid",
+        "required": true,
+        "primaryKey": true
+      },
+      "accountId": {
+        "type": "uuid",
+        "required": true,
+        "foreignKey": "Account.id"
+      },
+      "dataType": {
+        "type": "enum",
+        "enum": "FinancialDataType",
+        "required": true
+      },
+      "amount": {
+        "type": "decimal",
+        "required": true
+      },
+      "currency": {
+        "type": "string",
+        "required": false,
+        "default": "USD"
+      },
+      "period": {
+        "type": "string",
+        "required": false
+      },
+      "timestamp": {
+        "type": "datetime",
+        "required": true
+      },
+      "notes": {
+        "type": "text",
+        "required": false
+      }
+    },
+    "relationships": [
+      {
+        "name": "financialData",
+        "type": "one-to-many",
+        "from": "Account",
+        "to": "FinancialData",
+        "foreignKey": "accountId"
+      }
+    ],
+    "tableName": "financial_data",
+    "primaryKey": "id"
+  },
+  {
+    "name": "Service",
+    "id": "service",
+    "fields": [
+      "id",
+      "serviceName",
+      "serviceCode",
+      "description",
+      "category",
+      "price",
+      "unit",
+      "isActive"
+    ],
+    "properties": {
+      "id": {
+        "type": "uuid",
+        "required": true,
+        "primaryKey": true
+      },
+      "serviceName": {
+        "type": "string",
+        "required": true,
+        "phase": 1
+      },
+      "serviceCode": {
+        "type": "string",
+        "required": true,
+        "unique": true,
+        "phase": 1
+      },
+      "description": {
+        "type": "text",
+        "required": false,
+        "phase": 1
+      },
+      "category": {
+        "type": "enum",
+        "enum": "ServiceCategory",
+        "required": true,
+        "phase": 1
+      },
+      "price": {
+        "type": "decimal",
+        "required": true,
+        "phase": 1
+      },
+      "unit": {
+        "type": "enum",
+        "enum": "ServiceUnit",
+        "required": true,
+        "phase": 1
+      },
+      "isActive": {
+        "type": "boolean",
+        "required": true,
+        "default": true,
+        "phase": 1
+      }
+    },
+    "relationships": [],
+    "tableName": "services",
+    "primaryKey": "id",
+    "description": "Service offering"
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [],
+      "source": {
+        "value": "react"
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "id": {
+        "name": "Component"
+      },
+      "params": [],
+      "body": {
+        "type": "BlockStatement",
+        "body": []
+      }
+    }
+  ]
+}

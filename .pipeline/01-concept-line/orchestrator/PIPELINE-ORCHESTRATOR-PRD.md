@@ -42,11 +42,12 @@ An orchestration engine that automatically sequences all pipeline stages, manage
 - **F1.3**: Stage failure handling
 - **F1.4**: Progress reporting
 
-#### F2: Stage 1 - Requirements Capture
-- **F2.1**: Parse BUSM.mmd file
-- **F2.2**: Extract entities from feature spec
-- **F2.3**: Generate BUSM subset
-- **F2.4**: Collect business rules
+#### F2: Stage 1 - Requirements Capture (Service Software Factory Template-Based)
+- **F2.1**: Scope Definition via UI Form (Service Type + Client + Module)
+- **F2.2**: Entity Selection from BUSM.mmd (Direct selection vs extraction)
+- **F2.3**: Component Auto-Generation (3-column Master View template)
+- **F2.4**: Business Rules Auto-Generation (3-layer inheritance: Base → Service → Client)
+- **F2.5**: Template Management (Save/Load configurations for reuse)
 
 #### F3: Stage 2 - Configuration
 - **F3.1**: Enrich requirements with metadata
@@ -114,18 +115,22 @@ class ConceptLinePipeline {
 }
 ```
 
-### Input Requirements
-1. BUSM diagram: `.pipeline/00-requirements/models/BUSM.mmd`
-2. Feature spec: `.product-specs/.../master-view-feature.md`
-3. Business rules: Via UI or JSON
+### Input Requirements (Service Software Factory Template-Based)
+1. BUSM diagram: `{configurable}/00-requirements/models/BUSM.mmd` (Single source of truth for entities)
+2. Service/Client scope: Via UI form (Service Type + Client Name + Module Selection)
+3. Entity selection: Direct selection from BUSM entities (no document parsing)
+4. Templates: Saveable/loadable configuration templates per service type
+5. Business rules: Auto-generated from BUSM + 3-layer inheritance (Base → Service → Client)
 
-### Output Artifacts
+### Output Artifacts (Template-Based)
 ```
-.pipeline/01-concept-line/outputs/
+{configurable}/01-concept-line/outputs/
 ├── stage1/
-│   ├── busm-subset.mmd
-│   ├── feature-spec.md
-│   └── business-rules.json
+│   ├── scope-definition.json          # Service/Client/Module configuration
+│   ├── selected-entities.json         # Entity selection from BUSM
+│   ├── component-specifications.json  # 3-column layout component specs
+│   ├── business-rules.json           # Auto-generated 3-layer rules
+│   └── template-config.json          # Saveable template configuration
 ├── stage2/
 │   └── enriched-config.json
 ├── stage3/
@@ -158,13 +163,18 @@ class ConceptLinePipeline {
 
 ## 6. Data Flow
 
-### Stage Flow Diagram
+### Stage Flow Diagram (Service Software Factory Template-Based)
 ```
-BUSM.mmd + Feature.md
+UI Form (Service + Client + Module) + BUSM.mmd + Template (optional)
         ↓
-   [Stage 1: Requirements]
+   [Stage 1: Requirements Capture]
+   ├─ Scope Definition
+   ├─ Entity Selection  
+   ├─ Component Auto-Generation
+   ├─ Rules Auto-Generation (Base → Service → Client)
+   └─ Template Save/Load
         ↓
-   BUSM Subset + Rules
+   Selected Entities + Auto-Generated Rules + Component Specs
         ↓
    [Stage 2: Configuration]
         ↓

@@ -1,0 +1,257 @@
+{
+  "module": {
+    "name": "Accounts",
+    "description": "Universal Customer and Location Management",
+    "views": ["Master View", "Analysis View"],
+    "primaryEntities": ["ACCOUNT", "SERVICE_LOCATION", "WORK_ORDER"]
+  },
+  "baseEntityModel": {
+    "coreEntities": {
+      "ACCOUNT": {
+        "role": "primary",
+        "description": "Customer/client master record",
+        "fields": 8,
+        "universalFields": ["AccountID", "AccountName", "AccountType", "Status"],
+        "directChildren": [
+          "CONTACT", 
+          "SERVICE_LOCATION", 
+          "SERVICEABLE_ITEM", 
+          "SERVICE_AGREEMENT", 
+          "WORK_ORDER", 
+          "INVOICE", 
+          "PAYMENT", 
+          "CREDIT_MEMO", 
+          "COMMUNICATION_LOG"
+        ]
+      },
+      "SERVICE_LOCATION": {
+        "role": "primary", 
+        "description": "Physical service addresses",
+        "fields": 14,
+        "universalFields": ["ServiceLocationID", "AccountID", "LocationName", "StreetAddress", "City", "State", "PostalCode"],
+        "directChildren": [
+          "CONTACT_LOCATION",
+          "SERVICEABLE_ITEM", 
+          "WORK_ORDER",
+          "AGREEMENT_ITEM",
+          "ROUTE_STOP"
+        ],
+        "relationships": [
+          "GEOGRAPHIC_AREA",
+          "SERVICE_LOCATION_SERVICE_ZONE"
+        ]
+      },
+      "WORK_ORDER": {
+        "role": "primary",
+        "description": "Service requests and jobs", 
+        "fields": 12,
+        "universalFields": ["WorkOrderID", "AccountID", "ServiceLocationID", "WorkOrderType", "WorkOrderStatus", "ScheduledDateTime"],
+        "directChildren": [
+          "WORK_ORDER_ITEM",
+          "WORK_ORDER_ASSIGNMENT"
+        ],
+        "generates": ["INVOICE"]
+      }
+    },
+    "supportingEntities": {
+      "CONTACT": {
+        "parentEntity": "ACCOUNT",
+        "description": "Customer contact persons",
+        "fields": 8,
+        "universalFields": ["ContactID", "AccountID", "FirstName", "LastName", "PhoneNumber", "EmailAddress"],
+        "children": ["CONTACT_LOCATION", "COMMUNICATION_LOG"]
+      },
+      "SERVICEABLE_ITEM": {
+        "parentEntities": ["ACCOUNT", "SERVICE_LOCATION"],
+        "description": "Assets being serviced (boats, pools, equipment)",
+        "fields": 10,
+        "universalFields": ["ServiceableItemID", "AccountID", "ItemName", "ItemType", "Status"],
+        "children": ["SERVICEABLE_ITEM_PROPERTY"],
+        "relationships": ["DOMAIN"]
+      },
+      "SERVICE_AGREEMENT": {
+        "parentEntity": "ACCOUNT",
+        "description": "Maintenance contracts",
+        "fields": 7,
+        "universalFields": ["AgreementID", "AccountID", "Description", "StartDate", "EndDate", "AgreementStatus"],
+        "children": ["AGREEMENT_ITEM"]
+      },
+      "INVOICE": {
+        "parentEntities": ["ACCOUNT", "WORK_ORDER"],
+        "description": "Customer billing",
+        "fields": 12,
+        "universalFields": ["InvoiceID", "AccountID", "InvoiceNumber", "InvoiceDate", "TotalAmount", "Status"],
+        "children": ["INVOICE_LINE_ITEM"],
+        "relationships": ["PAYMENT", "CREDIT_MEMO"]
+      },
+      "PAYMENT": {
+        "parentEntities": ["ACCOUNT", "INVOICE"], 
+        "description": "Customer payments",
+        "fields": 8,
+        "universalFields": ["PaymentID", "AccountID", "PaymentDate", "Amount", "PaymentMethod", "Status"]
+      },
+      "COMMUNICATION_LOG": {
+        "parentEntities": ["ACCOUNT", "CONTACT"],
+        "description": "Customer communication history",
+        "fields": 11,
+        "universalFields": ["CommunicationLogID", "AccountID", "Timestamp", "Method", "Subject", "Direction"]
+      }
+    },
+    "junctionEntities": {
+      "CONTACT_LOCATION": {
+        "connects": ["CONTACT", "SERVICE_LOCATION"],
+        "description": "Contact-to-location relationships",
+        "fields": 5
+      },
+      "AGREEMENT_ITEM": {
+        "connects": ["SERVICE_AGREEMENT", "SERVICE", "SERVICE_LOCATION", "SERVICEABLE_ITEM"],
+        "description": "Services included in agreements",
+        "fields": 7
+      },
+      "WORK_ORDER_ITEM": {
+        "connects": ["WORK_ORDER", "SERVICE", "SERVICEABLE_ITEM"],
+        "description": "Individual tasks in work orders",
+        "fields": 11,
+        "children": ["MATERIAL_USAGE", "INVOICE_LINE_ITEM"]
+      },
+      "WORK_ORDER_ASSIGNMENT": {
+        "connects": ["WORK_ORDER", "EMPLOYEE"],
+        "description": "Technician assignments",
+        "fields": 7,
+        "children": ["ROUTE_STOP"]
+      },
+      "INVOICE_LINE_ITEM": {
+        "connects": ["INVOICE", "WORK_ORDER_ITEM", "AGREEMENT_ITEM", "MATERIAL_USAGE"],
+        "description": "Individual charges",
+        "fields": 9
+      }
+    },
+    "lookupEntities": {
+      "DOMAIN": {
+        "description": "Industry types (boats, pools, lawns)",
+        "fields": 3,
+        "universalValues": ["Boats", "Pools", "Lawns", "HVAC", "Pest Control"]
+      },
+      "GEOGRAPHIC_AREA": {
+        "description": "Service territory boundaries", 
+        "fields": 8,
+        "relationships": ["SERVICE_LOCATION"]
+      },
+      "SERVICE_ZONE": {
+        "description": "Operational groupings",
+        "fields": 5,
+        "relationships": ["SERVICE_LOCATION"]
+      }
+    }
+  },
+  "viewDefinitions": {
+    "masterView": {
+      "layout": "three-column",
+      "columns": {
+        "left": {
+          "title": "Account Hub",
+          "primaryEntity": "ACCOUNT",
+          "includedEntities": ["CONTACT", "SERVICE_AGREEMENT", "COMMUNICATION_LOG"]
+        },
+        "center": {
+          "title": "Service Locations", 
+          "primaryEntity": "SERVICE_LOCATION",
+          "includedEntities": ["SERVICEABLE_ITEM", "CONTACT_LOCATION"]
+        },
+        "right": {
+          "title": "Work Orders",
+          "primaryEntity": "WORK_ORDER", 
+          "includedEntities": ["WORK_ORDER_ITEM", "WORK_ORDER_ASSIGNMENT", "INVOICE"]
+        }
+      }
+    },
+    "analysisView": {
+      "layout": "spreadsheet-like",
+      "startView": "list",
+      "description": "Excel-like analysis tool with sortable, filterable data grids",
+      "features": [
+        "Multi-column sorting",
+        "Advanced filtering", 
+        "Pivot table functionality",
+        "Export to Excel/CSV",
+        "Column customization",
+        "Summary calculations"
+      ],
+      "defaultTabs": {
+        "accounts": {
+          "title": "Accounts List",
+          "baseEntity": "ACCOUNT",
+          "columns": ["AccountName", "AccountType", "Status", "TotalLocations", "ActiveWorkOrders", "OutstandingBalance"],
+          "relatedData": ["CONTACT", "SERVICE_LOCATION", "INVOICE"]
+        },
+        "locations": {
+          "title": "Service Locations List", 
+          "baseEntity": "SERVICE_LOCATION",
+          "columns": ["LocationName", "AccountName", "City", "State", "ServiceItems", "LastService"],
+          "relatedData": ["ACCOUNT", "SERVICEABLE_ITEM", "WORK_ORDER"]
+        },
+        "workOrders": {
+          "title": "Work Orders List",
+          "baseEntity": "WORK_ORDER", 
+          "columns": ["WorkOrderID", "AccountName", "LocationName", "Status", "Priority", "ScheduledDate", "AssignedTech"],
+          "relatedData": ["ACCOUNT", "SERVICE_LOCATION", "EMPLOYEE"]
+        },
+        "revenue": {
+          "title": "Revenue Analysis",
+          "baseEntity": "INVOICE",
+          "columns": ["InvoiceDate", "AccountName", "Amount", "Status", "PaymentDate", "DaysOutstanding"],
+          "relatedData": ["ACCOUNT", "PAYMENT", "WORK_ORDER"]
+        }
+      }
+    }
+  },
+  "universalBusinessRules": {
+    "account": [
+      "Account must have at least one contact",
+      "Account status determines service availability",
+      "Account type drives default pricing"
+    ],
+    "serviceLocation": [
+      "Service location must belong to an account",
+      "Location requires complete address for routing",
+      "Location can have multiple serviceable items"
+    ],
+    "workOrder": [
+      "Work order requires account and service location", 
+      "Work order status controls editing permissions",
+      "Completed work orders generate invoices"
+    ]
+  },
+  "domainCustomizations": {
+    "pestControl": {
+      "additionalFields": {
+        "ACCOUNT": ["TreatmentFrequency", "ChemicalRestrictions"],
+        "SERVICE_LOCATION": ["PropertySize", "TreatmentAreas"],
+        "SERVICEABLE_ITEM": ["InfestationType", "TreatmentHistory"]
+      },
+      "additionalBusinessRules": [
+        "Chemical restrictions must be verified before treatment",
+        "Treatment frequency determines scheduling intervals"
+      ]
+    },
+    "hvac": {
+      "additionalFields": {
+        "SERVICEABLE_ITEM": ["SystemType", "BTUCapacity", "FilterType", "LastMaintenanceDate"]
+      }
+    },
+    "pools": {
+      "additionalFields": {
+        "SERVICEABLE_ITEM": ["PoolType", "Volume", "FilterSystem", "ChemicalBalance"]
+      }
+    }
+  },
+  "metadata": {
+    "totalBaseEntities": 17,
+    "coreEntities": 3,
+    "supportingEntities": 7, 
+    "junctionEntities": 5,
+    "lookupEntities": 3,
+    "definedAt": "2025-09-01",
+    "status": "Base System Definition"
+  }
+}

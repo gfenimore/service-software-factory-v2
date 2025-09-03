@@ -1,0 +1,742 @@
+[
+  {
+    "id": "BR-Account-id",
+    "name": "Account id Validation",
+    "entity": "Account",
+    "conditions": [
+      {
+        "field": "id",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Account id is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Account-accountNumber",
+    "name": "Account accountNumber Validation",
+    "entity": "Account",
+    "conditions": [
+      {
+        "field": "accountNumber",
+        "operator": "isRequired",
+        "value": null
+      },
+      {
+        "field": "accountNumber",
+        "operator": "matches",
+        "value": "^ACC-[0-9]{6}$"
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Account accountNumber is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Account-accountName",
+    "name": "Account accountName Validation",
+    "entity": "Account",
+    "conditions": [
+      {
+        "field": "accountName",
+        "operator": "isRequired",
+        "value": null
+      },
+      {
+        "field": "accountName",
+        "operator": "minLength",
+        "value": 3
+      },
+      {
+        "field": "accountName",
+        "operator": "maxLength",
+        "value": 100
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Account accountName is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Account-dbaName",
+    "name": "Account dbaName Validation",
+    "entity": "Account",
+    "conditions": [
+      {
+        "field": "dbaName",
+        "operator": "maxLength",
+        "value": 100
+      }
+    ],
+    "actions": [],
+    "priority": "medium"
+  },
+  {
+    "id": "BR-Account-accountType",
+    "name": "Account accountType Validation",
+    "entity": "Account",
+    "conditions": [
+      {
+        "field": "accountType",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Account accountType is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Account-status",
+    "name": "Account status Validation",
+    "entity": "Account",
+    "conditions": [
+      {
+        "field": "status",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Account status is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Account-email",
+    "name": "Account email Validation",
+    "entity": "Account",
+    "conditions": [
+      {
+        "field": "email",
+        "operator": "matches",
+        "value": "^[\\w\\.]+@[\\w\\.]+\\.[a-z]{2,}$"
+      }
+    ],
+    "actions": [],
+    "priority": "medium"
+  },
+  {
+    "id": "BR-Account-phone",
+    "name": "Account phone Validation",
+    "entity": "Account",
+    "conditions": [
+      {
+        "field": "phone",
+        "operator": "matches",
+        "value": "^\\+?[1-9]\\d{1,14}$"
+      }
+    ],
+    "actions": [],
+    "priority": "medium"
+  },
+  {
+    "id": "BR-Account-address",
+    "name": "Account address Validation",
+    "entity": "Account",
+    "conditions": [
+      {
+        "field": "address",
+        "operator": "maxLength",
+        "value": 500
+      }
+    ],
+    "actions": [],
+    "priority": "medium"
+  },
+  {
+    "id": "BR-Account-city",
+    "name": "Account city Validation",
+    "entity": "Account",
+    "conditions": [
+      {
+        "field": "city",
+        "operator": "maxLength",
+        "value": 100
+      }
+    ],
+    "actions": [],
+    "priority": "medium"
+  },
+  {
+    "id": "BR-Account-state",
+    "name": "Account state Validation",
+    "entity": "Account",
+    "conditions": [
+      {
+        "field": "state",
+        "operator": "maxLength",
+        "value": 50
+      }
+    ],
+    "actions": [],
+    "priority": "medium"
+  },
+  {
+    "id": "BR-Account-zipCode",
+    "name": "Account zipCode Validation",
+    "entity": "Account",
+    "conditions": [
+      {
+        "field": "zipCode",
+        "operator": "matches",
+        "value": "^\\d{5}(-\\d{4})?$"
+      }
+    ],
+    "actions": [],
+    "priority": "medium"
+  },
+  {
+    "id": "BR-Account-taxId",
+    "name": "Account taxId Validation",
+    "entity": "Account",
+    "conditions": [
+      {
+        "field": "taxId",
+        "operator": "matches",
+        "value": "^\\d{2}-\\d{7}$"
+      }
+    ],
+    "actions": [],
+    "priority": "medium"
+  },
+  {
+    "id": "BR-Account-ownerId",
+    "name": "Account ownerId Validation",
+    "entity": "Account",
+    "conditions": [
+      {
+        "field": "ownerId",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Account ownerId is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Account-createdBy",
+    "name": "Account createdBy Validation",
+    "entity": "Account",
+    "conditions": [
+      {
+        "field": "createdBy",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Account createdBy is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Account-createdAt",
+    "name": "Account createdAt Validation",
+    "entity": "Account",
+    "conditions": [
+      {
+        "field": "createdAt",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Account createdAt is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Contact-id",
+    "name": "Contact id Validation",
+    "entity": "Contact",
+    "conditions": [
+      {
+        "field": "id",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Contact id is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Contact-firstName",
+    "name": "Contact firstName Validation",
+    "entity": "Contact",
+    "conditions": [
+      {
+        "field": "firstName",
+        "operator": "isRequired",
+        "value": null
+      },
+      {
+        "field": "firstName",
+        "operator": "maxLength",
+        "value": 50
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Contact firstName is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Contact-lastName",
+    "name": "Contact lastName Validation",
+    "entity": "Contact",
+    "conditions": [
+      {
+        "field": "lastName",
+        "operator": "isRequired",
+        "value": null
+      },
+      {
+        "field": "lastName",
+        "operator": "maxLength",
+        "value": 50
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Contact lastName is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Contact-title",
+    "name": "Contact title Validation",
+    "entity": "Contact",
+    "conditions": [
+      {
+        "field": "title",
+        "operator": "maxLength",
+        "value": 100
+      }
+    ],
+    "actions": [],
+    "priority": "medium"
+  },
+  {
+    "id": "BR-Contact-email",
+    "name": "Contact email Validation",
+    "entity": "Contact",
+    "conditions": [
+      {
+        "field": "email",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Contact email is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Contact-accountId",
+    "name": "Contact accountId Validation",
+    "entity": "Contact",
+    "conditions": [
+      {
+        "field": "accountId",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Contact accountId is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Contact-createdAt",
+    "name": "Contact createdAt Validation",
+    "entity": "Contact",
+    "conditions": [
+      {
+        "field": "createdAt",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Contact createdAt is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-User-id",
+    "name": "User id Validation",
+    "entity": "User",
+    "conditions": [
+      {
+        "field": "id",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "User id is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-User-username",
+    "name": "User username Validation",
+    "entity": "User",
+    "conditions": [
+      {
+        "field": "username",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "User username is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-User-email",
+    "name": "User email Validation",
+    "entity": "User",
+    "conditions": [
+      {
+        "field": "email",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "User email is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-User-firstName",
+    "name": "User firstName Validation",
+    "entity": "User",
+    "conditions": [
+      {
+        "field": "firstName",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "User firstName is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-User-lastName",
+    "name": "User lastName Validation",
+    "entity": "User",
+    "conditions": [
+      {
+        "field": "lastName",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "User lastName is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-User-role",
+    "name": "User role Validation",
+    "entity": "User",
+    "conditions": [
+      {
+        "field": "role",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "User role is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-User-isActive",
+    "name": "User isActive Validation",
+    "entity": "User",
+    "conditions": [
+      {
+        "field": "isActive",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "User isActive is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Territory-id",
+    "name": "Territory id Validation",
+    "entity": "Territory",
+    "conditions": [
+      {
+        "field": "id",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Territory id is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Territory-name",
+    "name": "Territory name Validation",
+    "entity": "Territory",
+    "conditions": [
+      {
+        "field": "name",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Territory name is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Territory-code",
+    "name": "Territory code Validation",
+    "entity": "Territory",
+    "conditions": [
+      {
+        "field": "code",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Territory code is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Service-id",
+    "name": "Service id Validation",
+    "entity": "Service",
+    "conditions": [
+      {
+        "field": "id",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Service id is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Service-serviceName",
+    "name": "Service serviceName Validation",
+    "entity": "Service",
+    "conditions": [
+      {
+        "field": "serviceName",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Service serviceName is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Service-serviceCode",
+    "name": "Service serviceCode Validation",
+    "entity": "Service",
+    "conditions": [
+      {
+        "field": "serviceCode",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Service serviceCode is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Service-category",
+    "name": "Service category Validation",
+    "entity": "Service",
+    "conditions": [
+      {
+        "field": "category",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Service category is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Service-price",
+    "name": "Service price Validation",
+    "entity": "Service",
+    "conditions": [
+      {
+        "field": "price",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Service price is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Service-unit",
+    "name": "Service unit Validation",
+    "entity": "Service",
+    "conditions": [
+      {
+        "field": "unit",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Service unit is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-Service-isActive",
+    "name": "Service isActive Validation",
+    "entity": "Service",
+    "conditions": [
+      {
+        "field": "isActive",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "Service isActive is required"
+      }
+    ],
+    "priority": "high"
+  }
+]

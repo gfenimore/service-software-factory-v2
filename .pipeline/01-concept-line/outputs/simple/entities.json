@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Account",
+    "id": "account",
+    "description": "Main customer accounts displayed in Column 1",
+    "type": "primary"
+  },
+  {
+    "name": "ServiceLocation",
+    "id": "serviceLocation",
+    "description": "Physical locations tied to accounts (Column 2)",
+    "type": "primary"
+  },
+  {
+    "name": "WorkOrder",
+    "id": "workOrder",
+    "description": "Service work orders tied to locations (Column 3)",
+    "type": "primary"
+  },
+  {
+    "name": "Contact",
+    "id": "contact",
+    "description": "Contact information for accounts and service locations",
+    "type": "supporting"
+  },
+  {
+    "name": "CommunicationLog",
+    "id": "communicationLog",
+    "description": "Communication history tied to contacts",
+    "type": "supporting"
+  },
+  {
+    "name": "ServiceAgreement",
+    "id": "serviceAgreement",
+    "description": "Contractual agreements tied to accounts",
+    "type": "supporting"
+  },
+  {
+    "name": "FinancialData",
+    "id": "financialData",
+    "description": "Account financial information and history",
+    "type": "supporting"
+  }
+]

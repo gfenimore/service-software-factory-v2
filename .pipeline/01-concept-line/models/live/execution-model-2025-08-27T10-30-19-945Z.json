@@ -1,0 +1,166 @@
+{
+  "totalDuration": 17,
+  "stageCount": 6,
+  "successCount": 6,
+  "errorCount": 0,
+  "successRate": 1,
+  "stages": [
+    {
+      "stageName": "Stage 1: Requirements Capture",
+      "inputs": {
+        "type": "object",
+        "keys": [
+          "busmFile",
+          "featureSpecs"
+        ],
+        "totalKeys": 2
+      },
+      "outputs": {
+        "type": "object",
+        "keys": [
+          "entities",
+          "entityCount"
+        ],
+        "totalKeys": 2
+      },
+      "metrics": {
+        "duration": 0,
+        "timestamp": 1756290619928,
+        "stageNumber": 1,
+        "executionTime": 0,
+        "isDryRun": true
+      },
+      "status": "completed"
+    },
+    {
+      "stageName": "Stage 2: Configuration",
+      "inputs": {
+        "type": "object",
+        "keys": [
+          "entities"
+        ],
+        "totalKeys": 1
+      },
+      "outputs": {
+        "type": "object",
+        "keys": [
+          "configGenerated",
+          "entities"
+        ],
+        "totalKeys": 2
+      },
+      "metrics": {
+        "duration": 14,
+        "timestamp": 1756290619942,
+        "stageNumber": 2,
+        "executionTime": 1,
+        "isDryRun": true
+      },
+      "status": "completed"
+    },
+    {
+      "stageName": "Stage 3: ViewForge",
+      "inputs": {
+        "type": "object",
+        "keys": [
+          "config"
+        ],
+        "totalKeys": 1
+      },
+      "outputs": {
+        "type": "object",
+        "keys": [
+          "components",
+          "componentCount"
+        ],
+        "totalKeys": 2
+      },
+      "metrics": {
+        "duration": 0,
+        "timestamp": 1756290619942,
+        "stageNumber": 3,
+        "executionTime": 0,
+        "isDryRun": true
+      },
+      "status": "completed"
+    },
+    {
+      "stageName": "Stage 4: AST Generation",
+      "inputs": {
+        "type": "object",
+        "keys": [
+          "components"
+        ],
+        "totalKeys": 1
+      },
+      "outputs": {
+        "type": "object",
+        "keys": [
+          "astGenerated",
+          "indicators"
+        ],
+        "totalKeys": 2
+      },
+      "metrics": {
+        "duration": 1,
+        "timestamp": 1756290619943,
+        "stageNumber": 4,
+        "executionTime": 0,
+        "isDryRun": true
+      },
+      "status": "completed"
+    },
+    {
+      "stageName": "Stage 5: Validation",
+      "inputs": {
+        "type": "object",
+        "keys": [
+          "ast"
+        ],
+        "totalKeys": 1
+      },
+      "outputs": {
+        "type": "object",
+        "keys": [
+          "qualityScore",
+          "issues"
+        ],
+        "totalKeys": 2
+      },
+      "metrics": {
+        "duration": 1,
+        "timestamp": 1756290619944,
+        "stageNumber": 5,
+        "executionTime": 0,
+        "isDryRun": true
+      },
+      "status": "completed"
+    },
+    {
+      "stageName": "Stage 6: Deployment",
+      "inputs": {
+        "type": "object",
+        "keys": [
+          "validation"
+        ],
+        "totalKeys": 1
+      },
+      "outputs": {
+        "type": "object",
+        "keys": [
+          "deployed",
+          "url"
+        ],
+        "totalKeys": 2
+      },
+      "metrics": {
+        "duration": 0,
+        "timestamp": 1756290619944,
+        "stageNumber": 6,
+        "executionTime": 0,
+        "isDryRun": true
+      },
+      "status": "completed"
+    }
+  ]
+}

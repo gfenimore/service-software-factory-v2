@@ -1,0 +1,515 @@
+[
+  {
+    "id": "BR-ACCOUNT-AccountID",
+    "name": "ACCOUNT AccountID Validation",
+    "entity": "ACCOUNT",
+    "conditions": [
+      {
+        "field": "AccountID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "ACCOUNT AccountID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-CONTACT-ContactID",
+    "name": "CONTACT ContactID Validation",
+    "entity": "CONTACT",
+    "conditions": [
+      {
+        "field": "ContactID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "CONTACT ContactID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-SERVICE_LOCATION-ServiceLocationID",
+    "name": "SERVICE_LOCATION ServiceLocationID Validation",
+    "entity": "SERVICE_LOCATION",
+    "conditions": [
+      {
+        "field": "ServiceLocationID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "SERVICE_LOCATION ServiceLocationID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-CONTACT_LOCATION-ContactLocationID",
+    "name": "CONTACT_LOCATION ContactLocationID Validation",
+    "entity": "CONTACT_LOCATION",
+    "conditions": [
+      {
+        "field": "ContactLocationID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "CONTACT_LOCATION ContactLocationID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-DOMAIN-DomainID",
+    "name": "DOMAIN DomainID Validation",
+    "entity": "DOMAIN",
+    "conditions": [
+      {
+        "field": "DomainID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "DOMAIN DomainID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-SERVICEABLE_ITEM-ServiceableItemID",
+    "name": "SERVICEABLE_ITEM ServiceableItemID Validation",
+    "entity": "SERVICEABLE_ITEM",
+    "conditions": [
+      {
+        "field": "ServiceableItemID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "SERVICEABLE_ITEM ServiceableItemID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-SERVICEABLE_ITEM_PROPERTY-PropertyID",
+    "name": "SERVICEABLE_ITEM_PROPERTY PropertyID Validation",
+    "entity": "SERVICEABLE_ITEM_PROPERTY",
+    "conditions": [
+      {
+        "field": "PropertyID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "SERVICEABLE_ITEM_PROPERTY PropertyID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-SERVICE_ZONE-ServiceZoneID",
+    "name": "SERVICE_ZONE ServiceZoneID Validation",
+    "entity": "SERVICE_ZONE",
+    "conditions": [
+      {
+        "field": "ServiceZoneID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "SERVICE_ZONE ServiceZoneID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-SERVICE_LOCATION_SERVICE_ZONE-ServiceLocationServiceZoneID",
+    "name": "SERVICE_LOCATION_SERVICE_ZONE ServiceLocationServiceZoneID Validation",
+    "entity": "SERVICE_LOCATION_SERVICE_ZONE",
+    "conditions": [
+      {
+        "field": "ServiceLocationServiceZoneID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "SERVICE_LOCATION_SERVICE_ZONE ServiceLocationServiceZoneID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-ROUTE_SERVICE_ZONE-RouteServiceZoneID",
+    "name": "ROUTE_SERVICE_ZONE RouteServiceZoneID Validation",
+    "entity": "ROUTE_SERVICE_ZONE",
+    "conditions": [
+      {
+        "field": "RouteServiceZoneID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "ROUTE_SERVICE_ZONE RouteServiceZoneID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-GEOGRAPHIC_AREA-GeographicAreaID",
+    "name": "GEOGRAPHIC_AREA GeographicAreaID Validation",
+    "entity": "GEOGRAPHIC_AREA",
+    "conditions": [
+      {
+        "field": "GeographicAreaID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "GEOGRAPHIC_AREA GeographicAreaID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-SERVICE-ServiceID",
+    "name": "SERVICE ServiceID Validation",
+    "entity": "SERVICE",
+    "conditions": [
+      {
+        "field": "ServiceID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "SERVICE ServiceID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-EMPLOYEE-EmployeeID",
+    "name": "EMPLOYEE EmployeeID Validation",
+    "entity": "EMPLOYEE",
+    "conditions": [
+      {
+        "field": "EmployeeID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "EMPLOYEE EmployeeID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-SERVICE_AGREEMENT-AgreementID",
+    "name": "SERVICE_AGREEMENT AgreementID Validation",
+    "entity": "SERVICE_AGREEMENT",
+    "conditions": [
+      {
+        "field": "AgreementID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "SERVICE_AGREEMENT AgreementID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-AGREEMENT_ITEM-AgreementItemID",
+    "name": "AGREEMENT_ITEM AgreementItemID Validation",
+    "entity": "AGREEMENT_ITEM",
+    "conditions": [
+      {
+        "field": "AgreementItemID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "AGREEMENT_ITEM AgreementItemID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-WORK_ORDER-WorkOrderID",
+    "name": "WORK_ORDER WorkOrderID Validation",
+    "entity": "WORK_ORDER",
+    "conditions": [
+      {
+        "field": "WorkOrderID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "WORK_ORDER WorkOrderID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-WORK_ORDER_ITEM-WorkOrderItemID",
+    "name": "WORK_ORDER_ITEM WorkOrderItemID Validation",
+    "entity": "WORK_ORDER_ITEM",
+    "conditions": [
+      {
+        "field": "WorkOrderItemID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "WORK_ORDER_ITEM WorkOrderItemID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-WORK_ORDER_ASSIGNMENT-WorkOrderAssignmentID",
+    "name": "WORK_ORDER_ASSIGNMENT WorkOrderAssignmentID Validation",
+    "entity": "WORK_ORDER_ASSIGNMENT",
+    "conditions": [
+      {
+        "field": "WorkOrderAssignmentID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "WORK_ORDER_ASSIGNMENT WorkOrderAssignmentID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-MATERIAL-MaterialID",
+    "name": "MATERIAL MaterialID Validation",
+    "entity": "MATERIAL",
+    "conditions": [
+      {
+        "field": "MaterialID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "MATERIAL MaterialID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-MATERIAL_USAGE-MaterialUsageID",
+    "name": "MATERIAL_USAGE MaterialUsageID Validation",
+    "entity": "MATERIAL_USAGE",
+    "conditions": [
+      {
+        "field": "MaterialUsageID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "MATERIAL_USAGE MaterialUsageID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-INVOICE-InvoiceID",
+    "name": "INVOICE InvoiceID Validation",
+    "entity": "INVOICE",
+    "conditions": [
+      {
+        "field": "InvoiceID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "INVOICE InvoiceID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-INVOICE_LINE_ITEM-LineItemID",
+    "name": "INVOICE_LINE_ITEM LineItemID Validation",
+    "entity": "INVOICE_LINE_ITEM",
+    "conditions": [
+      {
+        "field": "LineItemID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "INVOICE_LINE_ITEM LineItemID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-PAYMENT-PaymentID",
+    "name": "PAYMENT PaymentID Validation",
+    "entity": "PAYMENT",
+    "conditions": [
+      {
+        "field": "PaymentID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "PAYMENT PaymentID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-CREDIT_MEMO-CreditMemoID",
+    "name": "CREDIT_MEMO CreditMemoID Validation",
+    "entity": "CREDIT_MEMO",
+    "conditions": [
+      {
+        "field": "CreditMemoID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "CREDIT_MEMO CreditMemoID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-COMMUNICATION_LOG-CommunicationLogID",
+    "name": "COMMUNICATION_LOG CommunicationLogID Validation",
+    "entity": "COMMUNICATION_LOG",
+    "conditions": [
+      {
+        "field": "CommunicationLogID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "COMMUNICATION_LOG CommunicationLogID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-ROUTE-RouteID",
+    "name": "ROUTE RouteID Validation",
+    "entity": "ROUTE",
+    "conditions": [
+      {
+        "field": "RouteID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "ROUTE RouteID is required"
+      }
+    ],
+    "priority": "high"
+  },
+  {
+    "id": "BR-ROUTE_STOP-RouteStopID",
+    "name": "ROUTE_STOP RouteStopID Validation",
+    "entity": "ROUTE_STOP",
+    "conditions": [
+      {
+        "field": "RouteStopID",
+        "operator": "isRequired",
+        "value": null
+      }
+    ],
+    "actions": [
+      {
+        "type": "validate",
+        "message": "ROUTE_STOP RouteStopID is required"
+      }
+    ],
+    "priority": "high"
+  }
+]

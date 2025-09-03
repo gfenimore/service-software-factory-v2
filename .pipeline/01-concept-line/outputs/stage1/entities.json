@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Account",
+    "id": "account",
+    "fields": ["id", "name", "email", "orgId", "createdAt", "updatedAt"],
+    "properties": {
+      "id": { "type": "string", "required": true },
+      "name": { "type": "string", "required": true },
+      "email": { "type": "string", "required": true },
+      "orgId": { "type": "string", "required": true },
+      "createdAt": { "type": "datetime", "required": true },
+      "updatedAt": { "type": "datetime", "required": true }
+    },
+    "relationships": {
+      "organization": { "entity": "Organization", "type": "belongs_to" },
+      "users": { "entity": "User", "type": "has_many" }
+    }
+  },
+  {
+    "name": "User",
+    "id": "user",
+    "fields": ["id", "username", "email", "accountId", "role", "active"],
+    "properties": {
+      "id": { "type": "string", "required": true },
+      "username": { "type": "string", "required": true },
+      "email": { "type": "string", "required": true },
+      "accountId": { "type": "string", "required": true },
+      "role": { "type": "string", "required": true },
+      "active": { "type": "boolean", "required": true }
+    },
+    "relationships": {
+      "account": { "entity": "Account", "type": "belongs_to" }
+    }
+  },
+  {
+    "name": "Organization",
+    "id": "organization",
+    "fields": ["id", "name", "domain", "settings", "planType"],
+    "properties": {
+      "id": { "type": "string", "required": true },
+      "name": { "type": "string", "required": true },
+      "domain": { "type": "string", "required": false },
+      "settings": { "type": "object", "required": false },
+      "planType": { "type": "string", "required": true }
+    },
+    "relationships": {
+      "accounts": { "entity": "Account", "type": "has_many" }
+    }
+  }
+]

@@ -1,0 +1,77 @@
+graph TD
+    %% Stage 1 Outputs (Inputs to Stage 2)
+    subgraph "Stage 1 Outputs"
+        ENTITIES_JSON[entities.json<br/>["Account", "User"]<br/>Entity list array]
+        BUSM_SUBSET[busm-subset.mmd<br/>Filtered business model<br/>Entity relationships]
+        RULES_JSON[business-rules.json<br/>Validation rules<br/>Business logic]
+    end
+
+    %% Stage 2 Components  
+    subgraph "Stage 2: Configuration"
+        CONFIG_ENRICHER[Configuration Enricher<br/>stage2_configuration function]
+        METADATA_GENERATOR[Metadata Generator<br/>Adds timestamps, versions]
+        ENTITY_MAPPER[Entity Mapper<br/>Maps entities to config structure]
+        RULE_VALIDATOR[Rule Validator<br/>Validates business rules]
+        CONFIG_BUILDER[Config Builder<br/>Assembles final config]
+        
+        %% Processing Steps
+        LOAD_ENTITIES[Load Entity List<br/>Parse entities.json<br/>Validate entity names]
+        LOAD_RULES[Load Business Rules<br/>Parse rules.json<br/>Validate rule syntax]
+        BUILD_METADATA[Build Metadata<br/>Add timestamp, version<br/>Set stage marker]
+        MAP_ENTITIES[Map Entity Structure<br/>Create entity mappings<br/>Define relationships]
+        ENRICH_CONFIG[Enrich Configuration<br/>Combine all data<br/>Create unified config]
+    end
+
+    %% Stage 2 Outputs
+    subgraph "Stage 2 Outputs"
+        ENRICHED_CONFIG[enriched-config.json<br/>Complete configuration<br/>Ready for ViewForge]
+        ENTITY_MAP[entity-mappings.json<br/>Entity relationship map<br/>Navigation structure]
+        CONFIG_METADATA[config-metadata.json<br/>Version, timestamp<br/>Build information]
+    end
+
+    %% Data Flow Connections
+    ENTITIES_JSON --> CONFIG_ENRICHER
+    BUSM_SUBSET --> CONFIG_ENRICHER  
+    RULES_JSON --> CONFIG_ENRICHER
+    
+    CONFIG_ENRICHER --> LOAD_ENTITIES
+    CONFIG_ENRICHER --> LOAD_RULES
+    CONFIG_ENRICHER --> BUILD_METADATA
+    
+    LOAD_ENTITIES --> MAP_ENTITIES
+    LOAD_RULES --> RULE_VALIDATOR
+    BUILD_METADATA --> METADATA_GENERATOR
+    
+    MAP_ENTITIES --> ENTITY_MAPPER
+    RULE_VALIDATOR --> CONFIG_BUILDER
+    METADATA_GENERATOR --> CONFIG_BUILDER
+    ENTITY_MAPPER --> CONFIG_BUILDER
+    
+    CONFIG_BUILDER --> ENRICH_CONFIG
+    
+    %% Output Generation
+    ENRICH_CONFIG --> ENRICHED_CONFIG
+    ENTITY_MAPPER --> ENTITY_MAP
+    METADATA_GENERATOR --> CONFIG_METADATA
+
+    %% Stage 3 Consumption (dotted lines)
+    ENRICHED_CONFIG -.-> STAGE3_INPUT[Stage 3: ViewForge<br/>Consumes enriched-config.json<br/>Transforms to UI components]
+    ENTITY_MAP -.-> STAGE3_INPUT
+
+    %% Processing Details (annotations)
+    LOAD_ENTITIES -.->|"Validates:<br/>- Entity exists in BUSM<br/>- No duplicates<br/>- Valid naming"| ENTITY_VALIDATION[Entity Validation<br/>Checks & Errors]
+    
+    MAP_ENTITIES -.->|"Creates:<br/>- Primary entities<br/>- Related entities<br/>- Navigation paths"| MAPPING_RULES[Mapping Rules<br/>Entity Relationships]
+
+    %% Styling
+    classDef input fill:#e1f5fe,stroke:#01579b,color:#000
+    classDef processor fill:#f3e5f5,stroke:#4a148c,color:#000
+    classDef output fill:#e8f5e8,stroke:#1b5e20,color:#000
+    classDef consumer fill:#fff3e0,stroke:#e65100,color:#000
+    classDef validation fill:#ffebee,stroke:#c62828,color:#000
+
+    class ENTITIES_JSON,BUSM_SUBSET,RULES_JSON input
+    class CONFIG_ENRICHER,METADATA_GENERATOR,ENTITY_MAPPER,RULE_VALIDATOR,CONFIG_BUILDER,LOAD_ENTITIES,LOAD_RULES,BUILD_METADATA,MAP_ENTITIES,ENRICH_CONFIG processor
+    class ENRICHED_CONFIG,ENTITY_MAP,CONFIG_METADATA output
+    class STAGE3_INPUT consumer
+    class ENTITY_VALIDATION,MAPPING_RULES validation

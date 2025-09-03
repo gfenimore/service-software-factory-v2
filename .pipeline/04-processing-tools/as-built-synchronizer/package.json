@@ -1,0 +1,28 @@
+{
+  "name": "as-built-synchronizer",
+  "version": "1.0.0",
+  "description": "Synchronizes PRD requirements with actual implementation",
+  "main": "as-built-sync.js",
+  "bin": {
+    "as-built-sync": "./as-built-sync.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sync": "node as-built-sync.js sync",
+    "add-component": "node as-built-sync.js add-component"
+  },
+  "keywords": [
+    "prd",
+    "requirements",
+    "implementation",
+    "synchronization",
+    "analysis"
+  ],
+  "author": "Software Factory Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

@@ -1,0 +1,24 @@
+graph TD
+  Start([Pipeline Start])
+  S1[✅ Stage 1: Requirements Capture<br/>0ms]
+  Start --> S1
+  class S1 success
+  S2[✅ Stage 2: Configuration<br/>14ms]
+  S1 --> S2
+  class S2 success
+  S3[✅ Stage 3: ViewForge<br/>0ms]
+  S2 --> S3
+  class S3 success
+  S4[✅ Stage 4: AST Generation<br/>1ms]
+  S3 --> S4
+  class S4 success
+  S5[✅ Stage 5: Validation<br/>1ms]
+  S4 --> S5
+  class S5 success
+  S6[✅ Stage 6: Deployment<br/>0ms]
+  S5 --> S6
+  class S6 success
+  S6 --> End([Pipeline End])
+
+  classDef success fill:#d4edda,stroke:#155724,color:#155724
+  classDef error fill:#f8d7da,stroke:#721c24,color:#721c24

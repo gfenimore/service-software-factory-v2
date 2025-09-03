@@ -1,0 +1,374 @@
+erDiagram
+    ACCOUNT {
+        integer AccountID PK "Unique Account/Customer"
+        string AccountName  "Customer or business name"
+        string AccountType  "Segmentation/category"
+        string BillingStreetAddress  "Street for billing"
+        string BillingCity  "ACCOUNT BillingCity"
+        string BillingState  "ACCOUNT BillingState"
+        string BillingZipCode  "ACCOUNT BillingZipCode"
+        string Status  "Current status, e.g. Active, Inactive"
+    }
+    
+    CONTACT {
+        integer ContactID PK "Unique identifier for contact"
+        integer AccountID FK "Account this contact belongs to"
+        string FirstName  "CONTACT FirstName"
+        string LastName  "CONTACT LastName"
+        string PhoneNumber  "CONTACT PhoneNumber"
+        string EmailAddress  "CONTACT EmailAddress"
+        boolean IsPrimaryContact  "Is this the main contact for account?"
+        string CommunicationPreference  "e.g., Voice, Text, Email"
+    }
+    
+    SERVICE_LOCATION {
+        integer ServiceLocationID PK "Physical place where service is performed"
+        integer AccountID FK "Linked to customer/account"
+        integer GeographicAreaID FK "For routing/zoning"
+        string LocationName  "e.g., Smith Residence, Dock 5"
+        string StreetAddress  "Line 1"
+        string AddressLine2  "Suite/Apt/Unit"
+        string City  "SERVICE_LOCATION City"
+        string State  "SERVICE_LOCATION State"
+        string PostalCode  "SERVICE_LOCATION PostalCode"
+        string Country  "SERVICE_LOCATION Country"
+        decimal Latitude  "GPS coordinate (WGS84)"
+        decimal Longitude  "GPS coordinate (WGS84)"
+        string AccessInformation  "Gate codes, keys, etc."
+        string Notes  "Special site-specific notes"
+    }
+    
+    CONTACT_LOCATION {
+        integer ContactLocationID PK "Unique link between contact and location"
+        integer ContactID FK "Contact at this location"
+        integer ServiceLocationID FK "Location for this contact"
+        string Role  "e.g., Primary, Gatekeeper, Billing"
+        string Notes  "CONTACT_LOCATION Notes"
+    }
+    
+    DOMAIN {
+        integer DomainID PK "Unique identifier for industry / asset type"
+        string Name  "e.g., Boat, Pool, Lawncare"
+        string Description  "Business/industry context"
+    }
+    
+    SERVICEABLE_ITEM {
+        integer ServiceableItemID PK "Asset or thing being serviced"
+        integer AccountID FK "Who owns/manages this item"
+        integer PrimaryServiceLocationID FK "Where item is usually located"
+        integer DomainID FK "Industry-specific domain/type"
+        string ItemName  "Display name for this item (e.g., Sea Breeze)"
+        string ItemType  "Subtype: BoatType, PoolType, etc."
+        string Identifier1  "e.g., VIN, Hull ID, Serial #, etc."
+        string Identifier2  "e.g., Reg number, Asset Tag"
+        string Description  "Narrative details for field staff"
+        string Status  "e.g., Active, In Storage, Needs Repair"
+    }
+    
+    SERVICEABLE_ITEM_PROPERTY {
+        integer PropertyID PK "Unique row for a property"
+        integer ServiceableItemID FK "Links to the specific item"
+        string PropertyKey  "e.g., OverallLength, Heated"
+        string PropertyValue  "e.g., '32', 'Yes', 'St. Augustine'"
+        string ValueType  "String, Number, Boolean, etc."
+        string Unit  "If numeric: ft, gal, sqft, etc."
+    }
+    
+    SERVICE_ZONE {
+        integer ServiceZoneID PK "Unique service zone"
+        string Name  "e.g., Commercial Weekly Pool Customers"
+        string Description  "Business or operational grouping logic"
+        string ZoneType  "e.g., Account Type, Service Category"
+        boolean Active  "SERVICE_ZONE Active"
+    }
+    
+    SERVICE_LOCATION_SERVICE_ZONE {
+        integer ServiceLocationServiceZoneID PK "SERVICE_LOCATION_SERVICE_ZONE ServiceLocationServiceZoneID"
+        integer ServiceLocationID FK "SERVICE_LOCATION_SERVICE_ZONE ServiceLocationID"
+        integer ServiceZoneID FK "SERVICE_LOCATION_SERVICE_ZONE ServiceZoneID"
+    }
+    
+    ROUTE_SERVICE_ZONE {
+        integer RouteServiceZoneID PK "ROUTE_SERVICE_ZONE RouteServiceZoneID"
+        integer RouteID FK "ROUTE_SERVICE_ZONE RouteID"
+        integer ServiceZoneID FK "ROUTE_SERVICE_ZONE ServiceZoneID"
+    }
+    
+    GEOGRAPHIC_AREA {
+        integer GeographicAreaID PK "Unique mapped area"
+        string AreaName  "E.g., West Tampa Region"
+        json area_geometry  "GeoJSON polygon for user-drawn region"
+        string Notes  "Description, rules, or context"
+        boolean Active  "Is active/in use?"
+        string DisplayColor  "Optional, for visualization"
+        datetime CreatedAt  "When area was created"
+        datetime UpdatedAt  "Last update"
+    }
+    
+    SERVICE {
+        integer ServiceID PK "Definition of a service offered"
+        string ServiceName  "e.g., Oil Change, Hull Cleaning"
+        string Description  "SERVICE Description"
+        string ServiceCategory  "e.g., Pest Control, Lawncare"
+        integer EstimatedDurationMinutes  "SERVICE EstimatedDurationMinutes"
+        decimal StandardRate  "SERVICE StandardRate"
+    }
+    
+    EMPLOYEE {
+        integer EmployeeID PK "Unique identifier for worker"
+        string FirstName  "EMPLOYEE FirstName"
+        string LastName  "EMPLOYEE LastName"
+        string EmployeeType  "e.g., Mechanic, Inspector"
+        string Email  "EMPLOYEE Email"
+        string Phone  "EMPLOYEE Phone"
+    }
+    
+    SERVICE_AGREEMENT {
+        integer AgreementID PK "SERVICE_AGREEMENT AgreementID"
+        integer AccountID FK "SERVICE_AGREEMENT AccountID"
+        string Description  "e.g., Annual Maintenance Contract"
+        date StartDate  "SERVICE_AGREEMENT StartDate"
+        date EndDate  "SERVICE_AGREEMENT EndDate"
+        string Frequency  "e.g., Monthly"
+        string AgreementStatus  "Active, Expired, Cancelled"
+    }
+    
+    AGREEMENT_ITEM {
+        integer AgreementItemID PK "AGREEMENT_ITEM AgreementItemID"
+        integer AgreementID FK "AGREEMENT_ITEM AgreementID"
+        integer ServiceID FK "The specific service included"
+        integer ServiceLocationID FK "If agreement for a location"
+        integer ServiceableItemID FK "If agreement for an item"
+        decimal Price  "AGREEMENT_ITEM Price"
+        string Notes  "AGREEMENT_ITEM Notes"
+    }
+    
+    WORK_ORDER {
+        integer WorkOrderID PK "WORK_ORDER WorkOrderID"
+        integer AccountID FK "WORK_ORDER AccountID"
+        integer ServiceLocationID FK "WORK_ORDER ServiceLocationID"
+        integer ServiceableItemID FK "Primary item for WO"
+        string WorkOrderType  "e.g., Repair, Inspection"
+        string WorkOrderStatus  "Scheduled, Completed"
+        datetime ScheduledDateTime  "WORK_ORDER ScheduledDateTime"
+        datetime CompletionDateTime  "WORK_ORDER CompletionDateTime"
+        string Priority  "High, Medium, Low"
+        string Summary  "Work summary"
+        string Notes_Internal  "WORK_ORDER Notes_Internal"
+        string Notes_Customer  "WORK_ORDER Notes_Customer"
+    }
+    
+    WORK_ORDER_ITEM {
+        integer WorkOrderItemID PK "WORK_ORDER_ITEM WorkOrderItemID"
+        integer WorkOrderID FK "WORK_ORDER_ITEM WorkOrderID"
+        integer ServiceID FK "Service/task performed"
+        integer ServiceableItemID FK "WORK_ORDER_ITEM ServiceableItemID"
+        string Description  "Overrides service/service name"
+        string Notes  "Findings/notes"
+        string Resolution  "What was done"
+        decimal Quantity  "WORK_ORDER_ITEM Quantity"
+        decimal UnitPrice  "WORK_ORDER_ITEM UnitPrice"
+        decimal LineTotal  "WORK_ORDER_ITEM LineTotal"
+        string Status  "WORK_ORDER_ITEM Status"
+    }
+    
+    WORK_ORDER_ASSIGNMENT {
+        integer WorkOrderAssignmentID PK "WORK_ORDER_ASSIGNMENT WorkOrderAssignmentID"
+        integer WorkOrderID FK "WORK_ORDER_ASSIGNMENT WorkOrderID"
+        integer EmployeeID FK "Technician assigned"
+        datetime AssignedTime  "WORK_ORDER_ASSIGNMENT AssignedTime"
+        datetime StartTime  "WORK_ORDER_ASSIGNMENT StartTime"
+        datetime EndTime  "WORK_ORDER_ASSIGNMENT EndTime"
+        string AssignmentStatus  "Assigned, Completed, etc."
+    }
+    
+    MATERIAL {
+        integer MaterialID PK "Parts catalogue"
+        string Name  "e.g., Oil Filter XYZ"
+        string PartNumber  "MATERIAL PartNumber"
+        string Description  "MATERIAL Description"
+        string UnitOfMeasure  "Each, Gallon, etc."
+        decimal UnitCost  "MATERIAL UnitCost"
+        decimal ListPrice  "MATERIAL ListPrice"
+    }
+    
+    MATERIAL_USAGE {
+        integer MaterialUsageID PK "MATERIAL_USAGE MaterialUsageID"
+        integer WorkOrderItemID FK "Task using this material"
+        integer MaterialID FK "MATERIAL_USAGE MaterialID"
+        decimal QuantityUsed  "MATERIAL_USAGE QuantityUsed"
+        decimal CostAtTimeOfUse  "MATERIAL_USAGE CostAtTimeOfUse"
+        decimal PriceCharged  "MATERIAL_USAGE PriceCharged"
+        string Notes  "MATERIAL_USAGE Notes"
+    }
+    
+    INVOICE {
+        integer InvoiceID PK "INVOICE InvoiceID"
+        integer AccountID FK "INVOICE AccountID"
+        integer WorkOrderID FK "INVOICE WorkOrderID"
+        integer ServiceAgreementID FK "INVOICE ServiceAgreementID"
+        string InvoiceNumber  "INVOICE InvoiceNumber"
+        date InvoiceDate  "INVOICE InvoiceDate"
+        date DueDate  "INVOICE DueDate"
+        decimal SubTotal  "INVOICE SubTotal"
+        decimal TaxAmount  "INVOICE TaxAmount"
+        decimal TotalAmount  "INVOICE TotalAmount"
+        string Status  "Draft, Sent, Paid, etc."
+        date PaidDate  "INVOICE PaidDate"
+    }
+    
+    INVOICE_LINE_ITEM {
+        integer LineItemID PK "INVOICE_LINE_ITEM LineItemID"
+        integer InvoiceID FK "INVOICE_LINE_ITEM InvoiceID"
+        integer WorkOrderItemID FK "INVOICE_LINE_ITEM WorkOrderItemID"
+        integer AgreementItemID FK "INVOICE_LINE_ITEM AgreementItemID"
+        integer MaterialUsageID FK "INVOICE_LINE_ITEM MaterialUsageID"
+        string Description  "INVOICE_LINE_ITEM Description"
+        decimal Quantity  "INVOICE_LINE_ITEM Quantity"
+        decimal UnitPrice  "INVOICE_LINE_ITEM UnitPrice"
+        decimal LineTotal  "INVOICE_LINE_ITEM LineTotal"
+        string ItemType  "Service, Material, Discount, Fee"
+    }
+    
+    PAYMENT {
+        integer PaymentID PK "PAYMENT PaymentID"
+        integer AccountID FK "PAYMENT AccountID"
+        integer InvoiceID FK "PAYMENT InvoiceID"
+        date PaymentDate  "PAYMENT PaymentDate"
+        decimal Amount  "PAYMENT Amount"
+        string PaymentMethod  "Check, Credit Card, etc."
+        string ReferenceNumber  "Check #, Transaction ID"
+        string Status  "Cleared, Pending, Failed"
+    }
+    
+    CREDIT_MEMO {
+        integer CreditMemoID PK "CREDIT_MEMO CreditMemoID"
+        integer AccountID FK "CREDIT_MEMO AccountID"
+        integer InvoiceID FK "CREDIT_MEMO InvoiceID"
+        string CreditMemoNumber  "CREDIT_MEMO CreditMemoNumber"
+        date IssueDate  "CREDIT_MEMO IssueDate"
+        decimal Amount  "CREDIT_MEMO Amount"
+        string Reason  "CREDIT_MEMO Reason"
+        string Status  "CREDIT_MEMO Status"
+    }
+    
+    COMMUNICATION_LOG {
+        integer CommunicationLogID PK "COMMUNICATION_LOG CommunicationLogID"
+        integer AccountID FK "COMMUNICATION_LOG AccountID"
+        integer ContactID FK "COMMUNICATION_LOG ContactID"
+        integer EmployeeID FK "COMMUNICATION_LOG EmployeeID"
+        integer RelatedWorkOrderID FK "COMMUNICATION_LOG RelatedWorkOrderID"
+        integer RelatedInvoiceID FK "COMMUNICATION_LOG RelatedInvoiceID"
+        datetime Timestamp  "COMMUNICATION_LOG Timestamp"
+        string Method  "Email, Phone, SMS"
+        string Subject  "COMMUNICATION_LOG Subject"
+        string Body  "Content or summary"
+        string Direction  "Inbound, Outbound"
+    }
+    
+    ROUTE {
+        integer RouteID PK "ROUTE RouteID"
+        integer EmployeeID FK "ROUTE EmployeeID"
+        date RouteDate  "ROUTE RouteDate"
+        string RouteName  "ROUTE RouteName"
+        string Status  "Planned, Completed, etc."
+    }
+    
+    ROUTE_STOP {
+        integer RouteStopID PK "ROUTE_STOP RouteStopID"
+        integer RouteID FK "ROUTE_STOP RouteID"
+        integer WorkOrderAssignmentID FK "Assignment for this stop"
+        integer ServiceLocationID FK "Stop location"
+        integer SequenceNumber  "Order on route"
+        datetime EstimatedArrivalTime  "ROUTE_STOP EstimatedArrivalTime"
+        datetime ActualArrivalTime  "ROUTE_STOP ActualArrivalTime"
+        datetime EstimatedDepartureTime  "ROUTE_STOP EstimatedDepartureTime"
+        datetime ActualDepartureTime  "ROUTE_STOP ActualDepartureTime"
+        string Status  "Pending, Completed, etc."
+        string StopNotes  "ROUTE_STOP StopNotes"
+    }
+    
+    ACCOUNT ||--o{ SERVICE_AGREEMENT : "0"
+    ACCOUNT ||--o{ SERVICE_LOCATION : "1"
+    ACCOUNT ||--o{ SERVICEABLE_ITEM : "2"
+    ACCOUNT ||--o{ WORK_ORDER : "3"
+    ACCOUNT ||--o{ INVOICE : "4"
+    ACCOUNT ||--o{ PAYMENT : "5"
+    ACCOUNT ||--o{ CREDIT_MEMO : "6"
+    ACCOUNT ||--o{ COMMUNICATION_LOG : "7"
+    CONTACT ||--o{ CONTACT_LOCATION : "0"
+    CONTACT ||--o{ COMMUNICATION_LOG : "1"
+    SERVICE_LOCATION ||--o{ SERVICE_LOCATION : "0"
+    SERVICE_LOCATION ||--o{ CONTACT_LOCATION : "1"
+    SERVICE_LOCATION ||--o{ SERVICEABLE_ITEM : "2"
+    SERVICE_LOCATION ||--o{ WORK_ORDER : "3"
+    SERVICE_LOCATION ||--o{ AGREEMENT_ITEM : "4"
+    SERVICE_LOCATION ||--o{ ROUTE_STOP : "5"
+    SERVICE_LOCATION ||--o{ SERVICE_LOCATION_SERVICE_ZONE : "6"
+    CONTACT_LOCATION ||--o{ CONTACT_LOCATION : "0"
+    CONTACT_LOCATION ||--o{ CONTACT_LOCATION : "1"
+    SERVICEABLE_ITEM ||--o{ SERVICEABLE_ITEM : "0"
+    SERVICEABLE_ITEM ||--o{ SERVICEABLE_ITEM : "1"
+    SERVICEABLE_ITEM ||--o{ SERVICEABLE_ITEM_PROPERTY : "2"
+    SERVICEABLE_ITEM ||--o{ WORK_ORDER_ITEM : "3"
+    SERVICEABLE_ITEM_PROPERTY ||--o{ SERVICEABLE_ITEM_PROPERTY : "0"
+    SERVICE_ZONE ||--o{ SERVICE_LOCATION_SERVICE_ZONE : "0"
+    SERVICE_ZONE ||--o{ ROUTE_SERVICE_ZONE : "1"
+    SERVICE_LOCATION_SERVICE_ZONE ||--o{ SERVICE_LOCATION_SERVICE_ZONE : "0"
+    SERVICE_LOCATION_SERVICE_ZONE ||--o{ SERVICE_LOCATION_SERVICE_ZONE : "1"
+    ROUTE_SERVICE_ZONE ||--o{ ROUTE_SERVICE_ZONE : "0"
+    ROUTE_SERVICE_ZONE ||--o{ ROUTE_SERVICE_ZONE : "1"
+    SERVICE ||--o{ AGREEMENT_ITEM : "0"
+    SERVICE ||--o{ WORK_ORDER_ITEM : "1"
+    EMPLOYEE ||--o{ SERVICE_AGREEMENT : "0"
+    EMPLOYEE ||--o{ ROUTE : "1"
+    EMPLOYEE ||--o{ COMMUNICATION_LOG : "2"
+    SERVICE_AGREEMENT ||--o{ SERVICE_AGREEMENT : "0"
+    SERVICE_AGREEMENT ||--o{ AGREEMENT_ITEM : "1"
+    SERVICE_AGREEMENT ||--o{ INVOICE : "2"
+    SERVICE_AGREEMENT ||--o{ SERVICE_AGREEMENT : "3"
+    AGREEMENT_ITEM ||--o{ AGREEMENT_ITEM : "0"
+    AGREEMENT_ITEM ||--o{ AGREEMENT_ITEM : "1"
+    AGREEMENT_ITEM ||--o{ AGREEMENT_ITEM : "2"
+    AGREEMENT_ITEM ||--o{ WORK_ORDER_ITEM : "3"
+    AGREEMENT_ITEM ||--o{ INVOICE_LINE_ITEM : "4"
+    WORK_ORDER ||--o{ WORK_ORDER : "0"
+    WORK_ORDER ||--o{ WORK_ORDER : "1"
+    WORK_ORDER ||--o{ WORK_ORDER_ITEM : "2"
+    WORK_ORDER ||--o{ WORK_ORDER_ASSIGNMENT : "3"
+    WORK_ORDER ||--o{ INVOICE : "4"
+    WORK_ORDER_ITEM ||--o{ WORK_ORDER_ITEM : "0"
+    WORK_ORDER_ITEM ||--o{ WORK_ORDER_ITEM : "1"
+    WORK_ORDER_ITEM ||--o{ WORK_ORDER_ITEM : "2"
+    WORK_ORDER_ITEM ||--o{ WORK_ORDER_ITEM : "3"
+    WORK_ORDER_ITEM ||--o{ MATERIAL_USAGE : "4"
+    WORK_ORDER_ITEM ||--o{ INVOICE_LINE_ITEM : "5"
+    WORK_ORDER_ASSIGNMENT ||--o{ WORK_ORDER_ASSIGNMENT : "0"
+    WORK_ORDER_ASSIGNMENT ||--o{ ROUTE_STOP : "1"
+    MATERIAL ||--o{ MATERIAL_USAGE : "0"
+    MATERIAL_USAGE ||--o{ MATERIAL_USAGE : "0"
+    MATERIAL_USAGE ||--o{ MATERIAL_USAGE : "1"
+    MATERIAL_USAGE ||--o{ INVOICE_LINE_ITEM : "2"
+    INVOICE ||--o{ INVOICE : "0"
+    INVOICE ||--o{ INVOICE : "1"
+    INVOICE ||--o{ INVOICE : "2"
+    INVOICE ||--o{ INVOICE_LINE_ITEM : "3"
+    INVOICE ||--o{ PAYMENT : "4"
+    INVOICE ||--o{ CREDIT_MEMO : "5"
+    INVOICE_LINE_ITEM ||--o{ INVOICE_LINE_ITEM : "0"
+    INVOICE_LINE_ITEM ||--o{ INVOICE_LINE_ITEM : "1"
+    INVOICE_LINE_ITEM ||--o{ INVOICE_LINE_ITEM : "2"
+    INVOICE_LINE_ITEM ||--o{ INVOICE_LINE_ITEM : "3"
+    PAYMENT ||--o{ PAYMENT : "0"
+    PAYMENT ||--o{ PAYMENT : "1"
+    CREDIT_MEMO ||--o{ CREDIT_MEMO : "0"
+    CREDIT_MEMO ||--o{ CREDIT_MEMO : "1"
+    COMMUNICATION_LOG ||--o{ COMMUNICATION_LOG : "0"
+    COMMUNICATION_LOG ||--o{ COMMUNICATION_LOG : "1"
+    COMMUNICATION_LOG ||--o{ COMMUNICATION_LOG : "2"
+    ROUTE ||--o{ ROUTE_SERVICE_ZONE : "0"
+    ROUTE ||--o{ ROUTE : "1"
+    ROUTE ||--o{ ROUTE_STOP : "2"
+    ROUTE_STOP ||--o{ ROUTE_STOP : "0"
+    ROUTE_STOP ||--o{ ROUTE_STOP : "1"
+    ROUTE_STOP ||--o{ ROUTE_STOP : "2"

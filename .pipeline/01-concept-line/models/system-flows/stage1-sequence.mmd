@@ -1,0 +1,124 @@
+sequenceDiagram
+    participant PO as Pipeline Orchestrator
+    participant BR as BUSM Reader
+    participant MP as Mermaid Parser
+    participant EE as Entity Extractor
+    participant FC as Filtering Criteria
+    participant RG as Rules Generator
+    participant CD as Completeness Detector
+    participant GL as Gap Logger
+    
+    Note over PO: Stage 1: Requirements Capture Begins
+    
+    Step 1: Load Input Files
+    PO->>BR: readBUSM('00-requirements/models/BUSM.mmd')
+    BR->>BR: validateFileExists()
+    BR->>MP: parseMermaidContent(busmContent)
+    MP->>MP: extractClassDefinitions()
+    MP->>MP: extractRelationships()
+    MP-->>BR: {entities: ['Account', 'User', 'Organization'], relationships: [...]}
+    BR-->>PO: busmModel
+    
+    PO->>PO: readFeatureSpec('feature-spec.md')
+    Note right of PO: Contains user story requirements<br/>Specifies which entities are needed
+    
+    Step 2: Load Entity Requirements from PRD
+    Note over FC: ENTITY REQUIREMENTS FROM PRD
+    PO->>FC: loadEntityRequirements(featureSpec)
+    Note right of FC: Reads "Required Entities for ViewForge Configuration"<br/>section from PRD - no scanning needed
+    FC->>FC: extractPrimaryEntities(['Account', 'ServiceLocation', 'WorkOrder'])
+    FC->>FC: extractSupportingEntities(['Contact', 'CommunicationLog', 'ServiceAgreement', 'FinancialData'])
+    FC->>FC: loadEntityRelationships()
+    Note right of FC: SME-defined entity list<br/>eliminates need for document scanning
+    FC-->>PO: filteringCriteria: {<br/>  primary: ['Account', 'ServiceLocation', 'WorkOrder'],<br/>  supporting: ['Contact', 'CommunicationLog', 'ServiceAgreement', 'FinancialData'],<br/>  relationships: ['Account→ServiceLocation', 'ServiceLocation→WorkOrder', ...]<br/>}
+    
+    Step 3: Build Entity Configuration from PRD
+    PO->>EE: buildEntityConfiguration(busmModel, filteringCriteria)
+    EE->>EE: loadPrimaryEntities(['Account', 'ServiceLocation', 'WorkOrder'])
+    EE->>EE: loadSupportingEntities(['Contact', 'CommunicationLog', 'ServiceAgreement', 'FinancialData'])
+    EE->>EE: validateEntitiesInBUSM(allEntities, busmModel)
+    
+    loop For each required entity
+        EE->>EE: findEntityInBUSM(entity, busmModel)
+        alt Entity exists in BUSM
+            EE->>EE: extractEntityDefinition(entity)
+            Note right of EE: Entity found in BUSM<br/>→ Extract full definition
+        else Entity missing from BUSM
+            EE->>EE: createEntityPlaceholder(entity)
+            Note right of EE: Entity not in BUSM<br/>→ Create placeholder for ViewForge
+        end
+    end
+    
+    EE->>EE: buildEntitySubset(allRequiredEntities)
+    Note right of EE: Build subset with all 7 entities:<br/>Account, ServiceLocation, WorkOrder,<br/>Contact, CommunicationLog, ServiceAgreement, FinancialData
+    EE-->>PO: entityConfiguration: {<br/>  entities: allRequiredEntities,<br/>  relationships: entityRelationships<br/>}
+    
+    Step 4: Define Completeness Criteria
+    Note over CD: COMPLETENESS DEFINITION
+    PO->>CD: defineCompleteness(featureSpec, busmSubset)
+    CD->>CD: extractRequiredFields(featureSpec)
+    Note right of CD: From "display account name, email"<br/>→ Account needs 'name', 'email' fields
+    CD->>CD: extractRequiredActions(featureSpec)
+    Note right of CD: From "users can create accounts"<br/>→ Need CREATE operation rules
+    CD->>CD: extractDataRelationships(featureSpec)
+    Note right of CD: From "account has users"<br/>→ Account-User relationship required
+    
+    CD-->>PO: completenessRequirements: {<br/>  requiredFields: {<br/>    Account: ['name', 'email', 'status'],<br/>    User: ['name', 'role']<br/>  },<br/>  requiredOperations: ['CREATE', 'READ', 'UPDATE'],<br/>  requiredRelationships: ['Account-User']<br/>}
+    
+    Step 5: Analyze Requirements Completeness
+    PO->>CD: checkCompleteness(busmSubset, completenessRequirements)
+    
+    loop For each required field
+        CD->>CD: checkFieldExists(entity, field)
+        alt Field exists in BUSM
+            CD->>CD: markComplete(entity, field)
+        else Field missing
+            CD->>GL: logGap('MISSING_FIELD', entity, field)
+            Note right of GL: Gap: Account.email not defined in BUSM
+        end
+    end
+    
+    loop For each required operation
+        CD->>CD: checkOperationSupported(operation)
+        alt Operation rules exist
+            CD->>CD: markComplete(operation)
+        else No rules defined
+            CD->>GL: logGap('MISSING_OPERATION_RULES', operation)
+            Note right of GL: Gap: CREATE operation rules not defined
+        end
+    end
+    
+    loop For each required relationship
+        CD->>CD: checkRelationshipExists(relationship)
+        alt Relationship defined in BUSM
+            CD->>CD: markComplete(relationship)
+        else Relationship missing
+            CD->>GL: logGap('MISSING_RELATIONSHIP', relationship)
+            Note right of GL: Gap: Account-User relationship unclear
+        end
+    end
+    
+    CD-->>PO: completenessReport: {<br/>  score: 75%,<br/>  missingFields: ['Account.email'],<br/>  missingOperations: ['CREATE rules'],<br/>  missingRelationships: []<br/>}
+    
+    %% Step 6: Generate Default Rules
+    PO->>RG: generateDefaultRules(busmSubset, gaps)
+    RG->>RG: createFieldValidationRules()
+    Note right of RG: Account.name: required, string, max 100<br/>Account.email: required, email format
+    RG->>RG: createOperationRules()
+    Note right of RG: CREATE Account: validate name & email<br/>UPDATE Account: maintain relationships
+    RG->>RG: fillGapsWithDefaults(gaps)
+    RG-->>PO: defaultRules
+    
+    %% Step 7: Generate Stage 1 Outputs
+    PO->>PO: writeEntitiesJson(filteredEntities)
+    PO->>PO: writeBusmSubset(filteredBusmSubset)
+    PO->>PO: writeBusinessRules(defaultRules)
+    PO->>GL: writeGapsReport(gapsFound)
+    PO->>PO: copyFeatureSpec()
+    
+    Note over PO: Stage 1 Complete: Requirements Captured & Structured
+    
+    %% Output Summary Box
+    rect rgb(232, 245, 232)
+        Note over PO: Stage 1 Outputs:<br/>✓ entities.json: All 7 required entities from PRD<br/>✓ busm-subset.mmd: Entity configuration with relationships<br/>✓ business-rules.json: Default + generated rules<br/>✓ gaps-report.json: Validation results<br/>✓ feature-spec.md: Reference copy
+    end

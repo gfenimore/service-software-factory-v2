@@ -1,0 +1,162 @@
+{
+  "baseSystem": {
+    "entities": [
+      "ACCOUNT",
+      "SERVICE_LOCATION", 
+      "WORK_ORDER",
+      "SERVICE_ITEM",
+      "INVOICE",
+      "PAYMENT",
+      "CONTACT",
+      "ORGANIZATION",
+      "EQUIPMENT",
+      "INVENTORY",
+      "SCHEDULE",
+      "TERRITORY",
+      "CUSTOMER",
+      "TECHNICIAN",
+      "VEHICLE",
+      "ROUTE",
+      "CONTRACT"
+    ],
+    "coreEntities": [
+      "ACCOUNT",
+      "SERVICE_LOCATION", 
+      "WORK_ORDER"
+    ],
+    "views": [
+      "Master View",
+      "Analysis View"
+    ],
+    "systemName": "Universal Service Management System",
+    "version": "1.0",
+    "generatedAt": "2025-09-02T00:00:00Z"
+  },
+  "domainCustomizations": {
+    "serviceDomain": "pestControl",
+    "businessName": "Premier Pest Control Solutions",
+    "additionalFields": {
+      "SERVICE_LOCATION": [
+        "pestType",
+        "treatmentHistory", 
+        "infestation_level",
+        "property_type",
+        "square_footage",
+        "chemical_restrictions"
+      ],
+      "WORK_ORDER": [
+        "chemicalsUsed",
+        "safetyNotes",
+        "treatment_method",
+        "pest_target",
+        "follow_up_required",
+        "weather_conditions"
+      ],
+      "ACCOUNT": [
+        "service_frequency",
+        "preferred_technician",
+        "special_instructions",
+        "pet_information"
+      ],
+      "TECHNICIAN": [
+        "certification_level",
+        "specializations",
+        "equipment_assigned"
+      ],
+      "EQUIPMENT": [
+        "chemical_capacity",
+        "last_calibration",
+        "safety_equipment"
+      ]
+    },
+    "businessRules": [
+      {
+        "id": "BR-PC-001",
+        "entity": "WORK_ORDER", 
+        "name": "Chemical Safety Validation",
+        "description": "All chemical applications must include safety documentation and weather validation",
+        "conditions": ["chemicalsUsed is not empty"],
+        "actions": ["validate_weather_conditions", "require_safety_notes", "check_chemical_restrictions"]
+      },
+      {
+        "id": "BR-PC-002",
+        "entity": "SERVICE_LOCATION",
+        "name": "Treatment History Tracking",
+        "description": "Service locations must maintain complete treatment history for compliance",
+        "conditions": ["treatment_performed"],
+        "actions": ["update_treatment_history", "schedule_follow_up_if_required"]
+      },
+      {
+        "id": "BR-PC-003",
+        "entity": "TECHNICIAN",
+        "name": "Certification Validation", 
+        "description": "Technicians must have valid certifications for assigned pest types",
+        "conditions": ["pest_target matches technician_specializations"],
+        "actions": ["validate_certification", "verify_training_current"]
+      }
+    ],
+    "integrations": [
+      {
+        "entity": "SERVICE_LOCATION",
+        "field": "address",
+        "type": "address-validation",
+        "required": true,
+        "description": "Validate service addresses for accurate routing and compliance"
+      },
+      {
+        "entity": "WORK_ORDER", 
+        "field": "chemicalsUsed",
+        "type": "chemical-registry-lookup",
+        "required": true,
+        "description": "Validate chemicals against EPA registry and state regulations"
+      },
+      {
+        "entity": "WORK_ORDER",
+        "field": "weather_conditions", 
+        "type": "weather-service-integration",
+        "required": false,
+        "description": "Get current weather for treatment safety validation"
+      },
+      {
+        "entity": "ACCOUNT",
+        "field": "service_frequency",
+        "type": "schedule-optimization",
+        "required": false,
+        "description": "Optimize service scheduling based on frequency and territory"
+      }
+    ],
+    "complianceRequirements": [
+      {
+        "regulation": "EPA_FIFRA",
+        "description": "Federal Insecticide, Fungicide, and Rodenticide Act compliance",
+        "appliesTo": ["WORK_ORDER", "TECHNICIAN"],
+        "requirements": [
+          "Chemical usage documentation",
+          "Technician certification validation",
+          "Application method recording"
+        ]
+      },
+      {
+        "regulation": "STATE_PEST_CONTROL",
+        "description": "State-specific pest control regulations",
+        "appliesTo": ["SERVICE_LOCATION", "WORK_ORDER"],
+        "requirements": [
+          "Property notification requirements",
+          "Chemical restriction compliance",
+          "Treatment scheduling restrictions"
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "createdBy": "Stage 1 Base System Loader",
+    "testScenario": "Pest Control Domain - Comprehensive Service Management",
+    "description": "Complete Stage 1 configuration for pest control operations including regulatory compliance and safety requirements",
+    "testObjectives": [
+      "Validate ViewForge Bridge transformation",
+      "Test domain customization application", 
+      "Verify integration declaration generation",
+      "Confirm regulatory compliance mapping"
+    ]
+  }
+}

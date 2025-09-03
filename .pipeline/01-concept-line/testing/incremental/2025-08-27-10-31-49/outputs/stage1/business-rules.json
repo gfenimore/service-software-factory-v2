@@ -1,0 +1,22 @@
+{
+  "rules": [
+    {
+      "id": "BR-001",
+      "name": "Account List Filtering",
+      "description": "Filter accounts by status and type",
+      "appliesTo": "AccountListView"
+    },
+    {
+      "id": "BR-002",
+      "name": "Field Validation",
+      "description": "Validate required fields on account details",
+      "appliesTo": "AccountDetailView"
+    },
+    {
+      "id": "BR-003",
+      "name": "Action Authorization",
+      "description": "Check permissions before allowing actions",
+      "appliesTo": "AccountActionsView"
+    }
+  ]
+}

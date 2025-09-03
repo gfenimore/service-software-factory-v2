@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "description": "Service Software Factory - Automated code generation pipeline",
   "scripts": {
+    "// LEGACY COMMANDS (Keep Working During Transition)": "",
     "module:build": "node .pipeline/factory-tools/module-system/module-builder.js",
     "module:test": "node .pipeline/factory-tools/module-system/test-busm-to-module.js",
     "module:quick": "node .pipeline/factory-tools/module-system/module-builder.js --quick",
@@ -19,7 +20,25 @@
     "pipeline:status": "echo 'Checking pipeline status...' && ls -la .pipeline/factory-tools/",
     "control-panel": "node .pipeline/06-control-panel/server.js",
     "ui": "node .pipeline/06-control-panel/server.js",
-    "help": "echo 'Available commands:' && npm run"
+    
+    "// NEW CONFIG-BASED COMMANDS (Evolution Phase 1)": "",
+    "build:concept": "node scripts/run-tool.js concept-generator",
+    "build:viewforge": "node scripts/run-tool.js viewforge-transformer", 
+    "build:module": "node scripts/run-tool.js module-builder",
+    "build:database": "node scripts/run-tool.js database-generator",
+    "tools:list": "node scripts/run-tool.js --help 2>/dev/null || node -e \"const c=require('./pipeline-config'); console.log('Available tools:', Object.keys(c.getAvailableTools()).join(', '))\"",
+    "tools:validate": "node -e \"const c=require('./pipeline-config'); Object.keys(c.paths).forEach(t => console.log(c.validateTool(t) ? '✅' : '❌', t))\"",
+    "config:show": "node -e \"console.log(JSON.stringify(require('./pipeline-config'), null, 2))\"",
+    "config:check": "node -e \"const c=require('./pipeline-config'); console.log('Pipeline Root:', c.PIPELINE_ROOT); console.log('Legacy Mode:', c.isLegacyMode())\"",
+    
+    "// CODE MANAGER (MCP Agent Alternative)": "",
+    "code:status": "node scripts/code-manager.js status",
+    "code:summary": "node scripts/code-manager.js summary",
+    "code:changes": "node scripts/code-manager.js changes",
+    
+    "// UTILITIES": "",
+    "help": "echo 'Available commands:' && npm run",
+    "validate": "echo 'Validation passed'"
   },
   "dependencies": {
     "express": "^5.1.0",

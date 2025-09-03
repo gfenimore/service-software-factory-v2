@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stage 1 - Sequence Diagram</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            background: #f5f5f5; 
+        }
+        .container { 
+            max-width: 1600px; 
+            margin: 0 auto; 
+            padding: 20px; 
+        }
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .mermaid {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+        }
+        .key-questions {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 4px solid #1976d2;
+            margin-bottom: 30px;
+        }
+        .key-questions h3 {
+            color: #1976d2;
+            margin-top: 0;
+        }
+        .explanation-boxes {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .explanation-box {
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 4px solid #4caf50;
+        }
+        .filtering-box {
+            background: #f1f8e9;
+            border-left-color: #4caf50;
+        }
+        .completeness-box {
+            background: #fff3e0;
+            border-left-color: #ff9800;
+        }
+        .participants {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .participant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .participant {
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            border-left: 3px solid #2196f3;
+        }
+        .participant h4 {
+            margin: 0 0 5px 0;
+            color: #1976d2;
+        }
+        .participant p {
+            margin: 0;
+            font-size: 12px;
+            color: #666;
+        }
+        .prd-link {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 8px;
+            background: #1976d2;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background 0.2s;
+        }
+        .prd-link:hover {
+            background: #1565c0;
+        }
+        .prd-link.not-available {
+            background: #757575;
+            cursor: not-allowed;
+        }
+        .stage-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .stage-nav a {
+            padding: 10px 20px;
+            background: #2196f3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.2s;
+        }
+        .stage-nav a:hover {
+            background: #1976d2;
+        }
+        .stage-nav a.current {
+            background: #4caf50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="stage-nav">
+            <a href="sequence-viewer.html" class="current">Stage 1: Requirements</a>
+            <a href="stage2-sequence-viewer.html">Stage 2: Configuration</a>
+        </div>
+
+        <div class="header">
+            <h1>🔍 Stage 1: Requirements Capture - Sequence Diagram</h1>
+            <p>Detailed interaction flow showing exactly how filtering criteria is established and completeness is defined</p>
+        </div>
+
+        <div class="key-questions">
+            <h3>🤔 Key Questions Answered</h3>
+            <ul>
+                <li><strong>How/where is filtering criteria established?</strong> → Feature spec analysis extracts primary entities and relationships</li>
+                <li><strong>How is completeness defined?</strong> → Based on required fields, operations, and relationships extracted from feature spec</li>
+                <li><strong>What determines which entities to keep vs exclude?</strong> → Decision matrix using spec mentions + direct relationships</li>
+            </ul>
+        </div>
+
+        <div class="participants">
+            <h3>Participants in the Sequence</h3>
+            <div class="participant-grid">
+                <div class="participant">
+                    <h4>Pipeline Orchestrator</h4>
+                    <p>Main coordinator that calls all other components</p>
+                    <a href="../../00-requirements/prds/active/FACTORY-CONTROL-PANEL-PRD.md" class="prd-link" target="_blank">View PRD</a>
+                </div>
+                <div class="participant">
+                    <h4>BUSM Reader</h4>
+                    <p>Reads and parses the BUSM.mmd business model file</p>
+                    <a href="../../00-requirements/prds/active/BUSM-READER-PRD.md" class="prd-link" target="_blank">View PRD</a>
+                </div>
+                <div class="participant">
+                    <h4>Mermaid Parser</h4>
+                    <p>Extracts class definitions and relationships from Mermaid</p>
+                    <span class="prd-link not-available">No PRD</span>
+                </div>
+                <div class="participant">
+                    <h4>Entity Extractor</h4>
+                    <p>Filters BUSM to keep only needed entities</p>
+                    <span class="prd-link not-available">No PRD</span>
+                </div>
+                <div class="participant">
+                    <h4>Filtering Criteria</h4>
+                    <p>Analyzes feature spec to determine what to keep</p>
+                    <span class="prd-link not-available">No PRD</span>
+                </div>
+                <div class="participant">
+                    <h4>Rules Generator</h4>
+                    <p>Creates default business rules for missing logic</p>
+                    <a href="../../00-requirements/prds/active/BUSINESS-RULES-CONFIGURATOR-PRD.md" class="prd-link" target="_blank">View PRD</a>
+                </div>
+                <div class="participant">
+                    <h4>Completeness Detector</h4>
+                    <p>Checks if all required fields/operations exist</p>
+                    <span class="prd-link not-available">No PRD</span>
+                </div>
+                <div class="participant">
+                    <h4>Gap Logger</h4>
+                    <p>Records missing requirements and suggests fixes</p>
+                    <a href="../../00-requirements/prds/active/GAP-LOGGER-PRD.md" class="prd-link" target="_blank">View PRD</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="mermaid">
+sequenceDiagram
+    participant PO as Pipeline Orchestrator
+    participant BR as BUSM Reader
+    participant MP as Mermaid Parser
+    participant EE as Entity Extractor
+    participant FC as Filtering Criteria
+    participant RG as Rules Generator
+    participant CD as Completeness Detector
+    participant GL as Gap Logger
+    
+    Note over PO: Stage 1: Requirements Capture Begins
+    
+    %% Step 1: Load Input Files
+    PO->>BR: readBUSM('00-requirements/models/BUSM.mmd')
+    BR->>BR: validateFileExists()
+    BR->>MP: parseMermaidContent(busmContent)
+    MP->>MP: extractClassDefinitions()
+    MP->>MP: extractRelationships()
+    MP-->>BR: {entities: ['Account', 'User', 'Organization'], relationships: [...]}
+    BR-->>PO: busmModel
+    
+    PO->>PO: readFeatureSpec('feature-spec.md')
+    Note right of PO: Contains user story requirements<br/>Specifies which entities are needed
+    
+    %% Step 2: Establish Filtering Criteria
+    Note over FC: FILTERING CRITERIA ESTABLISHMENT
+    PO->>FC: analyzeFeatureSpec(featureSpec)
+    FC->>FC: extractMentionedEntities(['Account', 'User'])
+    FC->>FC: identifyPrimaryEntity('Account')
+    FC->>FC: findRelatedEntities(busmModel, 'Account')
+    Note right of FC: Rule: Keep primary entity + <br/>directly related entities + <br/>entities mentioned in feature spec
+    FC-->>PO: filteringCriteria: {<br/>  primary: 'Account',<br/>  required: ['Account', 'User'],<br/>  related: ['Organization'],<br/>  excluded: ['Invoice', 'Payment']<br/>}
+    
+    %% Step 3: Filter BUSM Subset
+    PO->>EE: extractSubset(busmModel, filteringCriteria)
+    EE->>EE: keepPrimaryEntity('Account')
+    EE->>EE: keepRequiredEntities(['User'])
+    EE->>EE: evaluateRelatedEntities(['Organization'])
+    
+    loop For each related entity
+        EE->>EE: checkDirectRelationship(entity, primary)
+        alt Has direct relationship
+            EE->>EE: includeEntity(entity)
+            Note right of EE: Organization has Account.organizationId<br/>→ Include Organization
+        else No direct relationship
+            EE->>EE: excludeEntity(entity)
+            Note right of EE: Invoice not directly referenced<br/>in feature spec → Exclude
+        end
+    end
+    
+    EE->>EE: maintainRelationships(filteredEntities)
+    Note right of EE: Preserve: Account → Organization<br/>Account → User relationships
+    EE-->>PO: filteredBusmSubset
+    
+    %% Step 4: Define Completeness Criteria
+    Note over CD: COMPLETENESS DEFINITION
+    PO->>CD: defineCompleteness(featureSpec, busmSubset)
+    CD->>CD: extractRequiredFields(featureSpec)
+    Note right of CD: From "display account name, email"<br/>→ Account needs 'name', 'email' fields
+    CD->>CD: extractRequiredActions(featureSpec)
+    Note right of CD: From "users can create accounts"<br/>→ Need CREATE operation rules
+    CD->>CD: extractDataRelationships(featureSpec)
+    Note right of CD: From "account has users"<br/>→ Account-User relationship required
+    
+    CD-->>PO: completenessRequirements: {<br/>  requiredFields: {<br/>    Account: ['name', 'email', 'status'],<br/>    User: ['name', 'role']<br/>  },<br/>  requiredOperations: ['CREATE', 'READ', 'UPDATE'],<br/>  requiredRelationships: ['Account-User']<br/>}
+    
+    %% Step 5: Analyze Requirements Completeness
+    PO->>CD: checkCompleteness(busmSubset, completenessRequirements)
+    
+    loop For each required field
+        CD->>CD: checkFieldExists(entity, field)
+        alt Field exists in BUSM
+            CD->>CD: markComplete(entity, field)
+        else Field missing
+            CD->>GL: logGap('MISSING_FIELD', entity, field)
+            Note right of GL: Gap: Account.email not defined in BUSM
+        end
+    end
+    
+    loop For each required operation
+        CD->>CD: checkOperationSupported(operation)
+        alt Operation rules exist
+            CD->>CD: markComplete(operation)
+        else No rules defined
+            CD->>GL: logGap('MISSING_OPERATION_RULES', operation)
+            Note right of GL: Gap: CREATE operation rules not defined
+        end
+    end
+    
+    loop For each required relationship
+        CD->>CD: checkRelationshipExists(relationship)
+        alt Relationship defined in BUSM
+            CD->>CD: markComplete(relationship)
+        else Relationship missing
+            CD->>GL: logGap('MISSING_RELATIONSHIP', relationship)
+            Note right of GL: Gap: Account-User relationship unclear
+        end
+    end
+    
+    CD-->>PO: completenessReport: {<br/>  score: 75%,<br/>  missingFields: ['Account.email'],<br/>  missingOperations: ['CREATE rules'],<br/>  missingRelationships: []<br/>}
+    
+    %% Step 6: Generate Default Rules
+    PO->>RG: generateDefaultRules(busmSubset, gaps)
+    RG->>RG: createFieldValidationRules()
+    Note right of RG: Account.name: required, string, max 100<br/>Account.email: required, email format
+    RG->>RG: createOperationRules()
+    Note right of RG: CREATE Account: validate name & email<br/>UPDATE Account: maintain relationships
+    RG->>RG: fillGapsWithDefaults(gaps)
+    RG-->>PO: defaultRules
+    
+    %% Step 7: Generate Stage 1 Outputs
+    PO->>PO: writeEntitiesJson(filteredEntities)
+    PO->>PO: writeBusmSubset(filteredBusmSubset)
+    PO->>PO: writeBusinessRules(defaultRules)
+    PO->>GL: writeGapsReport(gapsFound)
+    PO->>PO: copyFeatureSpec()
+    
+    Note over PO: Stage 1 Complete: Requirements Captured & Structured
+    
+    %% Output Summary Box
+    rect rgb(232, 245, 232)
+        Note over PO: Stage 1 Outputs:<br/>✓ entities.json: ['Account', 'User', 'Organization']<br/>✓ busm-subset.mmd: Filtered model with relationships<br/>✓ business-rules.json: Default + generated rules<br/>✓ gaps-report.json: 3 gaps identified<br/>✓ feature-spec.md: Reference copy
+    end
+            </div>
+        </div>
+
+        <div class="explanation-boxes">
+            <div class="explanation-box filtering-box">
+                <h3>🎯 Filtering Logic</h3>
+                <p><strong>1. Primary Entity:</strong> Identified from feature spec main subject</p>
+                <p><strong>2. Required Entities:</strong> Explicitly mentioned in requirements</p>
+                <p><strong>3. Related Entities:</strong> Direct relationships in BUSM model</p>
+                <p><strong>4. Decision Rules:</strong> Include if mentioned OR directly related to primary</p>
+                <p><strong>Example:</strong> "Account list with users" → Keep Account (primary), User (mentioned), Organization (related)</p>
+            </div>
+            
+            <div class="explanation-box completeness-box">
+                <h3>📊 Completeness Definition</h3>
+                <p><strong>Field Completeness:</strong> All display/input fields from spec exist in BUSM</p>
+                <p><strong>Operation Completeness:</strong> All implied actions have business rules</p>
+                <p><strong>Relationship Completeness:</strong> All entity connections are defined</p>
+                <p><strong>Scoring:</strong> % of requirements that are satisfied by current BUSM</p>
+                <p><strong>Gap Logging:</strong> Missing items recorded with suggested fixes</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            sequence: {
+                useMaxWidth: true,
+                showSequenceNumbers: true
+            }
+        });
+    </script>
+</body>
+</html>

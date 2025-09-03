@@ -1,0 +1,57 @@
+{
+  "modules": {
+    "Accounts": {
+      "name": "Accounts",
+      "description": "Customer and vendor account management",
+      "subModules": [
+        "Master View",
+        "Detail View", 
+        "List View",
+        "Account Setup",
+        "Account History"
+      ],
+      "primaryEntities": ["ACCOUNT", "CONTACT"],
+      "features": [
+        "Customer Management",
+        "Account Tracking",
+        "Contact Management",
+        "Account Relationship Management"
+      ]
+    },
+    "Reporting": {
+      "name": "Reporting",
+      "description": "Business intelligence and reporting",
+      "subModules": [
+        "Dashboard View",
+        "Report Builder",
+        "Analytics View",
+        "Export Tools"
+      ],
+      "primaryEntities": ["REPORT", "DASHBOARD", "ANALYTICS"],
+      "features": [
+        "Performance Reports",
+        "Financial Reports",
+        "Operational Dashboards",
+        "Custom Report Builder"
+      ]
+    }
+  },
+  "serviceTypes": {
+    "Pest Control": {
+      "availableModules": ["Accounts", "Reporting"],
+      "defaultModule": "Accounts"
+    },
+    "HVAC": {
+      "availableModules": ["Accounts", "Reporting"], 
+      "defaultModule": "Accounts"
+    },
+    "Plumbing": {
+      "availableModules": ["Accounts", "Reporting"],
+      "defaultModule": "Accounts"
+    },
+    "Electrical": {
+      "availableModules": ["Accounts", "Reporting"],
+      "defaultModule": "Accounts"
+    }
+  }
+}

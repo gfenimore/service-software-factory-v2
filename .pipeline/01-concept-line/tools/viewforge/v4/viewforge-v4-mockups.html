@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViewForge V4 - SME Entity Selection Mockups</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .mockup {
+            background: white;
+            border: 2px solid #000;
+            margin: 30px 0;
+            box-shadow: 4px 4px 0px #000;
+        }
+        
+        .mockup-header {
+            background: #000;
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .mockup-content {
+            padding: 20px;
+            min-height: 400px;
+        }
+        
+        .workflow-step {
+            display: inline-block;
+            background: #e0e0e0;
+            padding: 8px 16px;
+            margin: 5px;
+            border: 1px solid #000;
+            font-weight: bold;
+        }
+        
+        .workflow-step.active {
+            background: #000;
+            color: white;
+        }
+        
+        .entity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .entity-card {
+            border: 2px solid #ccc;
+            padding: 15px;
+            background: #f9f9f9;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .entity-card:hover {
+            border-color: #000;
+            background: #fff;
+        }
+        
+        .entity-card.selected {
+            border-color: #000;
+            background: #000;
+            color: white;
+        }
+        
+        .entity-name {
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .entity-desc {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .entity-card.selected .entity-desc {
+            color: #ccc;
+        }
+        
+        .pattern-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .pattern-card {
+            border: 2px solid #ccc;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            background: #f9f9f9;
+        }
+        
+        .pattern-card:hover {
+            border-color: #000;
+        }
+        
+        .pattern-card.selected {
+            border-color: #000;
+            background: #000;
+            color: white;
+        }
+        
+        .pattern-visual {
+            height: 80px;
+            background: #ddd;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        .pattern-card.selected .pattern-visual {
+            background: #333;
+            color: white;
+        }
+        
+        .column-mapping {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .column-config {
+            border: 2px solid #000;
+            padding: 15px;
+        }
+        
+        .column-header {
+            background: #000;
+            color: white;
+            padding: 10px;
+            margin: -15px -15px 15px -15px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .entity-dropdown {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #000;
+            margin-bottom: 10px;
+        }
+        
+        .modal-config {
+            background: #f0f0f0;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px dashed #666;
+        }
+        
+        .button {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px 5px;
+        }
+        
+        .button:hover {
+            background: #333;
+        }
+        
+        .button.secondary {
+            background: white;
+            color: #000;
+            border: 2px solid #000;
+        }
+        
+        .preview-area {
+            border: 2px solid #000;
+            background: #fff;
+            min-height: 300px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .master-view-preview {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            height: 250px;
+        }
+        
+        .preview-column {
+            border: 1px solid #ccc;
+            padding: 10px;
+            background: #f9f9f9;
+        }
+        
+        .preview-header {
+            font-weight: bold;
+            padding: 5px 0;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+        
+        .preview-item {
+            padding: 5px 0;
+            border-bottom: 1px dotted #ccc;
+            font-size: 12px;
+        }
+        
+        .modal-indicator {
+            display: inline-block;
+            background: #666;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            margin-left: 5px;
+            border-radius: 2px;
+        }
+        
+        .navigation-mockup {
+            display: flex;
+            height: 500px;
+        }
+        
+        .left-nav {
+            width: 200px;
+            background: #000;
+            color: white;
+            padding: 20px 0;
+        }
+        
+        .nav-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background: #333;
+            border-left-color: white;
+        }
+        
+        .main-content {
+            flex: 1;
+            background: white;
+            padding: 20px;
+        }
+        
+        .search-bar {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #000;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        h1, h2, h3 {
+            margin-bottom: 15px;
+        }
+        
+        .note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #fdcb6e;
+        }
+        
+        .flow-arrow {
+            text-align: center;
+            font-size: 24px;
+            margin: 20px 0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ViewForge V4 - SME Entity Selection Mockups</h1>
+        <p><strong>Focus:</strong> Entity-first workflow for SME-driven Master View configuration</p>
+
+        <!-- Mockup 1: Main Menu & Workflow -->
+        <div class="mockup">
+            <div class="mockup-header">
+                Mockup 1: ViewForge V4 - Main Entry & Workflow Steps
+            </div>
+            <div class="mockup-content">
+                <h2>ViewForge V4 - Configuration Wizard</h2>
+                <p><strong>Subtitle:</strong> Entity-First Master View Configuration for Service Industries</p>
+                
+                <div style="margin: 30px 0;">
+                    <div class="workflow-step active">1. Select Entities</div>
+                    <div class="workflow-step">2. Choose Pattern</div>
+                    <div class="workflow-step">3. Map Columns</div>
+                    <div class="workflow-step">4. Configure Modals</div>
+                    <div class="workflow-step">5. Preview & Export</div>
+                </div>
+                
+                <div class="note">
+                    <strong>Key Change:</strong> Start with entity selection from BUSM, not field selection. SME picks the 7 entities first, then configures how they display.
+                </div>
+                
+                <button class="button">Start New Configuration</button>
+                <button class="button secondary">Load Existing Config</button>
+                <button class="button secondary">Import from Discovery Canvas</button>
+            </div>
+        </div>
+
+        <!-- Mockup 2: Entity Selection -->
+        <div class="mockup">
+            <div class="mockup-header">
+                Mockup 2: Step 1 - Entity Selection from BUSM
+            </div>
+            <div class="mockup-content">
+                <h3>Select Entities for Master View Configuration</h3>
+                <p>Choose entities from your BUSM model. Select 3 primary entities for columns, plus supporting entities for contextual modals.</p>
+                
+                <div style="margin: 20px 0;">
+                    <strong>BUSM Source:</strong> .pipeline/00-requirements/models/BUSM.mmd (35 entities available)
+                </div>
+                
+                <h4>Primary Entities (3 required for Master View columns):</h4>
+                <div class="entity-grid">
+                    <div class="entity-card selected">
+                        <div class="entity-name">ACCOUNT</div>
+                        <div class="entity-desc">Customer/business accounts</div>
+                    </div>
+                    <div class="entity-card selected">
+                        <div class="entity-name">SERVICE_LOCATION</div>
+                        <div class="entity-desc">Physical service locations</div>
+                    </div>
+                    <div class="entity-card selected">
+                        <div class="entity-name">WORK_ORDER</div>
+                        <div class="entity-desc">Service work orders</div>
+                    </div>
+                    <div class="entity-card">
+                        <div class="entity-name">EMPLOYEE</div>
+                        <div class="entity-desc">Service technicians</div>
+                    </div>
+                </div>
+                
+                <h4>Supporting Entities (for contextual modals):</h4>
+                <div class="entity-grid">
+                    <div class="entity-card selected">
+                        <div class="entity-name">CONTACT</div>
+                        <div class="entity-desc">Account contacts</div>
+                    </div>
+                    <div class="entity-card selected">
+                        <div class="entity-name">COMMUNICATION_LOG</div>
+                        <div class="entity-desc">Customer communications</div>
+                    </div>
+                    <div class="entity-card selected">
+                        <div class="entity-name">INVOICE</div>
+                        <div class="entity-desc">Billing and invoices</div>
+                    </div>
+                    <div class="entity-card">
+                        <div class="entity-name">PAYMENT</div>
+                        <div class="entity-desc">Payment records</div>
+                    </div>
+                    <div class="entity-card">
+                        <div class="entity-name">SERVICE_AGREEMENT</div>
+                        <div class="entity-desc">Service contracts</div>
+                    </div>
+                </div>
+                
+                <div class="note">
+                    <strong>Selection Status:</strong> 3 primary + 3 supporting = 6 entities selected<br>
+                    <strong>Ready for next step:</strong> ✅ Minimum requirements met
+                </div>
+                
+                <button class="button">Next: Choose Pattern</button>
+                <button class="button secondary">Back</button>
+            </div>
+        </div>
+
+        <!-- Mockup 3: Pattern Selection -->
+        <div class="mockup">
+            <div class="mockup-header">
+                Mockup 3: Step 2 - Master View Pattern Selection
+            </div>
+            <div class="mockup-content">
+                <h3>Choose Layout Pattern</h3>
+                <p>Select the layout pattern that best fits your selected entities and workflow needs.</p>
+                
+                <div class="pattern-selector">
+                    <div class="pattern-card">
+                        <strong>List View</strong>
+                        <div class="pattern-visual">Single Column<br>List Format</div>
+                        <small>Simple list of primary entity</small>
+                    </div>
+                    <div class="pattern-card selected">
+                        <strong>Master View (3-Column)</strong>
+                        <div class="pattern-visual">Col 1 | Col 2 | Col 3</div>
+                        <small>Account → Location → Work Order</small>
+                    </div>
+                    <div class="pattern-card">
+                        <strong>Dashboard</strong>
+                        <div class="pattern-visual">Multiple<br>Widgets</div>
+                        <small>Multiple data widgets</small>
+                    </div>
+                </div>
+                
+                <div class="note">
+                    <strong>Selected Pattern:</strong> Master View (3-Column)<br>
+                    <strong>Perfect for:</strong> Admin persona "absolute least clicks" requirement<br>
+                    <strong>Supports:</strong> Contextual modals for child/grandchild records
+                </div>
+                
+                <button class="button">Next: Map Columns</button>
+                <button class="button secondary">Back: Select Entities</button>
+            </div>
+        </div>
+
+        <!-- Mockup 4: Column Mapping -->
+        <div class="mockup">
+            <div class="mockup-header">
+                Mockup 4: Step 3 - Map Entities to Columns + Contextual Modals
+            </div>
+            <div class="mockup-content">
+                <h3>Configure Master View Columns</h3>
+                <p>Map your selected entities to the 3-column layout and configure contextual modals for child records.</p>
+                
+                <div class="column-mapping">
+                    <div class="column-config">
+                        <div class="column-header">Column 1</div>
+                        <select class="entity-dropdown">
+                            <option value="ACCOUNT" selected>ACCOUNT</option>
+                            <option value="SERVICE_LOCATION">SERVICE_LOCATION</option>
+                            <option value="WORK_ORDER">WORK_ORDER</option>
+                        </select>
+                        
+                        <strong>Contextual Modals:</strong>
+                        <div class="modal-config">
+                            📞 CONTACT (face icon)
+                            <br>💬 COMMUNICATION_LOG (chat icon)
+                            <br>💰 INVOICE (dollar icon)
+                        </div>
+                    </div>
+                    
+                    <div class="column-config">
+                        <div class="column-header">Column 2</div>
+                        <select class="entity-dropdown">
+                            <option value="ACCOUNT">ACCOUNT</option>
+                            <option value="SERVICE_LOCATION" selected>SERVICE_LOCATION</option>
+                            <option value="WORK_ORDER">WORK_ORDER</option>
+                        </select>
+                        
+                        <strong>Contextual Modals:</strong>
+                        <div class="modal-config">
+                            📞 CONTACT (location contacts)
+                            <br>🔧 SERVICE_HISTORY 
+                            <br>📝 ACCESS_NOTES
+                        </div>
+                    </div>
+                    
+                    <div class="column-config">
+                        <div class="column-header">Column 3</div>
+                        <select class="entity-dropdown">
+                            <option value="ACCOUNT">ACCOUNT</option>
+                            <option value="SERVICE_LOCATION">SERVICE_LOCATION</option>
+                            <option value="WORK_ORDER" selected>WORK_ORDER</option>
+                        </select>
+                        
+                        <strong>Contextual Modals:</strong>
+                        <div class="modal-config">
+                            🛠️ WORK_ORDER_ITEMS
+                            <br>📸 SERVICE_PHOTOS
+                            <br>💳 PAYMENT_STATUS
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="note">
+                    <strong>Data Flow:</strong> Column 1 selection drives Column 2, Column 2 drives Column 3<br>
+                    <strong>Modal Strategy:</strong> Side-panels that don't lose master context (low friction)
+                </div>
+                
+                <button class="button">Next: Configure Modals</button>
+                <button class="button secondary">Back: Choose Pattern</button>
+            </div>
+        </div>
+
+        <!-- Mockup 5: Preview -->
+        <div class="mockup">
+            <div class="mockup-header">
+                Mockup 5: Step 4 - Live Preview of Master View Configuration
+            </div>
+            <div class="mockup-content">
+                <h3>Master View Preview</h3>
+                <p>Preview your configured Master View with sample data. Contextual modals are indicated with icons.</p>
+                
+                <div class="preview-area">
+                    <div class="master-view-preview">
+                        <div class="preview-column">
+                            <div class="preview-header">
+                                ACCOUNTS 
+                                <span class="modal-indicator">📞</span>
+                                <span class="modal-indicator">💬</span>
+                                <span class="modal-indicator">💰</span>
+                            </div>
+                            <div class="preview-item">Smith Pest Control</div>
+                            <div class="preview-item">ABC Manufacturing</div>
+                            <div class="preview-item">Johnson Residence</div>
+                            <div class="preview-item">Metro Restaurant</div>
+                            <div class="preview-item">City Hall Complex</div>
+                        </div>
+                        
+                        <div class="preview-column">
+                            <div class="preview-header">
+                                SERVICE LOCATIONS
+                                <span class="modal-indicator">📞</span>
+                                <span class="modal-indicator">🔧</span>
+                            </div>
+                            <div class="preview-item">Main Building</div>
+                            <div class="preview-item">Warehouse A</div>
+                            <div class="preview-item">Kitchen Area</div>
+                            <div class="preview-item">Loading Dock</div>
+                            <div class="preview-item">Office Complex</div>
+                        </div>
+                        
+                        <div class="preview-column">
+                            <div class="preview-header">
+                                WORK ORDERS
+                                <span class="modal-indicator">🛠️</span>
+                                <span class="modal-indicator">📸</span>
+                            </div>
+                            <div class="preview-item">WO-2025-001 Scheduled</div>
+                            <div class="preview-item">WO-2025-002 In Progress</div>
+                            <div class="preview-item">WO-2025-003 Completed</div>
+                            <div class="preview-item">WO-2025-004 Pending</div>
+                            <div class="preview-item">WO-2025-005 Overdue</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="note">
+                    <strong>Test Scenario:</strong> Admin receives customer call<br>
+                    1. Search for "Smith" → Account appears in Column 1<br>
+                    2. Click account → Service locations load in Column 2<br>
+                    3. Click location → Work orders load in Column 3<br>
+                    4. Click icons → Contextual modals with contacts, communications, invoices<br>
+                    <strong>Result:</strong> All customer information accessible with minimal clicks ✅
+                </div>
+                
+                <button class="button">Export Configuration</button>
+                <button class="button secondary">Generate Stage 1 Inputs</button>
+                <button class="button secondary">Back: Configure Modals</button>
+            </div>
+        </div>
+
+        <!-- Mockup 6: Final Application Navigation -->
+        <div class="mockup">
+            <div class="mockup-header">
+                Mockup 6: Final Application - Master View in Navigation Context
+            </div>
+            <div class="mockup-content">
+                <h3>Pest Control Pro - Master View Integration</h3>
+                
+                <div class="navigation-mockup">
+                    <div class="left-nav">
+                        <div class="nav-item">🏠 Dashboard</div>
+                        <div class="nav-item active">📋 Master View</div>
+                        <div class="nav-item">👥 Accounts</div>
+                        <div class="nav-item">🔧 Operations</div>
+                        <div class="nav-item">📋 Administration</div>
+                        <div class="nav-item">📊 Reports</div>
+                    </div>
+                    
+                    <div class="main-content">
+                        <input type="text" class="search-bar" placeholder="Search customers, locations, work orders...">
+                        
+                        <div class="master-view-preview" style="height: 350px;">
+                            <div class="preview-column">
+                                <div class="preview-header">
+                                    ACCOUNTS 
+                                    <span class="modal-indicator">👤</span>
+                                    <span class="modal-indicator">💬</span>
+                                    <span class="modal-indicator">💰</span>
+                                </div>
+                                <div class="preview-item" style="background: #e0f2e0;">→ Smith Pest Control</div>
+                                <div class="preview-item">ABC Manufacturing</div>
+                                <div class="preview-item">Johnson Residence</div>
+                                <div class="preview-item">Metro Restaurant</div>
+                            </div>
+                            
+                            <div class="preview-column">
+                                <div class="preview-header">SERVICE LOCATIONS</div>
+                                <div class="preview-item" style="background: #e0f2e0;">→ Main Building</div>
+                                <div class="preview-item">Warehouse A</div>
+                                <div class="preview-item">Kitchen Area</div>
+                            </div>
+                            
+                            <div class="preview-column">
+                                <div class="preview-header">WORK ORDERS</div>
+                                <div class="preview-item" style="background: #fff3cd;">WO-2025-001 Due Today</div>
+                                <div class="preview-item">WO-2025-002 Completed</div>
+                                <div class="preview-item">WO-2025-003 Scheduled</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="note">
+                    <strong>Integration Success:</strong> Master View is the primary interface for Admin persona<br>
+                    <strong>Universal Search:</strong> Works across all entities<br>
+                    <strong>Direct Access:</strong> No extra navigation clicks required<br>
+                    <strong>Contextual Modals:</strong> Click icons for instant access to related records
+                </div>
+            </div>
+        </div>
+
+        <div class="flow-arrow">↓</div>
+
+        <!-- Summary -->
+        <div class="mockup">
+            <div class="mockup-header">
+                ViewForge V4 - Requirements Summary
+            </div>
+            <div class="mockup-content">
+                <h3>Key Changes from V3 to V4:</h3>
+                
+                <h4>✅ Entity-First Workflow:</h4>
+                <ul>
+                    <li>Start with entity selection from BUSM.mmd</li>
+                    <li>Select 3 primary + supporting entities</li>
+                    <li>Entities drive everything else (fields, relationships, modals)</li>
+                </ul>
+                
+                <h4>✅ Master View Pattern Support:</h4>
+                <ul>
+                    <li>3-column layout as primary pattern</li>
+                    <li>Contextual modal configuration</li>
+                    <li>Data flow: Column 1 → Column 2 → Column 3</li>
+                </ul>
+                
+                <h4>✅ SME-Driven Configuration:</h4>
+                <ul>
+                    <li>Subject Matter Expert picks entities based on business knowledge</li>
+                    <li>No document scanning or field-first configuration</li>
+                    <li>Configuration exports directly to Stage 1 pipeline</li>
+                </ul>
+                
+                <h4>✅ Integration with Factory:</h4>
+                <ul>
+                    <li>Reads from actual BUSM.mmd file</li>
+                    <li>Exports configuration that feeds Stage 1</li>
+                    <li>Bridges Discovery Canvas findings to pipeline execution</li>
+                </ul>
+                
+                <h4>🎯 Success Criteria:</h4>
+                <ul>
+                    <li>SME can configure Master View in under 30 minutes</li>
+                    <li>Configuration directly drives Concept Line → Prototype Line → Production</li>
+                    <li>No technical knowledge required for entity selection</li>
+                    <li>Supports contextual modals for "absolute least clicks" requirement</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

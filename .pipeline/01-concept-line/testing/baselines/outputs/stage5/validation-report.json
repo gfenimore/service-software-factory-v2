@@ -1,0 +1,12 @@
+{
+  "timestamp": "2025-08-27T10:28:21.752Z",
+  "checks": {
+    "syntaxValid": true,
+    "businessRulesApplied": true,
+    "integrationsMarked": true,
+    "gapsIdentified": true
+  },
+  "gaps": [],
+  "qualityScore": 85,
+  "readyForStakeholderReview": true
+}

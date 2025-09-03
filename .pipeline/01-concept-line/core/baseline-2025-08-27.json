@@ -1,0 +1,131 @@
+{
+  "timestamp": "2025-08-27T10:28:21.490Z",
+  "version": "1.0.0",
+  "system": {
+    "node": "v22.16.0",
+    "platform": "win32",
+    "arch": "x64"
+  },
+  "measurements": {
+    "pipelinePerformance": {
+      "measurements": [
+        {
+          "success": true,
+          "duration": 57
+        },
+        {
+          "success": true,
+          "duration": 52
+        },
+        {
+          "success": true,
+          "duration": 52
+        },
+        {
+          "success": true,
+          "duration": 53
+        },
+        {
+          "success": true,
+          "duration": 52
+        }
+      ],
+      "avgDuration": 53.2,
+      "successRate": 1,
+      "minDuration": 52,
+      "maxDuration": 57
+    },
+    "codebaseSize": {
+      "../tools": {
+        "fileCount": 68,
+        "totalSize": 587150,
+        "totalSizeMB": "0.56",
+        "fileTypes": {
+          "jsFiles": 30,
+          "htmlFiles": 7,
+          "jsonFiles": 6
+        }
+      },
+      "../configs": {
+        "fileCount": 8,
+        "totalSize": 40770,
+        "totalSizeMB": "0.04",
+        "fileTypes": {
+          "jsFiles": 0,
+          "htmlFiles": 0,
+          "jsonFiles": 8
+        }
+      },
+      "../models": {
+        "fileCount": 3,
+        "totalSize": 52070,
+        "totalSizeMB": "0.05",
+        "fileTypes": {
+          "jsFiles": 0,
+          "htmlFiles": 0,
+          "jsonFiles": 0
+        }
+      },
+      "../outputs": {
+        "fileCount": 13,
+        "totalSize": 27075,
+        "totalSizeMB": "0.03",
+        "fileTypes": {
+          "jsFiles": 0,
+          "htmlFiles": 0,
+          "jsonFiles": 8
+        }
+      }
+    },
+    "outputQuality": {
+      "stages": {
+        "stage1": {
+          "artifactCount": 3,
+          "files": [
+            "business-rules.json",
+            "busm-subset.mmd",
+            "feature-spec.md"
+          ]
+        },
+        "stage2": {
+          "artifactCount": 1,
+          "files": [
+            "enriched-config.json"
+          ]
+        },
+        "stage3": {
+          "artifactCount": 4,
+          "files": [
+            "AccountActionsView.jsx",
+            "AccountDetailView.jsx",
+            "AccountListView.jsx",
+            "viewforge-spec.json"
+          ]
+        },
+        "stage4": {
+          "artifactCount": 3,
+          "files": [
+            "AccountActionsView.ast.json",
+            "AccountDetailView.ast.json",
+            "AccountListView.ast.json"
+          ]
+        },
+        "stage5": {
+          "artifactCount": 1,
+          "files": [
+            "validation-report.json"
+          ]
+        },
+        "stage6": {
+          "artifactCount": 1,
+          "files": [
+            "deployment-manifest.json"
+          ]
+        }
+      },
+      "totalArtifacts": 13,
+      "validHtml": 0,
+      "validJson": 8
+    }
+  }
+}

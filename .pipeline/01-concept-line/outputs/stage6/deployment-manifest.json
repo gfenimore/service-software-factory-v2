@@ -1,0 +1,303 @@
+{
+  "deploymentTime": "2025-08-31T23:30:37.490Z",
+  "components": [
+    "AccountListView",
+    "AccountDetailView",
+    "AccountActionsView"
+  ],
+  "route": "/accounts/master-view",
+  "indicators": {
+    "businessRules": 3,
+    "integrations": 2,
+    "gaps": 1
+  },
+  "handoffToPrototype": {
+    "artifacts": {
+      "requirements": {
+        "busm": "graph TD\n        int AccountID PK \"Unique Account/Customer\"\r\n        string AccountName \"Customer or business name\"\r\n        string AccountType \"Segmentation/category\"\r\n        int AccountID FK \"Account this contact belongs to\"\r\n        int AccountID FK \"Linked to customer/account\"\r\n        int AccountID FK \"Who owns/manages this item\"\r\n        string ZoneType \"e.g., Account Type, Service Category\"\r\n        int AccountID FK\r\n        int AccountID FK\r\n        int AccountID FK\r\n        int AccountID FK\r\n        int AccountID FK\r\n        int AccountID FK\r",
+        "featureSpec": "# Master View Feature Definition\r\n**Version**: 1.0  \r\n**Created**: August 2025  \r\n**Module**: Accounts\r\n\r\n## 1. Vision\r\n\r\nProvide a **'single pane of glass'** to enable users to access ALL account data from one location. The Master View allows users to see all current information without navigating to several different modules or screens, which is the 'traditional' approach.\r\n\r\n## 2. User Value\r\n\r\nThis will save **hundreds of navigational clicks per day**, and make it easy for users to find the information they are looking for quickly, whether answering customer queries or providing support to technicians on their routes.\r\n\r\n## 3. Three-Column Concept\r\n\r\n### How It Works:\r\n- **Column 1**: List of accounts with super-efficient card view\r\n  - Search and filtering capabilities\r\n  - Quick limit/find accounts\r\n  - Selection drives Columns 2 & 3\r\n\r\n- **Column 2**: Service Locations for selected account\r\n  - All locations related to the account\r\n  - Card format for quick scanning\r\n  - Selection drives Column 3\r\n\r\n- **Column 3**: Work Orders for selected service location\r\n  - All work orders for the location\r\n  - Card format for consistency\r\n  - Full detail access on selection\r\n\r\n### The Card Experience Philosophy:\r\n**\"Everything happens based on the record the user selects. They see what they want, when they want, and nothing else.\"**\r\n\r\n## 4. Information Architecture\r\n\r\n### Account Card (Column 1) - Selected State Shows:\r\na. Account details not viewable from the card  \r\nb. View account contacts, along with communication log for each  \r\nc. Service agreement(s) for that account  \r\nd. Account financial data  \r\n\r\n### Service Location Card (Column 2) - Selected State Shows:\r\na. Service location details not viewable from the card  \r\nb. View service location contacts, along with communication log for each  \r\n\r\n### Work Order Card (Column 3) - Selected State Shows:\r\na. All work order details not viewable from the card  \r\n\r\n## 5. User Workflows\r\n\r\n### Primary Use Cases:\r\n1. **Customer Call**: \"What's the status of my service?\"\r\n   - Search account → Select location → View recent work orders\r\n   - Time: <10 seconds vs 2-3 minutes traditional\r\n\r\n2. **Tech Support**: \"What am I supposed to do at this location?\"\r\n   - Find account → Select location → See work order details\r\n   - All context visible immediately\r\n\r\n3. **Account Review**: \"Show me everything for ABC Company\"\r\n   - Select account → See all locations → Review all activity\r\n   - Complete picture without screen switching\r\n\r\n## 6. Technical Constraints\r\n\r\nThe biggest constraint is more UX than technical. This is not a complex system, but the data display approach is definitely different and must be carefully thought through.\r\n\r\n### Key Considerations:\r\n- **State Management**: What's selected in Column 1 drives 2 & 3\r\n- **Performance**: Cards must load instantly\r\n- **Responsive Design**: How does 3-column work on tablets?\r\n- **Data Density**: Show enough but not too much\r\n- **Selection Clarity**: User must always know what's selected\r\n\r\n## Success Criteria\r\n\r\nThe Master View succeeds when:\r\n1. Users can find any information in <15 seconds\r\n2. Zero navigation to other screens for common tasks\r\n3. Tech support calls reduce by 50%\r\n4. Users say \"I can't work without this\"\r\n\r\n## 7. Target Personas\r\n\r\nThis desktop-only application serves three primary personas:\r\n\r\n### 1. Business Owners\r\n- Need high-level oversight of all operations\r\n- Focus on account health and financial data\r\n- Make strategic decisions from the Master View\r\n\r\n### 2. Operations Managers\r\n- Coordinate service delivery across accounts\r\n- Monitor work order completion and issues\r\n- Support field technicians with information\r\n\r\n### 3. Admins\r\n- Manage account data and relationships\r\n- Handle customer service inquiries\r\n- Maintain system data integrity\r\n\r\n**Important Note**: Field technicians will NOT have access to this part of the system. All technician access will be via mobile application. They are NOT part of our design criteria for the Accounts, Operations, or Administration modules.\r\n\r\n---\r\n\r\n*This is our north star for all Master View user stories.*",
+        "businessRules": {
+          "rules": [
+            {
+              "id": "BR-001",
+              "name": "Account List Filtering",
+              "description": "Filter accounts by status and type",
+              "appliesTo": "AccountListView"
+            },
+            {
+              "id": "BR-002",
+              "name": "Field Validation",
+              "description": "Validate required fields on account details",
+              "appliesTo": "AccountDetailView"
+            },
+            {
+              "id": "BR-003",
+              "name": "Action Authorization",
+              "description": "Check permissions before allowing actions",
+              "appliesTo": "AccountActionsView"
+            }
+          ]
+        },
+        "entities": [
+          "Account",
+          "User"
+        ]
+      },
+      "configuration": {
+        "entities": [
+          "Account",
+          "User"
+        ],
+        "businessRules": {
+          "rules": [
+            {
+              "id": "BR-001",
+              "name": "Account List Filtering",
+              "description": "Filter accounts by status and type",
+              "appliesTo": "AccountListView"
+            },
+            {
+              "id": "BR-002",
+              "name": "Field Validation",
+              "description": "Validate required fields on account details",
+              "appliesTo": "AccountDetailView"
+            },
+            {
+              "id": "BR-003",
+              "name": "Action Authorization",
+              "description": "Check permissions before allowing actions",
+              "appliesTo": "AccountActionsView"
+            }
+          ]
+        },
+        "components": {
+          "Account": {
+            "listView": "AccountListView",
+            "detailView": "AccountDetailView",
+            "actionView": "AccountActionsView"
+          },
+          "User": {
+            "listView": "UserListView",
+            "detailView": "UserDetailView",
+            "actionView": "UserActionsView"
+          }
+        },
+        "integrationPoints": [
+          {
+            "id": "INT-001",
+            "type": "API",
+            "description": "Fetch account data",
+            "endpoint": "/api/accounts"
+          },
+          {
+            "id": "INT-002",
+            "type": "API",
+            "description": "Update account details",
+            "endpoint": "/api/accounts/:id"
+          }
+        ],
+        "gaps": []
+      },
+      "viewforge": {
+        "spec": {
+          "layout": "three-column-master",
+          "columns": [
+            {
+              "id": "list",
+              "title": "Account List",
+              "component": "AccountListView",
+              "indicators": [
+                "📌 Business Rule: List filtering"
+              ]
+            },
+            {
+              "id": "details",
+              "title": "Account Details",
+              "component": "AccountDetailView",
+              "indicators": [
+                "📌 Business Rule: Field validation",
+                "⚠️ Gap: Validation logic needed"
+              ]
+            },
+            {
+              "id": "actions",
+              "title": "Account Actions",
+              "component": "AccountActionsView",
+              "indicators": [
+                "🔗 Integration: API calls"
+              ]
+            }
+          ],
+          "configuration": {
+            "entities": [
+              "Account",
+              "User"
+            ],
+            "businessRules": {
+              "rules": [
+                {
+                  "id": "BR-001",
+                  "name": "Account List Filtering",
+                  "description": "Filter accounts by status and type",
+                  "appliesTo": "AccountListView"
+                },
+                {
+                  "id": "BR-002",
+                  "name": "Field Validation",
+                  "description": "Validate required fields on account details",
+                  "appliesTo": "AccountDetailView"
+                },
+                {
+                  "id": "BR-003",
+                  "name": "Action Authorization",
+                  "description": "Check permissions before allowing actions",
+                  "appliesTo": "AccountActionsView"
+                }
+              ]
+            },
+            "components": {
+              "Account": {
+                "listView": "AccountListView",
+                "detailView": "AccountDetailView",
+                "actionView": "AccountActionsView"
+              },
+              "User": {
+                "listView": "UserListView",
+                "detailView": "UserDetailView",
+                "actionView": "UserActionsView"
+              }
+            },
+            "integrationPoints": [
+              {
+                "id": "INT-001",
+                "type": "API",
+                "description": "Fetch account data",
+                "endpoint": "/api/accounts"
+              },
+              {
+                "id": "INT-002",
+                "type": "API",
+                "description": "Update account details",
+                "endpoint": "/api/accounts/:id"
+              }
+            ],
+            "gaps": []
+          }
+        },
+        "components": {
+          "AccountListView": "import React from 'react';\nimport { Card, CardContent, CardHeader, Chip, Box, Typography } from '@mui/material';\n\nfunction AccountListView() {\n  return (\n    <Card>\n      <CardHeader\n        title=\"Account List\"\n        action={\n          <Box>\n            <Chip label=\"📌 Business Rule: List filtering\" size=\"small\" color=\"primary\" />\n          </Box>\n        }\n      />\n      <CardContent>\n        <Typography variant=\"body1\">\n          AccountListView implementation\n        </Typography>\n      </CardContent>\n    </Card>\n  );\n}\n\nexport default AccountListView;",
+          "AccountDetailView": "import React from 'react';\nimport { Card, CardContent, CardHeader, Chip, Box, Typography } from '@mui/material';\n\nfunction AccountDetailView() {\n  return (\n    <Card>\n      <CardHeader\n        title=\"Account Details\"\n        action={\n          <Box>\n            <Chip label=\"📌 Business Rule: Field validation\" size=\"small\" color=\"primary\" />\n            <Chip label=\"⚠️ Gap: Validation logic needed\" size=\"small\" color=\"warning\" />\n          </Box>\n        }\n      />\n      <CardContent>\n        <Typography variant=\"body1\">\n          AccountDetailView implementation\n        </Typography>\n      </CardContent>\n    </Card>\n  );\n}\n\nexport default AccountDetailView;",
+          "AccountActionsView": "import React from 'react';\nimport { Card, CardContent, CardHeader, Chip, Box, Typography } from '@mui/material';\n\nfunction AccountActionsView() {\n  return (\n    <Card>\n      <CardHeader\n        title=\"Account Actions\"\n        action={\n          <Box>\n            <Chip label=\"🔗 Integration: API calls\" size=\"small\" color=\"primary\" />\n          </Box>\n        }\n      />\n      <CardContent>\n        <Typography variant=\"body1\">\n          AccountActionsView implementation\n        </Typography>\n      </CardContent>\n    </Card>\n  );\n}\n\nexport default AccountActionsView;"
+        }
+      },
+      "ast": {
+        "AccountListView": {
+          "ast": {
+            "type": "Program",
+            "body": [
+              {
+                "type": "ImportDeclaration",
+                "specifiers": [],
+                "source": {
+                  "value": "react"
+                }
+              },
+              {
+                "type": "FunctionDeclaration",
+                "id": {
+                  "name": "Component"
+                },
+                "params": [],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": []
+                }
+              }
+            ]
+          },
+          "syntaxValid": true,
+          "indicators": [
+            "business-rule"
+          ]
+        },
+        "AccountDetailView": {
+          "ast": {
+            "type": "Program",
+            "body": [
+              {
+                "type": "ImportDeclaration",
+                "specifiers": [],
+                "source": {
+                  "value": "react"
+                }
+              },
+              {
+                "type": "FunctionDeclaration",
+                "id": {
+                  "name": "Component"
+                },
+                "params": [],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": []
+                }
+              }
+            ]
+          },
+          "syntaxValid": true,
+          "indicators": [
+            "business-rule",
+            "gap"
+          ]
+        },
+        "AccountActionsView": {
+          "ast": {
+            "type": "Program",
+            "body": [
+              {
+                "type": "ImportDeclaration",
+                "specifiers": [],
+                "source": {
+                  "value": "react"
+                }
+              },
+              {
+                "type": "FunctionDeclaration",
+                "id": {
+                  "name": "Component"
+                },
+                "params": [],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": []
+                }
+              }
+            ]
+          },
+          "syntaxValid": true,
+          "indicators": [
+            "integration"
+          ]
+        }
+      },
+      "validation": {
+        "timestamp": "2025-08-31T23:30:37.489Z",
+        "checks": {
+          "syntaxValid": true,
+          "businessRulesApplied": true,
+          "integrationsMarked": true,
+          "gapsIdentified": true
+        },
+        "gaps": [],
+        "qualityScore": 85,
+        "readyForStakeholderReview": true
+      }
+    },
+    "nextSteps": [
+      "Implement business rule logic",
+      "Connect API integrations",
+      "Fill identified gaps",
+      "Add data persistence"
+    ]
+  }
+}

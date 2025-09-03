@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stage 2 - Sequence Diagram</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            background: #f5f5f5; 
+        }
+        .container { 
+            max-width: 1600px; 
+            margin: 0 auto; 
+            padding: 20px; 
+        }
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .mermaid {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+        }
+        .key-questions {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 4px solid #1976d2;
+            margin-bottom: 30px;
+        }
+        .key-questions h3 {
+            color: #1976d2;
+            margin-top: 0;
+        }
+        .explanation-boxes {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .explanation-box {
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 4px solid #4caf50;
+        }
+        .entity-mapping-box {
+            background: #f1f8e9;
+            border-left-color: #4caf50;
+        }
+        .validation-box {
+            background: #fff3e0;
+            border-left-color: #ff9800;
+        }
+        .participants {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .participant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .participant {
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            border-left: 3px solid #2196f3;
+        }
+        .participant h4 {
+            margin: 0 0 5px 0;
+            color: #1976d2;
+        }
+        .participant p {
+            margin: 0;
+            font-size: 12px;
+            color: #666;
+        }
+        .prd-link {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 8px;
+            background: #1976d2;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background 0.2s;
+        }
+        .prd-link:hover {
+            background: #1565c0;
+        }
+        .prd-link.not-available {
+            background: #757575;
+            cursor: not-allowed;
+        }
+        .stage-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .stage-nav a {
+            padding: 10px 20px;
+            background: #2196f3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.2s;
+        }
+        .stage-nav a:hover {
+            background: #1976d2;
+        }
+        .stage-nav a.current {
+            background: #4caf50;
+        }
+        .data-viewer-section {
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+        }
+        .file-viewer-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+        .tab-button {
+            padding: 8px 16px;
+            background: #e9ecef;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .tab-button.active {
+            background: #007bff;
+            color: white;
+        }
+        .tab-button:hover {
+            background: #0056b3;
+            color: white;
+        }
+        .file-content {
+            background: white;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+            min-height: 400px;
+        }
+        .file-data {
+            display: none;
+            padding: 15px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            line-height: 1.4;
+            max-height: 400px;
+            overflow-y: auto;
+            color: #212529;
+        }
+        .file-data.active {
+            display: block;
+        }
+        .loading {
+            padding: 50px;
+            text-align: center;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="stage-nav">
+            <a href="sequence-viewer.html">Stage 1: Requirements</a>
+            <a href="stage2-sequence-viewer.html" class="current">Stage 2: Configuration</a>
+        </div>
+
+        <div class="header">
+            <h1>⚙️ Stage 2: Configuration Enrichment - Sequence Diagram</h1>
+            <p>Detailed interaction flow showing how Stage 1 outputs are enriched into complete configurations ready for ViewForge</p>
+        </div>
+
+        <div class="key-questions">
+            <h3>🤔 Key Questions Answered</h3>
+            <ul>
+                <li><strong>How are entities validated and mapped?</strong> → Entity loader validates against BUSM subset, then mapper creates relationship structures</li>
+                <li><strong>How are business rules validated?</strong> → Rule validator checks syntax and entity references for consistency</li>
+                <li><strong>What makes configuration "enriched"?</strong> → Addition of metadata, entity mappings, and validated rules in unified structure</li>
+            </ul>
+        </div>
+
+        <div class="participants">
+            <h3>Participants in the Sequence</h3>
+            <div class="participant-grid">
+                <div class="participant">
+                    <h4>Pipeline Orchestrator</h4>
+                    <p>Main coordinator that calls all other components</p>
+                    <a href="../../00-requirements/prds/active/FACTORY-CONTROL-PANEL-PRD.md" class="prd-link" target="_blank">View PRD</a>
+                </div>
+                <div class="participant">
+                    <h4>Configuration Enricher</h4>
+                    <p>Main Stage 2 orchestrator that coordinates enrichment process</p>
+                    <span class="prd-link not-available">No PRD</span>
+                </div>
+                <div class="participant">
+                    <h4>Entity Loader</h4>
+                    <p>Loads and validates entity list from Stage 1 output</p>
+                    <span class="prd-link not-available">No PRD</span>
+                </div>
+                <div class="participant">
+                    <h4>Rules Loader</h4>
+                    <p>Loads and parses business rules from JSON</p>
+                    <span class="prd-link not-available">No PRD</span>
+                </div>
+                <div class="participant">
+                    <h4>Metadata Builder</h4>
+                    <p>Creates build metadata including timestamps and versions</p>
+                    <span class="prd-link not-available">No PRD</span>
+                </div>
+                <div class="participant">
+                    <h4>Entity Mapper</h4>
+                    <p>Maps entity relationships and creates navigation structures</p>
+                    <span class="prd-link not-available">No PRD</span>
+                </div>
+                <div class="participant">
+                    <h4>Rule Validator</h4>
+                    <p>Validates business rule syntax and entity references</p>
+                    <a href="../../00-requirements/prds/active/BUSINESS-RULES-CONFIGURATOR-PRD.md" class="prd-link" target="_blank">View PRD</a>
+                </div>
+                <div class="participant">
+                    <h4>Config Builder</h4>
+                    <p>Assembles final enriched configuration from all components</p>
+                    <span class="prd-link not-available">No PRD</span>
+                </div>
+                <div class="participant">
+                    <h4>Metadata Generator</h4>
+                    <p>Generates version and build information</p>
+                    <span class="prd-link not-available">No PRD</span>
+                </div>
+                <div class="participant">
+                    <h4>Output Generator</h4>
+                    <p>Creates final JSON outputs for Stage 3 consumption</p>
+                    <span class="prd-link not-available">No PRD</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="data-viewer-section">
+                <h3>Stage 1 Input Data</h3>
+                <div class="file-viewer-tabs">
+                    <button class="tab-button active" onclick="showFile('entities')">entities.json</button>
+                    <button class="tab-button" onclick="showFile('rules')">business-rules.json</button>
+                    <button class="tab-button" onclick="showFile('busm')">busm-subset.mmd</button>
+                </div>
+                <div class="file-content">
+                    <div id="entities-content" class="file-data active loading">Loading entities.json...</div>
+                    <div id="rules-content" class="file-data loading">Loading business-rules.json...</div>
+                    <div id="busm-content" class="file-data loading">Loading busm-subset.mmd...</div>
+                </div>
+            </div>
+
+            <div class="mermaid">
+sequenceDiagram
+    participant PO as Pipeline Orchestrator
+    participant CE as Configuration Enricher
+    participant EL as Entity Loader
+    participant RL as Rules Loader
+    participant MB as Metadata Builder
+    participant EM as Entity Mapper
+    participant RV as Rule Validator
+    participant CB as Config Builder
+    participant MG as Metadata Generator
+    participant OG as Output Generator
+    
+    Note over PO: Stage 2: Configuration Enrichment Begins
+    
+    %% Step 1: Load Stage 1 Outputs
+    PO->>CE: enrichConfiguration(stage1Outputs)
+    Note right of CE: Inputs: entities.json, busm-subset.mmd,<br/>business-rules.json from Stage 1
+    
+    CE->>EL: loadEntityList('entities.json')
+    EL->>EL: validateFileExists()
+    EL->>EL: parseJsonContent()
+    EL->>EL: validateEntityNames(['Account', 'User', 'Organization'])
+    
+    loop For each entity
+        EL->>EL: checkEntityExists(entity, busmSubset)
+        alt Entity exists in BUSM
+            EL->>EL: markEntityValid(entity)
+        else Entity missing from BUSM
+            EL->>EL: logValidationError(entity)
+            Note right of EL: Error: Entity not found in BUSM subset
+        end
+    end
+    
+    EL-->>CE: validatedEntities: ['Account', 'User', 'Organization']
+    
+    CE->>RL: loadBusinessRules('business-rules.json')
+    RL->>RL: parseRulesJson()
+    RL->>RV: validateRuleSyntax(rules)
+    
+    loop For each rule
+        RV->>RV: checkRuleStructure(rule)
+        RV->>RV: validateEntityReferences(rule, validatedEntities)
+        alt Rule is valid
+            RV->>RV: markRuleValid(rule)
+        else Rule has errors
+            RV->>RV: logRuleError(rule, error)
+            Note right of RV: Error: Invalid rule syntax or<br/>references non-existent entity
+        end
+    end
+    
+    RV-->>RL: validatedRules
+    RL-->>CE: businessRules
+    
+    CE->>MB: buildConfigMetadata()
+    MB->>MG: generateMetadata()
+    MG->>MG: createTimestamp()
+    MG->>MG: generateVersionNumber()
+    MG->>MG: setStageMarker('stage-2-complete')
+    MG->>MG: addProcessingInfo(validationResults)
+    MG-->>MB: metadata: {<br/>  timestamp: '2025-08-27T10:00:00Z',<br/>  version: '1.2.0',<br/>  stage: 'stage-2-complete',<br/>  entities: 3,<br/>  rules: 12<br/>}
+    MB-->>CE: configMetadata
+    
+    %% Step 2: Map Entity Relationships
+    Note over EM: ENTITY RELATIONSHIP MAPPING
+    CE->>EM: mapEntityRelationships(validatedEntities, busmSubset)
+    EM->>EM: identifyPrimaryEntities(['Account'])
+    EM->>EM: mapRelatedEntities()
+    
+    loop For each entity
+        EM->>EM: extractEntityFields(entity)
+        EM->>EM: identifyRelationships(entity, otherEntities)
+        EM->>EM: createNavigationPaths(entity)
+        Note right of EM: Account → User (one-to-many)<br/>Account → Organization (many-to-one)
+    end
+    
+    EM->>EM: buildEntityMappings()
+    EM-->>CE: entityMappings: {<br/>  'Account': {<br/>    fields: ['id', 'name', 'email'],<br/>    relationships: {<br/>      'User': { type: 'one-to-many', key: 'userId' },<br/>      'Organization': { type: 'many-to-one', key: 'orgId' }<br/>    },<br/>    navigationPaths: [...]<br/>  }<br/>}
+    
+    %% Step 3: Build Enriched Configuration
+    Note over CB: CONFIGURATION ASSEMBLY
+    CE->>CB: buildEnrichedConfig(validatedEntities, businessRules, entityMappings, metadata)
+    CB->>CB: initializeConfigStructure()
+    CB->>CB: addEntityDefinitions(validatedEntities)
+    CB->>CB: addBusinessRules(businessRules)
+    CB->>CB: addEntityMappings(entityMappings)
+    CB->>CB: addMetadataSection(metadata)
+    CB->>CB: validateConfigCompleteness()
+    
+    loop For each entity
+        CB->>CB: validateEntityConfiguration(entity)
+        alt Configuration complete
+            CB->>CB: markEntityReady(entity)
+        else Missing configuration
+            CB->>CB: logConfigGap(entity, missingItems)
+            Note right of CB: Gap: Missing validation rules for User.email
+        end
+    end
+    
+    CB-->>CE: enrichedConfig: {<br/>  entities: [...],<br/>  rules: [...],<br/>  mappings: [...],<br/>  metadata: {...}<br/>}
+    
+    %% Step 4: Generate Stage 2 Outputs
+    Note over OG: OUTPUT GENERATION
+    CE->>OG: generateOutputs(enrichedConfig, entityMappings, metadata)
+    OG->>OG: writeEnrichedConfig('enriched-config.json')
+    Note right of OG: Complete configuration ready for ViewForge<br/>Contains all entity definitions, rules, mappings
+    
+    OG->>OG: writeEntityMappings('entity-mappings.json')
+    Note right of OG: Standalone entity relationship map<br/>Used for navigation and data structure
+    
+    OG->>OG: writeConfigMetadata('config-metadata.json')
+    Note right of OG: Build information and processing stats<br/>Version tracking and validation results
+    
+    OG->>OG: validateOutputIntegrity()
+    
+    loop For each output file
+        OG->>OG: checkFileGenerated(outputFile)
+        OG->>OG: validateJsonStructure(outputFile)
+        alt File valid
+            OG->>OG: markOutputComplete(outputFile)
+        else File has issues
+            OG->>OG: logOutputError(outputFile, issue)
+        end
+    end
+    
+    OG-->>CE: outputResults: {<br/>  'enriched-config.json': 'SUCCESS',<br/>  'entity-mappings.json': 'SUCCESS',<br/>  'config-metadata.json': 'SUCCESS'<br/>}
+    
+    CE-->>PO: stage2Results: {<br/>  status: 'SUCCESS',<br/>  entitiesProcessed: 3,<br/>  rulesValidated: 12,<br/>  outputsGenerated: 3<br/>}
+    
+    Note over PO: Stage 2 Complete: Configuration Enriched & Ready
+    
+    %% Output Summary Box
+    rect rgb(232, 245, 232)
+        Note over PO: Stage 2 Outputs:<br/>✓ enriched-config.json: Complete configuration for ViewForge<br/>✓ entity-mappings.json: Entity relationship mappings<br/>✓ config-metadata.json: Build metadata and version info<br/>Ready for Stage 3: ViewForge Transformation
+    end
+            </div>
+        </div>
+
+        <div class="explanation-boxes">
+            <div class="explanation-box entity-mapping-box">
+                <h3>🗺️ Entity Mapping Process</h3>
+                <p><strong>1. Entity Validation:</strong> Verify all entities from Stage 1 exist in BUSM subset</p>
+                <p><strong>2. Relationship Extraction:</strong> Identify one-to-many, many-to-one connections</p>
+                <p><strong>3. Navigation Paths:</strong> Create UI navigation structure from relationships</p>
+                <p><strong>4. Field Mapping:</strong> Map entity fields to UI component properties</p>
+                <p><strong>Example:</strong> Account → User creates master-detail navigation pattern</p>
+            </div>
+            
+            <div class="explanation-box validation-box">
+                <h3>✅ Validation & Enrichment</h3>
+                <p><strong>Entity Validation:</strong> Check entity names, BUSM references, no duplicates</p>
+                <p><strong>Rule Validation:</strong> Verify business rule syntax and entity references</p>
+                <p><strong>Configuration Completeness:</strong> Ensure all required sections are present</p>
+                <p><strong>Metadata Addition:</strong> Timestamp, version, build info for traceability</p>
+                <p><strong>Output Integrity:</strong> Validate generated JSON files before Stage 3</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            sequence: {
+                useMaxWidth: true,
+                showSequenceNumbers: true
+            }
+        });
+
+        // File data cache
+        const fileCache = {};
+        
+        // File paths relative to the HTML file (copied to same directory)
+        const filePaths = {
+            entities: 'entities.json',
+            rules: 'business-rules.json',
+            busm: 'busm-subset.mmd'
+        };
+
+        async function loadFile(fileType) {
+            if (fileCache[fileType]) {
+                return fileCache[fileType];
+            }
+            
+            try {
+                const response = await fetch(filePaths[fileType]);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const content = await response.text();
+                fileCache[fileType] = content;
+                return content;
+            } catch (error) {
+                console.error(`Error loading ${fileType}:`, error);
+                return `Error loading ${fileType}: ${error.message}\n\nFile path: ${filePaths[fileType]}`;
+            }
+        }
+
+        async function showFile(fileType) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[onclick="showFile('${fileType}')"]`).classList.add('active');
+            
+            // Update content panels
+            document.querySelectorAll('.file-data').forEach(panel => panel.classList.remove('active'));
+            const targetPanel = document.getElementById(`${fileType}-content`);
+            targetPanel.classList.add('active');
+            
+            // Load and display file content if not already loaded
+            if (targetPanel.classList.contains('loading')) {
+                const content = await loadFile(fileType);
+                targetPanel.textContent = content;
+                targetPanel.classList.remove('loading');
+            }
+        }
+
+        // Load the default file on page load
+        window.addEventListener('load', () => {
+            showFile('entities');
+        });
+    </script>
+</body>
+</html>

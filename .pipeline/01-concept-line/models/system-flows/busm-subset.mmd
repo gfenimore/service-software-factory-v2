@@ -1,0 +1,83 @@
+erDiagram
+    Account {
+        uuid id PK "Unique account identifier"
+        string accountNumber  "System-generated account number"
+        string accountName  "Legal name of the account"
+        string dbaName  "Doing Business As name"
+        enum accountType  "Type of account"
+        enum status  "Current account status"
+        email email  "Primary email address"
+        phone phone  "Primary phone number"
+        url website  "Company website"
+        string address  "Primary address"
+        string city  "Account city"
+        string state  "Account state"
+        string zipCode  "Account zipCode"
+        string country  "Account country"
+        string taxId  "Federal tax ID"
+        string dunsNumber  "Dun & Bradstreet number"
+        decimal creditLimit  "Credit limit in dollars"
+        enum paymentTerms  "Payment terms"
+        enum industry  "Account industry"
+        integer numberOfEmployees  "Account numberOfEmployees"
+        decimal annualRevenue  "Account annualRevenue"
+        uuid territoryId FK "Account territoryId"
+        uuid ownerId FK "Account owner"
+        uuid createdBy FK "Account createdBy"
+        datetime createdAt  "Account createdAt"
+        uuid updatedBy FK "Account updatedBy"
+        datetime updatedAt  "Account updatedAt"
+    }
+    
+    Contact {
+        uuid id PK "Contact id"
+        string firstName  "Contact firstName"
+        string lastName  "Contact lastName"
+        string title  "Contact title"
+        email email  "Contact email"
+        phone phone  "Contact phone"
+        phone mobile  "Contact mobile"
+        uuid accountId FK "Contact accountId"
+        boolean isPrimary  "Contact isPrimary"
+        string department  "Contact department"
+        text notes  "Contact notes"
+        datetime createdAt  "Contact createdAt"
+        datetime updatedAt  "Contact updatedAt"
+    }
+    
+    User {
+        uuid id PK "User id"
+        string username  "User username"
+        email email  "User email"
+        string firstName  "User firstName"
+        string lastName  "User lastName"
+        enum role  "User role"
+        boolean isActive  "User isActive"
+    }
+    
+    Territory {
+        uuid id PK "Territory id"
+        string name  "Territory name"
+        string code  "Territory code"
+        uuid managerId FK "Territory managerId"
+    }
+    
+    Service {
+        uuid id PK "Service id"
+        string serviceName  "Service serviceName"
+        string serviceCode  "Service serviceCode"
+        text description  "Service description"
+        enum category  "Service category"
+        decimal price  "Service price"
+        enum unit  "Service unit"
+        boolean isActive  "Service isActive"
+    }
+    
+    Account ||--o{ Contact : "0"
+    User ||--o{ Account : "1"
+    Territory ||--o{ Account : "2"
+    Contact ||--o{ Contact : "0"
+    User ||--o{ User : "0"
+    User ||--o{ User : "1"
+    Territory ||--o{ Territory : "0"
+    User ||--o{ Territory : "1"

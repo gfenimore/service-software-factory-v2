@@ -1,0 +1,2443 @@
+[
+  {
+    "name": "ACCOUNT",
+    "id": "account",
+    "fields": [
+      "AccountID",
+      "AccountName",
+      "AccountType",
+      "BillingStreetAddress",
+      "BillingCity",
+      "BillingState",
+      "BillingZipCode",
+      "Status"
+    ],
+    "properties": {
+      "AccountID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "Unique Account/Customer"
+      },
+      "AccountName": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Customer or business name"
+      },
+      "AccountType": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Segmentation/category"
+      },
+      "BillingStreetAddress": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Street for billing"
+      },
+      "BillingCity": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "ACCOUNT BillingCity"
+      },
+      "BillingState": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "ACCOUNT BillingState"
+      },
+      "BillingZipCode": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "ACCOUNT BillingZipCode"
+      },
+      "Status": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Current status, e.g. Active, Inactive"
+      }
+    },
+    "relationships": [
+      {
+        "name": "has",
+        "type": "one-to-many",
+        "from": "ACCOUNT",
+        "to": "SERVICE_AGREEMENT",
+        "foreignKey": "SERVICE_AGREEMENTID"
+      },
+      {
+        "name": "has multiple",
+        "type": "one-to-many",
+        "from": "ACCOUNT",
+        "to": "SERVICE_LOCATION",
+        "foreignKey": "SERVICE_LOCATIONID"
+      },
+      {
+        "name": "owns/manages",
+        "type": "one-to-many",
+        "from": "ACCOUNT",
+        "to": "SERVICEABLE_ITEM",
+        "foreignKey": "SERVICEABLE_ITEMID"
+      },
+      {
+        "name": "requests",
+        "type": "one-to-many",
+        "from": "ACCOUNT",
+        "to": "WORK_ORDER",
+        "foreignKey": "WORK_ORDERID"
+      },
+      {
+        "name": "is billed",
+        "type": "one-to-many",
+        "from": "ACCOUNT",
+        "to": "INVOICE",
+        "foreignKey": "INVOICEID"
+      },
+      {
+        "name": "makes",
+        "type": "one-to-many",
+        "from": "ACCOUNT",
+        "to": "PAYMENT",
+        "foreignKey": "PAYMENTID"
+      },
+      {
+        "name": "receives",
+        "type": "one-to-many",
+        "from": "ACCOUNT",
+        "to": "CREDIT_MEMO",
+        "foreignKey": "CREDIT_MEMOID"
+      },
+      {
+        "name": "logs for",
+        "type": "one-to-many",
+        "from": "ACCOUNT",
+        "to": "COMMUNICATION_LOG",
+        "foreignKey": "COMMUNICATION_LOGID"
+      }
+    ],
+    "tableName": "account",
+    "primaryKey": "AccountID",
+    "description": "ACCOUNT entity"
+  },
+  {
+    "name": "CONTACT",
+    "id": "contact",
+    "fields": [
+      "ContactID",
+      "AccountID",
+      "FirstName",
+      "LastName",
+      "PhoneNumber",
+      "EmailAddress",
+      "IsPrimaryContact",
+      "CommunicationPreference"
+    ],
+    "properties": {
+      "ContactID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "Unique identifier for contact"
+      },
+      "AccountID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "Account this contact belongs to"
+      },
+      "FirstName": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "CONTACT FirstName"
+      },
+      "LastName": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "CONTACT LastName"
+      },
+      "PhoneNumber": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "CONTACT PhoneNumber"
+      },
+      "EmailAddress": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "CONTACT EmailAddress"
+      },
+      "IsPrimaryContact": {
+        "type": "boolean",
+        "required": false,
+        "primaryKey": false,
+        "description": "Is this the main contact for account?"
+      },
+      "CommunicationPreference": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "e.g., Voice, Text, Email"
+      }
+    },
+    "relationships": [
+      {
+        "name": "linked to location",
+        "type": "one-to-many",
+        "from": "CONTACT",
+        "to": "CONTACT_LOCATION",
+        "foreignKey": "CONTACT_LOCATIONID"
+      },
+      {
+        "name": "involved in",
+        "type": "one-to-many",
+        "from": "CONTACT",
+        "to": "COMMUNICATION_LOG",
+        "foreignKey": "COMMUNICATION_LOGID"
+      }
+    ],
+    "tableName": "contact",
+    "primaryKey": "ContactID",
+    "description": "CONTACT entity"
+  },
+  {
+    "name": "SERVICE_LOCATION",
+    "id": "service_location",
+    "fields": [
+      "ServiceLocationID",
+      "AccountID",
+      "GeographicAreaID",
+      "LocationName",
+      "StreetAddress",
+      "AddressLine2",
+      "City",
+      "State",
+      "PostalCode",
+      "Country",
+      "Latitude",
+      "Longitude",
+      "AccessInformation",
+      "Notes"
+    ],
+    "properties": {
+      "ServiceLocationID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "Physical place where service is performed"
+      },
+      "AccountID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "Linked to customer/account"
+      },
+      "GeographicAreaID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "For routing/zoning"
+      },
+      "LocationName": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "e.g., Smith Residence, Dock 5"
+      },
+      "StreetAddress": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Line 1"
+      },
+      "AddressLine2": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Suite/Apt/Unit"
+      },
+      "City": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "SERVICE_LOCATION City"
+      },
+      "State": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "SERVICE_LOCATION State"
+      },
+      "PostalCode": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "SERVICE_LOCATION PostalCode"
+      },
+      "Country": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "SERVICE_LOCATION Country"
+      },
+      "Latitude": {
+        "type": "decimal",
+        "required": false,
+        "primaryKey": false,
+        "description": "GPS coordinate (WGS84)"
+      },
+      "Longitude": {
+        "type": "decimal",
+        "required": false,
+        "primaryKey": false,
+        "description": "GPS coordinate (WGS84)"
+      },
+      "AccessInformation": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Gate codes, keys, etc."
+      },
+      "Notes": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Special site-specific notes"
+      }
+    },
+    "relationships": [
+      {
+        "name": "has multiple",
+        "type": "one-to-many",
+        "from": "ACCOUNT",
+        "to": "SERVICE_LOCATION",
+        "foreignKey": "SERVICE_LOCATIONID"
+      },
+      {
+        "name": "linked to contact",
+        "type": "one-to-many",
+        "from": "SERVICE_LOCATION",
+        "to": "CONTACT_LOCATION",
+        "foreignKey": "CONTACT_LOCATIONID"
+      },
+      {
+        "name": "can house",
+        "type": "one-to-many",
+        "from": "SERVICE_LOCATION",
+        "to": "SERVICEABLE_ITEM",
+        "foreignKey": "SERVICEABLE_ITEMID"
+      },
+      {
+        "name": "is site for",
+        "type": "one-to-many",
+        "from": "SERVICE_LOCATION",
+        "to": "WORK_ORDER",
+        "foreignKey": "WORK_ORDERID"
+      },
+      {
+        "name": "for agreement",
+        "type": "one-to-many",
+        "from": "SERVICE_LOCATION",
+        "to": "AGREEMENT_ITEM",
+        "foreignKey": "AGREEMENT_ITEMID"
+      },
+      {
+        "name": "is a stop at",
+        "type": "one-to-many",
+        "from": "SERVICE_LOCATION",
+        "to": "ROUTE_STOP",
+        "foreignKey": "ROUTE_STOPID"
+      },
+      {
+        "name": "service_location_service_zone",
+        "type": "one-to-many",
+        "from": "SERVICE_LOCATION",
+        "to": "SERVICE_LOCATION_SERVICE_ZONE",
+        "foreignKey": "SERVICE_LOCATION_SERVICE_ZONEID"
+      }
+    ],
+    "tableName": "service_location",
+    "primaryKey": "ServiceLocationID",
+    "description": "SERVICE_LOCATION entity"
+  },
+  {
+    "name": "CONTACT_LOCATION",
+    "id": "contact_location",
+    "fields": [
+      "ContactLocationID",
+      "ContactID",
+      "ServiceLocationID",
+      "Role",
+      "Notes"
+    ],
+    "properties": {
+      "ContactLocationID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "Unique link between contact and location"
+      },
+      "ContactID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "Contact at this location"
+      },
+      "ServiceLocationID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "Location for this contact"
+      },
+      "Role": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "e.g., Primary, Gatekeeper, Billing"
+      },
+      "Notes": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "CONTACT_LOCATION Notes"
+      }
+    },
+    "relationships": [
+      {
+        "name": "linked to location",
+        "type": "one-to-many",
+        "from": "CONTACT",
+        "to": "CONTACT_LOCATION",
+        "foreignKey": "CONTACT_LOCATIONID"
+      },
+      {
+        "name": "linked to contact",
+        "type": "one-to-many",
+        "from": "SERVICE_LOCATION",
+        "to": "CONTACT_LOCATION",
+        "foreignKey": "CONTACT_LOCATIONID"
+      }
+    ],
+    "tableName": "contact_location",
+    "primaryKey": "ContactLocationID",
+    "description": "CONTACT_LOCATION entity"
+  },
+  {
+    "name": "DOMAIN",
+    "id": "domain",
+    "fields": [
+      "DomainID",
+      "Name",
+      "Description"
+    ],
+    "properties": {
+      "DomainID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "Unique identifier for industry / asset type"
+      },
+      "Name": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "e.g., Boat, Pool, Lawncare"
+      },
+      "Description": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Business/industry context"
+      }
+    },
+    "relationships": [],
+    "tableName": "domain",
+    "primaryKey": "DomainID",
+    "description": "DOMAIN entity"
+  },
+  {
+    "name": "SERVICEABLE_ITEM",
+    "id": "serviceable_item",
+    "fields": [
+      "ServiceableItemID",
+      "AccountID",
+      "PrimaryServiceLocationID",
+      "DomainID",
+      "ItemName",
+      "ItemType",
+      "Identifier1",
+      "Identifier2",
+      "Description",
+      "Status"
+    ],
+    "properties": {
+      "ServiceableItemID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "Asset or thing being serviced"
+      },
+      "AccountID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "Who owns/manages this item"
+      },
+      "PrimaryServiceLocationID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "Where item is usually located"
+      },
+      "DomainID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "Industry-specific domain/type"
+      },
+      "ItemName": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Display name for this item (e.g., Sea Breeze)"
+      },
+      "ItemType": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Subtype: BoatType, PoolType, etc."
+      },
+      "Identifier1": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "e.g., VIN, Hull ID, Serial #, etc."
+      },
+      "Identifier2": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "e.g., Reg number, Asset Tag"
+      },
+      "Description": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Narrative details for field staff"
+      },
+      "Status": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "e.g., Active, In Storage, Needs Repair"
+      }
+    },
+    "relationships": [
+      {
+        "name": "owns/manages",
+        "type": "one-to-many",
+        "from": "ACCOUNT",
+        "to": "SERVICEABLE_ITEM",
+        "foreignKey": "SERVICEABLE_ITEMID"
+      },
+      {
+        "name": "can house",
+        "type": "one-to-many",
+        "from": "SERVICE_LOCATION",
+        "to": "SERVICEABLE_ITEM",
+        "foreignKey": "SERVICEABLE_ITEMID"
+      },
+      {
+        "name": "has property",
+        "type": "one-to-many",
+        "from": "SERVICEABLE_ITEM",
+        "to": "SERVICEABLE_ITEM_PROPERTY",
+        "foreignKey": "SERVICEABLE_ITEM_PROPERTYID"
+      },
+      {
+        "name": "can be subject of",
+        "type": "one-to-many",
+        "from": "SERVICEABLE_ITEM",
+        "to": "WORK_ORDER_ITEM",
+        "foreignKey": "WORK_ORDER_ITEMID"
+      }
+    ],
+    "tableName": "serviceable_item",
+    "primaryKey": "ServiceableItemID",
+    "description": "SERVICEABLE_ITEM entity"
+  },
+  {
+    "name": "SERVICEABLE_ITEM_PROPERTY",
+    "id": "serviceable_item_property",
+    "fields": [
+      "PropertyID",
+      "ServiceableItemID",
+      "PropertyKey",
+      "PropertyValue",
+      "ValueType",
+      "Unit"
+    ],
+    "properties": {
+      "PropertyID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "Unique row for a property"
+      },
+      "ServiceableItemID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "Links to the specific item"
+      },
+      "PropertyKey": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "e.g., OverallLength, Heated"
+      },
+      "PropertyValue": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "e.g., '32', 'Yes', 'St. Augustine'"
+      },
+      "ValueType": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "String, Number, Boolean, etc."
+      },
+      "Unit": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "If numeric: ft, gal, sqft, etc."
+      }
+    },
+    "relationships": [
+      {
+        "name": "has property",
+        "type": "one-to-many",
+        "from": "SERVICEABLE_ITEM",
+        "to": "SERVICEABLE_ITEM_PROPERTY",
+        "foreignKey": "SERVICEABLE_ITEM_PROPERTYID"
+      }
+    ],
+    "tableName": "serviceable_item_property",
+    "primaryKey": "PropertyID",
+    "description": "SERVICEABLE_ITEM_PROPERTY entity"
+  },
+  {
+    "name": "SERVICE_ZONE",
+    "id": "service_zone",
+    "fields": [
+      "ServiceZoneID",
+      "Name",
+      "Description",
+      "ZoneType",
+      "Active"
+    ],
+    "properties": {
+      "ServiceZoneID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "Unique service zone"
+      },
+      "Name": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "e.g., Commercial Weekly Pool Customers"
+      },
+      "Description": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Business or operational grouping logic"
+      },
+      "ZoneType": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "e.g., Account Type, Service Category"
+      },
+      "Active": {
+        "type": "boolean",
+        "required": false,
+        "primaryKey": false,
+        "description": "SERVICE_ZONE Active"
+      }
+    },
+    "relationships": [
+      {
+        "name": "service_location_service_zone",
+        "type": "one-to-many",
+        "from": "SERVICE_ZONE",
+        "to": "SERVICE_LOCATION_SERVICE_ZONE",
+        "foreignKey": "SERVICE_LOCATION_SERVICE_ZONEID"
+      },
+      {
+        "name": "route_service_zone",
+        "type": "one-to-many",
+        "from": "SERVICE_ZONE",
+        "to": "ROUTE_SERVICE_ZONE",
+        "foreignKey": "ROUTE_SERVICE_ZONEID"
+      }
+    ],
+    "tableName": "service_zone",
+    "primaryKey": "ServiceZoneID",
+    "description": "SERVICE_ZONE entity"
+  },
+  {
+    "name": "SERVICE_LOCATION_SERVICE_ZONE",
+    "id": "service_location_service_zone",
+    "fields": [
+      "ServiceLocationServiceZoneID",
+      "ServiceLocationID",
+      "ServiceZoneID"
+    ],
+    "properties": {
+      "ServiceLocationServiceZoneID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "SERVICE_LOCATION_SERVICE_ZONE ServiceLocationServiceZoneID"
+      },
+      "ServiceLocationID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "SERVICE_LOCATION_SERVICE_ZONE ServiceLocationID"
+      },
+      "ServiceZoneID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "SERVICE_LOCATION_SERVICE_ZONE ServiceZoneID"
+      }
+    },
+    "relationships": [
+      {
+        "name": "service_location_service_zone",
+        "type": "one-to-many",
+        "from": "SERVICE_ZONE",
+        "to": "SERVICE_LOCATION_SERVICE_ZONE",
+        "foreignKey": "SERVICE_LOCATION_SERVICE_ZONEID"
+      },
+      {
+        "name": "service_location_service_zone",
+        "type": "one-to-many",
+        "from": "SERVICE_LOCATION",
+        "to": "SERVICE_LOCATION_SERVICE_ZONE",
+        "foreignKey": "SERVICE_LOCATION_SERVICE_ZONEID"
+      }
+    ],
+    "tableName": "service_location_service_zone",
+    "primaryKey": "ServiceLocationServiceZoneID",
+    "description": "SERVICE_LOCATION_SERVICE_ZONE entity"
+  },
+  {
+    "name": "ROUTE_SERVICE_ZONE",
+    "id": "route_service_zone",
+    "fields": [
+      "RouteServiceZoneID",
+      "RouteID",
+      "ServiceZoneID"
+    ],
+    "properties": {
+      "RouteServiceZoneID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "ROUTE_SERVICE_ZONE RouteServiceZoneID"
+      },
+      "RouteID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "ROUTE_SERVICE_ZONE RouteID"
+      },
+      "ServiceZoneID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "ROUTE_SERVICE_ZONE ServiceZoneID"
+      }
+    },
+    "relationships": [
+      {
+        "name": "route_service_zone",
+        "type": "one-to-many",
+        "from": "SERVICE_ZONE",
+        "to": "ROUTE_SERVICE_ZONE",
+        "foreignKey": "ROUTE_SERVICE_ZONEID"
+      },
+      {
+        "name": "route_service_zone",
+        "type": "one-to-many",
+        "from": "ROUTE",
+        "to": "ROUTE_SERVICE_ZONE",
+        "foreignKey": "ROUTE_SERVICE_ZONEID"
+      }
+    ],
+    "tableName": "route_service_zone",
+    "primaryKey": "RouteServiceZoneID",
+    "description": "ROUTE_SERVICE_ZONE entity"
+  },
+  {
+    "name": "GEOGRAPHIC_AREA",
+    "id": "geographic_area",
+    "fields": [
+      "GeographicAreaID",
+      "AreaName",
+      "area_geometry",
+      "Notes",
+      "Active",
+      "DisplayColor",
+      "CreatedAt",
+      "UpdatedAt"
+    ],
+    "properties": {
+      "GeographicAreaID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "Unique mapped area"
+      },
+      "AreaName": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "E.g., West Tampa Region"
+      },
+      "area_geometry": {
+        "type": "json",
+        "required": false,
+        "primaryKey": false,
+        "description": "GeoJSON polygon for user-drawn region"
+      },
+      "Notes": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Description, rules, or context"
+      },
+      "Active": {
+        "type": "boolean",
+        "required": false,
+        "primaryKey": false,
+        "description": "Is active/in use?"
+      },
+      "DisplayColor": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Optional, for visualization"
+      },
+      "CreatedAt": {
+        "type": "datetime",
+        "required": false,
+        "primaryKey": false,
+        "description": "When area was created"
+      },
+      "UpdatedAt": {
+        "type": "datetime",
+        "required": false,
+        "primaryKey": false,
+        "description": "Last update"
+      }
+    },
+    "relationships": [],
+    "tableName": "geographic_area",
+    "primaryKey": "GeographicAreaID",
+    "description": "GEOGRAPHIC_AREA entity"
+  },
+  {
+    "name": "SERVICE",
+    "id": "service",
+    "fields": [
+      "ServiceID",
+      "ServiceName",
+      "Description",
+      "ServiceCategory",
+      "EstimatedDurationMinutes",
+      "StandardRate"
+    ],
+    "properties": {
+      "ServiceID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "Definition of a service offered"
+      },
+      "ServiceName": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "e.g., Oil Change, Hull Cleaning"
+      },
+      "Description": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "SERVICE Description"
+      },
+      "ServiceCategory": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "e.g., Pest Control, Lawncare"
+      },
+      "EstimatedDurationMinutes": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "description": "SERVICE EstimatedDurationMinutes"
+      },
+      "StandardRate": {
+        "type": "decimal",
+        "required": false,
+        "primaryKey": false,
+        "description": "SERVICE StandardRate"
+      }
+    },
+    "relationships": [
+      {
+        "name": "is service in",
+        "type": "one-to-many",
+        "from": "SERVICE",
+        "to": "AGREEMENT_ITEM",
+        "foreignKey": "AGREEMENT_ITEMID"
+      },
+      {
+        "name": "is service of",
+        "type": "one-to-many",
+        "from": "SERVICE",
+        "to": "WORK_ORDER_ITEM",
+        "foreignKey": "WORK_ORDER_ITEMID"
+      }
+    ],
+    "tableName": "service",
+    "primaryKey": "ServiceID",
+    "description": "SERVICE entity"
+  },
+  {
+    "name": "EMPLOYEE",
+    "id": "employee",
+    "fields": [
+      "EmployeeID",
+      "FirstName",
+      "LastName",
+      "EmployeeType",
+      "Email",
+      "Phone"
+    ],
+    "properties": {
+      "EmployeeID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "Unique identifier for worker"
+      },
+      "FirstName": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "EMPLOYEE FirstName"
+      },
+      "LastName": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "EMPLOYEE LastName"
+      },
+      "EmployeeType": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "e.g., Mechanic, Inspector"
+      },
+      "Email": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "EMPLOYEE Email"
+      },
+      "Phone": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "EMPLOYEE Phone"
+      }
+    },
+    "relationships": [
+      {
+        "name": "manages/sold",
+        "type": "one-to-many",
+        "from": "EMPLOYEE",
+        "to": "SERVICE_AGREEMENT",
+        "foreignKey": "SERVICE_AGREEMENTID"
+      },
+      {
+        "name": "is assigned to",
+        "type": "one-to-many",
+        "from": "EMPLOYEE",
+        "to": "ROUTE",
+        "foreignKey": "ROUTEID"
+      },
+      {
+        "name": "handles",
+        "type": "one-to-many",
+        "from": "EMPLOYEE",
+        "to": "COMMUNICATION_LOG",
+        "foreignKey": "COMMUNICATION_LOGID"
+      }
+    ],
+    "tableName": "employee",
+    "primaryKey": "EmployeeID",
+    "description": "EMPLOYEE entity"
+  },
+  {
+    "name": "SERVICE_AGREEMENT",
+    "id": "service_agreement",
+    "fields": [
+      "AgreementID",
+      "AccountID",
+      "Description",
+      "StartDate",
+      "EndDate",
+      "Frequency",
+      "AgreementStatus"
+    ],
+    "properties": {
+      "AgreementID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "SERVICE_AGREEMENT AgreementID"
+      },
+      "AccountID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "SERVICE_AGREEMENT AccountID"
+      },
+      "Description": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "e.g., Annual Maintenance Contract"
+      },
+      "StartDate": {
+        "type": "date",
+        "required": false,
+        "primaryKey": false,
+        "description": "SERVICE_AGREEMENT StartDate"
+      },
+      "EndDate": {
+        "type": "date",
+        "required": false,
+        "primaryKey": false,
+        "description": "SERVICE_AGREEMENT EndDate"
+      },
+      "Frequency": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "e.g., Monthly"
+      },
+      "AgreementStatus": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Active, Expired, Cancelled"
+      }
+    },
+    "relationships": [
+      {
+        "name": "has",
+        "type": "one-to-many",
+        "from": "ACCOUNT",
+        "to": "SERVICE_AGREEMENT",
+        "foreignKey": "SERVICE_AGREEMENTID"
+      },
+      {
+        "name": "contains",
+        "type": "one-to-many",
+        "from": "SERVICE_AGREEMENT",
+        "to": "AGREEMENT_ITEM",
+        "foreignKey": "AGREEMENT_ITEMID"
+      },
+      {
+        "name": "can generate",
+        "type": "one-to-many",
+        "from": "SERVICE_AGREEMENT",
+        "to": "INVOICE",
+        "foreignKey": "INVOICEID"
+      },
+      {
+        "name": "manages/sold",
+        "type": "one-to-many",
+        "from": "EMPLOYEE",
+        "to": "SERVICE_AGREEMENT",
+        "foreignKey": "SERVICE_AGREEMENTID"
+      }
+    ],
+    "tableName": "service_agreement",
+    "primaryKey": "AgreementID",
+    "description": "SERVICE_AGREEMENT entity"
+  },
+  {
+    "name": "AGREEMENT_ITEM",
+    "id": "agreement_item",
+    "fields": [
+      "AgreementItemID",
+      "AgreementID",
+      "ServiceID",
+      "ServiceLocationID",
+      "ServiceableItemID",
+      "Price",
+      "Notes"
+    ],
+    "properties": {
+      "AgreementItemID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "AGREEMENT_ITEM AgreementItemID"
+      },
+      "AgreementID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "AGREEMENT_ITEM AgreementID"
+      },
+      "ServiceID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "The specific service included"
+      },
+      "ServiceLocationID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "If agreement for a location"
+      },
+      "ServiceableItemID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "If agreement for an item"
+      },
+      "Price": {
+        "type": "decimal",
+        "required": false,
+        "primaryKey": false,
+        "description": "AGREEMENT_ITEM Price"
+      },
+      "Notes": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "AGREEMENT_ITEM Notes"
+      }
+    },
+    "relationships": [
+      {
+        "name": "for agreement",
+        "type": "one-to-many",
+        "from": "SERVICE_LOCATION",
+        "to": "AGREEMENT_ITEM",
+        "foreignKey": "AGREEMENT_ITEMID"
+      },
+      {
+        "name": "contains",
+        "type": "one-to-many",
+        "from": "SERVICE_AGREEMENT",
+        "to": "AGREEMENT_ITEM",
+        "foreignKey": "AGREEMENT_ITEMID"
+      },
+      {
+        "name": "is service in",
+        "type": "one-to-many",
+        "from": "SERVICE",
+        "to": "AGREEMENT_ITEM",
+        "foreignKey": "AGREEMENT_ITEMID"
+      },
+      {
+        "name": "may be fulfilled by",
+        "type": "one-to-many",
+        "from": "AGREEMENT_ITEM",
+        "to": "WORK_ORDER_ITEM",
+        "foreignKey": "WORK_ORDER_ITEMID"
+      },
+      {
+        "name": "may be billed by",
+        "type": "one-to-many",
+        "from": "AGREEMENT_ITEM",
+        "to": "INVOICE_LINE_ITEM",
+        "foreignKey": "INVOICE_LINE_ITEMID"
+      }
+    ],
+    "tableName": "agreement_item",
+    "primaryKey": "AgreementItemID",
+    "description": "AGREEMENT_ITEM entity"
+  },
+  {
+    "name": "WORK_ORDER",
+    "id": "work_order",
+    "fields": [
+      "WorkOrderID",
+      "AccountID",
+      "ServiceLocationID",
+      "ServiceableItemID",
+      "WorkOrderType",
+      "WorkOrderStatus",
+      "ScheduledDateTime",
+      "CompletionDateTime",
+      "Priority",
+      "Summary",
+      "Notes_Internal",
+      "Notes_Customer"
+    ],
+    "properties": {
+      "WorkOrderID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "WORK_ORDER WorkOrderID"
+      },
+      "AccountID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "WORK_ORDER AccountID"
+      },
+      "ServiceLocationID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "WORK_ORDER ServiceLocationID"
+      },
+      "ServiceableItemID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "Primary item for WO"
+      },
+      "WorkOrderType": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "e.g., Repair, Inspection"
+      },
+      "WorkOrderStatus": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Scheduled, Completed"
+      },
+      "ScheduledDateTime": {
+        "type": "datetime",
+        "required": false,
+        "primaryKey": false,
+        "description": "WORK_ORDER ScheduledDateTime"
+      },
+      "CompletionDateTime": {
+        "type": "datetime",
+        "required": false,
+        "primaryKey": false,
+        "description": "WORK_ORDER CompletionDateTime"
+      },
+      "Priority": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "High, Medium, Low"
+      },
+      "Summary": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Work summary"
+      },
+      "Notes_Internal": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "WORK_ORDER Notes_Internal"
+      },
+      "Notes_Customer": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "WORK_ORDER Notes_Customer"
+      }
+    },
+    "relationships": [
+      {
+        "name": "requests",
+        "type": "one-to-many",
+        "from": "ACCOUNT",
+        "to": "WORK_ORDER",
+        "foreignKey": "WORK_ORDERID"
+      },
+      {
+        "name": "is site for",
+        "type": "one-to-many",
+        "from": "SERVICE_LOCATION",
+        "to": "WORK_ORDER",
+        "foreignKey": "WORK_ORDERID"
+      },
+      {
+        "name": "contains",
+        "type": "one-to-many",
+        "from": "WORK_ORDER",
+        "to": "WORK_ORDER_ITEM",
+        "foreignKey": "WORK_ORDER_ITEMID"
+      },
+      {
+        "name": "has",
+        "type": "one-to-many",
+        "from": "WORK_ORDER",
+        "to": "WORK_ORDER_ASSIGNMENT",
+        "foreignKey": "WORK_ORDER_ASSIGNMENTID"
+      },
+      {
+        "name": "can generate",
+        "type": "one-to-many",
+        "from": "WORK_ORDER",
+        "to": "INVOICE",
+        "foreignKey": "INVOICEID"
+      }
+    ],
+    "tableName": "work_order",
+    "primaryKey": "WorkOrderID",
+    "description": "WORK_ORDER entity"
+  },
+  {
+    "name": "WORK_ORDER_ITEM",
+    "id": "work_order_item",
+    "fields": [
+      "WorkOrderItemID",
+      "WorkOrderID",
+      "ServiceID",
+      "ServiceableItemID",
+      "Description",
+      "Notes",
+      "Resolution",
+      "Quantity",
+      "UnitPrice",
+      "LineTotal",
+      "Status"
+    ],
+    "properties": {
+      "WorkOrderItemID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "WORK_ORDER_ITEM WorkOrderItemID"
+      },
+      "WorkOrderID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "WORK_ORDER_ITEM WorkOrderID"
+      },
+      "ServiceID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "Service/task performed"
+      },
+      "ServiceableItemID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "WORK_ORDER_ITEM ServiceableItemID"
+      },
+      "Description": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Overrides service/service name"
+      },
+      "Notes": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Findings/notes"
+      },
+      "Resolution": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "What was done"
+      },
+      "Quantity": {
+        "type": "decimal",
+        "required": false,
+        "primaryKey": false,
+        "description": "WORK_ORDER_ITEM Quantity"
+      },
+      "UnitPrice": {
+        "type": "decimal",
+        "required": false,
+        "primaryKey": false,
+        "description": "WORK_ORDER_ITEM UnitPrice"
+      },
+      "LineTotal": {
+        "type": "decimal",
+        "required": false,
+        "primaryKey": false,
+        "description": "WORK_ORDER_ITEM LineTotal"
+      },
+      "Status": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "WORK_ORDER_ITEM Status"
+      }
+    },
+    "relationships": [
+      {
+        "name": "can be subject of",
+        "type": "one-to-many",
+        "from": "SERVICEABLE_ITEM",
+        "to": "WORK_ORDER_ITEM",
+        "foreignKey": "WORK_ORDER_ITEMID"
+      },
+      {
+        "name": "is service of",
+        "type": "one-to-many",
+        "from": "SERVICE",
+        "to": "WORK_ORDER_ITEM",
+        "foreignKey": "WORK_ORDER_ITEMID"
+      },
+      {
+        "name": "contains",
+        "type": "one-to-many",
+        "from": "WORK_ORDER",
+        "to": "WORK_ORDER_ITEM",
+        "foreignKey": "WORK_ORDER_ITEMID"
+      },
+      {
+        "name": "may be fulfilled by",
+        "type": "one-to-many",
+        "from": "AGREEMENT_ITEM",
+        "to": "WORK_ORDER_ITEM",
+        "foreignKey": "WORK_ORDER_ITEMID"
+      },
+      {
+        "name": "uses",
+        "type": "one-to-many",
+        "from": "WORK_ORDER_ITEM",
+        "to": "MATERIAL_USAGE",
+        "foreignKey": "MATERIAL_USAGEID"
+      },
+      {
+        "name": "may be billed by",
+        "type": "one-to-many",
+        "from": "WORK_ORDER_ITEM",
+        "to": "INVOICE_LINE_ITEM",
+        "foreignKey": "INVOICE_LINE_ITEMID"
+      }
+    ],
+    "tableName": "work_order_item",
+    "primaryKey": "WorkOrderItemID",
+    "description": "WORK_ORDER_ITEM entity"
+  },
+  {
+    "name": "WORK_ORDER_ASSIGNMENT",
+    "id": "work_order_assignment",
+    "fields": [
+      "WorkOrderAssignmentID",
+      "WorkOrderID",
+      "EmployeeID",
+      "AssignedTime",
+      "StartTime",
+      "EndTime",
+      "AssignmentStatus"
+    ],
+    "properties": {
+      "WorkOrderAssignmentID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "WORK_ORDER_ASSIGNMENT WorkOrderAssignmentID"
+      },
+      "WorkOrderID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "WORK_ORDER_ASSIGNMENT WorkOrderID"
+      },
+      "EmployeeID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "Technician assigned"
+      },
+      "AssignedTime": {
+        "type": "datetime",
+        "required": false,
+        "primaryKey": false,
+        "description": "WORK_ORDER_ASSIGNMENT AssignedTime"
+      },
+      "StartTime": {
+        "type": "datetime",
+        "required": false,
+        "primaryKey": false,
+        "description": "WORK_ORDER_ASSIGNMENT StartTime"
+      },
+      "EndTime": {
+        "type": "datetime",
+        "required": false,
+        "primaryKey": false,
+        "description": "WORK_ORDER_ASSIGNMENT EndTime"
+      },
+      "AssignmentStatus": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Assigned, Completed, etc."
+      }
+    },
+    "relationships": [
+      {
+        "name": "has",
+        "type": "one-to-many",
+        "from": "WORK_ORDER",
+        "to": "WORK_ORDER_ASSIGNMENT",
+        "foreignKey": "WORK_ORDER_ASSIGNMENTID"
+      },
+      {
+        "name": "is scheduled in",
+        "type": "one-to-many",
+        "from": "WORK_ORDER_ASSIGNMENT",
+        "to": "ROUTE_STOP",
+        "foreignKey": "ROUTE_STOPID"
+      }
+    ],
+    "tableName": "work_order_assignment",
+    "primaryKey": "WorkOrderAssignmentID",
+    "description": "WORK_ORDER_ASSIGNMENT entity"
+  },
+  {
+    "name": "MATERIAL",
+    "id": "material",
+    "fields": [
+      "MaterialID",
+      "Name",
+      "PartNumber",
+      "Description",
+      "UnitOfMeasure",
+      "UnitCost",
+      "ListPrice"
+    ],
+    "properties": {
+      "MaterialID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "Parts catalogue"
+      },
+      "Name": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "e.g., Oil Filter XYZ"
+      },
+      "PartNumber": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "MATERIAL PartNumber"
+      },
+      "Description": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "MATERIAL Description"
+      },
+      "UnitOfMeasure": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Each, Gallon, etc."
+      },
+      "UnitCost": {
+        "type": "decimal",
+        "required": false,
+        "primaryKey": false,
+        "description": "MATERIAL UnitCost"
+      },
+      "ListPrice": {
+        "type": "decimal",
+        "required": false,
+        "primaryKey": false,
+        "description": "MATERIAL ListPrice"
+      }
+    },
+    "relationships": [
+      {
+        "name": "is material for",
+        "type": "one-to-many",
+        "from": "MATERIAL",
+        "to": "MATERIAL_USAGE",
+        "foreignKey": "MATERIAL_USAGEID"
+      }
+    ],
+    "tableName": "material",
+    "primaryKey": "MaterialID",
+    "description": "MATERIAL entity"
+  },
+  {
+    "name": "MATERIAL_USAGE",
+    "id": "material_usage",
+    "fields": [
+      "MaterialUsageID",
+      "WorkOrderItemID",
+      "MaterialID",
+      "QuantityUsed",
+      "CostAtTimeOfUse",
+      "PriceCharged",
+      "Notes"
+    ],
+    "properties": {
+      "MaterialUsageID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "MATERIAL_USAGE MaterialUsageID"
+      },
+      "WorkOrderItemID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "Task using this material"
+      },
+      "MaterialID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "MATERIAL_USAGE MaterialID"
+      },
+      "QuantityUsed": {
+        "type": "decimal",
+        "required": false,
+        "primaryKey": false,
+        "description": "MATERIAL_USAGE QuantityUsed"
+      },
+      "CostAtTimeOfUse": {
+        "type": "decimal",
+        "required": false,
+        "primaryKey": false,
+        "description": "MATERIAL_USAGE CostAtTimeOfUse"
+      },
+      "PriceCharged": {
+        "type": "decimal",
+        "required": false,
+        "primaryKey": false,
+        "description": "MATERIAL_USAGE PriceCharged"
+      },
+      "Notes": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "MATERIAL_USAGE Notes"
+      }
+    },
+    "relationships": [
+      {
+        "name": "uses",
+        "type": "one-to-many",
+        "from": "WORK_ORDER_ITEM",
+        "to": "MATERIAL_USAGE",
+        "foreignKey": "MATERIAL_USAGEID"
+      },
+      {
+        "name": "is material for",
+        "type": "one-to-many",
+        "from": "MATERIAL",
+        "to": "MATERIAL_USAGE",
+        "foreignKey": "MATERIAL_USAGEID"
+      },
+      {
+        "name": "may be billed by",
+        "type": "one-to-many",
+        "from": "MATERIAL_USAGE",
+        "to": "INVOICE_LINE_ITEM",
+        "foreignKey": "INVOICE_LINE_ITEMID"
+      }
+    ],
+    "tableName": "material_usage",
+    "primaryKey": "MaterialUsageID",
+    "description": "MATERIAL_USAGE entity"
+  },
+  {
+    "name": "INVOICE",
+    "id": "invoice",
+    "fields": [
+      "InvoiceID",
+      "AccountID",
+      "WorkOrderID",
+      "ServiceAgreementID",
+      "InvoiceNumber",
+      "InvoiceDate",
+      "DueDate",
+      "SubTotal",
+      "TaxAmount",
+      "TotalAmount",
+      "Status",
+      "PaidDate"
+    ],
+    "properties": {
+      "InvoiceID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "INVOICE InvoiceID"
+      },
+      "AccountID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "INVOICE AccountID"
+      },
+      "WorkOrderID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "INVOICE WorkOrderID"
+      },
+      "ServiceAgreementID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "INVOICE ServiceAgreementID"
+      },
+      "InvoiceNumber": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "INVOICE InvoiceNumber"
+      },
+      "InvoiceDate": {
+        "type": "date",
+        "required": false,
+        "primaryKey": false,
+        "description": "INVOICE InvoiceDate"
+      },
+      "DueDate": {
+        "type": "date",
+        "required": false,
+        "primaryKey": false,
+        "description": "INVOICE DueDate"
+      },
+      "SubTotal": {
+        "type": "decimal",
+        "required": false,
+        "primaryKey": false,
+        "description": "INVOICE SubTotal"
+      },
+      "TaxAmount": {
+        "type": "decimal",
+        "required": false,
+        "primaryKey": false,
+        "description": "INVOICE TaxAmount"
+      },
+      "TotalAmount": {
+        "type": "decimal",
+        "required": false,
+        "primaryKey": false,
+        "description": "INVOICE TotalAmount"
+      },
+      "Status": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Draft, Sent, Paid, etc."
+      },
+      "PaidDate": {
+        "type": "date",
+        "required": false,
+        "primaryKey": false,
+        "description": "INVOICE PaidDate"
+      }
+    },
+    "relationships": [
+      {
+        "name": "is billed",
+        "type": "one-to-many",
+        "from": "ACCOUNT",
+        "to": "INVOICE",
+        "foreignKey": "INVOICEID"
+      },
+      {
+        "name": "can generate",
+        "type": "one-to-many",
+        "from": "SERVICE_AGREEMENT",
+        "to": "INVOICE",
+        "foreignKey": "INVOICEID"
+      },
+      {
+        "name": "can generate",
+        "type": "one-to-many",
+        "from": "WORK_ORDER",
+        "to": "INVOICE",
+        "foreignKey": "INVOICEID"
+      },
+      {
+        "name": "contains",
+        "type": "one-to-many",
+        "from": "INVOICE",
+        "to": "INVOICE_LINE_ITEM",
+        "foreignKey": "INVOICE_LINE_ITEMID"
+      },
+      {
+        "name": "is paid by",
+        "type": "one-to-many",
+        "from": "INVOICE",
+        "to": "PAYMENT",
+        "foreignKey": "PAYMENTID"
+      },
+      {
+        "name": "is adjusted by",
+        "type": "one-to-many",
+        "from": "INVOICE",
+        "to": "CREDIT_MEMO",
+        "foreignKey": "CREDIT_MEMOID"
+      }
+    ],
+    "tableName": "invoice",
+    "primaryKey": "InvoiceID",
+    "description": "INVOICE entity"
+  },
+  {
+    "name": "INVOICE_LINE_ITEM",
+    "id": "invoice_line_item",
+    "fields": [
+      "LineItemID",
+      "InvoiceID",
+      "WorkOrderItemID",
+      "AgreementItemID",
+      "MaterialUsageID",
+      "Description",
+      "Quantity",
+      "UnitPrice",
+      "LineTotal",
+      "ItemType"
+    ],
+    "properties": {
+      "LineItemID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "INVOICE_LINE_ITEM LineItemID"
+      },
+      "InvoiceID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "INVOICE_LINE_ITEM InvoiceID"
+      },
+      "WorkOrderItemID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "INVOICE_LINE_ITEM WorkOrderItemID"
+      },
+      "AgreementItemID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "INVOICE_LINE_ITEM AgreementItemID"
+      },
+      "MaterialUsageID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "INVOICE_LINE_ITEM MaterialUsageID"
+      },
+      "Description": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "INVOICE_LINE_ITEM Description"
+      },
+      "Quantity": {
+        "type": "decimal",
+        "required": false,
+        "primaryKey": false,
+        "description": "INVOICE_LINE_ITEM Quantity"
+      },
+      "UnitPrice": {
+        "type": "decimal",
+        "required": false,
+        "primaryKey": false,
+        "description": "INVOICE_LINE_ITEM UnitPrice"
+      },
+      "LineTotal": {
+        "type": "decimal",
+        "required": false,
+        "primaryKey": false,
+        "description": "INVOICE_LINE_ITEM LineTotal"
+      },
+      "ItemType": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Service, Material, Discount, Fee"
+      }
+    },
+    "relationships": [
+      {
+        "name": "may be billed by",
+        "type": "one-to-many",
+        "from": "AGREEMENT_ITEM",
+        "to": "INVOICE_LINE_ITEM",
+        "foreignKey": "INVOICE_LINE_ITEMID"
+      },
+      {
+        "name": "may be billed by",
+        "type": "one-to-many",
+        "from": "WORK_ORDER_ITEM",
+        "to": "INVOICE_LINE_ITEM",
+        "foreignKey": "INVOICE_LINE_ITEMID"
+      },
+      {
+        "name": "may be billed by",
+        "type": "one-to-many",
+        "from": "MATERIAL_USAGE",
+        "to": "INVOICE_LINE_ITEM",
+        "foreignKey": "INVOICE_LINE_ITEMID"
+      },
+      {
+        "name": "contains",
+        "type": "one-to-many",
+        "from": "INVOICE",
+        "to": "INVOICE_LINE_ITEM",
+        "foreignKey": "INVOICE_LINE_ITEMID"
+      }
+    ],
+    "tableName": "invoice_line_item",
+    "primaryKey": "LineItemID",
+    "description": "INVOICE_LINE_ITEM entity"
+  },
+  {
+    "name": "PAYMENT",
+    "id": "payment",
+    "fields": [
+      "PaymentID",
+      "AccountID",
+      "InvoiceID",
+      "PaymentDate",
+      "Amount",
+      "PaymentMethod",
+      "ReferenceNumber",
+      "Status"
+    ],
+    "properties": {
+      "PaymentID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "PAYMENT PaymentID"
+      },
+      "AccountID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "PAYMENT AccountID"
+      },
+      "InvoiceID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "PAYMENT InvoiceID"
+      },
+      "PaymentDate": {
+        "type": "date",
+        "required": false,
+        "primaryKey": false,
+        "description": "PAYMENT PaymentDate"
+      },
+      "Amount": {
+        "type": "decimal",
+        "required": false,
+        "primaryKey": false,
+        "description": "PAYMENT Amount"
+      },
+      "PaymentMethod": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Check, Credit Card, etc."
+      },
+      "ReferenceNumber": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Check #, Transaction ID"
+      },
+      "Status": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Cleared, Pending, Failed"
+      }
+    },
+    "relationships": [
+      {
+        "name": "makes",
+        "type": "one-to-many",
+        "from": "ACCOUNT",
+        "to": "PAYMENT",
+        "foreignKey": "PAYMENTID"
+      },
+      {
+        "name": "is paid by",
+        "type": "one-to-many",
+        "from": "INVOICE",
+        "to": "PAYMENT",
+        "foreignKey": "PAYMENTID"
+      }
+    ],
+    "tableName": "payment",
+    "primaryKey": "PaymentID",
+    "description": "PAYMENT entity"
+  },
+  {
+    "name": "CREDIT_MEMO",
+    "id": "credit_memo",
+    "fields": [
+      "CreditMemoID",
+      "AccountID",
+      "InvoiceID",
+      "CreditMemoNumber",
+      "IssueDate",
+      "Amount",
+      "Reason",
+      "Status"
+    ],
+    "properties": {
+      "CreditMemoID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "CREDIT_MEMO CreditMemoID"
+      },
+      "AccountID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "CREDIT_MEMO AccountID"
+      },
+      "InvoiceID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "CREDIT_MEMO InvoiceID"
+      },
+      "CreditMemoNumber": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "CREDIT_MEMO CreditMemoNumber"
+      },
+      "IssueDate": {
+        "type": "date",
+        "required": false,
+        "primaryKey": false,
+        "description": "CREDIT_MEMO IssueDate"
+      },
+      "Amount": {
+        "type": "decimal",
+        "required": false,
+        "primaryKey": false,
+        "description": "CREDIT_MEMO Amount"
+      },
+      "Reason": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "CREDIT_MEMO Reason"
+      },
+      "Status": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "CREDIT_MEMO Status"
+      }
+    },
+    "relationships": [
+      {
+        "name": "receives",
+        "type": "one-to-many",
+        "from": "ACCOUNT",
+        "to": "CREDIT_MEMO",
+        "foreignKey": "CREDIT_MEMOID"
+      },
+      {
+        "name": "is adjusted by",
+        "type": "one-to-many",
+        "from": "INVOICE",
+        "to": "CREDIT_MEMO",
+        "foreignKey": "CREDIT_MEMOID"
+      }
+    ],
+    "tableName": "credit_memo",
+    "primaryKey": "CreditMemoID",
+    "description": "CREDIT_MEMO entity"
+  },
+  {
+    "name": "COMMUNICATION_LOG",
+    "id": "communication_log",
+    "fields": [
+      "CommunicationLogID",
+      "AccountID",
+      "ContactID",
+      "EmployeeID",
+      "RelatedWorkOrderID",
+      "RelatedInvoiceID",
+      "Timestamp",
+      "Method",
+      "Subject",
+      "Body",
+      "Direction"
+    ],
+    "properties": {
+      "CommunicationLogID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "COMMUNICATION_LOG CommunicationLogID"
+      },
+      "AccountID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "COMMUNICATION_LOG AccountID"
+      },
+      "ContactID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "COMMUNICATION_LOG ContactID"
+      },
+      "EmployeeID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "COMMUNICATION_LOG EmployeeID"
+      },
+      "RelatedWorkOrderID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "COMMUNICATION_LOG RelatedWorkOrderID"
+      },
+      "RelatedInvoiceID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "COMMUNICATION_LOG RelatedInvoiceID"
+      },
+      "Timestamp": {
+        "type": "datetime",
+        "required": false,
+        "primaryKey": false,
+        "description": "COMMUNICATION_LOG Timestamp"
+      },
+      "Method": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Email, Phone, SMS"
+      },
+      "Subject": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "COMMUNICATION_LOG Subject"
+      },
+      "Body": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Content or summary"
+      },
+      "Direction": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Inbound, Outbound"
+      }
+    },
+    "relationships": [
+      {
+        "name": "logs for",
+        "type": "one-to-many",
+        "from": "ACCOUNT",
+        "to": "COMMUNICATION_LOG",
+        "foreignKey": "COMMUNICATION_LOGID"
+      },
+      {
+        "name": "involved in",
+        "type": "one-to-many",
+        "from": "CONTACT",
+        "to": "COMMUNICATION_LOG",
+        "foreignKey": "COMMUNICATION_LOGID"
+      },
+      {
+        "name": "handles",
+        "type": "one-to-many",
+        "from": "EMPLOYEE",
+        "to": "COMMUNICATION_LOG",
+        "foreignKey": "COMMUNICATION_LOGID"
+      }
+    ],
+    "tableName": "communication_log",
+    "primaryKey": "CommunicationLogID",
+    "description": "COMMUNICATION_LOG entity"
+  },
+  {
+    "name": "ROUTE",
+    "id": "route",
+    "fields": [
+      "RouteID",
+      "EmployeeID",
+      "RouteDate",
+      "RouteName",
+      "Status"
+    ],
+    "properties": {
+      "RouteID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "ROUTE RouteID"
+      },
+      "EmployeeID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "ROUTE EmployeeID"
+      },
+      "RouteDate": {
+        "type": "date",
+        "required": false,
+        "primaryKey": false,
+        "description": "ROUTE RouteDate"
+      },
+      "RouteName": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "ROUTE RouteName"
+      },
+      "Status": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Planned, Completed, etc."
+      }
+    },
+    "relationships": [
+      {
+        "name": "route_service_zone",
+        "type": "one-to-many",
+        "from": "ROUTE",
+        "to": "ROUTE_SERVICE_ZONE",
+        "foreignKey": "ROUTE_SERVICE_ZONEID"
+      },
+      {
+        "name": "is assigned to",
+        "type": "one-to-many",
+        "from": "EMPLOYEE",
+        "to": "ROUTE",
+        "foreignKey": "ROUTEID"
+      },
+      {
+        "name": "consists of",
+        "type": "one-to-many",
+        "from": "ROUTE",
+        "to": "ROUTE_STOP",
+        "foreignKey": "ROUTE_STOPID"
+      }
+    ],
+    "tableName": "route",
+    "primaryKey": "RouteID",
+    "description": "ROUTE entity"
+  },
+  {
+    "name": "ROUTE_STOP",
+    "id": "route_stop",
+    "fields": [
+      "RouteStopID",
+      "RouteID",
+      "WorkOrderAssignmentID",
+      "ServiceLocationID",
+      "SequenceNumber",
+      "EstimatedArrivalTime",
+      "ActualArrivalTime",
+      "EstimatedDepartureTime",
+      "ActualDepartureTime",
+      "Status",
+      "StopNotes"
+    ],
+    "properties": {
+      "RouteStopID": {
+        "type": "integer",
+        "required": true,
+        "primaryKey": true,
+        "description": "ROUTE_STOP RouteStopID"
+      },
+      "RouteID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "ROUTE_STOP RouteID"
+      },
+      "WorkOrderAssignmentID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "Assignment for this stop"
+      },
+      "ServiceLocationID": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "foreignKey": true,
+        "description": "Stop location"
+      },
+      "SequenceNumber": {
+        "type": "integer",
+        "required": false,
+        "primaryKey": false,
+        "description": "Order on route"
+      },
+      "EstimatedArrivalTime": {
+        "type": "datetime",
+        "required": false,
+        "primaryKey": false,
+        "description": "ROUTE_STOP EstimatedArrivalTime"
+      },
+      "ActualArrivalTime": {
+        "type": "datetime",
+        "required": false,
+        "primaryKey": false,
+        "description": "ROUTE_STOP ActualArrivalTime"
+      },
+      "EstimatedDepartureTime": {
+        "type": "datetime",
+        "required": false,
+        "primaryKey": false,
+        "description": "ROUTE_STOP EstimatedDepartureTime"
+      },
+      "ActualDepartureTime": {
+        "type": "datetime",
+        "required": false,
+        "primaryKey": false,
+        "description": "ROUTE_STOP ActualDepartureTime"
+      },
+      "Status": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "Pending, Completed, etc."
+      },
+      "StopNotes": {
+        "type": "string",
+        "required": false,
+        "primaryKey": false,
+        "description": "ROUTE_STOP StopNotes"
+      }
+    },
+    "relationships": [
+      {
+        "name": "is a stop at",
+        "type": "one-to-many",
+        "from": "SERVICE_LOCATION",
+        "to": "ROUTE_STOP",
+        "foreignKey": "ROUTE_STOPID"
+      },
+      {
+        "name": "consists of",
+        "type": "one-to-many",
+        "from": "ROUTE",
+        "to": "ROUTE_STOP",
+        "foreignKey": "ROUTE_STOPID"
+      },
+      {
+        "name": "is scheduled in",
+        "type": "one-to-many",
+        "from": "WORK_ORDER_ASSIGNMENT",
+        "to": "ROUTE_STOP",
+        "foreignKey": "ROUTE_STOPID"
+      }
+    ],
+    "tableName": "route_stop",
+    "primaryKey": "RouteStopID",
+    "description": "ROUTE_STOP entity"
+  }
+]

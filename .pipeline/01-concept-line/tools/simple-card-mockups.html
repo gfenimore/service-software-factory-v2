@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master View Card Mockups</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 1400px;
+        }
+        
+        .column {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .column h2 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #007acc;
+            padding-bottom: 10px;
+        }
+        
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .card:hover {
+            border-color: #007acc;
+            box-shadow: 0 2px 8px rgba(0,122,204,0.1);
+        }
+        
+        .card.selected {
+            border-color: #007acc;
+            background: #f0f8ff;
+        }
+        
+        .card-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .card-subtitle {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+        
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8em;
+            color: #888;
+        }
+        
+        .status {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 500;
+        }
+        
+        .status.active { background: #e8f5e8; color: #2d5a2d; }
+        .status.pending { background: #fff3cd; color: #856404; }
+        .status.scheduled { background: #d1ecf1; color: #0c5460; }
+        .status.completed { background: #d4edda; color: #155724; }
+    </style>
+</head>
+<body>
+    <h1>Master View - Three Column Card Layout</h1>
+    
+    <div class="container">
+        <!-- Column 1: Accounts -->
+        <div class="column">
+            <h2>Accounts</h2>
+            
+            <div class="card selected">
+                <div class="card-title">ABC Pest Control Inc.</div>
+                <div class="card-subtitle">Commercial • ACC-123456</div>
+                <div class="card-meta">
+                    <span class="status active">Active</span>
+                    <span>5 locations</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Downtown Restaurant Group</div>
+                <div class="card-subtitle">Commercial • ACC-789012</div>
+                <div class="card-meta">
+                    <span class="status active">Active</span>
+                    <span>12 locations</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Johnson Residential</div>
+                <div class="card-subtitle">Residential • ACC-345678</div>
+                <div class="card-meta">
+                    <span class="status pending">Pending</span>
+                    <span>1 location</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Column 2: Service Locations -->
+        <div class="column">
+            <h2>Service Locations for ABC Pest Control Inc.</h2>
+            
+            <div class="card selected">
+                <div class="card-title">Main Warehouse</div>
+                <div class="card-subtitle">1234 Industrial Blvd, Phoenix AZ</div>
+                <div class="card-meta">
+                    <span class="status active">Active</span>
+                    <span>3 work orders</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Processing Facility</div>
+                <div class="card-subtitle">5678 Commerce St, Phoenix AZ</div>
+                <div class="card-meta">
+                    <span class="status active">Active</span>
+                    <span>1 work order</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Office Building</div>
+                <div class="card-subtitle">999 Business Pkwy, Scottsdale AZ</div>
+                <div class="card-meta">
+                    <span class="status active">Active</span>
+                    <span>0 work orders</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Column 3: Work Orders -->
+        <div class="column">
+            <h2>Work Orders for Main Warehouse</h2>
+            
+            <div class="card">
+                <div class="card-title">Monthly Inspection</div>
+                <div class="card-subtitle">WO-2025-0001 • Routine Service</div>
+                <div class="card-meta">
+                    <span class="status scheduled">Scheduled</span>
+                    <span>Aug 30, 2025</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Rodent Treatment</div>
+                <div class="card-subtitle">WO-2025-0002 • Emergency Service</div>
+                <div class="card-meta">
+                    <span class="status completed">Completed</span>
+                    <span>Aug 25, 2025</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Quarterly Deep Clean</div>
+                <div class="card-subtitle">WO-2025-0003 • Scheduled Service</div>
+                <div class="card-meta">
+                    <span class="status pending">Pending</span>
+                    <span>Sep 15, 2025</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Simple interaction demo
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', function() {
+                // Remove previous selections in same column
+                const column = this.closest('.column');
+                column.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+                
+                // Select this card
+                this.classList.add('selected');
+                
+                console.log('Selected:', this.querySelector('.card-title').textContent);
+            });
+        });
+    </script>
+</body>
+</html>

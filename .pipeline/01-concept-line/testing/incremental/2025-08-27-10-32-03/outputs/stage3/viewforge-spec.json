@@ -1,0 +1,85 @@
+{
+  "layout": "three-column-master",
+  "columns": [
+    {
+      "id": "list",
+      "title": "Account List",
+      "component": "AccountListView",
+      "indicators": [
+        "📌 Business Rule: List filtering"
+      ]
+    },
+    {
+      "id": "details",
+      "title": "Account Details",
+      "component": "AccountDetailView",
+      "indicators": [
+        "📌 Business Rule: Field validation",
+        "⚠️ Gap: Validation logic needed"
+      ]
+    },
+    {
+      "id": "actions",
+      "title": "Account Actions",
+      "component": "AccountActionsView",
+      "indicators": [
+        "🔗 Integration: API calls"
+      ]
+    }
+  ],
+  "configuration": {
+    "entities": [
+      "Account",
+      "User"
+    ],
+    "businessRules": {
+      "rules": [
+        {
+          "id": "BR-001",
+          "name": "Account List Filtering",
+          "description": "Filter accounts by status and type",
+          "appliesTo": "AccountListView"
+        },
+        {
+          "id": "BR-002",
+          "name": "Field Validation",
+          "description": "Validate required fields on account details",
+          "appliesTo": "AccountDetailView"
+        },
+        {
+          "id": "BR-003",
+          "name": "Action Authorization",
+          "description": "Check permissions before allowing actions",
+          "appliesTo": "AccountActionsView"
+        }
+      ]
+    },
+    "components": {
+      "Account": {
+        "listView": "AccountListView",
+        "detailView": "AccountDetailView",
+        "actionView": "AccountActionsView"
+      },
+      "User": {
+        "listView": "UserListView",
+        "detailView": "UserDetailView",
+        "actionView": "UserActionsView"
+      }
+    },
+    "integrationPoints": [
+      {
+        "id": "INT-001",
+        "type": "API",
+        "description": "Fetch account data",
+        "endpoint": "/api/accounts"
+      },
+      {
+        "id": "INT-002",
+        "type": "API",
+        "description": "Update account details",
+        "endpoint": "/api/accounts/:id"
+      }
+    ],
+    "gaps": []
+  }
+}

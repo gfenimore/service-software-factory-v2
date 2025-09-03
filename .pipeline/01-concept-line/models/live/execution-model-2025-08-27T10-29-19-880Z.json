@@ -1,0 +1,76 @@
+{
+  "totalDuration": 17,
+  "stageCount": 3,
+  "successCount": 3,
+  "errorCount": 0,
+  "successRate": 1,
+  "stages": [
+    {
+      "stageName": "Requirements Capture",
+      "inputs": {
+        "type": "object",
+        "keys": [
+          "busmFile"
+        ],
+        "totalKeys": 1
+      },
+      "outputs": {
+        "type": "object",
+        "keys": [
+          "entities"
+        ],
+        "totalKeys": 1
+      },
+      "metrics": {
+        "duration": 2,
+        "timestamp": 1756290559864,
+        "entitiesFound": 2
+      },
+      "status": "completed"
+    },
+    {
+      "stageName": "Configuration",
+      "inputs": {
+        "type": "object",
+        "keys": [
+          "entities"
+        ],
+        "totalKeys": 1
+      },
+      "outputs": {
+        "type": "object",
+        "keys": [
+          "enrichedConfig"
+        ],
+        "totalKeys": 1
+      },
+      "metrics": {
+        "duration": 14,
+        "timestamp": 1756290559878
+      },
+      "status": "completed"
+    },
+    {
+      "stageName": "ViewForge",
+      "inputs": {
+        "type": "object",
+        "keys": [
+          "config"
+        ],
+        "totalKeys": 1
+      },
+      "outputs": {
+        "type": "object",
+        "keys": [
+          "components"
+        ],
+        "totalKeys": 1
+      },
+      "metrics": {
+        "duration": 0,
+        "timestamp": 1756290559878
+      },
+      "status": "completed"
+    }
+  ]
+}

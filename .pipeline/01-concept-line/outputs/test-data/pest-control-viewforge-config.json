@@ -1,0 +1,516 @@
+{
+  "application": {
+    "name": "Pest Control Management",
+    "description": "Universal service management system for pestControl operations",
+    "domain": "pestControl"
+  },
+  "hierarchy": {
+    "modules": [
+      {
+        "id": "customer-management",
+        "name": "Customer Management",
+        "subModules": [
+          {
+            "id": "account-management",
+            "name": "Account Management",
+            "userStories": [
+              {
+                "id": "account-detail-view",
+                "name": "Account Details View",
+                "entity": "ACCOUNT",
+                "viewType": "detail",
+                "fields": [
+                  {
+                    "name": "name",
+                    "label": "Account Name",
+                    "type": "text",
+                    "required": true
+                  },
+                  {
+                    "name": "email",
+                    "label": "Email Address",
+                    "type": "email",
+                    "required": true
+                  },
+                  {
+                    "name": "phone",
+                    "label": "Phone Number",
+                    "type": "tel",
+                    "required": false
+                  },
+                  {
+                    "name": "service_frequency",
+                    "label": "Service Frequency",
+                    "type": "select",
+                    "required": false,
+                    "custom": true,
+                    "integration": {
+                      "type": "schedule-optimization",
+                      "required": false
+                    }
+                  },
+                  {
+                    "name": "preferred_technician",
+                    "label": "Preferred Technician",
+                    "type": "text",
+                    "required": false,
+                    "custom": true
+                  },
+                  {
+                    "name": "special_instructions",
+                    "label": "Special Instructions",
+                    "type": "text",
+                    "required": false,
+                    "custom": true
+                  },
+                  {
+                    "name": "pet_information",
+                    "label": "Pet Information",
+                    "type": "text",
+                    "required": false,
+                    "custom": true
+                  }
+                ]
+              },
+              {
+                "id": "account-list-view",
+                "name": "Account List View",
+                "entity": "ACCOUNT",
+                "viewType": "table",
+                "fields": [
+                  {
+                    "name": "name",
+                    "label": "Account Name",
+                    "type": "text",
+                    "sortable": true
+                  },
+                  {
+                    "name": "email",
+                    "label": "Email",
+                    "type": "email",
+                    "sortable": true
+                  },
+                  {
+                    "name": "phone",
+                    "label": "Phone",
+                    "type": "tel",
+                    "sortable": false
+                  },
+                  {
+                    "name": "service_frequency",
+                    "label": "Service Frequency",
+                    "type": "select",
+                    "sortable": true,
+                    "custom": true,
+                    "integration": {
+                      "type": "schedule-optimization",
+                      "required": false
+                    }
+                  },
+                  {
+                    "name": "preferred_technician",
+                    "label": "Preferred Technician",
+                    "type": "text",
+                    "sortable": true,
+                    "custom": true
+                  },
+                  {
+                    "name": "special_instructions",
+                    "label": "Special Instructions",
+                    "type": "text",
+                    "required": false,
+                    "custom": true
+                  },
+                  {
+                    "name": "pet_information",
+                    "label": "Pet Information",
+                    "type": "text",
+                    "required": false,
+                    "custom": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "contact-management",
+            "name": "Contact Management",
+            "userStories": [
+              {
+                "id": "contact-detail-view",
+                "name": "Contact Details View",
+                "entity": "CONTACT",
+                "viewType": "detail",
+                "fields": [
+                  {
+                    "name": "name",
+                    "label": "Contact Name",
+                    "type": "text",
+                    "required": true
+                  },
+                  {
+                    "name": "email",
+                    "label": "Email Address",
+                    "type": "email",
+                    "required": false
+                  },
+                  {
+                    "name": "phone",
+                    "label": "Phone Number",
+                    "type": "tel",
+                    "required": false
+                  },
+                  {
+                    "name": "role",
+                    "label": "Role",
+                    "type": "text",
+                    "required": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "service-management",
+        "name": "Service Management",
+        "subModules": [
+          {
+            "id": "work-order-management",
+            "name": "Work Order Management",
+            "userStories": [
+              {
+                "id": "work-order-form",
+                "name": "Work Order Form",
+                "entity": "WORK_ORDER",
+                "viewType": "form",
+                "fields": [
+                  {
+                    "name": "title",
+                    "label": "Work Order Title",
+                    "type": "text",
+                    "required": true
+                  },
+                  {
+                    "name": "description",
+                    "label": "Description",
+                    "type": "textarea",
+                    "required": true
+                  },
+                  {
+                    "name": "scheduledDate",
+                    "label": "Scheduled Date",
+                    "type": "date",
+                    "required": true
+                  },
+                  {
+                    "name": "status",
+                    "label": "Status",
+                    "type": "select",
+                    "required": true,
+                    "options": [
+                      "Scheduled",
+                      "In Progress",
+                      "Completed",
+                      "Cancelled"
+                    ]
+                  },
+                  {
+                    "name": "chemicalsUsed",
+                    "label": "Chemicals Used",
+                    "type": "text",
+                    "required": false,
+                    "custom": true,
+                    "integration": {
+                      "type": "chemical-registry-lookup",
+                      "required": true
+                    }
+                  },
+                  {
+                    "name": "safetyNotes",
+                    "label": "Safety Notes",
+                    "type": "textarea",
+                    "required": true,
+                    "custom": true
+                  },
+                  {
+                    "name": "treatment_method",
+                    "label": "Treatment Method",
+                    "type": "text",
+                    "required": false,
+                    "custom": true
+                  },
+                  {
+                    "name": "pest_target",
+                    "label": "Pest Target",
+                    "type": "text",
+                    "required": false,
+                    "custom": true
+                  },
+                  {
+                    "name": "follow_up_required",
+                    "label": "Follow Up Required",
+                    "type": "text",
+                    "required": true,
+                    "custom": true
+                  },
+                  {
+                    "name": "weather_conditions",
+                    "label": "Weather Conditions",
+                    "type": "text",
+                    "required": false,
+                    "custom": true,
+                    "integration": {
+                      "type": "weather-service-integration",
+                      "required": false
+                    }
+                  }
+                ],
+                "businessRules": [
+                  {
+                    "id": "BR-PC-001",
+                    "name": "Chemical Safety Validation",
+                    "conditions": [
+                      "chemicalsUsed is not empty"
+                    ],
+                    "actions": [
+                      "validate_weather_conditions",
+                      "require_safety_notes",
+                      "check_chemical_restrictions"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "service-location-management",
+            "name": "Service Location Management",
+            "userStories": [
+              {
+                "id": "service-location-detail",
+                "name": "Service Location Details",
+                "entity": "SERVICE_LOCATION",
+                "viewType": "detail",
+                "fields": [
+                  {
+                    "name": "address",
+                    "label": "Service Address",
+                    "type": "text",
+                    "required": true,
+                    "integration": {
+                      "type": "address-validation",
+                      "required": true
+                    }
+                  },
+                  {
+                    "name": "city",
+                    "label": "City",
+                    "type": "text",
+                    "required": true
+                  },
+                  {
+                    "name": "state",
+                    "label": "State",
+                    "type": "text",
+                    "required": true
+                  },
+                  {
+                    "name": "zipCode",
+                    "label": "ZIP Code",
+                    "type": "text",
+                    "required": true
+                  },
+                  {
+                    "name": "pestType",
+                    "label": "Pest Type",
+                    "type": "select",
+                    "required": false,
+                    "custom": true
+                  },
+                  {
+                    "name": "treatmentHistory",
+                    "label": "Treatment History",
+                    "type": "text",
+                    "required": false,
+                    "custom": true
+                  },
+                  {
+                    "name": "infestation_level",
+                    "label": "Infestation Level",
+                    "type": "text",
+                    "required": false,
+                    "custom": true
+                  },
+                  {
+                    "name": "property_type",
+                    "label": "Property Type",
+                    "type": "select",
+                    "required": false,
+                    "custom": true
+                  },
+                  {
+                    "name": "square_footage",
+                    "label": "Square Footage",
+                    "type": "text",
+                    "required": false,
+                    "custom": true
+                  },
+                  {
+                    "name": "chemical_restrictions",
+                    "label": "Chemical Restrictions",
+                    "type": "text",
+                    "required": false,
+                    "custom": true
+                  }
+                ],
+                "businessRules": [
+                  {
+                    "id": "BR-PC-002",
+                    "name": "Treatment History Tracking",
+                    "conditions": [
+                      "treatment_performed"
+                    ],
+                    "actions": [
+                      "update_treatment_history",
+                      "schedule_follow_up_if_required"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "business-management",
+        "name": "Business Management",
+        "subModules": [
+          {
+            "id": "invoice-management",
+            "name": "Invoice Management",
+            "userStories": [
+              {
+                "id": "invoice-detail-view",
+                "name": "Invoice Details View",
+                "entity": "INVOICE",
+                "viewType": "detail",
+                "fields": [
+                  {
+                    "name": "invoiceNumber",
+                    "label": "Invoice Number",
+                    "type": "text",
+                    "required": true
+                  },
+                  {
+                    "name": "amount",
+                    "label": "Amount",
+                    "type": "currency",
+                    "required": true
+                  },
+                  {
+                    "name": "dueDate",
+                    "label": "Due Date",
+                    "type": "date",
+                    "required": true
+                  },
+                  {
+                    "name": "status",
+                    "label": "Status",
+                    "type": "select",
+                    "required": true,
+                    "options": [
+                      "Draft",
+                      "Sent",
+                      "Paid",
+                      "Overdue",
+                      "Cancelled"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "payment-management",
+            "name": "Payment Management",
+            "userStories": [
+              {
+                "id": "payment-form",
+                "name": "Payment Form",
+                "entity": "PAYMENT",
+                "viewType": "form",
+                "fields": [
+                  {
+                    "name": "amount",
+                    "label": "Payment Amount",
+                    "type": "currency",
+                    "required": true
+                  },
+                  {
+                    "name": "paymentDate",
+                    "label": "Payment Date",
+                    "type": "date",
+                    "required": true
+                  },
+                  {
+                    "name": "paymentMethod",
+                    "label": "Payment Method",
+                    "type": "select",
+                    "required": true,
+                    "options": [
+                      "Cash",
+                      "Check",
+                      "Credit Card",
+                      "ACH",
+                      "Wire Transfer"
+                    ]
+                  },
+                  {
+                    "name": "reference",
+                    "label": "Reference Number",
+                    "type": "text",
+                    "required": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "integrations": [
+    {
+      "type": "address-validation",
+      "entity": "SERVICE_LOCATION",
+      "required": true
+    },
+    {
+      "type": "geographic-display",
+      "entity": "SERVICE_LOCATION",
+      "required": false
+    },
+    {
+      "type": "chemical-registry-lookup",
+      "entity": "WORK_ORDER",
+      "required": false
+    },
+    {
+      "type": "safety-validation",
+      "entity": "WORK_ORDER",
+      "required": true
+    },
+    {
+      "type": "customer-communication",
+      "entity": "ACCOUNT",
+      "required": false
+    },
+    {
+      "type": "service-history",
+      "entity": "ACCOUNT",
+      "required": false
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "build": {
+    "timestamp": "2025-08-27T21:19:40.568Z",
+    "version": "2.8.27",
+    "stage": "stage-2-complete",
+    "generatedAt": "2025-08-27T21:19:40.571Z"
+  },
+  "processing": {
+    "entitiesProcessed": 5,
+    "entitiesValid": 5,
+    "rulesProcessed": 40,
+    "rulesValid": 40,
+    "relationshipsMapped": 5,
+    "processingTimeMs": 7
+  },
+  "validation": {
+    "errors": [],
+    "warnings": [],
+    "summary": "5/5 entities valid, 40/40 rules valid"
+  },
+  "outputs": {
+    "enriched-config.json": {
+      "status": "SUCCESS",
+      "size": "44.5KB",
+      "generatedAt": "2025-08-27T21:19:40.570Z"
+    },
+    "entity-mappings.json": {
+      "status": "SUCCESS",
+      "size": "6.7KB",
+      "generatedAt": "2025-08-27T21:19:40.570Z"
+    }
+  }
+}

@@ -1,0 +1,70 @@
+graph TD
+    %% External Data Sources
+    BUSM_FILE[BUSM.mmd<br/>Business Model<br/>Mermaid Format]
+    FEATURE_SPEC[feature-spec.md<br/>User Requirements<br/>Markdown Format]
+    BUSINESS_RULES[business-rules.json<br/>Business Logic<br/>JSON Format]
+
+    %% Stage 1 Components
+    subgraph "Stage 1: Requirements Capture"
+        ORCHESTRATOR[Pipeline Orchestrator<br/>enhanced-pipeline-orchestrator.js]
+        BUSM_READER[BUSM Reader<br/>busm-reader.js]
+        MERMAID_PARSER[Mermaid Parser<br/>mermaid-parser.js]
+        ENTITY_EXTRACTOR[Entity Extractor<br/>extractSubset function]
+        RULES_GENERATOR[Default Rules Generator<br/>generateDefaultRules function]
+        
+        %% Processing Steps
+        PARSE_BUSM[Parse BUSM Content<br/>Read .mmd file<br/>Extract class definitions]
+        EXTRACT_ENTITIES[Extract Entity List<br/>Find class declarations<br/>Parse relationships]
+        FILTER_SUBSET[Filter BUSM Subset<br/>Keep only needed entities<br/>Maintain relationships]
+        GENERATE_RULES[Generate Default Rules<br/>Create validation rules<br/>Apply business logic]
+        ANALYZE_GAPS[Analyze Requirements<br/>Check completeness<br/>Identify missing data]
+    end
+
+    %% Stage 1 Outputs
+    subgraph "Stage 1 Outputs"
+        ENTITIES_JSON[entities.json<br/>Extracted entity list<br/>Array of entity names]
+        BUSM_SUBSET[busm-subset.mmd<br/>Filtered business model<br/>Mermaid format]
+        FEATURE_COPY[feature-spec.md<br/>Copy of requirements<br/>For reference]
+        RULES_OUTPUT[business-rules.json<br/>Generated/validated rules<br/>JSON format]
+        GAPS_REPORT[gaps-report.json<br/>Missing requirements<br/>Gap analysis]
+    end
+
+    %% Data Flow Connections
+    BUSM_FILE --> BUSM_READER
+    BUSM_READER --> MERMAID_PARSER
+    MERMAID_PARSER --> PARSE_BUSM
+    
+    FEATURE_SPEC --> ORCHESTRATOR
+    BUSINESS_RULES --> RULES_GENERATOR
+    
+    ORCHESTRATOR --> PARSE_BUSM
+    PARSE_BUSM --> EXTRACT_ENTITIES
+    EXTRACT_ENTITIES --> FILTER_SUBSET
+    FILTER_SUBSET --> ENTITY_EXTRACTOR
+    
+    ENTITY_EXTRACTOR --> GENERATE_RULES
+    RULES_GENERATOR --> GENERATE_RULES
+    GENERATE_RULES --> ANALYZE_GAPS
+    
+    %% Output Generation
+    EXTRACT_ENTITIES --> ENTITIES_JSON
+    FILTER_SUBSET --> BUSM_SUBSET
+    FEATURE_SPEC --> FEATURE_COPY
+    GENERATE_RULES --> RULES_OUTPUT
+    ANALYZE_GAPS --> GAPS_REPORT
+
+    %% Stage 2 Consumption (dotted lines)
+    ENTITIES_JSON -.-> STAGE2_INPUT[Stage 2: Configuration<br/>Consumes entities.json<br/>Uses for config generation]
+    BUSM_SUBSET -.-> STAGE2_INPUT
+    RULES_OUTPUT -.-> STAGE2_INPUT
+
+    %% Styling
+    classDef dataSource fill:#e1f5fe,stroke:#01579b,color:#000
+    classDef processor fill:#f3e5f5,stroke:#4a148c,color:#000
+    classDef output fill:#e8f5e8,stroke:#1b5e20,color:#000
+    classDef consumer fill:#fff3e0,stroke:#e65100,color:#000
+
+    class BUSM_FILE,FEATURE_SPEC,BUSINESS_RULES dataSource
+    class BUSM_READER,MERMAID_PARSER,ENTITY_EXTRACTOR,RULES_GENERATOR,PARSE_BUSM,EXTRACT_ENTITIES,FILTER_SUBSET,GENERATE_RULES,ANALYZE_GAPS processor
+    class ENTITIES_JSON,BUSM_SUBSET,FEATURE_COPY,RULES_OUTPUT,GAPS_REPORT output
+    class STAGE2_INPUT consumer

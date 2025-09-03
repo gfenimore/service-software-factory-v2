@@ -1,0 +1,100 @@
+graph TD
+    %% Stage 2 Outputs (Inputs to Stage 3)
+    subgraph "Stage 2 Outputs"
+        ENRICHED_CONFIG[enriched-config.json<br/>Complete configuration<br/>Entities + Rules + Metadata]
+        ENTITY_MAP[entity-mappings.json<br/>Entity relationships<br/>Navigation structure]
+    end
+
+    %% Stage 3 Components
+    subgraph "Stage 3: ViewForge Transformation"
+        VIEWFORGE_TRANSFORMER[ViewForge Transformer<br/>viewforge-transformer.js]
+        COMPONENT_GENERATOR[Component Generator<br/>Creates JSX templates]
+        LAYOUT_BUILDER[Layout Builder<br/>Defines component structure]
+        FIELD_MAPPER[Field Mapper<br/>Maps entity fields to UI fields]
+        TEMPLATE_ENGINE[Template Engine<br/>Generates component code]
+        
+        %% Processing Steps
+        PARSE_CONFIG[Parse Configuration<br/>Load enriched config<br/>Validate structure]
+        EXTRACT_ENTITIES[Extract Entity Info<br/>Get entity definitions<br/>Parse field types]
+        BUILD_LAYOUTS[Build UI Layouts<br/>Create layout specifications<br/>Define component hierarchy]
+        GENERATE_COMPONENTS[Generate Components<br/>Create JSX templates<br/>Apply business rules]
+        APPLY_STYLING[Apply Styling<br/>Add CSS classes<br/>Theme integration]
+    end
+
+    %% ViewForge Specifications
+    subgraph "ViewForge Specs"
+        LIST_TEMPLATE[List View Template<br/>Table/Grid layout<br/>Sortable columns]
+        DETAIL_TEMPLATE[Detail View Template<br/>Form layout<br/>Field groups]
+        FORM_TEMPLATE[Form Template<br/>Input components<br/>Validation]
+    end
+
+    %% Stage 3 Outputs
+    subgraph "Stage 3 Outputs"
+        VIEWFORGE_SPEC[viewforge-spec.json<br/>UI component specifications<br/>Layout definitions]
+        ACCOUNT_LIST_JSX[AccountListView.jsx<br/>Generated React component<br/>Table with Account data]
+        USER_LIST_JSX[UserListView.jsx<br/>Generated React component<br/>User management interface]
+        COMPONENT_METADATA[component-metadata.json<br/>Component registry<br/>Dependencies & props]
+    end
+
+    %% Data Flow Connections
+    ENRICHED_CONFIG --> VIEWFORGE_TRANSFORMER
+    ENTITY_MAP --> VIEWFORGE_TRANSFORMER
+    
+    VIEWFORGE_TRANSFORMER --> PARSE_CONFIG
+    PARSE_CONFIG --> EXTRACT_ENTITIES
+    EXTRACT_ENTITIES --> FIELD_MAPPER
+    
+    FIELD_MAPPER --> BUILD_LAYOUTS
+    BUILD_LAYOUTS --> LAYOUT_BUILDER
+    LAYOUT_BUILDER --> GENERATE_COMPONENTS
+    
+    GENERATE_COMPONENTS --> COMPONENT_GENERATOR
+    COMPONENT_GENERATOR --> TEMPLATE_ENGINE
+    TEMPLATE_ENGINE --> APPLY_STYLING
+
+    %% Template Selection
+    BUILD_LAYOUTS --> LIST_TEMPLATE
+    BUILD_LAYOUTS --> DETAIL_TEMPLATE  
+    BUILD_LAYOUTS --> FORM_TEMPLATE
+    
+    LIST_TEMPLATE --> COMPONENT_GENERATOR
+    DETAIL_TEMPLATE --> COMPONENT_GENERATOR
+    FORM_TEMPLATE --> COMPONENT_GENERATOR
+
+    %% Output Generation
+    LAYOUT_BUILDER --> VIEWFORGE_SPEC
+    TEMPLATE_ENGINE --> ACCOUNT_LIST_JSX
+    TEMPLATE_ENGINE --> USER_LIST_JSX
+    COMPONENT_GENERATOR --> COMPONENT_METADATA
+
+    %% Stage 4 Consumption (dotted lines)
+    ACCOUNT_LIST_JSX -.-> STAGE4_INPUT[Stage 4: AST Generation<br/>Parses JSX components<br/>Creates Abstract Syntax Trees]
+    USER_LIST_JSX -.-> STAGE4_INPUT
+    COMPONENT_METADATA -.-> STAGE4_INPUT
+
+    %% Detailed Processing Annotations
+    EXTRACT_ENTITIES -.->|"For each entity:<br/>- Extract field definitions<br/>- Determine data types<br/>- Map to UI components"| FIELD_ANALYSIS[Field Analysis<br/>Type Mapping]
+    
+    BUILD_LAYOUTS -.->|"Creates:<br/>- Column definitions<br/>- Field groupings<br/>- Navigation structure"| LAYOUT_SPECS[Layout Specifications<br/>UI Structure]
+    
+    GENERATE_COMPONENTS -.->|"Generates:<br/>- JSX component structure<br/>- Props interface<br/>- Event handlers"| COMPONENT_SPECS[Component Specifications<br/>React Templates]
+
+    %% Component Details
+    ACCOUNT_LIST_JSX -.->|"Contains:<br/>- Table with Account fields<br/>- Sort/filter functionality<br/>- Click handlers"| ACCOUNT_DETAILS[Account Component Details]
+    
+    USER_LIST_JSX -.->|"Contains:<br/>- User management UI<br/>- CRUD operations<br/>- Role management"| USER_DETAILS[User Component Details]
+
+    %% Styling
+    classDef input fill:#e1f5fe,stroke:#01579b,color:#000
+    classDef processor fill:#f3e5f5,stroke:#4a148c,color:#000
+    classDef template fill:#f1f8e9,stroke:#33691e,color:#000
+    classDef output fill:#e8f5e8,stroke:#1b5e20,color:#000
+    classDef consumer fill:#fff3e0,stroke:#e65100,color:#000
+    classDef detail fill:#fce4ec,stroke:#880e4f,color:#000
+
+    class ENRICHED_CONFIG,ENTITY_MAP input
+    class VIEWFORGE_TRANSFORMER,COMPONENT_GENERATOR,LAYOUT_BUILDER,FIELD_MAPPER,TEMPLATE_ENGINE,PARSE_CONFIG,EXTRACT_ENTITIES,BUILD_LAYOUTS,GENERATE_COMPONENTS,APPLY_STYLING processor
+    class LIST_TEMPLATE,DETAIL_TEMPLATE,FORM_TEMPLATE template
+    class VIEWFORGE_SPEC,ACCOUNT_LIST_JSX,USER_LIST_JSX,COMPONENT_METADATA output
+    class STAGE4_INPUT consumer
+    class FIELD_ANALYSIS,LAYOUT_SPECS,COMPONENT_SPECS,ACCOUNT_DETAILS,USER_DETAILS detail

@@ -1,0 +1,134 @@
+sequenceDiagram
+    participant PO as Pipeline Orchestrator
+    participant CE as Configuration Enricher
+    participant EL as Entity Loader
+    participant RL as Rules Loader
+    participant MB as Metadata Builder
+    participant EM as Entity Mapper
+    participant RV as Rule Validator
+    participant CB as Config Builder
+    participant MG as Metadata Generator
+    participant OG as Output Generator
+    
+    Note over PO: Stage 2: Configuration Enrichment Begins
+    
+    %% Step 1: Load Stage 1 Outputs
+    PO->>CE: enrichConfiguration(stage1Outputs)
+    Note right of CE: Inputs: entities.json, busm-subset.mmd,<br/>business-rules.json from Stage 1
+    
+    CE->>EL: loadEntityList('entities.json')
+    EL->>EL: validateFileExists()
+    EL->>EL: parseJsonContent()
+    EL->>EL: validateEntityNames(['Account', 'User', 'Organization'])
+    
+    loop For each entity
+        EL->>EL: checkEntityExists(entity, busmSubset)
+        alt Entity exists in BUSM
+            EL->>EL: markEntityValid(entity)
+        else Entity missing from BUSM
+            EL->>EL: logValidationError(entity)
+            Note right of EL: Error: Entity not found in BUSM subset
+        end
+    end
+    
+    EL-->>CE: validatedEntities: ['Account', 'User', 'Organization']
+    
+    CE->>RL: loadBusinessRules('business-rules.json')
+    RL->>RL: parseRulesJson()
+    RL->>RV: validateRuleSyntax(rules)
+    
+    loop For each rule
+        RV->>RV: checkRuleStructure(rule)
+        RV->>RV: validateEntityReferences(rule, validatedEntities)
+        alt Rule is valid
+            RV->>RV: markRuleValid(rule)
+        else Rule has errors
+            RV->>RV: logRuleError(rule, error)
+            Note right of RV: Error: Invalid rule syntax or<br/>references non-existent entity
+        end
+    end
+    
+    RV-->>RL: validatedRules
+    RL-->>CE: businessRules
+    
+    CE->>MB: buildConfigMetadata()
+    MB->>MG: generateMetadata()
+    MG->>MG: createTimestamp()
+    MG->>MG: generateVersionNumber()
+    MG->>MG: setStageMarker('stage-2-complete')
+    MG->>MG: addProcessingInfo(validationResults)
+    MG-->>MB: metadata: {<br/>  timestamp: '2025-08-27T10:00:00Z',<br/>  version: '1.2.0',<br/>  stage: 'stage-2-complete',<br/>  entities: 3,<br/>  rules: 12<br/>}
+    MB-->>CE: configMetadata
+    
+    %% Step 2: Map Entity Relationships
+    Note over EM: ENTITY RELATIONSHIP MAPPING
+    CE->>EM: mapEntityRelationships(validatedEntities, busmSubset)
+    EM->>EM: identifyPrimaryEntities(['Account'])
+    EM->>EM: mapRelatedEntities()
+    
+    loop For each entity
+        EM->>EM: extractEntityFields(entity)
+        EM->>EM: identifyRelationships(entity, otherEntities)
+        EM->>EM: createNavigationPaths(entity)
+        Note right of EM: Account → User (one-to-many)<br/>Account → Organization (many-to-one)
+    end
+    
+    EM->>EM: buildEntityMappings()
+    EM-->>CE: entityMappings: {<br/>  'Account': {<br/>    fields: ['id', 'name', 'email'],<br/>    relationships: {<br/>      'User': { type: 'one-to-many', key: 'userId' },<br/>      'Organization': { type: 'many-to-one', key: 'orgId' }<br/>    },<br/>    navigationPaths: [...]<br/>  }<br/>}
+    
+    %% Step 3: Build Enriched Configuration
+    Note over CB: CONFIGURATION ASSEMBLY
+    CE->>CB: buildEnrichedConfig(validatedEntities, businessRules, entityMappings, metadata)
+    CB->>CB: initializeConfigStructure()
+    CB->>CB: addEntityDefinitions(validatedEntities)
+    CB->>CB: addBusinessRules(businessRules)
+    CB->>CB: addEntityMappings(entityMappings)
+    CB->>CB: addMetadataSection(metadata)
+    CB->>CB: validateConfigCompleteness()
+    
+    loop For each entity
+        CB->>CB: validateEntityConfiguration(entity)
+        alt Configuration complete
+            CB->>CB: markEntityReady(entity)
+        else Missing configuration
+            CB->>CB: logConfigGap(entity, missingItems)
+            Note right of CB: Gap: Missing validation rules for User.email
+        end
+    end
+    
+    CB-->>CE: enrichedConfig: {<br/>  entities: [...],<br/>  rules: [...],<br/>  mappings: [...],<br/>  metadata: {...}<br/>}
+    
+    %% Step 4: Generate Stage 2 Outputs
+    Note over OG: OUTPUT GENERATION
+    CE->>OG: generateOutputs(enrichedConfig, entityMappings, metadata)
+    OG->>OG: writeEnrichedConfig('enriched-config.json')
+    Note right of OG: Complete configuration ready for ViewForge<br/>Contains all entity definitions, rules, mappings
+    
+    OG->>OG: writeEntityMappings('entity-mappings.json')
+    Note right of OG: Standalone entity relationship map<br/>Used for navigation and data structure
+    
+    OG->>OG: writeConfigMetadata('config-metadata.json')
+    Note right of OG: Build information and processing stats<br/>Version tracking and validation results
+    
+    OG->>OG: validateOutputIntegrity()
+    
+    loop For each output file
+        OG->>OG: checkFileGenerated(outputFile)
+        OG->>OG: validateJsonStructure(outputFile)
+        alt File valid
+            OG->>OG: markOutputComplete(outputFile)
+        else File has issues
+            OG->>OG: logOutputError(outputFile, issue)
+        end
+    end
+    
+    OG-->>CE: outputResults: {<br/>  'enriched-config.json': 'SUCCESS',<br/>  'entity-mappings.json': 'SUCCESS',<br/>  'config-metadata.json': 'SUCCESS'<br/>}
+    
+    CE-->>PO: stage2Results: {<br/>  status: 'SUCCESS',<br/>  entitiesProcessed: 3,<br/>  rulesValidated: 12,<br/>  outputsGenerated: 3<br/>}
+    
+    Note over PO: Stage 2 Complete: Configuration Enriched & Ready
+    
+    %% Output Summary Box
+    rect rgb(232, 245, 232)
+        Note over PO: Stage 2 Outputs:<br/>✓ enriched-config.json: Complete configuration for ViewForge<br/>✓ entity-mappings.json: Entity relationship mappings<br/>✓ config-metadata.json: Build metadata and version info<br/>Ready for Stage 3: ViewForge Transformation
+    end

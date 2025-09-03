@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Concept Line UI - Stage 1 Requirements Capture (v2)</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            background: #f5f5f5; 
+            padding: 20px;
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { color: #2c3e50; margin-bottom: 30px; }
+        .form-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            background: #fafafa;
+        }
+        .form-section h3 {
+            margin-top: 0;
+            color: #34495e;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        /* Entity Selection Styles - Hierarchical */
+        .entity-selector {
+            margin-top: 15px;
+        }
+        .entity-type-section {
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .entity-type-header {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .entity-type-header:hover {
+            background: #e9ecef;
+        }
+        .entity-type-header .toggle-icon {
+            font-size: 14px;
+            transition: transform 0.3s;
+        }
+        .entity-type-header.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+        .entity-type-content {
+            padding: 15px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 12px;
+        }
+        .entity-type-content.collapsed {
+            display: none;
+        }
+        .entity-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 12px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .entity-card:hover {
+            border-color: #3498db;
+            background: #f8f9fa;
+        }
+        .entity-card.selected {
+            border-color: #27ae60;
+            background: #e8f5e8;
+        }
+        .entity-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 14px;
+            padding-right: 60px;
+        }
+        .entity-fields {
+            color: #666;
+            font-size: 11px;
+            margin-bottom: 8px;
+        }
+        .entity-description {
+            color: #555;
+            font-size: 10px;
+            line-height: 1.3;
+            margin-bottom: 6px;
+        }
+        .entity-relationships {
+            font-size: 9px;
+            color: #777;
+            margin-top: 6px;
+            border-top: 1px solid #eee;
+            padding-top: 4px;
+        }
+        .type-badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            color: white;
+            font-size: 8px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .type-badge.master { background: #e74c3c; }
+        .type-badge.detail { background: #3498db; }
+        .type-badge.transaction { background: #f39c12; }
+        .type-badge.lookup { background: #9b59b6; }
+        .type-badge.junction { background: #95a5a6; }
+        
+        .selection-summary {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            border-left: 4px solid #2196f3;
+        }
+        .selection-summary h4 {
+            margin: 0 0 10px 0;
+            color: #1976d2;
+        }
+        
+        .rules-section {
+            border-left: 4px solid #f39c12;
+            background: #fefefe;
+        }
+        .rules-preview {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            margin-top: 10px;
+        }
+        .submit-button {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .submit-button:hover {
+            background: #219a52;
+        }
+        .progress-indicator {
+            display: none;
+            background: #3498db;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Stage 1: Requirements Capture (v2)</h1>
+        
+        <div class="progress-indicator" id="progress">
+            Loading BUSM entity data...
+        </div>
+
+        <form id="conceptForm">
+            <!-- Service Scope Definition -->
+            <div class="form-section">
+                <h3>Service Scope Definition</h3>
+                
+                <div class="form-group">
+                    <label for="serviceType">Service Type</label>
+                    <select id="serviceType" name="serviceType" required>
+                        <option value="">Select service type...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="clientName">Client Name</label>
+                    <input type="text" id="clientName" name="clientName" placeholder="ABC Pest Control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="module">Module</label>
+                    <select id="module" name="module" required>
+                        <option value="">Select module...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="subModule">Sub-Module</label>
+                    <select id="subModule" name="subModule" required>
+                        <option value="">Select sub-module...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="feature">Feature (Optional Customization)</label>
+                    <input type="text" id="feature" name="feature" placeholder="Customer Management">
+                </div>
+
+                <div class="form-group">
+                    <label for="userStory">User Story (Optional)</label>
+                    <textarea id="userStory" name="userStory" rows="3" placeholder="As an admin, I want to..."></textarea>
+                </div>
+            </div>
+
+            <!-- Entity Selection -->
+            <div class="form-section">
+                <h3>Entity Selection from BUSM</h3>
+                <p>Select entities organized by type. Parent-child relationships will be shown.</p>
+                
+                <div class="entity-selector" id="entitySelector">
+                    <!-- Entities will be loaded dynamically by type -->
+                </div>
+                
+                <div class="selection-summary" id="selectionSummary" style="display: none;">
+                    <h4>Selected Entities</h4>
+                    <div id="selectionList"></div>
+                </div>
+                
+                <input type="hidden" id="selectedEntities" name="selectedEntities">
+            </div>
+
+            <!-- Business Rules Customization -->
+            <div class="form-section rules-section">
+                <h3>Business Rules Customization (Optional)</h3>
+                
+                <div class="form-group">
+                    <label for="customRules">Layer 3 Client Customizations</label>
+                    <textarea id="customRules" name="customRules" rows="4" 
+                        placeholder="Enter custom business rules (JSON format) or leave blank for defaults..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Rules Preview</label>
+                    <div class="rules-preview" id="rulesPreview">
+                        Layer 1: Base BUSM rules (67 rules)<br>
+                        Layer 2: Service-specific rules (12 rules)<br>
+                        Layer 3: Client customizations (0 rules)<br>
+                        <strong>Total: 79 business rules</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Template Options -->
+            <div class="form-section">
+                <h3>Template Options</h3>
+                
+                <div class="form-group">
+                    <input type="checkbox" id="saveTemplate" name="saveTemplate">
+                    <label for="saveTemplate" style="display: inline; margin-left: 10px;">Save as reusable template</label>
+                </div>
+
+                <div class="form-group" id="templateNameGroup" style="display: none;">
+                    <label for="templateName">Template Name (auto-generated)</label>
+                    <input type="text" id="templateName" name="templateName" readonly>
+                </div>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="submit-button">
+                🚀 Run Stage 1 Pipeline
+            </button>
+        </form>
+    </div>
+
+    <!-- Include BUSM Data Loader -->
+    <script src="busm-data-loader.js"></script>
+
+    <script>
+        // Global variables
+        let busmLoader;
+        let selectedEntities = new Set();
+        let entitiesData = {};
+
+        // Initialize application
+        async function initializeApp() {
+            const progress = document.getElementById('progress');
+            progress.style.display = 'block';
+            progress.textContent = 'Loading BUSM entity data...';
+
+            try {
+                // Load BUSM data
+                busmLoader = new BusmDataLoader();
+                entitiesData = await busmLoader.loadBusmData();
+
+                // Load configuration data
+                await loadConfigurationData();
+
+                // Render entities
+                renderEntitySelector();
+
+                progress.style.display = 'none';
+                console.log('✅ Application initialized with real BUSM data');
+
+            } catch (error) {
+                progress.textContent = 'Error loading data: ' + error.message;
+                progress.style.background = '#e74c3c';
+                console.error('❌ Initialization failed:', error);
+            }
+        }
+
+        // Load module configuration
+        async function loadConfigurationData() {
+            // Simulated - in real implementation would load from modules-config.json
+            const moduleConfig = {
+                "modules": {
+                    "Accounts": {
+                        "name": "Accounts",
+                        "description": "Customer and vendor account management",
+                        "subModules": ["Master View", "Detail View", "List View", "Account Setup", "Account History"]
+                    },
+                    "Reporting": {
+                        "name": "Reporting", 
+                        "description": "Business intelligence and reporting",
+                        "subModules": ["Dashboard View", "Report Builder", "Analytics View", "Export Tools"]
+                    }
+                },
+                "serviceTypes": {
+                    "Pest Control": {"availableModules": ["Accounts", "Reporting"]},
+                    "HVAC": {"availableModules": ["Accounts", "Reporting"]},
+                    "Plumbing": {"availableModules": ["Accounts", "Reporting"]},
+                    "Electrical": {"availableModules": ["Accounts", "Reporting"]}
+                }
+            };
+
+            // Populate service types
+            const serviceTypeSelect = document.getElementById('serviceType');
+            Object.keys(moduleConfig.serviceTypes).forEach(serviceType => {
+                const option = document.createElement('option');
+                option.value = serviceType;
+                option.textContent = serviceType;
+                serviceTypeSelect.appendChild(option);
+            });
+
+            // Handle service type change
+            serviceTypeSelect.addEventListener('change', function() {
+                updateModuleOptions(moduleConfig, this.value);
+            });
+
+            // Store config globally
+            window.moduleConfig = moduleConfig;
+        }
+
+        // Update module options based on service type
+        function updateModuleOptions(config, serviceType) {
+            const moduleSelect = document.getElementById('module');
+            const subModuleSelect = document.getElementById('subModule');
+            
+            // Clear existing options
+            moduleSelect.innerHTML = '<option value="">Select module...</option>';
+            subModuleSelect.innerHTML = '<option value="">Select sub-module...</option>';
+            
+            if (serviceType && config.serviceTypes[serviceType]) {
+                const availableModules = config.serviceTypes[serviceType].availableModules;
+                
+                availableModules.forEach(moduleName => {
+                    const option = document.createElement('option');
+                    option.value = moduleName;
+                    option.textContent = moduleName;
+                    moduleSelect.appendChild(option);
+                });
+            }
+
+            // Handle module change
+            moduleSelect.onchange = function() {
+                updateSubModuleOptions(config, this.value);
+            };
+        }
+
+        // Update sub-module options
+        function updateSubModuleOptions(config, moduleName) {
+            const subModuleSelect = document.getElementById('subModule');
+            subModuleSelect.innerHTML = '<option value="">Select sub-module...</option>';
+            
+            if (moduleName && config.modules[moduleName]) {
+                const subModules = config.modules[moduleName].subModules;
+                
+                subModules.forEach(subModule => {
+                    const option = document.createElement('option');
+                    option.value = subModule;
+                    option.textContent = subModule;
+                    subModuleSelect.appendChild(option);
+                });
+            }
+        }
+
+        // Render entity selector with hierarchical groups
+        function renderEntitySelector() {
+            const selector = document.getElementById('entitySelector');
+            selector.innerHTML = '';
+
+            // Type descriptions for headers
+            const typeDescriptions = {
+                master: 'Core business objects (customers, services, employees)',
+                detail: 'Supporting information (contacts, locations, items)', 
+                transaction: 'Business processes (work orders, invoices, payments)',
+                lookup: 'Reference data (domains, zones, areas)',
+                junction: 'Relationship connectors (many-to-many links)'
+            };
+
+            // Create sections for each entity type
+            Object.entries(entitiesData.entitiesByType).forEach(([type, entities]) => {
+                if (entities.length === 0) return;
+
+                const section = document.createElement('div');
+                section.className = 'entity-type-section';
+
+                // Header
+                const header = document.createElement('div');
+                header.className = 'entity-type-header';
+                header.innerHTML = `
+                    <span><strong>${type.toUpperCase()}</strong> (${entities.length}) - ${typeDescriptions[type] || ''}</span>
+                    <span class="toggle-icon">▼</span>
+                `;
+                
+                // Content
+                const content = document.createElement('div');
+                content.className = 'entity-type-content';
+                
+                entities.forEach(entity => {
+                    const card = createEntityCard(entity);
+                    content.appendChild(card);
+                });
+
+                // Toggle functionality
+                header.addEventListener('click', () => {
+                    header.classList.toggle('collapsed');
+                    content.classList.toggle('collapsed');
+                });
+
+                section.appendChild(header);
+                section.appendChild(content);
+                selector.appendChild(section);
+            });
+        }
+
+        // Create individual entity card
+        function createEntityCard(entity) {
+            const card = document.createElement('div');
+            card.className = 'entity-card';
+            card.dataset.entityName = entity.name;
+            
+            // Build relationships display
+            const relationshipText = [];
+            if (entity.relationships.parents.length > 0) {
+                relationshipText.push(`Parents: ${entity.relationships.parents.join(', ')}`);
+            }
+            if (entity.relationships.children.length > 0) {
+                relationshipText.push(`Children: ${entity.relationships.children.join(', ')}`);
+            }
+
+            card.innerHTML = `
+                <div class="type-badge ${entity.type}">${entity.type}</div>
+                <div class="entity-name">${entity.name}</div>
+                <div class="entity-fields">${entity.fieldCount} fields</div>
+                <div class="entity-description">${entity.description}</div>
+                ${relationshipText.length > 0 ? `<div class="entity-relationships">${relationshipText.join('<br>')}</div>` : ''}
+            `;
+            
+            card.addEventListener('click', () => toggleEntity(entity.name, card));
+            return card;
+        }
+
+        // Toggle entity selection
+        function toggleEntity(entityName, card) {
+            if (selectedEntities.has(entityName)) {
+                selectedEntities.delete(entityName);
+                card.classList.remove('selected');
+            } else {
+                selectedEntities.add(entityName);
+                card.classList.add('selected');
+            }
+            
+            updateSelectionSummary();
+            document.getElementById('selectedEntities').value = Array.from(selectedEntities).join(',');
+        }
+
+        // Update selection summary
+        function updateSelectionSummary() {
+            const summary = document.getElementById('selectionSummary');
+            const list = document.getElementById('selectionList');
+            
+            if (selectedEntities.size > 0) {
+                summary.style.display = 'block';
+                const entityNames = Array.from(selectedEntities);
+                list.innerHTML = entityNames.map(name => {
+                    const entity = entitiesData.entities.find(e => e.name === name);
+                    return `<span class="type-badge ${entity?.type || ''}" style="position: static; margin-right: 8px;">${entity?.type || ''}</span>${name} (${entity?.fieldCount || 0} fields)`;
+                }).join('<br>');
+            } else {
+                summary.style.display = 'none';
+            }
+        }
+
+        // Handle template name generation
+        document.getElementById('saveTemplate').addEventListener('change', function() {
+            const templateGroup = document.getElementById('templateNameGroup');
+            const templateName = document.getElementById('templateName');
+            
+            if (this.checked) {
+                templateGroup.style.display = 'block';
+                const serviceType = document.getElementById('serviceType').value || 'Unknown';
+                const date = new Date().toISOString().split('T')[0].replace(/-/g, '');
+                templateName.value = `${serviceType.replace(/\s+/g, '')}_${date}`;
+            } else {
+                templateGroup.style.display = 'none';
+            }
+        });
+
+        // Handle form submission
+        document.getElementById('conceptForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const progress = document.getElementById('progress');
+            progress.style.display = 'block';
+            progress.textContent = 'Processing Stage 1 configuration...';
+            progress.style.background = '#3498db';
+
+            // Collect form data
+            const formData = new FormData(this);
+            const config = {
+                serviceType: formData.get('serviceType'),
+                clientName: formData.get('clientName'),
+                module: formData.get('module'),
+                subModule: formData.get('subModule'),
+                feature: formData.get('feature'),
+                userStory: formData.get('userStory'),
+                selectedEntities: Array.from(selectedEntities),
+                customRules: formData.get('customRules'),
+                saveTemplate: formData.get('saveTemplate') === 'on',
+                templateName: formData.get('templateName')
+            };
+
+            // Simulate pipeline orchestrator call
+            setTimeout(() => {
+                progress.textContent = 'Stage 1 Complete! Configuration processed successfully.';
+                progress.style.background = '#27ae60';
+                
+                // Display results
+                console.log('Stage 1 Configuration:', config);
+                
+                const selectedEntityNames = config.selectedEntities.join(', ');
+                alert(`🎉 Stage 1 Complete!\n\nService: ${config.serviceType}\nClient: ${config.clientName}\nModule: ${config.module}\nEntities: ${config.selectedEntities.length} selected\n(${selectedEntityNames})\nTemplate: ${config.saveTemplate ? 'Saved as ' + config.templateName : 'Not saved'}\n\n🚀 Ready for Stage 2!`);
+            }, 2000);
+        });
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+</body>
+</html>
